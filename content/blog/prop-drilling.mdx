@@ -32,9 +32,7 @@ Just when all hope seems lost, heroes emerge from the shadows: the Context API a
 const TerrorContext = React.createContext();
 const TerrorProvider = ({ children }) => {
   const [terror, setTerror] = useState("everywhere");
-  return (
-    <TerrorContext.Provider value={terror}>{children}</TerrorContext.Provider>
-  );
+  return <TerrorContext.Provider value={terror}>{children}</TerrorContext.Provider>;
 };
 ```
 

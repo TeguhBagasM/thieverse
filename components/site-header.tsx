@@ -18,7 +18,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.gitHub className="h-4 w-4" />
+                <Icons.gitHub className="h-6 w-6" />
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
@@ -26,7 +26,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.instagram className="h-4 w-4" />
+                <Icons.instagram className="h-6 w-6" />
                 <span className="sr-only">Instagram</span>
               </div>
             </Link>

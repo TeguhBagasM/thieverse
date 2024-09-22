@@ -28,10 +28,10 @@ export function MobileNav() {
           </VisuallyHidden>
         </DialogTitle>
         <MobileLink onOpenChange={setOpen} href="/" className="flex items-center">
-          <img src="/images/logo.png" alt="Logo" className="h-6 w-6" />
-          <span className="font-bold">{siteConfig.name}</span>
+          <img src="/images/logo.png" alt="Logo" className="h-8 w-8" />
+          <span className="font-bold text-lg ml-2">{siteConfig.name}</span>
         </MobileLink>
-        <div className="flex flex-col gap-3 mt-3">
+        <div className="flex flex-col gap-6 mt-6">
           <MobileLink onOpenChange={setOpen} href="/blog">
             Blog
           </MobileLink>
