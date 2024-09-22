@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 
 export const runtime = "edge";
 
-const interBold = fetch(new URL("../../../assets/fonts/Inter-Bold.ttf", import.meta.url)).then((res) =>
-  res.arrayBuffer()
+const interBold = fetch(new URL("../../../public/assets/fonts/Inter-Bold.ttf", import.meta.url)).then(
+  (res) => res.arrayBuffer()
 );
 
 export async function GET(req: NextRequest) {
