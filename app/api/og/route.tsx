@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
         ],
       }
     );
-  } catch (error) {
+  } catch {
     return new Response("Failed to generate image", { status: 500 });
   }
 }

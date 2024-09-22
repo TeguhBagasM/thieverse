@@ -6,8 +6,9 @@ import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
-import { Icons } from "./icons";
 import { siteConfig } from "@/config/site";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -21,8 +22,13 @@ export function MobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side="right">
+        <DialogTitle asChild>
+          <VisuallyHidden>
+            <span>Navigation Menu</span>
+          </VisuallyHidden>
+        </DialogTitle>
         <MobileLink onOpenChange={setOpen} href="/" className="flex items-center">
-          <Icons.logo className="mr-2 h-4 w-4" />
+          <img src="/images/logo.png" alt="Logo" className="h-6 w-6" />
           <span className="font-bold">{siteConfig.name}</span>
         </MobileLink>
         <div className="flex flex-col gap-3 mt-3">
@@ -51,7 +57,7 @@ interface MobileLinkProps extends LinkProps {
 }
 
 function MobileLink({ href, onOpenChange, children, className, ...props }: MobileLinkProps) {
-  const router = useRouter();
+  const router = useRouter(); // useRouter digunakan di sini
   return (
     <Link
       href={href}
