@@ -40,14 +40,14 @@ export default function AboutPage() {
             <p className="text-muted-foreground text-center break-words">Web Developer</p>
           </div>
           <p className="text-muted-foreground text-lg py-4">
-            I'm a dedicated Informatics Engineering student with a strong passion for crafting
+            I&apos;m a dedicated Informatics Engineering student with a strong passion for crafting
             innovative web applications. My expertise lies in leveraging popular frameworks and
             libraries like Laravel, Express.js, React JS, and Tailwind CSS to deliver efficient and
-            visually appealing solutions. I'm committed to meeting project deadlines and continuously
-            expanding my skillset through targeted training and certifications. As a full-stack
-            developer, I thrive on the opportunity to work on projects from conception to deployment.
-            I'm eager to contribute my technical skills and problem-solving abilities to a dynamic
-            team.
+            visually appealing solutions. I&apos;m committed to meeting project deadlines and
+            continuously expanding my skillset through targeted training and certifications. As a
+            full-stack developer, I thrive on the opportunity to work on projects from conception to
+            deployment. I&apos;m eager to contribute my technical skills and problem-solving abilities
+            to a dynamic team.
           </p>
         </div>
       </div>
