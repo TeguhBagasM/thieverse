@@ -8,15 +8,19 @@ interface TagProps {
   count?: number;
 }
 export function Tag({ tag, current, count }: TagProps) {
+  const displayTag = tag.startsWith("#") ? tag : `#${tag}`;
+
   return (
     <Link
       className={badgeVariants({
         variant: current ? "default" : "secondary",
-        className: "no-underline rounded-md hover:underline",
+        className:
+          "no-underline rounded-full px-4 py-2 text-base transition-all duration-200 ease-in-out transform hover:scale-105 shadow-md",
       })}
       href={`/tags/${slug(tag)}`}
     >
-      {tag} {count ? `(${count})` : null}
+      <span className="font-semibold">{displayTag}</span>
+      {count !== undefined && <span className="ml-2 opacity-75">({count})</span>}
     </Link>
   );
 }
