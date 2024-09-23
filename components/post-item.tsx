@@ -12,13 +12,7 @@ interface PostItemProps {
   tags?: Array<string>;
 }
 
-export function PostItem({
-  slug,
-  title,
-  description,
-  date,
-  tags,
-}: PostItemProps) {
+export function PostItem({ slug, title, description, date, tags }: PostItemProps) {
   return (
     <article className="flex flex-col gap-2 border-border border-b py-3">
       <div>
@@ -40,10 +34,7 @@ export function PostItem({
             <time dateTime={date}>{formatDate(date)}</time>
           </dd>
         </dl>
-        <Link
-          href={"/" + slug}
-          className={cn(buttonVariants({ variant: "link" }), "py-0")}
-        >
+        <Link href={"/" + slug} className={cn(buttonVariants({ variant: "link" }), "py-0")}>
           Read more →
         </Link>
       </div>
