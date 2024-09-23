@@ -19,15 +19,16 @@ export default function Home() {
             </h1>
             <p className="max-w-[42rem] mx-auto md:mx-0 text-muted-foreground sm:text-xl text-balance mt-4">
               Thievblog is my little corner of the internet where I talk about tech, web development,
-              and whatever else I'm into. Besides articles and how-tos, I also share stories about my
-              life, from my love of tech to my hobbies. It's all about keeping things real.
+              and whatever else I&lsquo;m into. Besides articles and how-tos, I also share stories
+              about my life, from my love of tech to my hobbies. It&lsquo;s all about keeping things
+              real.
             </p>
             <div className="flex flex-col gap-4 justify-center sm:flex-row mt-6">
               <Link
                 href="/blog"
                 className={cn(
                   buttonVariants({ size: "lg" }),
-                  "w-full sm:w-fit bg-blue-600 text-white hover:bg-blue-800 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                  "w-full sm:w-fit bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-400 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 )}
               >
                 View my blog
@@ -38,7 +39,7 @@ export default function Home() {
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
-                  "w-full sm:w-fit border-2 border-blue-400 text-blue-400 py-3 px-8 rounded-full hover:bg-blue-400 hover:text-white hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
+                  "w-full sm:w-fit border-2 border-blue-500 text-blue-500 py-3 px-8 rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
                 )}
               >
                 <Instagram className="mr-2" /> Follow Me
