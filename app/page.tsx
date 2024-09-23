@@ -16,8 +16,8 @@ export default function Home() {
           </h1>
           <p className="max-w-[42rem] mx-auto text-muted-foreground sm:text-xl text-balance">
             Thievblog is my little corner of the internet where I talk about tech, web development, and
-            whatever else I'm into. Besides articles and how-tos, I also share stories about my life,
-            from my love of tech to my hobbies. It's all about keeping things real.
+            whatever else I&apos;m into. Besides articles and how-tos, I also share stories about my
+            life, from my love of tech to my hobbies. It&apos;s all about keeping things real.
           </p>
           <div className="flex flex-col gap-4 justify-center sm:flex-row">
             <Link href="/blog" className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-fit")}>
