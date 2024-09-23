@@ -6,6 +6,7 @@ import { Icons } from "./icons";
 import { MainNav } from "./main-nav";
 import { MobileNav } from "./mobile-nav";
 import { ModeToggle } from "./mode-toggle";
+import { Instagram } from "lucide-react";
 
 export function SiteHeader() {
   return (
@@ -14,11 +15,19 @@ export function SiteHeader() {
         <MainNav />
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center">
+            <Link href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
+              <div
+                className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
+              >
+                <Icons.linkedin className="h-6 w-6 transition-transform transform hover:scale-110" />
+                <span className="sr-only">LinkedIn</span>
+              </div>
+            </Link>
             <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.gitHub className="h-6 w-6" />
+                <Icons.gitHub className="h-6 w-6 transition-transform transform hover:scale-110" />
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
@@ -26,7 +35,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.instagram className="h-6 w-6" />
+                <Instagram className="h-6 w-6 transition-transform transform hover:scale-110" />
                 <span className="sr-only">Instagram</span>
               </div>
             </Link>

@@ -28,7 +28,7 @@ export default function Home() {
                 href="/blog"
                 className={cn(
                   buttonVariants({ size: "lg" }),
-                  "w-full sm:w-fit bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-400 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+                  "w-full sm:w-fit bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 )}
               >
                 View my blog
@@ -39,7 +39,7 @@ export default function Home() {
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
-                  "w-full sm:w-fit border-2 border-blue-500 text-blue-500 py-3 px-8 rounded-full hover:bg-blue-500 hover:text-white hover:border-blue-500 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
+                  "w-full sm:w-fit border-2 border-blue-500 dark:border-blue-400 text-blue-500 dark:text-blue-400 py-3 px-8 rounded-full hover:bg-blue-500 dark:hover:bg-blue-400 hover:text-white dark:hover:text-white hover:border-blue-500 dark:hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
                 )}
               >
                 <Instagram className="mr-2" /> Follow Me

@@ -6,6 +6,7 @@ export const siteConfig = {
   links: {
     instagram: "https://instagram.com/teguhbagasm",
     github: "https://github.com/TeguhBagasM",
+    linkedin: "https://linkedin.com/in/teguh-bagas-mardiansyah-8390572b7",
     personalSite: "https://teguhbagasm.vercel.app",
   },
 };

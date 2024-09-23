@@ -9,6 +9,10 @@ import { useRouter } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Icons } from "./icons";
+import { Instagram } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "./ui/button";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -32,17 +36,48 @@ export function MobileNav() {
           <span className="font-bold text-lg ml-2">{siteConfig.name}</span>
         </MobileLink>
         <div className="flex flex-col gap-6 mt-6">
-          <MobileLink onOpenChange={setOpen} href="/blog">
+          <MobileLink
+            onOpenChange={setOpen}
+            href="/blog"
+            className="hover:text-blue-500 transition-colors"
+          >
             Blog
           </MobileLink>
-          <MobileLink onOpenChange={setOpen} href="/about">
+          <MobileLink
+            onOpenChange={setOpen}
+            href="/about"
+            className="hover:text-blue-500 transition-colors"
+          >
             About
           </MobileLink>
-          <Link target="_blank" rel="noreferrer" href={siteConfig.links.github}>
-            GitHub
+        </div>
+        <div className="flex justify-center gap-4 mt-8">
+          <Link
+            href={siteConfig.links.github}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            <Icons.gitHub className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <span className="sr-only">GitHub</span>
           </Link>
-          <Link target="_blank" rel="noreferrer" href={siteConfig.links.instagram}>
-            Instagram
+          <Link
+            href={siteConfig.links.instagram}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            <Instagram className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <span className="sr-only">Instagram</span>
+          </Link>
+          <Link
+            href={siteConfig.links.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            <Icons.linkedin className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <span className="sr-only">LinkedIn</span>
           </Link>
         </div>
       </SheetContent>
@@ -57,7 +92,7 @@ interface MobileLinkProps extends LinkProps {
 }
 
 function MobileLink({ href, onOpenChange, children, className, ...props }: MobileLinkProps) {
-  const router = useRouter(); // useRouter digunakan di sini
+  const router = useRouter();
   return (
     <Link
       href={href}

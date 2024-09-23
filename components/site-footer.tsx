@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { Heart, Mail } from "lucide-react";
+import { Heart, Instagram, Mail } from "lucide-react";
 import { Icons } from "./icons";
 
 export function SiteFooter() {
@@ -19,11 +19,11 @@ export function SiteFooter() {
           <a
             target="_blank"
             rel="noreferrer"
-            href={siteConfig.links.instagram}
+            href={siteConfig.links.linkedin}
             className="transition-transform transform hover:scale-110"
           >
-            <span className="sr-only">Instagram</span>
-            <Icons.instagram className="h-6 w-6" />
+            <span className="sr-only">LinkedIn</span>
+            <Icons.linkedin className="h-6 w-6" />
           </a>
           <a
             target="_blank"
@@ -33,6 +33,15 @@ export function SiteFooter() {
           >
             <span className="sr-only">GitHub</span>
             <Icons.gitHub className="h-6 w-6" />
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={siteConfig.links.instagram}
+            className="transition-transform transform hover:scale-110"
+          >
+            <span className="sr-only">Instagram</span>
+            <Instagram className="h-6 w-6" />
           </a>
         </div>
         <div className="flex flex-col items-center text-sm text-gray-800 dark:text-gray-300">
