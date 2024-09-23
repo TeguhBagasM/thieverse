@@ -10,9 +10,8 @@ export default function Home() {
   const latestPosts = sortPosts(posts).slice(0, 5);
   return (
     <>
-      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:mt-10 lg:py-16">
+      <section className="space-y-6 pb-8 pt-6 md:pb-12 md:mt-2 lg:py-16">
         <div className="container flex flex-col-reverse md:flex-row items-center gap-8">
-          {/* Kolom teks */}
           <div className="flex-1 text-center md:text-left ml-2">
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-black text-balance">
               Welcome to Thievblog
@@ -46,19 +45,17 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          {/* Kolom gambar */}
           <div className="flex-1 mb-6 md:mb-0">
             <img
-              src="/images/blog-hero.png"
-              alt="Thievblog"
-              className="w-full h-auto max-w-[300px] mx-auto md:max-w-[400px] lg:max-w-[400px] object-cover rounded-lg shadow-lg"
+              src="/images/hero-1.gif"
+              alt="Thievblog Animated"
+              className="w-full h-auto max-w-[500px] mx-auto md:max-w-[660px] lg:max-w-[550px] object-cover rounded-3xl"
             />
           </div>
         </div>
       </section>
 
-      <section className="container max-w-4xl py-6 lg:py-10 flex flex-col space-y-6 mt-32">
+      <section className="container max-w-4xl py-6 lg:py-10 flex flex-col space-y-6 mt-18">
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-center">
           Latest Posts
         </h2>
