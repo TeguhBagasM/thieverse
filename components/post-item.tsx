@@ -1,7 +1,8 @@
 import { Calendar } from "lucide-react";
 import Link from "next/link";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Tag } from "./tag";
+import { buttonVariants } from "./ui/button";
 
 interface PostItemProps {
   slug: string;
@@ -40,7 +41,10 @@ export function PostItem({ slug, title, description, date, tags }: PostItemProps
         </dl>
         <Link
           href={"/" + slug}
-          className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+          className={cn(
+            buttonVariants({ variant: "link" }),
+            "py-0 text-blue-600 dark:text-blue-500 text-md"
+          )}
         >
           Read more →
         </Link>
