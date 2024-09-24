@@ -4,7 +4,7 @@ import { Icons } from "./icons";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-gray-200 text-gray-950 dark:bg-gray-900 dark:text-gray-200 py-8">
+    <footer className="bg-slate-200 text-gray-950 dark:bg-slate-900 dark:text-gray-200 py-8">
       <div className="container mx-auto flex flex-col items-center">
         <div className="mb-6 flex space-x-4">
           <a

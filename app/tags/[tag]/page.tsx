@@ -49,7 +49,7 @@ export default function TagPage({ params }: TagPageProps) {
         </div>
       </div>
       <div className="grid grid-cols-12 gap-4 mt-8">
-        <Card className="bg-gray-100 dark:bg-slate-900 rounded-lg shadow-lg transition-shadow hover:shadow-xl border border-gray-300 dark:border-slate-700 col-span-12 sm:col-span-8 sm:col-start-3 h-fit">
+        <Card className="bg-white dark:bg-slate-950 rounded-lg shadow-lg transition-shadow hover:shadow-xl border border-gray-300 dark:border-slate-700 col-span-12 sm:col-span-8 sm:col-start-3 h-fit">
           <CardHeader className="text-center">
             <CardTitle>Tags</CardTitle>
           </CardHeader>
