@@ -9,80 +9,74 @@ import { Metadata } from "next";
 interface TagPageProps {
   params: {
     tag: string;
+    page?: string;
   };
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { tag } = params;
   return {
-    title: tag,
+    title: `Topic ${tag} | Thievblog`,
     description: `Posts on the topic of ${tag}`,
   };
 }
-
-export const generateStaticParams = () => {
-  const tags = getAllTags(posts);
-  const paths = Object.keys(tags).map((tag) => ({ tag: slug(tag) }));
-  return paths;
-};
 
 export default function TagPage({ params }: TagPageProps) {
   const { tag } = params;
   const title = tag.split("-").join(" ");
 
-  const allPosts = getPostsByTagSlug(posts, tag);
-  const displayPosts = allPosts.filter((post) => post.published);
+  const displayPosts = getPostsByTagSlug(posts, tag);
+
   const tags = getAllTags(posts);
   const sortedTags = sortTagsByCount(tags);
 
   return (
-    <div className="container max-w-7xl py-6 lg:py-10">
-      <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
-        <div className="flex-1 space-y-4 text-center">
-          <h1 className="inline-block font-black text-4xl lg:text-5xl">
-            <span>#</span>
-            {title}
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Discover more categories and expand your knowledge!
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-12 gap-4 mt-8">
-        <Card className="bg-white dark:bg-slate-950 rounded-lg shadow-lg transition-shadow hover:shadow-xl border border-gray-300 dark:border-slate-700 col-span-12 sm:col-span-8 sm:col-start-3 h-fit">
-          <CardHeader className="text-center">
-            <CardTitle>Tags</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap justify-center items-center gap-2">
-            {sortedTags.map((t) => (
-              <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />
-            ))}
-          </CardContent>
-        </Card>
-        <div className="col-span-12 sm:col-span-8 sm:col-start-3 mt-4">
-          <hr />
-          {displayPosts?.length > 0 ? (
-            <ul className="flex flex-col">
-              {displayPosts.map((post) => {
-                const { slug, date, title, description, tags } = post;
-                return (
-                  <li key={slug}>
+    <>
+      <div className="mx-auto py-6 lg:py-10">
+        <div className="mx-auto flex-[5]">
+          <div className="container justify-center gap-6 px-4 md:gap-8 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5">
+            <div>
+              <h1 className="inline-block text-4xl font-black lg:text-5xl">{title}</h1>
+              <p className="text-xl text-muted-foreground">Posts on the topic of {title}.</p>
+              <hr />
+            </div>
+          </div>
+          <div className="container grid grid-cols-1 justify-center gap-6 px-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5">
+            {displayPosts?.length > 0 ? (
+              displayPosts
+                .filter((post) => post.published)
+                .map((post) => {
+                  const { slug, date, title, description, tags, img } = post;
+                  return (
                     <PostItem
+                      key={slug}
                       slug={slug}
                       date={date}
                       title={title}
                       description={description}
                       tags={tags}
+                      img={img}
                     />
-                  </li>
-                );
-              })}
-            </ul>
-          ) : (
-            <p>Nothing to see here yet</p>
-          )}
+                  );
+                })
+            ) : (
+              <p>Nothing to see here yet</p>
+            )}
+          </div>
+        </div>
+        <div className="container justify-center gap-6 px-4 md:gap-8 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5">
+          <Card className="col-span-12 row-start-3 mt-16 h-fit sm:col-span-4 sm:col-start-9 sm:row-start-1">
+            <CardHeader>
+              <CardTitle>Tags</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-wrap gap-2">
+              {sortedTags?.map((t) => (
+                <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }

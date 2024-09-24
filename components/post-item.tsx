@@ -1,8 +1,7 @@
-import { Calendar } from "lucide-react";
 import Link from "next/link";
-import { cn, formatDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Tag } from "./tag";
-import { buttonVariants } from "./ui/button";
+import Image from "next/image";
 
 interface PostItemProps {
   slug: string;
@@ -10,47 +9,41 @@ interface PostItemProps {
   description?: string;
   date: string;
   tags?: Array<string>;
+  img?: string;
 }
 
-export function PostItem({ slug, title, description, date, tags }: PostItemProps) {
+export function PostItem({ slug, title, description, date, tags, img }: PostItemProps) {
   return (
     <article className="flex flex-col gap-4 p-6 bg-white dark:bg-slate-950 rounded-lg shadow-lg transition-shadow hover:shadow-xl border border-gray-300 dark:border-slate-700 mb-4">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 relative group inline-block">
+      <div className="items-start">
+        <div className="m-auto flex flex-col">
           <Link href={"/" + slug}>
-            {title}
-            <span className="absolute left-0 bottom-0 w-0 h-1 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+            {img ? (
+              <Image
+                src={img}
+                alt={title}
+                className="aspect-video cursor-pointer rounded-xl border object-cover"
+                width={400}
+                height={200}
+              />
+            ) : (
+              <div className="aspect-video cursor-pointer rounded-xl border object-cover bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-400">No image available</span>
+              </div>
+            )}
           </Link>
-        </h2>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {tags?.map((tag) => (
-          <Tag tag={tag} key={tag} />
-        ))}
-      </div>
-      <div className="max-w-none text-muted-foreground">{description}</div>
-      <div className="flex justify-between items-center mt-4">
-        <dl>
-          <dt className="sr-only">Published On</dt>
-          <dd className="text-sm font-medium flex items-center text-gray-500 dark:text-gray-200">
-            <Calendar className="h-5 w-5 text-blue-500" />
-            <time dateTime={date} className="ml-1">
-              {formatDate(date)}
-            </time>
-          </dd>
-        </dl>
-        <Link
-          href={"/" + slug}
-          className={cn(
-            buttonVariants({ variant: "link" }),
-            "py-0 text-blue-600 dark:text-blue-500 text-md relative",
-            "after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-current",
-            "after:transition-all after:duration-300 after:ease-in-out",
-            "hover:after:w-full"
-          )}
-        >
-          Read more →
-        </Link>
+          <div className="px-4">
+            <Link href={"/" + slug}>
+              <p className="cursor-pointer text-2xl font-bold">{title}</p>
+            </Link>
+            <div className="my-1 flex h-[22px] flex-wrap gap-2">
+              {tags?.map((tag) => <Tag tag={tag} key={tag} />)}
+            </div>
+            <p className="mt-1 text-sm">
+              <time dateTime={date}>{formatDate(date)}</time>
+            </p>
+          </div>
+        </div>
       </div>
     </article>
   );

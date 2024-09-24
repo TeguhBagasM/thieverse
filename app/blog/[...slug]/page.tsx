@@ -1,14 +1,19 @@
 import { posts } from "#site/content";
 import { MDXContent } from "@/components/mdx-components";
 import { notFound } from "next/navigation";
-
 import "@/styles/mdx.css";
 import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
+import Image from "next/image";
+import ShareButton from "@/components/share-button";
+// import { Comments } from "@/components/giscus";
+import PrevNextPost from "@/components/prevnextpost";
+
 interface PostPageProps {
   params: {
     slug: string[];
+    loading?: boolean;
   };
 }
 
@@ -30,11 +35,11 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   ogSearchParams.set("title", post.title);
 
   return {
-    title: post.title,
+    title: `${post.title} |Thievblog`,
     description: post.description,
     authors: { name: siteConfig.author },
     openGraph: {
-      title: post.title,
+      title: `${post.title} |Thievblog`,
       description: post.description,
       type: "article",
       url: post.slug,
@@ -49,7 +54,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
+      title: `Thievblog: ${post.title}`,
       description: post.description,
       images: [`/api/og?${ogSearchParams.toString()}`],
     },
@@ -62,26 +67,52 @@ export async function generateStaticParams(): Promise<PostPageProps["params"][]>
 
 export default async function PostPage({ params }: PostPageProps) {
   const post = await getPostFromParams(params);
-
   if (!post || !post.published) {
     notFound();
   }
-
   return (
-    <article className="container px-4 py-6 prose dark:prose-invert max-w-3xl mx-auto">
-      <h1 className="mb-2 break-words">{post.title}</h1>
-      <div className="flex flex-wrap gap-2 mb-2">
-        {post.tags?.map((tag) => (
-          <Tag tag={tag} key={tag} />
-        ))}
+    <div className="mx-auto mt-8 max-w-[700px]">
+      <div className="flex items-center gap-[50px] px-2 sm:px-4 md:px-6 lg:px-0">
+        <div className="flex-[1]">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <span className="mt-2 block text-center font-bold leading-8 tracking-tight sm:text-4xl">
+              {post.title}
+            </span>
+            <span className="block text-center text-base font-semibold uppercase tracking-wide text-blue-500">
+              {new Date(post.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
+          </h1>
+          <Image
+            src={post.img}
+            alt={post.title}
+            width={700}
+            height={350}
+            className="mt-8 aspect-[2/1] rounded-[15px] border object-cover"
+            placeholder="blur"
+            blurDataURL={post.img}
+          />
+          {post.description ? (
+            <p className="mt-4 text-xl text-muted-foreground">{post.description}</p>
+          ) : null}
+          <hr className="my-4" />
+          <div className="flex gap-2">
+            {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
+            <ShareButton
+              text={`Read the post '${post.title}' by @teguhbagasm on ThievBlog:`}
+              url={`${siteConfig.url}/${post.slug}`}
+            />
+          </div>
+        </div>
       </div>
-      {post.description && (
-        <p className="text-xl mt-0 text-muted-foreground break-words">{post.description}</p>
-      )}
-      <hr className="my-4" />
-      <div className="overflow-x-auto">
+      <div className="prose mx-6 mb-5 mt-12 dark:prose-invert prose-code:relative prose-code:rounded prose-code:bg-muted prose-code:px-[0.3rem] prose-code:py-[0.2rem] prose-code:font-mono prose-code:text-sm prose-code:font-semibold">
         <MDXContent code={post.body} />
+        <PrevNextPost currentSlug={post.slug} />
       </div>
-    </article>
+      {/* <Comments /> */}
+    </div>
   );
 }

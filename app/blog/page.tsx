@@ -46,9 +46,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             <CardTitle>Tags</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap justify-center items-center gap-2">
-            {sortedTags?.map((tag) => (
-              <Tag tag={tag} key={tag} count={tags[tag]} />
-            ))}
+            {sortedTags?.map((tag) => <Tag tag={tag} key={tag} count={tags[tag]} />)}
           </CardContent>
         </Card>
         <div className="col-span-12 sm:col-span-8 sm:col-start-3 mt-4">
@@ -65,6 +63,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                       title={title}
                       description={description}
                       tags={tags}
+                      img={post.img}
                     />
                   </li>
                 );

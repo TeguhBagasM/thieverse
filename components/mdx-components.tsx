@@ -1,6 +1,10 @@
 import Image from "next/image";
 import * as runtime from "react/jsx-runtime";
-import { Callout } from "./callout";
+import { Callout } from "./mdx/callout";
+import { Tab, Tabs } from "./mdx/tabs";
+import { Disclosure } from "./mdx/disclosure";
+import { CopyCodeBlock } from "./mdx/code";
+import { Command } from "lucide-react";
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
@@ -10,6 +14,11 @@ const useMDXComponent = (code: string) => {
 const components = {
   Image,
   Callout,
+  Tab,
+  Tabs,
+  Disclosure,
+  pre: CopyCodeBlock,
+  Command,
 };
 
 interface MdxProps {
