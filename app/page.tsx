@@ -55,15 +55,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container max-w-4xl py-6 lg:py-10 flex flex-col space-y-6 mt-18">
-        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-center">
+      <section className="container max-w-6xl py-6 lg:py-10 mt-18">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-center mb-8">
           Latest Posts
         </h2>
-        <ul className="flex flex-col">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {latestPosts.map(
             (post) =>
               post.published && (
-                <li key={post.slug} className="first:border-t first:border-border">
+                <li key={post.slug} className="border border-border p-4 rounded-lg">
                   <PostItem
                     slug={post.slug}
                     title={post.title}

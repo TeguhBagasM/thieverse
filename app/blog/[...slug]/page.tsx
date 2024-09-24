@@ -35,11 +35,11 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   ogSearchParams.set("title", post.title);
 
   return {
-    title: `${post.title} |Thievblog`,
+    title: `${post.title} | Thievblog`,
     description: post.description,
     authors: { name: siteConfig.author },
     openGraph: {
-      title: `${post.title} |Thievblog`,
+      title: `${post.title} | Thievblog`,
       description: post.description,
       type: "article",
       url: post.slug,
@@ -71,7 +71,7 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
   return (
-    <div className="mx-auto mt-8 max-w-[700px]">
+    <div className="mx-auto mt-8 max-w-6xl">
       <div className="flex items-center gap-[50px] px-2 sm:px-4 md:px-6 lg:px-0">
         <div className="flex-[1]">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
