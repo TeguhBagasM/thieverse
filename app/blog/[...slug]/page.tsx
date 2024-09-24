@@ -115,7 +115,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           <div className="col-span-12 lg:col-span-4">
-            <div className="sticky top-6 space-y-6">
+            <div className="sticky top-24 space-y-6">
               <div>
                 <h2 className="text-lg font-semibold mb-2">Tags</h2>
                 <div className="flex flex-wrap gap-2">
@@ -128,7 +128,7 @@ export default async function PostPage({ params }: PostPageProps) {
               />
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 mt-4">
+          <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
             <div className="prose dark:prose-invert max-w-none">
               <MDXContent code={post.body} />
             </div>
