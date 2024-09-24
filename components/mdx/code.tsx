@@ -44,7 +44,7 @@ const CopyCodeBlock: React.FC<
     "data-language"?: string;
   }
 > = (props) => {
-  const { "data-language": language, children, ...rest } = props;
+  const { children, ...rest } = props;
 
   const isCodeTag =
     React.Children.count(children) === 1 &&
@@ -52,30 +52,23 @@ const CopyCodeBlock: React.FC<
     (React.Children.toArray(children)[0] as React.ReactElement).type === "code";
 
   return (
-    <>
-      <pre {...rest}>
-        {isCodeTag ? (
-          <>
-            {React.Children.map(children, (child) =>
-              React.isValidElement(child) ? <CopyButton {...child.props} /> : child
-            )}
-          </>
-        ) : (
-          children
-        )}
-      </pre>
-    </>
+    <pre {...rest}>
+      {isCodeTag ? (
+        <>
+          {React.Children.map(children, (child) =>
+            React.isValidElement(child) ? <CopyButton {...child.props} /> : child
+          )}
+        </>
+      ) : (
+        children
+      )}
+    </pre>
   );
 };
 
 const CopyInlineCode = ({ children }: { children: React.ReactNode }) => {
-  const [isCopied, setIsCopied] = useState(false);
-
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(
-      () => setIsCopied(true),
-      (err) => console.error("Failed to copy:", err)
-    );
+    navigator.clipboard.writeText(text).catch((err) => console.error("Failed to copy:", err));
   };
 
   return (

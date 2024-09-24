@@ -12,7 +12,7 @@ interface TabsProps {
   children: React.ReactElement<TabProps>[];
 }
 
-const Tab: React.FC<TabProps> = ({ id, title, children }) => {
+const Tab: React.FC<TabProps> = ({ id, children }) => {
   return <div id={id}>{children}</div>;
 };
 
