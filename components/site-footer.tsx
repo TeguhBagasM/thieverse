@@ -1,19 +1,58 @@
+"use client";
+
 import { siteConfig } from "@/config/site";
-import { Heart, Instagram, Mail } from "lucide-react";
+import { Clock, Heart, Instagram, Mail } from "lucide-react";
 import { Icons } from "./icons";
+import React from "react";
 
 export function SiteFooter() {
+  const [time, setTime] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const jakartaTime = new Intl.DateTimeFormat("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Jakarta",
+      }).format(now);
+      setTime(jakartaTime + " WIB");
+    };
+
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <footer className="bg-slate-200 text-gray-950 dark:bg-slate-900 dark:text-gray-200 py-8">
-      <div className="container mx-auto flex flex-col items-center">
-        <div className="mb-6 flex space-x-4">
+    <footer className="bg-slate-200 dark:bg-slate-900 py-6 text-gray-950 dark:text-gray-200">
+      <div className="container mx-auto flex flex-col items-center space-y-6">
+        <div className="flex items-center space-x-4">
+          <img src="/images/logo.png" alt="Logo" className="h-12 w-12" />
+          <div>
+            <h1 className="font-semibold text-lg">{siteConfig.name}</h1>
+            <a
+              href={siteConfig.links.personalSite}
+              target="_blank"
+              className="flex items-center justify-center text-sm"
+            >
+              Made with <Heart className="text-red-500 h-4 w-4 mx-1" /> by{" "}
+              <span className="hover:text-blue-700 text-blue-500 dark:hover:text-blue-400 ml-1">
+                {siteConfig.author}
+              </span>
+            </a>
+          </div>
+        </div>
+        {/* Social Icons */}
+        <div className="flex space-x-6">
           <a
             target="_blank"
             rel="noreferrer"
             href="mailto:teguhbagas2134@gmail.com"
             className="transition-transform transform hover:scale-110"
           >
-            <span className="sr-only">Mail</span>
             <Mail className="h-6 w-6" />
           </a>
           <a
@@ -22,7 +61,6 @@ export function SiteFooter() {
             href={siteConfig.links.linkedin}
             className="transition-transform transform hover:scale-110"
           >
-            <span className="sr-only">LinkedIn</span>
             <Icons.linkedin className="h-6 w-6" />
           </a>
           <a
@@ -31,7 +69,6 @@ export function SiteFooter() {
             href={siteConfig.links.github}
             className="transition-transform transform hover:scale-110"
           >
-            <span className="sr-only">GitHub</span>
             <Icons.gitHub className="h-6 w-6" />
           </a>
           <a
@@ -40,22 +77,14 @@ export function SiteFooter() {
             href={siteConfig.links.instagram}
             className="transition-transform transform hover:scale-110"
           >
-            <span className="sr-only">Instagram</span>
             <Instagram className="h-6 w-6" />
           </a>
         </div>
-        <div className="flex flex-col items-center text-sm text-gray-800 dark:text-gray-300">
-          <a
-            href={siteConfig.links.personalSite}
-            target="_blank"
-            className="flex items-center cursor-default"
-          >
-            Made with <Heart className="text-red-500 h-4 w-4 mx-1" /> by{" "}
-            <span className="hover:text-blue-700 text-blue-500 dark:hover:text-blue-400 ml-1 cursor-pointer">
-              {siteConfig.author}
-            </span>
-          </a>
-          <span className="mt-2">© 2024 | All rights reserved.</span>
+
+        {/* Time Display */}
+        <div className="flex items-center text-sm">
+          <Clock className="h-4 w-4 mr-1 text-blue-500" />
+          <span>{time}</span>
         </div>
       </div>
     </footer>
