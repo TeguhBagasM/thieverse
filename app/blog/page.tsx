@@ -1,18 +1,15 @@
 import { posts } from "#site/content";
 import { PostItem } from "@/components/post-item";
 import { QueryPagination } from "@/components/query-pagination";
-import { Tag } from "@/components/tag";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAllTags, sortPosts, sortTagsByCount } from "@/lib/utils";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Thievblog",
   description: "My blog made by Thiever",
 };
 
-const POSTS_PER_PAGE = 6; // Changed to 6 to match the grid layout
+const POSTS_PER_PAGE = 6;
 
 interface BlogPageProps {
   searchParams: {
