@@ -27,9 +27,6 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     POSTS_PER_PAGE * currentPage
   );
 
-  const tags = getAllTags(posts);
-  const sortedTags = sortTagsByCount(tags);
-
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between md:gap-8 mb-8">
