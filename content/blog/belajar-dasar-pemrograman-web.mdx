@@ -29,9 +29,9 @@ CSS adalah singkatan dari Cascading Style Sheets. Ini adalah bahasa pemrograman 
 
 ### Contoh Kode HTML
 
-Berikut adalah contoh kode HTML sederhana:
+Berikut adalah contoh kode HTML:
 
-```html showLineNumbers
+```html showLineNumbers title="index.html" caption="Ini adalah kode sederhana html"
 <!DOCTYPE html>
 <html>
   <head>
@@ -42,6 +42,26 @@ Berikut adalah contoh kode HTML sederhana:
     <p>Ini adalah paragraf pertama saya.</p>
   </body>
 </html>
+```
+
+### Penjelasan Kode HTML
+
+Kode HTML di atas membuat halaman web sederhana dengan elemen-elemen sebagai berikut:
+
+1.  **DOCTYPE html**: Menyatakan bahwa ini adalah dokumen HTML5.
+2.  **html**: Elemen root dari dokumen HTML.
+3.  **head**: Bagian yang berisi informasi meta, seperti judul halaman.
+4.  **title**: Menampilkan judul halaman di tab browser ("Belajar HTML").
+5.  **body**: Bagian utama yang menampilkan konten di halaman web.
+6.  **h1**: Judul besar atau heading (dalam hal ini, "Selamat Datang di Website Saya!").
+7.  **p**: Elemen paragraf yang berisi teks ("Ini adalah paragraf pertama saya.").
+
+### Menambahkan CSS ke halaman HTML
+
+Untuk menghubungkan halaman HTML dengan CSS, tambahkan baris berikut di dalam tag **head** atau dibawah **title**:
+
+```html showLineNumbers
+<link rel="stylesheet" href="styles.css" />
 ```
 
 ### Contoh Kode CSS
@@ -59,6 +79,18 @@ h1 {
   font-size: 36px;
 }
 ```
+
+### Penjelasan Kode CSS
+
+1.  **"body {}"**: Bagian ini mengatur gaya untuk seluruh halaman (body).
+
+    - **background-color: #f2f2f2;**: Mengubah warna latar belakang halaman menjadi abu-abu terang. Anda juga bisa menggunakan nama warna seperti **gray** atau kode warna seperti **#f2f2f2**.
+    - **font-family: Arial, sans-serif;**: Mengatur font halaman menjadi **Arial**. Jika Arial tidak tersedia, browser akan menggunakan font alternatif dari keluarga **sans-serif**.
+
+2.  **"h1 {}"**: Bagian ini mengatur gaya untuk elemen heading pertama (h1).
+
+    - **color: #00698f;**: Mengubah warna teks untuk elemen h1 menjadi biru (tepatnya dengan kode warna heksadesimal **#00698f**). Anda juga bisa mengganti warna dengan nama warna seperti **blue**
+    - **font-size: 36px;**: Mengatur ukuran teks untuk elemen h1 menjadi 36px (pixel), sehingga terlihat besar dan menonjol.
 
 ## Mengapa HTML dan CSS Penting?
 
