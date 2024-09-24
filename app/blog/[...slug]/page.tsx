@@ -107,15 +107,6 @@ export default async function PostPage({ params }: PostPageProps) {
             sizes="(max-width: 1024px) 100vw, 1024px"
           />
           <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-white">
-            <div className="mb-2 sm:mb-4">
-              {post.tags && post.tags.length > 0 && (
-                <Tag
-                  tag={post.tags[0]}
-                  key={post.tags[0]}
-                  className="px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full"
-                />
-              )}
-            </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4">
               {post.title}
             </h1>
@@ -132,12 +123,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 </div>
               </div>
               <ShareButton
-                text={`Read the post '${post.title}' by @teguhbagasm on ThievBlog:`}
+                text={`Baca postingan '${post.title}' oleh Thiever di ThievBlog:`}
                 url={`${siteConfig.url}/${post.slug}`}
               />
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8">
+          <div className="col-span-12 lg:col-span-8 mt-4">
             <div className="prose dark:prose-invert max-w-none">
               <MDXContent code={post.body} />
             </div>

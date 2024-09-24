@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 import { Tag } from "./tag";
 import Image from "next/image";
+import { Calendar } from "lucide-react";
 
 interface PostItemProps {
   slug: string;
@@ -37,7 +38,8 @@ export function PostItem({ slug, title, date, tags, img }: PostItemProps) {
             {title}
           </h3>
         </Link>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+        <p className="text-sm sm:text-base font-sm mt-2 flex items-center gap-1">
+          <Calendar className="h-4 w-4 text-blue-500" />
           <time dateTime={date}>{formatDate(date)}</time>
         </p>
       </div>

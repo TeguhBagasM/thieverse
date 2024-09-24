@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "About Me",
@@ -51,9 +52,10 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="flex justify-center mb-6">
-          <a href={siteConfig.links.personalSite} target="_blank">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
+            <button className="dark:bg-blue-500 bg-violet-500 text-white px-4 py-2 rounded hover:bg-violet-600 dark:hover:bg-blue-400 transition-all duration-300 ease-in-out flex items-center">
               My Portfolio
+              <FaExternalLinkAlt className="ml-2" />
             </button>
           </a>
         </div>
