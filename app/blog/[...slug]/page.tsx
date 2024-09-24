@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 
   const publishedAt = new Date(post.date).toISOString();
-  const modifiedAt = new Date(post.date).toISOString(); // Assuming no separate 'updatedAt' field
+  const modifiedAt = new Date(post.date).toISOString();
 
   const ogImages = [
     {
@@ -96,7 +96,7 @@ export default async function PostPage({ params }: PostPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 relative w-full h-[70vh] rounded-3xl overflow-hidden">
+        <div className="mb-8 relative w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-3xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/0% z-10" />
           <Image
             src={post.img}
@@ -106,22 +106,23 @@ export default async function PostPage({ params }: PostPageProps) {
             priority
             sizes="(max-width: 1024px) 100vw, 1024px"
           />
-          <div className="absolute bottom-8 left-8 right-8 z-20 text-white">
-            <div className="mb-4">
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-white">
+            <div className="mb-2 sm:mb-4">
               {post.tags && post.tags.length > 0 && (
                 <Tag
                   tag={post.tags[0]}
                   key={post.tags[0]}
-                  className="px-4 py-2 text-sm bg-blue-500 text-white rounded-full"
+                  className="px-2 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm rounded-full"
                 />
               )}
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-            <p className="hidden sm:inline-block text-lg opacity-80">{post.description}</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4">
+              {post.title}
+            </h1>
+            <p className="hidden sm:block text-base sm:text-lg opacity-80">{post.description}</p>
           </div>
         </div>
-
-        <div className="grid grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           <div className="col-span-12 lg:col-span-4">
             <div className="sticky top-6 space-y-6">
               <div>
@@ -136,7 +137,6 @@ export default async function PostPage({ params }: PostPageProps) {
               />
             </div>
           </div>
-
           <div className="col-span-12 lg:col-span-8">
             <div className="prose dark:prose-invert max-w-none">
               <MDXContent code={post.body} />

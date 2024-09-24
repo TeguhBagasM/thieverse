@@ -50,6 +50,13 @@ export default function AboutPage() {
             to a dynamic team.
           </p>
         </div>
+        <div className="flex justify-center mb-6">
+          <a href={siteConfig.links.personalSite} target="_blank">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              My Portfolio
+            </button>
+          </a>
+        </div>
       </div>
     </>
   );
