@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Clipboard, Check } from "lucide-react";
 
 const CopyButton = ({ children, nested = false }: { children: React.ReactNode; nested?: boolean }) => {

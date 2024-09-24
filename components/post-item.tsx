@@ -12,7 +12,7 @@ interface PostItemProps {
   img?: string;
 }
 
-export function PostItem({ slug, title, description, date, tags, img }: PostItemProps) {
+export function PostItem({ slug, title, date, tags, img }: PostItemProps) {
   return (
     <article className="flex flex-col gap-4 p-6 bg-white dark:bg-slate-950 rounded-lg shadow-lg transition-shadow hover:shadow-xl border border-gray-300 dark:border-slate-700 mb-4">
       <div className="items-start">
