@@ -7,8 +7,6 @@ import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
 import Image from "next/image";
 import ShareButton from "@/components/share-button";
-// import { Comments } from "@/components/giscus";
-import PrevNextPost from "@/components/prevnextpost";
 
 interface PostPageProps {
   params: {
@@ -20,7 +18,6 @@ interface PostPageProps {
 async function getPostFromParams(params: PostPageProps["params"]) {
   const slug = params?.slug?.join("/");
   const post = posts.find((post) => post.slugAsParams === slug);
-
   return post;
 }
 
@@ -31,32 +28,37 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     return {};
   }
 
-  const ogSearchParams = new URLSearchParams();
-  ogSearchParams.set("title", post.title);
+  const publishedAt = new Date(post.date).toISOString();
+  const modifiedAt = new Date(post.date).toISOString(); // Assuming no separate 'updatedAt' field
+
+  const ogImages = [
+    {
+      url: `/api/og?title=${encodeURIComponent(post.title)}`,
+      width: 1200,
+      height: 630,
+    },
+  ];
 
   return {
-    title: `${post.title} | Thievblog`,
+    title: post.title,
     description: post.description,
-    authors: { name: siteConfig.author },
     openGraph: {
-      title: `${post.title} | Thievblog`,
+      title: post.title,
       description: post.description,
+      url: siteConfig.url + post.slug,
+      siteName: siteConfig.name,
+      locale: "en_US",
       type: "article",
-      url: post.slug,
-      images: [
-        {
-          url: `/api/og?${ogSearchParams.toString()}`,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
+      publishedTime: publishedAt,
+      modifiedTime: modifiedAt,
+      images: ogImages,
+      authors: [siteConfig.author],
     },
     twitter: {
       card: "summary_large_image",
-      title: `Thievblog: ${post.title}`,
+      title: post.title,
       description: post.description,
-      images: [`/api/og?${ogSearchParams.toString()}`],
+      images: ogImages,
     },
   };
 }
@@ -70,49 +72,78 @@ export default async function PostPage({ params }: PostPageProps) {
   if (!post || !post.published) {
     notFound();
   }
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    image: post.img,
+    datePublished: new Date(post.date).toISOString(),
+    dateModified: new Date(post.date).toISOString(),
+    author: [
+      {
+        "@type": "Person",
+        name: siteConfig.author,
+      },
+    ],
+  };
+
   return (
-    <div className="mx-auto mt-8 max-w-6xl">
-      <div className="flex items-center gap-[50px] px-2 sm:px-4 md:px-6 lg:px-0">
-        <div className="flex-[1]">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-            <span className="mt-2 block text-center font-bold leading-8 tracking-tight sm:text-4xl">
-              {post.title}
-            </span>
-            <span className="block text-center text-base font-semibold uppercase tracking-wide text-blue-500">
-              {new Date(post.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </span>
-          </h1>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <article className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 relative w-full h-[70vh] rounded-3xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/0% z-10" />
           <Image
             src={post.img}
             alt={post.title}
-            width={700}
-            height={350}
-            className="mt-8 aspect-[2/1] rounded-[15px] border object-cover"
-            placeholder="blur"
-            blurDataURL={post.img}
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="(max-width: 1024px) 100vw, 1024px"
           />
-          {post.description ? (
-            <p className="mt-4 text-xl text-muted-foreground">{post.description}</p>
-          ) : null}
-          <hr className="my-4" />
-          <div className="flex gap-2">
-            {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
-            <ShareButton
-              text={`Read the post '${post.title}' by @teguhbagasm on ThievBlog:`}
-              url={`${siteConfig.url}/${post.slug}`}
-            />
+          <div className="absolute bottom-8 left-8 right-8 z-20 text-white">
+            <div className="mb-4">
+              {post.tags && post.tags.length > 0 && (
+                <Tag
+                  tag={post.tags[0]}
+                  key={post.tags[0]}
+                  className="px-4 py-2 text-sm bg-blue-500 text-white rounded-full"
+                />
+              )}
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
+            <p className="hidden sm:inline-block text-lg opacity-80">{post.description}</p>
           </div>
         </div>
-      </div>
-      <div className="prose mx-6 mb-5 mt-12 dark:prose-invert prose-code:relative prose-code:rounded prose-code:bg-muted prose-code:px-[0.3rem] prose-code:py-[0.2rem] prose-code:font-mono prose-code:text-sm prose-code:font-semibold">
-        <MDXContent code={post.body} />
-        <PrevNextPost currentSlug={post.slug} />
-      </div>
-      {/* <Comments /> */}
-    </div>
+
+        <div className="grid grid-cols-12 gap-8">
+          <div className="col-span-12 lg:col-span-4">
+            <div className="sticky top-6 space-y-6">
+              <div>
+                <h2 className="text-lg font-semibold mb-2">Tags</h2>
+                <div className="flex flex-wrap gap-2">
+                  {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
+                </div>
+              </div>
+              <ShareButton
+                text={`Read the post '${post.title}' by @teguhbagasm on ThievBlog:`}
+                url={`${siteConfig.url}/${post.slug}`}
+              />
+            </div>
+          </div>
+
+          <div className="col-span-12 lg:col-span-8">
+            <div className="prose dark:prose-invert max-w-none">
+              <MDXContent code={post.body} />
+            </div>
+          </div>
+        </div>
+      </article>
+    </>
   );
 }

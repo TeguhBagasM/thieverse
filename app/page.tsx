@@ -63,7 +63,7 @@ export default function Home() {
           {latestPosts.map(
             (post) =>
               post.published && (
-                <li key={post.slug} className="border border-border p-4 rounded-lg">
+                <li key={post.slug}>
                   <PostItem
                     slug={post.slug}
                     title={post.title}
