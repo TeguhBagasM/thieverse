@@ -47,7 +47,7 @@ export default function Home() {
           </div>
           <div className="flex-1 mb-6 md:mb-0">
             <img
-              src="/images/hero-1.gif"
+              src="/images/hero.gif"
               alt="Thievblog Animated"
               className="w-full h-auto max-w-[500px] mx-auto md:max-w-[660px] lg:max-w-[550px] object-cover rounded-3xl"
             />
