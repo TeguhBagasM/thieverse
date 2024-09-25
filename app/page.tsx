@@ -7,7 +7,7 @@ import { PostItem } from "@/components/post-item";
 import { Instagram } from "lucide-react";
 
 export default function Home() {
-  const latestPosts = sortPosts(posts).slice(0, 5);
+  const latestPosts = sortPosts(posts).slice(0, 6);
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:mt-2 lg:py-16">
@@ -59,11 +59,11 @@ export default function Home() {
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-center mb-8">
           Latest Posts
         </h2>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
           {latestPosts.map(
             (post) =>
               post.published && (
-                <li key={post.slug}>
+                <li key={post.slug} className="flex-grow">
                   <PostItem
                     slug={post.slug}
                     title={post.title}

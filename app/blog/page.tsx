@@ -30,12 +30,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between md:gap-8 mb-8">
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4 text-center">
           <h1 className="inline-block font-bold text-3xl md:text-4xl">Blog</h1>
           <p className="text-xl text-muted-foreground">My ramblings about everything and coding.</p>
         </div>
       </div>
-
+      <hr />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
         {displayPosts?.map((post) => (
           <PostItem

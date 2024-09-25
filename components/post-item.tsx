@@ -15,7 +15,7 @@ interface PostItemProps {
 
 export function PostItem({ slug, title, date, tags, img }: PostItemProps) {
   return (
-    <article className="flex flex-col bg-white dark:bg-slate-950 rounded-xl shadow-lg overflow-hidden group border border-gray-300 dark:border-slate-700">
+    <article className="flex flex-col bg-white dark:bg-slate-950 rounded-xl shadow-lg overflow-hidden group">
       <div className="aspect-[4/3] w-full overflow-hidden">
         <Link href={"/" + slug}>
           {img ? (

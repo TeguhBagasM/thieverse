@@ -38,9 +38,10 @@ export default function TagPage({ params }: TagPageProps) {
             <span>#</span>
             {title}
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-muted-foreground px-2">
             Discover more topic and expand your knowledge!
           </p>
+          <hr />
         </div>
       </div>
       <div className="container max-w-6xl grid grid-cols-1 justify-center gap-6 px-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5 mt-10">
