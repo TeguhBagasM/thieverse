@@ -1,13 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Clipboard, Check } from "lucide-react";
 
-const Command = ({
-  command,
-  nested = false,
-}: {
-  command: string;
-  nested?: boolean;
-}) => {
+const Command = ({ command, nested = false }: { command: string; nested?: boolean }) => {
   const [copySuccess, setCopySuccess] = useState<React.ReactNode>(null);
   const commandRef = useRef<HTMLDivElement>(null);
 
@@ -30,10 +24,7 @@ const Command = ({
       <div className="relative flex max-h-96 w-auto items-center overflow-y-auto">
         <div ref={commandRef} className="relative w-auto flex-grow">
           <pre className="overflow-wrap: break-word; white-space: pre-wrap; bg-[#1e293b]">
-            <span
-              className="sticky-ml-[2px] select-none text-gray-500"
-              aria-hidden="true"
-            >
+            <span className="sticky-ml-[2px] select-none text-gray-500" aria-hidden="true">
               $&nbsp;
             </span>
             <span className="font-mono">{command}</span>
