@@ -4,6 +4,8 @@ import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import GradientText from "@/components/ui/gradient-text";
+import DrawOutline from "@/components/ui/draw-outline-button";
 
 export const metadata: Metadata = {
   title: "About Me",
@@ -32,32 +34,44 @@ export default function AboutPage() {
         </div>
         <hr className="my-8" />
         <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-          <div className="min-w-48 max-w-48 flex flex-col gap-2">
+          <div className="flex flex-col items-center gap-2 w-full md:w-auto">
             <Avatar className="h-48 w-48">
               <AvatarImage src="/images/teguh.jpg" alt={siteConfig.author} />
               <AvatarFallback>TBM</AvatarFallback>
             </Avatar>
             <h2 className="text-2xl font-bold text-center break-words">{siteConfig.author}</h2>
-            <p className="text-muted-foreground text-center break-words">Web Developer</p>
+            <div className="w-fit rounded-lg bg-gradient-to-r dark:from-blue-400 from-blue-600 dark:to-teal-400 to-teal-600 p-px">
+              <div className="rounded-lg dark:bg-neutral-950/80 bg-white/80 text-md">
+                <GradientText
+                  as="span"
+                  className="flex items-center justify-center gap-0.5 bg-gradient-to-r dark:from-blue-400 from-blue-600 dark:to-teal-400 to-teal-600 px-3 py-px text-md font-medium"
+                >
+                  Web Developer
+                </GradientText>
+              </div>
+            </div>
           </div>
-          <p className="text-muted-foreground text-lg py-4">
-            I&apos;m a dedicated Informatics Engineering student with a strong passion for crafting
-            innovative web applications. My expertise lies in leveraging popular frameworks and
-            libraries like Laravel, Express.js, React JS, and Tailwind CSS to deliver efficient and
-            visually appealing solutions. I&apos;m committed to meeting project deadlines and
-            continuously expanding my skillset through targeted training and certifications. As a
-            full-stack developer, I thrive on the opportunity to work on projects from conception to
-            deployment. I&apos;m eager to contribute my technical skills and problem-solving abilities
-            to a dynamic team.
-          </p>
-        </div>
-        <div className="flex justify-center mb-6">
-          <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
-            <button className="dark:bg-blue-500 bg-violet-500 text-white px-4 py-2 rounded hover:bg-violet-600 dark:hover:bg-blue-400 transition-all duration-300 ease-in-out flex items-center">
-              My Portfolio
-              <FaExternalLinkAlt className="ml-2" />
-            </button>
-          </a>
+
+          <div className="flex flex-col w-full md:w-2/3">
+            <div className="flex justify-center">
+              <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
+                <DrawOutline>
+                  <span>My Portfolio</span>
+                  <FaExternalLinkAlt className="ml-2" />
+                </DrawOutline>
+              </a>
+            </div>
+            <p className="text-muted-foreground text-lg py-4">
+              I&apos;m a dedicated Informatics Engineering student with a strong passion for crafting
+              innovative web applications. My expertise lies in leveraging popular frameworks and
+              libraries like Laravel, Express.js, React JS, and Tailwind CSS to deliver efficient and
+              visually appealing solutions. I&apos;m committed to meeting project deadlines and
+              continuously expanding my skillset through targeted training and certifications. As a
+              full-stack developer, I thrive on the opportunity to work on projects from conception to
+              deployment. I&apos;m eager to contribute my technical skills and problem-solving
+              abilities to a dynamic team.
+            </p>
+          </div>
         </div>
       </div>
     </>
