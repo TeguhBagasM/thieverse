@@ -5,14 +5,12 @@ import { Tab, Tabs } from "./mdx/tabs";
 import { Disclosure } from "./mdx/disclosure";
 import { CopyCodeBlock } from "./mdx/code";
 import { Command } from "lucide-react";
-import React, { HTMLAttributes } from "react";
+import React from "react";
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
   return fn({ ...runtime }).default;
 };
-
-type ComponentsProps = HTMLAttributes<HTMLElement>;
 
 const components = {
   Image,
