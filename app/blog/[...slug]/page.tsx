@@ -7,6 +7,9 @@ import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
 import Image from "next/image";
 import ShareButton from "@/components/share-button";
+import DrawOutline from "@/components/ui/draw-outline-button";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 
 interface PostPageProps {
   params: {
@@ -115,8 +118,21 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           <div className="col-span-12 lg:col-span-4">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-32 space-y-6">
               <div>
+                <div className="mt-4 mb-4 flex space-x-4">
+                  <Image
+                    src="/images/teguh.jpg"
+                    alt="author"
+                    width={50}
+                    height={50}
+                    className="rounded-full bg-white"
+                  />
+                  <div className="flex-1 text-left leading-tight">
+                    <p className="font-mediumgue text-lg">{siteConfig.author}</p>
+                    <p className="text-[14px] text-muted-foreground">{siteConfig.job}</p>
+                  </div>
+                </div>
                 <h2 className="text-lg font-semibold mb-2">Tags</h2>
                 <div className="flex flex-wrap gap-2">
                   {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
@@ -131,6 +147,15 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
             <div className="prose dark:prose-invert max-w-none">
               <MDXContent code={post.body} />
+              <hr className="mt-10" />
+              <div className="flex justify-center">
+                <Link href="/blog">
+                  <DrawOutline>
+                    <ChevronLeft className="mr-2 size-4" />
+                    <span>See all blogs</span>
+                  </DrawOutline>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

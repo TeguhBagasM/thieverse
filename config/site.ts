@@ -3,6 +3,8 @@ export const siteConfig = {
   url: "https://thievblog.vercel.app",
   description: "Nextjs 14 blog using velite, tailwind and shadcn",
   author: "Teguh Bagas M",
+  job: "Web Developer",
+  campus: "STMIK Mardira Indonesia",
   email: "teguhbagas2134@gmail.com",
   links: {
     instagram: "https://instagram.com/teguhbagasm",

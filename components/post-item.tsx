@@ -39,7 +39,7 @@ export function PostItem({ slug, title, date, tags, img }: PostItemProps) {
         <Link href={"/" + slug}>
           <h3 className="font-bold capitalize text-lg xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4">
             <span
-              className="bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0px_4px] dark:from-blue-500/50 dark:to-blue-500/50
+              className="bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0px_4px]
                 group-hover:bg-[length:100%_4px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 pb-1"
             >
               {title}
