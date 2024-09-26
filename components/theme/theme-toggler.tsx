@@ -22,10 +22,10 @@ export default function ThemeToggler() {
   };
 
   const toggleTheme = () => {
-    //@ts-ignore
+    // @ts-expect-error
     if (!document.startViewTransition) switchTheme();
 
-    //@ts-ignore
+    // @ts-expect-error
     document.startViewTransition(switchTheme);
   };
 
