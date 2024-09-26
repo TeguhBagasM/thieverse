@@ -28,6 +28,13 @@ export default function ThemeToggler() {
       document.startViewTransition(() => switchTheme());
     }
   };
+  // const toggleTheme = () => {
+  //   // @ts-expect-error: startViewTransition might not be supported in all browsers
+  //   if (!document.startViewTransition) switchTheme();
+
+  //   // @ts-expect-error: startViewTransition might not be supported in all browsers
+  //   document.startViewTransition(switchTheme);
+  // };
 
   return (
     <Button onClick={toggleTheme} variant="ghost" size="icon" className="rounded-xl">
