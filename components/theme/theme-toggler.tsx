@@ -22,10 +22,10 @@ export default function ThemeToggler() {
   };
 
   const toggleTheme = () => {
-    // @ts-expect-error
+    // @ts-expect-error: startViewTransition might not be supported in all browsers
     if (!document.startViewTransition) switchTheme();
 
-    // @ts-expect-error
+    // @ts-expect-error: startViewTransition might not be supported in all browsers
     document.startViewTransition(switchTheme);
   };
 
