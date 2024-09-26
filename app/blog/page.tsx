@@ -40,7 +40,7 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 mb-8">
-        <h1 className="inline-block font-bold text-3xl md:text-4xl text-center">Blog</h1>
+        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
         <p className="text-xl text-muted-foreground text-center">
           My ramblings about everything and coding.
         </p>

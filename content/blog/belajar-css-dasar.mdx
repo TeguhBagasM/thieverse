@@ -1,0 +1,165 @@
+---
+title: "Belajar CSS Dasar"
+description: "Panduan lengkap untuk memahami dasar-dasar CSS (Cascading Style Sheets) untuk pemula"
+date: 2024-09-22
+tags: ["css", "pemula"]
+published: true
+img: /images/blogs/css.png
+---
+
+# Belajar CSS Dasar: Panduan Lengkap untuk Pemula
+
+## Apa itu CSS?
+
+CSS (Cascading Style Sheets) adalah bahasa stylesheet yang digunakan untuk mendesain dan mengatur tampilan elemen HTML pada halaman web. CSS memungkinkan Anda untuk mengontrol warna, font, tata letak, dan aspek visual lainnya dari konten web Anda.
+
+<Image src="/images/blogs/css.png" width="718" height="404" alt="CSS Basics Illustration" />
+
+## Mengapa CSS Penting?
+
+1. **Pemisahan Konten dan Desain**: CSS memungkinkan pemisahan antara struktur HTML dan presentasi visual.
+2. **Konsistensi**: Memudahkan penerapan gaya yang konsisten di seluruh situs web.
+3. **Responsivitas**: Membantu dalam membuat desain yang responsif untuk berbagai ukuran layar.
+4. **Efisiensi**: Mengurangi pengulangan kode dan mempercepat waktu muat halaman.
+5. **Kustomisasi**: Memberikan kontrol penuh atas tampilan elemen HTML.
+
+## 1. Dasar-dasar CSS
+
+1. **Sintaks CSS**
+   Sintaks dasar CSS terdiri dari:
+   ```css title="css"
+   selector {
+     property: value;
+   }
+   ```
+   Contoh:
+   ```css title="css"
+   p {
+     color: blue;
+     font-size: 16px;
+   }
+   ```
+
+## 2. Cara Menambahkan CSS ke HTML:
+
+1. **Inline CSS**: Langsung di dalam tag HTML.
+
+   ```html
+   <p style="color: blue; font-size: 16px;">Ini adalah paragraf biru.</p>
+   ```
+
+2. **Internal CSS**: Di dalam tag `<style>` di bagian `<head>`.
+
+   ```html showLineNumbers
+   <head>
+     <style>
+       p {
+         color: blue;
+         font-size: 16px;
+       }
+     </style>
+   </head>
+   ```
+
+3. **External CSS**: File terpisah yang dihubungkan ke HTML.
+   ```html
+   <head>
+     <link rel="stylesheet" href="styles.css" />
+   </head>
+   ```
+
+## 3. Selector CSS
+
+Selector digunakan untuk memilih elemen HTML yang ingin Anda beri gaya.
+
+- Element Selector: p { }
+- Class Selector: .className { }
+- ID Selector: #idName { }
+- Attribute Selector: [attribute="value"] { }
+
+## 4. Properties CSS Dasar
+
+Berikut beberapa property CSS yang sering digunakan:
+
+```css title="css"
+color: /* Mengatur warna teks */
+background-color: /* Mengatur warna latar belakang */
+font-family: /*Mengatur jenis font */
+font-size: /*Mengatur ukuran font */
+margin: /*Mengatur ruang di luar elemen */
+padding: /*Mengatur ruang di dalam elemen */
+border: /*Mengatur garis tepi elemen */
+```
+
+## 5. Box Model
+
+Box Model adalah konsep penting dalam CSS yang menjelaskan bagaimana elemen HTML ditampilkan sebagai kotak dengan content, padding, border, dan margin.
+
+```css title="css"
+div {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid black;
+  margin: 10px;
+}
+```
+
+## Latihan Praktik
+
+Mari coba membuat sebuah kartu profil sederhana menggunakan HTML dan CSS:
+
+```html title="html"
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kartu Profil</title>
+    <style>
+      .profile-card {
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .name {
+        color: #333;
+        font-size: 24px;
+        margin-top: 10px;
+      }
+      .bio {
+        color: #666;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-card">
+      <img src="profile-picture.jpg" alt="Foto Profil" class="profile-image" />
+      <h2 class="name">Teguh Bagas M</h2>
+      <p class="bio">Web Developer dan Penggemar CSS</p>
+    </div>
+  </body>
+</html>
+```
+
+## Kesimpulan
+
+CSS adalah alat yang kuat untuk mendesain halaman web. Dengan memahami dasar-dasar ini, Anda telah memulai perjalanan Anda dalam dunia pengembangan web. Teruslah berlatih dan eksplorasi lebih lanjut untuk meningkatkan keterampilan CSS Anda!
+
+## Sumber Daya Tambahan
+
+1. [W3Schools](https://www.w3schools.com)
+2. [MDN Web Docs](https://developer.mozilla.org)
+3. [FreeCodeCamp](https://www.freecodecamp.org)
+
+Selamat belajar dan bereksperimen dengan CSS!
