@@ -28,42 +28,72 @@ Git adalah sistem kontrol versi terdistribusi yang memungkinkan developer untuk 
    Unduh dan instal Git dari situs resmi Git.
 2. Konfigurasi Awal
    Setelah instalasi, konfigurasikan identitas Anda:
-   bashCopygit config --global user.name "Nama Anda"
+
+   ```bash
+   git config --global user.name "Nama Anda"
    git config --global user.email "email@anda.com"
+   ```
+
 3. Membuat Repository
    Untuk memulai proyek baru atau melacak proyek yang ada:
-   bashCopygit init
+   ```bash
+   git init
+   ```
 4. Menambahkan File ke Staging Area
-   bashCopygit add namafile.txt # Menambahkan file spesifik
+   ```bash
+   git add namafile.txt # Menambahkan file spesifik
    git add . # Menambahkan semua file
+   ```
 5. Melakukan Commit
-   bashCopygit commit -m "Pesan commit Anda"
+   ```bash
+   git commit -m "Pesan commit Anda"
+   ```
 6. Melihat Status dan Log
-   bashCopygit status # Melihat status perubahan
+   ```bash
+   git status # Melihat status perubahan
    git log # Melihat riwayat commit
-   Bekerja dengan Remote Repository
-7. Menambahkan Remote Repository
-   bashCopygit remote add origin https://github.com/username/repo.git
-8. Pushing ke Remote Repository
-   bashCopygit push -u origin main
-9. Pulling dari Remote Repository
-   bashCopygit pull origin main
-   Branching dan Merging
-10. Membuat Branch Baru
-    bashCopygit branch nama-branch
-    git checkout -b nama-branch # Membuat dan pindah ke branch baru
-11. Beralih antar Branch
-    bashCopygit checkout nama-branch
-12. Menggabungkan Branch
-    bashCopygit checkout main
-    git merge nama-branch
-    Tips Git untuk Pemula
+   ```
 
-Gunakan .gitignore: Buat file .gitignore untuk mengabaikan file yang tidak perlu dilacak.
-Commit Sering: Lakukan commit kecil dan sering untuk melacak perubahan dengan lebih baik.
-Gunakan Branch: Manfaatkan branching untuk eksperimen dan fitur baru.
-Pelajari Git GUI: Coba Git GUI seperti GitKraken atau SourceTree untuk visualisasi yang lebih baik.
-Praktik Terus: Git menjadi lebih mudah dengan praktik. Gunakan dalam proyek-proyek kecil untuk membiasakan diri.
+## Bekerja dengan Remote Repository
 
-Kesimpulan
+1. Menambahkan Remote Repository
+   ```bash
+   git remote add origin https://github.com/username/repo.git
+   ```
+2. Pushing ke Remote Repository
+   ```bash
+   git push -u origin main
+   ```
+3. Pulling dari Remote Repository
+   ```bash
+   git pull origin main
+   ```
+
+## Branching dan Merging
+
+1. Membuat Branch Baru
+   ```bash
+   git branch nama-branch
+   git checkout -b nama-branch # Membuat dan pindah ke branch baru
+   ```
+2. Beralih antar Branch
+   ```bash
+   git checkout nama-branch
+   ```
+3. Menggabungkan Branch
+   ```bash
+   git checkout main
+   git merge nama-branch
+   ```
+
+## Tips Git untuk Pemula
+
+1. **Gunakan .gitignore**: Buat file .gitignore untuk mengabaikan file yang tidak perlu dilacak.
+2. **Commit Sering**: Lakukan commit kecil dan sering untuk melacak perubahan dengan lebih baik.
+3. **Gunakan Branch**: Manfaatkan branching untuk eksperimen dan fitur baru.
+4. **Pelajari Git GUI**: Coba Git GUI seperti GitKraken atau SourceTree untuk visualisasi yang lebih baik.
+5. **Praktik Terus**: Git menjadi lebih mudah dengan praktik. Gunakan dalam proyek-proyek kecil untuk membiasakan diri.
+
+# Kesimpulan
+
 Git adalah alat yang sangat kuat untuk manajemen kode sumber. Dengan memahami dasar-dasar ini, Anda telah siap untuk mulai menggunakan Git dalam proyek-proyek Anda. Teruslah belajar dan jelajahi fitur-fitur lanjutan Git untuk meningkatkan alur kerja pengembangan Anda.
