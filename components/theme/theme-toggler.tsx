@@ -1,6 +1,6 @@
 "use client";
 
-import { MoonIcon, SunIcon } from "lucide-react";
+import { SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
 import { BsMoonStarsFill } from "react-icons/bs";
