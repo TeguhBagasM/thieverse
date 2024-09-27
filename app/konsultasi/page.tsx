@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 const insights: string[] = [
   "Konsultasi Kapan Saja",
   "Harga Bersahabat",
+  "Membantu Tugas Coding Kamu",
   "Siap Membantu Pemula",
-  "Tak Perlu Khawatir, Kami Siap Mendampingi",
   "Dibimbing dari 0",
-  "Terpercaya",
+  "Tak Perlu Khawatir, Kami Siap Mendampingi",
 ];
 
 export default function KonsultasiPage() {

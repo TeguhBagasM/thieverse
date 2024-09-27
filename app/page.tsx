@@ -19,8 +19,7 @@ export default function Home() {
             <p className="max-w-[42rem] mx-auto md:mx-0 text-muted-foreground sm:text-xl text-balance mt-4">
               Thieverse is my little corner of the internet where I talk about tech, web development,
               and whatever else I&lsquo;m into. Besides articles and how-tos, I also share stories
-              about my life, from my love of tech to my hobbies. It&lsquo;s all about keeping things
-              real.
+              about my life, from my love of tech to my hobbies.
             </p>
             <div className="flex flex-col gap-4 justify-center sm:flex-row mt-6">
               <Link
