@@ -10,8 +10,8 @@ export function MainNav() {
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
       <Link href="/" className="mr-6 flex items-center space-x-2">
-        <img src="/images/logo.png" alt="Logo" className="h-10 w-10" />
-        <span className="font-bold text-xl">{siteConfig.name}</span>
+        <img src="/images/logo-thieverse.png" alt="Logo" className="h-11" />
+        {/* <span className="font-medium text-xl">{siteConfig.name}</span> */}
       </Link>
       <Link
         href="/blog"
@@ -20,7 +20,7 @@ export function MainNav() {
           pathname === "/blog" ? "text-foreground" : "text-foreground/60"
         )}
       >
-        Blog
+        Blogs
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
       </Link>
       <Link

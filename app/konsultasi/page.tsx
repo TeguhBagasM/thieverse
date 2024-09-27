@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
+import { konsulFeaturs } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Konsultasi",
@@ -8,25 +9,63 @@ export const metadata: Metadata = {
 };
 
 const insights: string[] = [
-  "Konsultasi Kapan Saja",
-  "Harga Bersahabat",
-  "Membantu Tugas Coding Kamu",
-  "Siap Membantu Pemula",
-  "Dibimbing dari 0",
-  "Tak Perlu Khawatir, Kami Siap Mendampingi",
+  "Konsultasi Fleksibel Kapan Saja",
+  "Harga Terjangkau untuk Semua",
+  "Bantu Tugas Coding Kamu",
+  "Panduan untuk Pemula",
+  "Belajar Coding dari 0",
+  "Teman Belajar di Setiap Langkah",
 ];
 
 export default function KonsultasiPage() {
   return (
     <>
       <InsightRoll insights={insights} />
-      <div className="container max-w-6xl py-6 lg:py-10">
-        <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
-          <div className="flex-1 space-x-4">
-            <h1 className="inline-block font-black text-4xl lg:text-5xl">Konsultasi</h1>
+      <div className="container max-w-6xl py-8 lg:py-14">
+        {/* Header Section */}
+        <div className="flex flex-col items-start gap-6 md:flex-row md:justify-between md:items-center md:gap-10">
+          <div className="flex-1">
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight lg:text-5xl">
+              Konsultasi Coding
+            </h1>
+            <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
+              Siap membantu di setiap langkah belajar coding Kamu.
+            </p>
           </div>
         </div>
-        <hr className="my-8" />
+
+        <hr className="my-10 border-gray-200 dark:border-gray-700" />
+
+        {/* Why Choose Section */}
+        <div className="mb-12">
+          <h2 className="relative section-title-after text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            Mengapa Memilih Thieverse?
+          </h2>
+          <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
+            Thieverse hadir untuk membimbing Kamu yang baru mulai belajar coding. Dengan biaya
+            terjangkau Rp. 25.000 per bulan, Kamu bebas bertanya apa saja seputar coding. Bingung
+            menghadapi error atau tidak tahu harus mulai dari mana? Kami siap mendampingi! Mulai dari
+            nol hingga mahir, kami ada di setiap langkah Kamu.
+          </p>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {konsulFeaturs?.map((feature) => (
+            <div
+              key={feature.title}
+              className="flex flex-col items-start p-6 border rounded-2xl shadow-sm transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md border-gray-200 dark:border-gray-700 group"
+            >
+              <div className="flex items-center mb-2">
+                <feature.icon className="text-3xl text-violet-500 dark:text-blue-500 dark:group-hover:text-blue-400 group-hover:text-violet-600" />
+                <h3 className="ml-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
+                  {feature.title}
+                </h3>
+              </div>
+              <p className="text-base text-gray-600 dark:text-gray-400 mt-2">{feature.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

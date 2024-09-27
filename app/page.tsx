@@ -56,7 +56,7 @@ export default function Home() {
 
       <section className="container max-w-6xl py-6 lg:py-10 mt-18">
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-black text-center mb-8">
-          Latest Articles
+          Latest Blogs
         </h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
           {latestPosts.map(
