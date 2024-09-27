@@ -24,10 +24,10 @@ export default function BlogPage() {
     setQuery(searchQuery);
   }, [searchParams]);
 
+  // Filter and sort posts
   const filteredPosts = posts
     .filter((post) => post.published)
     .filter((post) => post.title.toLowerCase().includes(query.toLowerCase()));
-
   const sortedPosts = sortPosts(filteredPosts);
   const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
 
@@ -72,6 +72,7 @@ export default function BlogPage() {
             </div>
           )}
         </div>
+
         <QueryPagination
           totalPages={totalPages}
           currentPage={currentPage}
