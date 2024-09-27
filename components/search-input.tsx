@@ -1,40 +1,53 @@
-"use client";
-import { Search } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
+import { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 
-const SearchInput = () => {
-  const router = useRouter();
-  const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebounce(search, 1000);
-  const currentPath = usePathname();
+interface SearchInputProps {
+  onSearch: (query: string) => void;
+  initialValue?: string;
+}
 
-  const onChangeHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value.toLowerCase());
-  };
+export default function SearchInput({ onSearch, initialValue = "" }: SearchInputProps) {
+  const [query, setQuery] = useState(initialValue);
 
   useEffect(() => {
-    if (!debouncedSearch) {
-      router.push(currentPath);
-    } else {
-      router.push(`${currentPath}?query=${encodeURIComponent(debouncedSearch)}`);
-    }
-  }, [currentPath, debouncedSearch, router]);
+    setQuery(initialValue);
+  }, [initialValue]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      onSearch(query);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [query, onSearch]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setQuery("");
+    onSearch("");
+  };
 
   return (
-    <div className="relative sm:max-w-xs w-full">
-      <Search className="absolute left-2 top-2/4 -translate-y-2/4 size-4 text-muted-foreground" />
+    <div className="relative w-full max-w-sm">
       <Input
-        type="search"
-        placeholder="Search..."
-        className="w-full rounded-lg bg-background pl-8"
-        value={search}
-        onChange={onChangeHandle}
+        type="text"
+        placeholder="Search articles..."
+        value={query}
+        onChange={handleInputChange}
+        className="pr-10"
       />
+      {query && (
+        <button
+          type="button"
+          onClick={clearSearch}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-700"
+        >
+          &#x2715;
+        </button>
+      )}
     </div>
   );
-};
-
-export default SearchInput;
+}

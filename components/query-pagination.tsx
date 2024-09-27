@@ -9,6 +9,7 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "./ui/pagination";
+import { Suspense } from "react";
 
 interface QueryPaginationProps {
   totalPages: number;
@@ -36,47 +37,51 @@ export function QueryPagination({
   };
 
   return (
-    <Pagination className={className}>
-      <PaginationContent>
-        {prevPage >= 1 && (
-          <PaginationItem>
-            <PaginationPrevious
-              href={createPageURL(prevPage)}
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange(prevPage);
-              }}
-            />
-          </PaginationItem>
-        )}
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Pagination className={className}>
+          <PaginationContent>
+            {prevPage >= 1 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  href={createPageURL(prevPage)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(prevPage);
+                  }}
+                />
+              </PaginationItem>
+            )}
 
-        {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-          <PaginationItem className="hidden sm:inline-block" key={`page-button-${page}`}>
-            <PaginationLink
-              isActive={currentPage === page}
-              href={createPageURL(page)}
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange(page);
-              }}
-            >
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+              <PaginationItem className="hidden sm:inline-block" key={`page-button-${page}`}>
+                <PaginationLink
+                  isActive={currentPage === page}
+                  href={createPageURL(page)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(page);
+                  }}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
 
-        {nextPage <= totalPages && (
-          <PaginationItem>
-            <PaginationNext
-              href={createPageURL(nextPage)}
-              onClick={(e) => {
-                e.preventDefault();
-                onPageChange(nextPage);
-              }}
-            />
-          </PaginationItem>
-        )}
-      </PaginationContent>
-    </Pagination>
+            {nextPage <= totalPages && (
+              <PaginationItem>
+                <PaginationNext
+                  href={createPageURL(nextPage)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onPageChange(nextPage);
+                  }}
+                />
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
+      </Suspense>
+    </>
   );
 }
