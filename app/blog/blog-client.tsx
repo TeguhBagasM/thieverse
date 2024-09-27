@@ -8,6 +8,7 @@ import SearchInput from "@/components/search-input";
 import ContentNotFound from "@/components/ui/content-not-found";
 import { sortPosts } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const INITIAL_POSTS_COUNT = 6;
 
@@ -43,7 +44,7 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 mb-8">
-        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
+        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Articles</h1>
         <p className="text-xl text-muted-foreground text-center">
           My ramblings about everything and coding.
         </p>
@@ -72,9 +73,13 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
 
       <div className="flex justify-center my-8">
         {displayCount < sortedPosts.length ? (
-          <Button onClick={handleShowMore}>Tampilkan Lebih Banyak</Button>
+          <Button onClick={handleShowMore}>
+            Tampilkan Lebih Banyak <FaArrowDown className="ml-2" />
+          </Button>
         ) : displayCount > INITIAL_POSTS_COUNT ? (
-          <Button onClick={handleShowLess}>Sembunyikan</Button>
+          <Button onClick={handleShowLess}>
+            Sembunyikan <FaArrowUp className="ml-2" />
+          </Button>
         ) : null}
       </div>
     </div>

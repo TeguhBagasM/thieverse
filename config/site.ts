@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "ThievBlog",
-  url: "https://thievblog.vercel.app",
+  name: "Thieverse",
+  url: "https://thieverse.vercel.app",
   description: "Nextjs 14 blog using velite, tailwind and shadcn",
   author: "Teguh Bagas M",
   job: "Web Developer",

@@ -139,7 +139,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 </div>
               </div>
               <ShareButton
-                text={`Baca postingan '${post.title}' oleh @teguhbagasm di ThievBlog:`}
+                text={`Baca postingan '${post.title}' oleh @teguhbagasm di Thieverse:`}
                 url={`${siteConfig.url}/${post.slug}`}
               />
             </div>

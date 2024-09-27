@@ -14,10 +14,10 @@ export default function Home() {
         <div className="container flex flex-col-reverse md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left ml-2">
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-black text-balance">
-              Welcome to Thievblog
+              Welcome to Thieverse
             </h1>
             <p className="max-w-[42rem] mx-auto md:mx-0 text-muted-foreground sm:text-xl text-balance mt-4">
-              Thievblog is my little corner of the internet where I talk about tech, web development,
+              Thieverse is my little corner of the internet where I talk about tech, web development,
               and whatever else I&lsquo;m into. Besides articles and how-tos, I also share stories
               about my life, from my love of tech to my hobbies. It&lsquo;s all about keeping things
               real.
@@ -48,7 +48,7 @@ export default function Home() {
           <div className="flex-1 mb-6 md:mb-0">
             <img
               src="/images/hero.gif"
-              alt="Thievblog Animated"
+              alt="Thieverse Animated"
               className="w-full h-auto max-w-[500px] mx-auto md:max-w-[660px] lg:max-w-[550px] object-cover rounded-3xl"
             />
           </div>
@@ -56,8 +56,8 @@ export default function Home() {
       </section>
 
       <section className="container max-w-6xl py-6 lg:py-10 mt-18">
-        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl font-black text-center mb-8">
-          Latest Posts
+        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-black text-center mb-8">
+          Latest Articles
         </h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
           {latestPosts.map(

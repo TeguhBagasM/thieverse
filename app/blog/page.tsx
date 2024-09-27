@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import BlogPageClient from "./blog-client";
 
 export const metadata: Metadata = {
-  title: "Thievblog",
+  title: "Thieverse",
   description: "My blog made by Thiever",
 };
 

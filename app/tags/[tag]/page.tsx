@@ -16,7 +16,7 @@ interface TagPageProps {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { tag } = params;
   return {
-    title: `Topic ${tag} | Thievblog`,
+    title: `Topic ${tag} | Thieverse`,
     description: `Posts on the topic of ${tag}`,
   };
 }
