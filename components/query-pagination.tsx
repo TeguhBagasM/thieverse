@@ -9,23 +9,17 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "./ui/pagination";
-import { Suspense } from "react";
 
 interface QueryPaginationProps {
   totalPages: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
   className?: string;
 }
 
-export function QueryPagination({
-  totalPages,
-  currentPage,
-  onPageChange,
-  className,
-}: QueryPaginationProps) {
+export function QueryPagination({ totalPages, className }: QueryPaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   const prevPage = currentPage - 1;
   const nextPage = currentPage + 1;
@@ -37,51 +31,30 @@ export function QueryPagination({
   };
 
   return (
-    <>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Pagination className={className}>
-          <PaginationContent>
-            {prevPage >= 1 && (
-              <PaginationItem>
-                <PaginationPrevious
-                  href={createPageURL(prevPage)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onPageChange(prevPage);
-                  }}
-                />
-              </PaginationItem>
-            )}
+    <Pagination className={className}>
+      <PaginationContent>
+        {prevPage >= 1 ? (
+          <PaginationItem>
+            <PaginationPrevious href={createPageURL(prevPage)} />
+          </PaginationItem>
+        ) : null}
 
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-              <PaginationItem className="hidden sm:inline-block" key={`page-button-${page}`}>
-                <PaginationLink
-                  isActive={currentPage === page}
-                  href={createPageURL(page)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onPageChange(page);
-                  }}
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
+        {Array(totalPages)
+          .fill("")
+          .map((_, index) => (
+            <PaginationItem className="hidden sm:inline-block" key={`page-button-${index}`}>
+              <PaginationLink isActive={currentPage === index + 1} href={createPageURL(index + 1)}>
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
 
-            {nextPage <= totalPages && (
-              <PaginationItem>
-                <PaginationNext
-                  href={createPageURL(nextPage)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onPageChange(nextPage);
-                  }}
-                />
-              </PaginationItem>
-            )}
-          </PaginationContent>
-        </Pagination>
-      </Suspense>
-    </>
+        {nextPage <= totalPages ? (
+          <PaginationItem>
+            <PaginationNext href={createPageURL(nextPage)} />
+          </PaginationItem>
+        ) : null}
+      </PaginationContent>
+    </Pagination>
   );
 }
