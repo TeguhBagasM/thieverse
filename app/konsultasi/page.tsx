@@ -1,11 +1,6 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import GradientText from "@/components/ui/gradient-text";
-import DrawOutline from "@/components/ui/draw-outline-button";
 
 export const metadata: Metadata = {
   title: "Konsultasi",
