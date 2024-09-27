@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { posts } from "#site/content";
 import { PostItem } from "@/components/post-item";
@@ -24,12 +24,10 @@ export default function BlogPage() {
     setQuery(searchQuery);
   }, [searchParams]);
 
-  // Filter berdasarkan query
   const filteredPosts = posts
     .filter((post) => post.published)
     .filter((post) => post.title.toLowerCase().includes(query.toLowerCase()));
 
-  // Urutkan post
   const sortedPosts = sortPosts(filteredPosts);
   const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
 
@@ -45,41 +43,42 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="container max-w-6xl py-6 lg:py-10">
-      <div className="flex flex-col items-center gap-4 mb-8">
-        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
-        <p className="text-xl text-muted-foreground text-center">
-          My ramblings about everything and coding.
-        </p>
-        <SearchInput />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="container max-w-6xl py-6 lg:py-10">
+        <div className="flex flex-col items-center gap-4 mb-8">
+          <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
+          <p className="text-xl text-muted-foreground text-center">
+            My ramblings about everything and coding.
+          </p>
+          <SearchInput />
+        </div>
+        <hr />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+          {displayPosts.length > 0 ? (
+            displayPosts.map((post) => (
+              <PostItem
+                key={post.slug}
+                slug={post.slug}
+                date={post.date}
+                title={post.title}
+                description={post.description}
+                tags={post.tags}
+                img={post.img}
+              />
+            ))
+          ) : (
+            <div className="flex justify-center items-center col-span-1 md:col-span-2 lg:col-span-3 h-64">
+              <ContentNotFound text="No Articles Found" />
+            </div>
+          )}
+        </div>
+        <QueryPagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          className="justify-end mt-8"
+        />
       </div>
-      <hr />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {displayPosts.length > 0 ? (
-          displayPosts.map((post) => (
-            <PostItem
-              key={post.slug}
-              slug={post.slug}
-              date={post.date}
-              title={post.title}
-              description={post.description}
-              tags={post.tags}
-              img={post.img}
-            />
-          ))
-        ) : (
-          <div className="flex justify-center items-center col-span-1 md:col-span-2 lg:col-span-3 h-64">
-            <ContentNotFound text="No Articles Found" />
-          </div>
-        )}
-      </div>
-
-      <QueryPagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        className="justify-end mt-8"
-      />
-    </div>
+    </Suspense>
   );
 }
