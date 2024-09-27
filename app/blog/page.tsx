@@ -1,32 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { posts } from "#site/content";
 import { PostItem } from "@/components/post-item";
 import { QueryPagination } from "@/components/query-pagination";
 import SearchInput from "@/components/search-input";
-import ContentNotFound from "@/components/ui/content-not-found"; // Import ContentNotFound
+import ContentNotFound from "@/components/ui/content-not-found";
 import { sortPosts } from "@/lib/utils";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Thievblog",
-  description: "My blog made by Thiever",
-};
 
 const POSTS_PER_PAGE = 6;
 
-interface BlogPageProps {
-  searchParams: {
-    page?: string;
-    query?: string;
-  };
-}
+export default function BlogPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [query, setQuery] = useState("");
 
-export default function BlogPage({ searchParams }: BlogPageProps) {
-  const currentPage = Number(searchParams?.page) || 1;
+  useEffect(() => {
+    const page = Number(searchParams.get("page")) || 1;
+    const searchQuery = searchParams.get("query") || "";
+    setCurrentPage(page);
+    setQuery(searchQuery);
+  }, [searchParams]);
 
   // Filter berdasarkan query
   const filteredPosts = posts
     .filter((post) => post.published)
-    .filter((post) => post.title.toLowerCase().includes(decodeURIComponent(searchParams.query || "")));
+    .filter((post) => post.title.toLowerCase().includes(query.toLowerCase()));
 
   // Urutkan post
   const sortedPosts = sortPosts(filteredPosts);
@@ -36,6 +37,12 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
     POSTS_PER_PAGE * (currentPage - 1),
     POSTS_PER_PAGE * currentPage
   );
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", newPage.toString());
+    router.push(`/blog?${params.toString()}`);
+  };
 
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
@@ -67,7 +74,12 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
         )}
       </div>
 
-      <QueryPagination totalPages={totalPages} className="justify-end mt-8" />
+      <QueryPagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        className="justify-end mt-8"
+      />
     </div>
   );
 }
