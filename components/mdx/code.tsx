@@ -26,7 +26,7 @@ const CopyButton = ({ children, nested = false }: { children: React.ReactNode; n
       {!nested && (
         <button
           onClick={copyToClipboard}
-          className="sticky right-[10px] top-0 rounded-md p-1 transition bg-blue-600"
+          className="sticky right-[10px] top-0 rounded-md p-1 transition bg-gray-600"
         >
           {copySuccess ? (
             <Check className="size-4 text-green-400" />

@@ -10,6 +10,7 @@ import ShareButton from "@/components/share-button";
 import DrawOutline from "@/components/ui/draw-outline-button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import PostComments from "@/components/giscus";
 
 interface PostPageProps {
   params: {
@@ -122,7 +123,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <div>
                 <div className="mt-4 mb-4 flex space-x-4">
                   <Image
-                    src="/images/teguh.jpg"
+                    src="/teguh.jpg"
                     alt="author"
                     width={55}
                     height={55}
@@ -156,6 +157,9 @@ export default async function PostPage({ params }: PostPageProps) {
                   </DrawOutline>
                 </Link>
               </div>
+            </div>
+            <div className="mb-6">
+              <PostComments />
             </div>
           </div>
         </div>
