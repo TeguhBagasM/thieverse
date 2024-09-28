@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 const insights: string[] = [
   "Konsultasi Kapan Saja",
-  "Harga Terjangkau untuk Semua",
-  "Bantu Tugas Coding Kamu",
+  "Harga Terjangkau",
+  "Bantu Tugas Coding Anda",
   "Panduan untuk Pemula",
   "Belajar Coding dari 0",
   "Teman Belajar di Setiap Langkah",
@@ -29,27 +29,25 @@ export default function KonsultasiPage() {
               Konsultasi Coding
             </h1>
             <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
-              Siap membantu di setiap langkah belajar coding Kamu.
+              Siap membantu di setiap langkah belajar coding Anda.
             </p>
           </div>
         </div>
 
         <hr className="my-10 border-gray-200 dark:border-gray-700" />
 
-        {/* Why Choose Section */}
         <div className="mb-12">
           <h2 className="relative section-title-after text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Mengapa Memilih Thieverse?
           </h2>
           <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
-            Thieverse hadir untuk menjadi rekan belajar coding Kamu. Kami siap membantu Kamu mengatasi
+            Thieverse hadir untuk menjadi rekan belajar coding Anda. Kami siap membantu Anda mengatasi
             segala kesulitan yang dihadapi, mulai dari pemahaman dasar hingga proyek yang lebih
-            kompleks. Dengan biaya terjangkau Rp 25.000 per bulan, Kamu dapat mengakses dukungan penuh
-            dari mentor kami. Jangan ragu untuk bertanya, kami siap membimbing Kamu setiap saat.
+            kompleks. Dengan biaya terjangkau Rp 25.000 per bulan, Anda dapat mengakses dukungan penuh
+            dari mentor kami. Jangan ragu untuk bertanya, kami siap membimbing Anda setiap saat.
           </p>
         </div>
 
-        {/* Feature Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {konsulFeaturs?.map((feature) => (
             <div

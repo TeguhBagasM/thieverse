@@ -1,4 +1,3 @@
-// File: app/blog/page.tsx
 import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogPageClient from "./blog-client";

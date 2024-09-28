@@ -1,4 +1,4 @@
-import { FaClock, FaComments, FaWallet } from "react-icons/fa";
+import { FaClock, FaComments, FaInfinity, FaLaptopCode, FaUsers, FaWallet } from "react-icons/fa";
 
 export const siteConfig = {
   name: "Thieverse",
@@ -18,19 +18,34 @@ export const siteConfig = {
 
 export const konsulFeaturs = [
   {
-    title: "Konsultasi Kapan Saja",
-    description: "Dapatkan dukungan dan konsultasi kapan pun Anda membutuhkannya.",
+    title: "Konsultasi Tanpa Batas",
+    description: "Akses dukungan 24/7 untuk menjawab setiap pertanyaan coding Anda.",
     icon: FaComments,
   },
   {
-    title: "Jadwal Fleksibel",
-    description: "Atur jadwal belajar sesuai dengan kenyamanan dan ketersediaan waktu Anda.",
+    title: "Fleksibilitas Maksimal",
+    description: "Sesuaikan jadwal belajar dengan ritme Anda untuk hasil optimal.",
     icon: FaClock,
   },
   {
-    title: "Harga Terjangkau",
-    description: "Nikmati penawaran harga yang kompetitif dan ramah di kantong.",
+    title: "Investasi Cerdas",
+    description: "Dapatkan nilai maksimal dengan harga yang terjangkau.",
     icon: FaWallet,
+  },
+  {
+    title: "Bimbingan Tugas Coding",
+    description: "Panduan langkah demi langkah untuk menyelesaikan tugas coding Anda.",
+    icon: FaLaptopCode,
+  },
+  {
+    title: "Komunitas Pembelajar Aktif",
+    description: "Bergabung dengan ekosistem Thieverse untuk belajar dan berkembang bersama.",
+    icon: FaUsers,
+  },
+  {
+    title: "Pembelajaran Tanpa Batas",
+    description: "Eksplorasi tak terbatas dengan akses penuh ke semua sumber daya selama 30 hari.",
+    icon: FaInfinity,
   },
 ];
 
