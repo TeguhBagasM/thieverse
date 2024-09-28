@@ -144,7 +144,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 text={`Baca postingan '${post.title}' oleh @teguhbagasm di Thieverse:`}
                 url={`${siteConfig.url}/${post.slug}`}
               />
-              <div className="mb-6">
+              <div>
                 <PostTableOfContent toc={post.toc} />
               </div>
             </div>

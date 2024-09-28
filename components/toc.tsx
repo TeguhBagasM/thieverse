@@ -34,7 +34,6 @@ const PostTableOfContent = ({ toc }: { toc: Post["toc"] }) => {
             <span className="text-muted-foreground">(Click to {tocValue ? "Close" : "Open"})</span>
           </p>
         </AccordionTrigger>
-        {/* Tambahkan max-height dan overflow-y untuk scrollbar */}
         <AccordionContent className="p-2 max-h-64 overflow-y-auto">
           <ol role="list" className="space-y-2 list-decimal pl-4">
             {toc.map((tocItem) => (
