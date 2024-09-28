@@ -1,0 +1,127 @@
+---
+title: "Cara Menginstal Laravel: Panduan untuk Pemula"
+description: "Panduan langkah demi langkah untuk menginstal Laravel, framework PHP yang populer untuk pengembangan web modern."
+date: 2024-09-28
+tags: ["laravel", "php"]
+published: true
+img: "/images/blogs/laravel.png"
+---
+
+# Cara Menginstal Laravel: Panduan untuk Pemula
+
+PHP adalah salah satu bahasa pemrograman yang paling banyak digunakan dalam pengembangan web. Hal ini juga bukan tanpa alasan, PHP adalah bahasa pemrograman yang menjadikan WordPress, sistem manajemen konten yang paling banyak digunakan di dunia. PHP adalah bahasa pengembangan sisi server atau bahasa pemrograman back-end. Laravel adalah kerangka kerja PHP yang terkenal.
+
+## Pengertian Laravel
+
+Laravel adalah framework kerangka pemrograman PHP yang dapat digunakan untuk meningkatkan efisiensi pembangunan situs web. Website yang dihasilkan akan lebih dinamis dan teroptimasi jika framework ini digunakan. Pemrograman PHP menjadi lebih bertenaga dan optimal bila dibangun di atas sebuah framework ini karena dibandingkan dengan framework lain, framework ini memiliki kehadiran yang lebih baik dan fitur yang lebih sedikit.
+
+<Image src="/images/blogs/laravel.png" width="718" height="304" alt="Logo Laravel" />
+
+Sebelum kita mulai, pastikan Anda telah menginstal:
+
+- PHP disarankan (versi 8. atau lebih baru)
+- Composer
+- Node.js dan NPM (opsional, tapi direkomendasikan)
+
+## Langkah 1:Install Composer
+
+Composer adalah manajer dependensi untuk PHP. Jika Anda belum menginstalnya:
+
+1. Kunjungi getcomposer.org
+2. Unduh dan jalankan installer
+3. Ikuti petunjuk instalasi
+
+Untuk memverifikasi instalasi, buka terminal dan jalankan:
+
+```bash title="bash"
+composer --version
+```
+
+## Langkah 2: Instal Laravel
+
+Ada dua cara untuk menginstal Laravel:
+
+1. Metode 1: Menggunakan Composer Create-Project
+
+Buka terminal
+Navigasikan ke direktori di mana Anda ingin membuat proyek Laravel
+Jalankan perintah berikut:
+
+```bash title="bash"
+composer create-project --prefer-dist laravel/laravel nama-proyek
+```
+
+Ganti nama-proyek dengan nama yang Anda inginkan untuk proyek Anda.
+
+2. Metode 2: Menggunakan Laravel Installer
+
+Instal Laravel Installer secara global:
+
+```bash title="bash"
+composer global require laravel/installer
+```
+
+**Buat proyek baru**:
+
+```bash title="bash"
+laravel new nama-proyek
+```
+
+## Langkah 3: Konfigurasi Proyek
+
+Masuk ke direktori proyek:
+
+```bash title="bash"
+cd nama-proyek
+```
+
+Salin file .env.example menjadi .env:
+
+```bash title="bash"
+cp .env.example .env
+```
+
+Generate kunci aplikasi:
+
+```bash title="bash"
+php artisan key:generate
+```
+
+Konfigurasi database di file .env
+
+## Langkah 4: Jalankan Server Pengembangan
+
+Untuk memulai server pengembangan Laravel, jalankan:
+
+```bash title="bash"
+php artisan serve
+```
+
+Kunjungi http://localhost:8000 di browser Anda untuk melihat aplikasi Laravel Anda berjalan.
+
+## Langkah 5: Instal Dependensi Frontend (Opsional)
+
+Jika Anda ingin menggunakan fitur frontend Laravel:
+
+Instal dependensi NPM:
+
+```bash title="bash"
+npm install
+```
+
+Compile aset:
+
+```bash title="bash"
+npm run dev
+```
+
+### Tips Tambahan
+
+Artisan: Laravel menyertakan CLI bernama Artisan. Pelajari perintah-perintahnya untuk meningkatkan produktivitas.
+Dokumentasi: Selalu rujuk dokumentasi resmi Laravel untuk informasi terbaru.
+Komunitas: Bergabunglah dengan komunitas Laravel di Laravel.io atau Laracasts untuk dukungan dan sumber daya tambahan.
+
+## Kesimpulan
+
+Selamat! Anda telah berhasil menginstal Laravel dan siap untuk memulai pengembangan aplikasi web modern. Laravel menawarkan berbagai fitur canggih dan alat yang akan membantu Anda membangun aplikasi web yang kuat dan skalabel.
+Selamat coding dan jangan ragu untuk menjelajahi lebih lanjut dunia Laravel yang menarik! 🚀
