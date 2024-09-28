@@ -124,10 +124,10 @@ export default async function PostPage({ params }: PostPageProps) {
               <div>
                 <div className="mt-4 mb-4 flex space-x-4">
                   <Image
-                    src="/teguh.jpg"
+                    src="/images/teguh.jpg"
                     alt="author"
-                    width={50}
-                    height={50}
+                    width={45}
+                    height={45}
                     className="rounded-full bg-white"
                   />
                   <div className="flex-1 text-left leading-tight">

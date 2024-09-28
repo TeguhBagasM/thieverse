@@ -40,7 +40,7 @@ export default function Home() {
                   "w-full sm:w-fit border-2 border-blue-500 dark:border-blue-400 text-blue-500 dark:text-blue-400 py-3 px-8 rounded-full hover:bg-blue-500 dark:hover:bg-blue-400 hover:text-white dark:hover:text-white hover:border-blue-500 dark:hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
                 )}
               >
-                <FaWhatsapp className="mr-2" /> Chat via Whatsapp
+                <FaWhatsapp className="mr-2 h-6 w-6" /> Chat Via Whatsapp
               </Link>
             </div>
           </div>

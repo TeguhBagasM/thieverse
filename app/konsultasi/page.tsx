@@ -53,7 +53,7 @@ export default function KonsultasiPage() {
             target="_blank"
             rel="noreferrer"
             href={siteConfig.links.whatsapp}
-            className="flex items-center justify-center bg-green-500 text-white font-semibold py-2 px-4 rounded-md mt-4 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 max-w-xs w-full sm:w-auto"
+            className="flex items-center justify-center bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-4 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 max-w-xs w-full sm:w-auto"
           >
             <FaWhatsapp className="h-6 w-6 mr-2" />
             Chat Via WhatsApp
@@ -67,7 +67,7 @@ export default function KonsultasiPage() {
               className="flex flex-col items-start p-6 border rounded-2xl shadow-sm transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md border-gray-200 dark:border-gray-700 group"
             >
               <div className="flex items-center mb-2">
-                <feature.icon className="text-3xl text-violet-500 dark:text-blue-500 dark:group-hover:text-blue-400 group-hover:text-violet-600" />
+                <feature.icon className="text-3xl text-blue-600 dark:text-blue-500 dark:group-hover:text-blue-400 group-hover:text-blue-700" />
                 <h3 className="ml-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
                   {feature.title}
                 </h3>
