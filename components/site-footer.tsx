@@ -27,7 +27,7 @@ export function SiteFooter() {
   }, []);
 
   return (
-    <footer className="bg-slate-200 dark:bg-slate-900 py-6 text-gray-950 dark:text-gray-200">
+    <footer className="bg-slate-200 dark:bg-slate-900 py-6 text-gray-950 dark:text-gray-200 mt-8">
       <div className="container mx-auto flex flex-col items-center space-y-6">
         <div className="flex items-center space-x-4">
           <img src="/images/logo.png" alt="Logo" className="h-12 w-12" />

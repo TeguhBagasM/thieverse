@@ -11,6 +11,7 @@ import DrawOutline from "@/components/ui/draw-outline-button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import PostComments from "@/components/giscus";
+import PostTableOfContent from "@/components/toc";
 
 interface PostPageProps {
   params: {
@@ -125,8 +126,8 @@ export default async function PostPage({ params }: PostPageProps) {
                   <Image
                     src="/teguh.jpg"
                     alt="author"
-                    width={55}
-                    height={55}
+                    width={50}
+                    height={50}
                     className="rounded-full bg-white"
                   />
                   <div className="flex-1 text-left leading-tight">
@@ -143,6 +144,9 @@ export default async function PostPage({ params }: PostPageProps) {
                 text={`Baca postingan '${post.title}' oleh @teguhbagasm di Thieverse:`}
                 url={`${siteConfig.url}/${post.slug}`}
               />
+              <div className="mb-6">
+                <PostTableOfContent toc={post.toc} />
+              </div>
             </div>
           </div>
           <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
@@ -158,9 +162,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 </Link>
               </div>
             </div>
-            <div className="mb-6">
-              <PostComments />
-            </div>
+            <PostComments />
           </div>
         </div>
       </article>

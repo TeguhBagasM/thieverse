@@ -71,7 +71,7 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
         )}
       </div>
 
-      <div className="flex justify-center my-8">
+      <div className="flex justify-center mt-8">
         {displayCount < sortedPosts.length ? (
           <Button onClick={handleShowMore}>
             Tampilkan Lebih Banyak <FaArrowDown className="ml-2" />

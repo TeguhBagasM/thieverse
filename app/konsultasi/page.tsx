@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const insights: string[] = [
-  "Konsultasi Fleksibel Kapan Saja",
+  "Konsultasi Kapan Saja",
   "Harga Terjangkau untuk Semua",
   "Bantu Tugas Coding Kamu",
   "Panduan untuk Pemula",
@@ -42,10 +42,10 @@ export default function KonsultasiPage() {
             Mengapa Memilih Thieverse?
           </h2>
           <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
-            Thieverse hadir untuk membimbing Kamu yang baru mulai belajar coding. Dengan biaya
-            terjangkau Rp. 25.000 per bulan, Kamu bebas bertanya apa saja seputar coding. Bingung
-            menghadapi error atau tidak tahu harus mulai dari mana? Kami siap mendampingi! Mulai dari
-            nol hingga mahir, kami ada di setiap langkah Kamu.
+            Thieverse hadir untuk menjadi rekan belajar coding Kamu. Kami siap membantu Kamu mengatasi
+            segala kesulitan yang dihadapi, mulai dari pemahaman dasar hingga proyek yang lebih
+            kompleks. Dengan biaya terjangkau Rp 25.000 per bulan, Kamu dapat mengakses dukungan penuh
+            dari mentor kami. Jangan ragu untuk bertanya, kami siap membimbing Kamu setiap saat.
           </p>
         </div>
 

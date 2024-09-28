@@ -21,6 +21,7 @@ const posts = defineCollection({
       tags: s.array(s.string()).optional(),
       img: s.string().max(99),
       body: s.mdx(),
+      toc: s.toc(),
     })
     .transform(computedFields),
 });

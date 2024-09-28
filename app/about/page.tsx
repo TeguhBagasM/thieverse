@@ -14,11 +14,10 @@ export const metadata: Metadata = {
 
 const insights: string[] = [
   "Mahasiswa Teknik Informatika",
-  "STMIK Mardira Indonesia",
   "Asisten Praktikum",
+  "25+ Lisensi dan Sertifikasi",
   "Creative Student Association",
   "Wakil Ketua Divisi Pemrograman",
-  "25+ Lisensi dan Sertifikasi",
   "Web Developer",
 ];
 
