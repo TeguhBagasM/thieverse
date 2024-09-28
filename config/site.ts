@@ -1,5 +1,7 @@
 import { FaClock, FaComments, FaInfinity, FaLaptopCode, FaUsers, FaWallet } from "react-icons/fa";
 
+const whatsappMessage = "Halo kak, saya ingin bergabung dengan Thieverse";
+
 export const siteConfig = {
   name: "Thieverse",
   url: "https://thieverse.vercel.app",
@@ -13,6 +15,7 @@ export const siteConfig = {
     github: "https://github.com/TeguhBagasM",
     linkedin: "https://linkedin.com/in/teguh-bagas-mardiansyah-8390572b7",
     personalSite: "https://teguhbagasm.vercel.app",
+    whatsapp: `https://wa.me/+6281321821374?text=${encodeURIComponent(whatsappMessage)}`,
   },
 };
 

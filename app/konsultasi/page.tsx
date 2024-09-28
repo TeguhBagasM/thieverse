@@ -1,7 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
-import { konsulFeaturs } from "@/config/site";
+import { konsulFeaturs, siteConfig } from "@/config/site";
+import { FaWhatsapp } from "react-icons/fa";
 
 export const metadata: Metadata = {
   title: "Konsultasi",
@@ -41,11 +42,22 @@ export default function KonsultasiPage() {
             Mengapa Memilih Thieverse?
           </h2>
           <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
-            Thieverse hadir untuk menjadi rekan belajar coding Anda. Kami siap membantu Anda mengatasi
-            segala kesulitan yang dihadapi, mulai dari pemahaman dasar hingga proyek yang lebih
-            kompleks. Dengan biaya terjangkau Rp 25.000 per bulan, Anda dapat mengakses dukungan penuh
-            dari mentor kami. Jangan ragu untuk bertanya, kami siap membimbing Anda setiap saat.
+            Thieverse hadir sebagai rekan belajar coding Anda. Kami siap membantu Anda mengatasi segala
+            kesulitan dalam mengerjakan tugas, mulai dari pemahaman dasar hingga yang lebih kompleks.
+            Dengan biaya terjangkau sebesar Rp 25.000/bulan, Anda mendapatkan akses penuh ke dukungan
+            mentor kami. Jangan ragu untuk bertanya, kami selalu siap membimbing Anda kapan saja. Ayo
+            bergabung dengan Thieverse sekarang, karena kuota grup terbatas hanya untuk 20 orang. Klik
+            tombol di bawah untuk bergabung.
           </p>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={siteConfig.links.whatsapp}
+            className="flex items-center justify-center bg-green-500 text-white font-semibold py-2 px-4 rounded-md mt-4 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 max-w-xs w-full sm:w-auto"
+          >
+            <FaWhatsapp className="h-6 w-6 mr-2" />
+            Chat Via WhatsApp
+          </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
