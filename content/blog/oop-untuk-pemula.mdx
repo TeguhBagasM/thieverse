@@ -15,7 +15,7 @@ Object Oriented Programming (OOP) adalah paradigma pemrograman yang sangat popul
 
 ## Apa itu Object Oriented Programming?
 
-Object Oriented Programming (OOP) adalah paradigma pemrograman yang berfokus pada konsep "objek". Objek dapat berisi data dalam bentuk atribut (atau properti) dan kode dalam bentuk metode (atau fungsi). OOP bertujuan untuk mengorganisir kode menjadi unit-unit yang lebih terstruktur dan dapat digunakan kembali.
+Object-Oriented Programming (OOP) adalah suatu paradigma pemrograman yang menggunakan konsep "objek" untuk membangun program. Di OOP, sebuah program dipecah menjadi objek-objek kecil yang memiliki data (disebut atribut) dan fungsi-fungsi (disebut metode) yang berkaitan dengan objek tersebut. Tujuan utama dari OOP adalah untuk membuat kode lebih mudah dikelola, diubah, dan dipahami.
 
 ## Mengapa Menggunakan OOP?
 
@@ -29,202 +29,458 @@ Object Oriented Programming (OOP) adalah paradigma pemrograman yang berfokus pad
 
 ### Kelas (Class)
 
-Kelas adalah blueprint atau template untuk membuat objek. Ini mendefinisikan atribut dan metode yang akan dimiliki oleh objek.
-
-Contoh kelas dalam Python:
-
-```python
-class Mobil:
-    def __init__(self, merk, warna):
-        self.merk = merk
-        self.warna = warna
-
-    def info(self):
-        return f"Mobil {self.merk} berwarna {self.warna}"
-```
+Class (Kelas): Sebuah template atau blueprint yang mendefinisikan properti dan perilaku umum dari objek-objek yang akan dibuat. Misalnya, "Mobil" adalah sebuah kelas yang mendefinisikan hal-hal umum tentang mobil, seperti warna, merk, dan metode untuk menjalankan mobil.
 
 ### Objek (Object)
 
-Objek adalah instance dari kelas. Ini adalah entitas yang memiliki state dan behavior yang didefinisikan oleh kelasnya.
+Object (Objek): Instance atau wujud nyata dari sebuah kelas. Jika kelas adalah blueprint-nya, maka objek adalah mobil spesifik yang diciptakan berdasarkan blueprint tersebut. Contohnya, "Mobil Honda merah" adalah objek dari kelas "Mobil."
 
-Contoh membuat objek:
+Membuat Class dan Object:
 
-```python
-mobil1 = Mobil("Toyota", "Merah")
-print(mobil1.info())  # Output: Mobil Toyota berwarna Merah
+```java
+// Class Mobil (blueprint)
+class Mobil {
+    // Atribut Mobil
+    String merk;
+    String warna;
+
+    // Constructor (untuk inisialisasi objek Mobil)
+    Mobil(String merk, String warna) {
+        this.merk = merk;
+        this.warna = warna;
+    }
+
+    // Metode untuk menampilkan detail mobil
+    void tampilkanInfo() {
+        System.out.println("Mobil merk: " + merk + ", warna: " + warna);
+    }
+}
+
+// Main class untuk menjalankan program
+public class Main {
+    public static void main(String[] args) {
+        // Membuat objek dari kelas Mobil
+        Mobil mobil1 = new Mobil("Toyota", "Merah");
+        Mobil mobil2 = new Mobil("Honda", "Hitam");
+
+        // Memanggil metode untuk menampilkan info mobil
+        mobil1.tampilkanInfo();
+        mobil2.tampilkanInfo();
+    }
+}
+
 ```
 
 ### Atribut
 
-Atribut adalah variabel yang menyimpan data terkait dengan objek.
-
-```python
-print(mobil1.merk)  # Output: Toyota
-```
+Atribut adalah variabel yang menyimpan data terkait dengan objek. Misalnya, dalam objek Mobil, atributnya bisa berupa merk, warna, dan kecepatan.
 
 ### Metode
 
-Metode adalah fungsi yang didefinisikan di dalam kelas dan menggambarkan perilaku objek.
+Metode adalah fungsi yang didefinisikan dalam kelas untuk menggambarkan perilaku objek. Misalnya, metode bergerak() untuk membuat objek mobil "bergerak" atau metode rem() untuk membuat mobil berhenti.
 
-```python
-mobil1.info()  # Memanggil metode info()
-```
+## Analogi OOP: Mobil dan Pabrik Mobil
+
+Bayangkan Anda adalah seorang insinyur di sebuah pabrik mobil:
+
+> Kelas (Class): Kelas adalah blueprint atau cetak biru mobil yang Anda buat. Di blueprint itu, Anda mendefinisikan spesifikasi umum seperti "mobil punya 4 roda," "mesin," dan "pintu."
+
+> Objek (Object): Mobil yang diproduksi dari blueprint tadi adalah objek. Setiap mobil yang keluar dari pabrik mungkin memiliki variasi kecil (seperti warna berbeda atau merk berbeda), tapi semuanya berbagi karakteristik umum yang sama dari blueprint tadi.
+
+> Enkapsulasi: Ketika Anda mengemudikan mobil, Anda hanya berinteraksi dengan setir, pedal gas, dan rem. Anda tidak perlu tahu atau melihat mesin yang sebenarnya, karena bagian itu disembunyikan di bawah kap mobil.
+
+> Inheritance (Pewarisan): Anda dapat membuat blueprint mobil lain, misalnya mobil listrik. Anda tidak perlu mendesain ulang seluruh mobil dari awal, cukup menggunakan blueprint mobil lama dan menambahkan fitur khusus untuk mobil listrik.
+
+> Polymorphism (Polimorfisme): Misalkan mobil-mobil yang Anda buat memiliki fitur "bergerak". Namun, cara bergerak mobil listrik mungkin berbeda dengan mobil bensin. Mereka sama-sama bergerak, tetapi menggunakan metode yang berbeda (listrik vs bensin).
+
+Dengan OOP, Anda bisa membuat program yang modular, mudah dikembangkan, dan mudah dipelihara, seperti pabrik yang membuat berbagai jenis mobil dari blueprint yang sama.
 
 ## Empat Pilar OOP
 
 ### Enkapsulasi (Encapsulation)
 
-Enkapsulasi adalah konsep menyembunyikan detail internal objek dan hanya mengekspos fungsionalitas yang diperlukan.
+Encapsulation (Enkapsulasi): Proses menyembunyikan detail internal dari sebuah objek, sehingga pengguna objek tersebut hanya dapat berinteraksi dengan fungsi atau metode tertentu. Ini seperti menggunakan remote TV: Anda tidak perlu tahu cara kerja internal TV, cukup tekan tombol untuk mengubah saluran.
 
-Contoh enkapsulasi dalam Python:
+Contoh enkapsulasi dalam Java:
 
-```python
-class BankAccount:
-    def __init__(self):
-        self.__balance = 0  # Atribut private
+```java
+// Kelas Mobil dengan enkapsulasi
+class Mobil {
+    // Atribut disembunyikan (akses private)
+    private String merk;
+    private String warna;
+    private int kecepatan;
 
-    def deposit(self, amount):
-        if amount > 0:
-            self.__balance += amount
+    // Constructor
+    public Mobil(String merk, String warna) {
+        this.merk = merk;
+        this.warna = warna;
+        this.kecepatan = 0;  // default kecepatan awal 0
+    }
 
-    def get_balance(self):
-        return self.__balance
+    // Getter untuk mendapatkan nilai atribut merk
+    public String getMerk() {
+        return merk;
+    }
 
-account = BankAccount()
-account.deposit(100)
-print(account.get_balance())  # Output: 100
-# print(account.__balance)  # Ini akan menghasilkan error
+    // Setter untuk mengubah nilai atribut merk
+    public void setMerk(String merk) {
+        this.merk = merk;
+    }
+
+    // Getter untuk mendapatkan nilai atribut warna
+    public String getWarna() {
+        return warna;
+    }
+
+    // Setter untuk mengubah nilai atribut warna
+    public void setWarna(String warna) {
+        this.warna = warna;
+    }
+
+    // Getter untuk mendapatkan kecepatan
+    public int getKecepatan() {
+        return kecepatan;
+    }
+
+    // Metode untuk mempercepat mobil (menambah kecepatan)
+    public void percepat(int tambahanKecepatan) {
+        if (tambahanKecepatan > 0) {
+            this.kecepatan += tambahanKecepatan;
+            System.out.println("Mobil dipercepat, kecepatan sekarang: " + this.kecepatan + " km/h.");
+        } else {
+            System.out.println("Kecepatan harus lebih dari 0!");
+        }
+    }
+
+    // Metode untuk memperlambat mobil (mengurangi kecepatan)
+    public void rem(int penguranganKecepatan) {
+        if (penguranganKecepatan > 0 && this.kecepatan >= penguranganKecepatan) {
+            this.kecepatan -= penguranganKecepatan;
+            System.out.println("Mobil direm, kecepatan sekarang: " + this.kecepatan + " km/h.");
+        } else {
+            System.out.println("Pengurangan kecepatan tidak valid!");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Membuat objek mobil
+        Mobil mobil1 = new Mobil("Honda", "Hitam");
+
+        // Mengakses atribut melalui metode getter
+        System.out.println("Merk Mobil: " + mobil1.getMerk());
+        System.out.println("Warna Mobil: " + mobil1.getWarna());
+
+        // Mengubah atribut melalui metode setter
+        mobil1.setWarna("Merah");
+        System.out.println("Warna Mobil setelah diubah: " + mobil1.getWarna());
+
+        // Mengatur dan mengontrol kecepatan mobil melalui metode
+        mobil1.percepat(50);
+        mobil1.rem(20);
+    }
+}
+
 ```
 
 ### Pewarisan (Inheritance)
 
-Pewarisan memungkinkan kelas untuk mewarisi properti dan metode dari kelas lain.
+Inheritance (Pewarisan): Sebuah objek dapat mewarisi sifat dan perilaku dari objek lain. Ini memungkinkan kita membuat kelas baru yang mewarisi atribut dan metode dari kelas yang sudah ada. Contoh: Kelas "Mobil" bisa memiliki turunan seperti "Mobil Balap," yang memiliki fitur tambahan di samping fitur umum mobil.
 
 Contoh pewarisan:
+Kita membuat kelas MobilBalap yang mewarisi sifat dari kelas Mobil, tetapi menambahkan fitur spesifik untuk mobil balap.
 
-```python
-class Kendaraan:
-    def __init__(self, merk):
-        self.merk = merk
+```java
+// Kelas Mobil
+class Mobil {
+    String merk;
+    String warna;
 
-    def info(self):
-        return f"Kendaraan merk {self.merk}"
+    Mobil(String merk, String warna) {
+        this.merk = merk;
+        this.warna = warna;
+    }
 
-class Mobil(Kendaraan):
-    def __init__(self, merk, model):
-        super().__init__(merk)
-        self.model = model
+    void tampilkanInfo() {
+        System.out.println("Mobil merk: " + merk + ", warna: " + warna);
+    }
+}
 
-    def info(self):
-        return f"Mobil {self.merk} model {self.model}"
+// Kelas MobilBalap yang mewarisi dari kelas Mobil
+class MobilBalap extends Mobil {
+    int topSpeed;
 
-mobil = Mobil("Toyota", "Corolla")
-print(mobil.info())  # Output: Mobil Toyota model Corolla
+    // Constructor untuk MobilBalap
+    MobilBalap(String merk, String warna, int topSpeed) {
+        super(merk, warna);  // Memanggil constructor kelas induk
+        this.topSpeed = topSpeed;
+    }
+
+    // Override metode tampilkanInfo
+    @Override
+    void tampilkanInfo() {
+        System.out.println("Mobil Balap merk: " + merk + ", warna: " + warna + ", kecepatan maksimal: " + topSpeed + " km/h");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MobilBalap ferrari = new MobilBalap("Ferrari", "Merah", 350);
+        ferrari.tampilkanInfo(); // Memanggil metode yang di-override
+    }
+}
+
 ```
 
 ### Polimorfisme (Polymorphism)
 
-Polimorfisme memungkinkan objek dari kelas yang berbeda untuk merespons metode yang sama dengan cara yang berbeda.
+Polymorphism (Polimorfisme): Kemampuan objek untuk mengambil banyak bentuk. Artinya, objek yang berbeda dapat merespon cara yang berbeda meskipun mereka menggunakan metode yang sama. Misalnya, metode "bergerak" pada kelas "Hewan" dapat diimplementasikan berbeda oleh "Burung" (terbang) dan "Ikan" (berenang).
 
 Contoh polimorfisme:
+Kita akan menggunakan polimorfisme di mana metode yang sama dipanggil oleh objek yang berbeda, tetapi menghasilkan hasil yang berbeda.
 
-```python
-class Kucing:
-    def suara(self):
-        return "Meow"
+```java
+// Kelas Mobil
+class Mobil {
+    String merk;
+    String warna;
 
-class Anjing:
-    def suara(self):
-        return "Woof"
+    Mobil(String merk, String warna) {
+        this.merk = merk;
+        this.warna = warna;
+    }
 
-def hewan_bersuara(hewan):
-    print(hewan.suara())
+    // Metode yang dapat di-override
+    void bergerak() {
+        System.out.println(merk + " sedang berjalan.");
+    }
+}
 
-kucing = Kucing()
-anjing = Anjing()
+// Kelas MobilBalap mewarisi dari Mobil
+class MobilBalap extends Mobil {
+    int topSpeed;
 
-hewan_bersuara(kucing)  # Output: Meow
-hewan_bersuara(anjing)  # Output: Woof
+    MobilBalap(String merk, String warna, int topSpeed) {
+        super(merk, warna);
+        this.topSpeed = topSpeed;
+    }
+
+    // Override metode bergerak
+    @Override
+    void bergerak() {
+        System.out.println(merk + " melaju dengan kecepatan " + topSpeed + " km/h!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Membuat objek dari tipe Mobil
+        Mobil mobilBiasa = new Mobil("Toyota", "Hitam");
+        MobilBalap mobilBalap = new MobilBalap("Ferrari", "Merah", 350);
+
+        // Polimorfisme: metode bergerak menghasilkan perilaku berbeda
+        mobilBiasa.bergerak();   // Output: Toyota sedang berjalan.
+        mobilBalap.bergerak();   // Output: Ferrari melaju dengan kecepatan 350 km/h!
+    }
+}
+
 ```
 
 ### Abstraksi (Abstraction)
 
-Abstraksi adalah proses menyembunyikan detail implementasi dan hanya menunjukkan fungsionalitas kepada pengguna.
+Abstraction (Abstraksi): Menghilangkan detail yang tidak penting dan hanya fokus pada karakteristik penting dari suatu objek. Contohnya, saat berinteraksi dengan objek "Mobil", kita tidak perlu tahu bagaimana mesin bekerja, cukup tahu cara mengemudikan mobil.
 
-Contoh abstraksi menggunakan abstract base class di Python:
+Contoh abstraksi menggunakan abstract base class di Java:
 
-```python
-from abc import ABC, abstractmethod
+```java
+// Kelas abstrak Kendaraan (abstraksi umum dari kendaraan)
+abstract class Kendaraan {
+    String merk;
+    String warna;
 
-class BangunDatar(ABC):
-    @abstractmethod
-    def luas(self):
-        pass
+    // Constructor
+    Kendaraan(String merk, String warna) {
+        this.merk = merk;
+        this.warna = warna;
+    }
 
-class Persegi(BangunDatar):
-    def __init__(self, sisi):
-        self.sisi = sisi
+    // Metode abstrak (hanya dideklarasikan tanpa implementasi)
+    abstract void bergerak();
 
-    def luas(self):
-        return self.sisi ** 2
+    // Metode konkret (dengan implementasi)
+    void tampilkanInfo() {
+        System.out.println("Kendaraan merk: " + merk + ", warna: " + warna);
+    }
+}
 
-persegi = Persegi(5)
-print(persegi.luas())  # Output: 25
+// Kelas Mobil yang mengimplementasikan metode abstrak dari Kendaraan
+class Mobil extends Kendaraan {
+    int kecepatanMaksimal;
+
+    Mobil(String merk, String warna, int kecepatanMaksimal) {
+        super(merk, warna);
+        this.kecepatanMaksimal = kecepatanMaksimal;
+    }
+
+    // Implementasi metode abstrak bergerak
+    @Override
+    void bergerak() {
+        System.out.println(merk + " bergerak dengan kecepatan " + kecepatanMaksimal + " km/h.");
+    }
+}
+
+// Kelas Sepeda yang juga merupakan turunan dari Kendaraan
+class Sepeda extends Kendaraan {
+
+    Sepeda(String merk, String warna) {
+        super(merk, warna);
+    }
+
+    // Implementasi metode abstrak bergerak
+    @Override
+    void bergerak() {
+        System.out.println(merk + " bergerak dengan mengayuh pedal.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Membuat objek dari kelas Mobil dan Sepeda
+        Mobil mobil = new Mobil("Toyota", "Merah", 180);
+        Sepeda sepeda = new Sepeda("Polygon", "Biru");
+
+        // Menampilkan info kendaraan
+        mobil.tampilkanInfo();
+        sepeda.tampilkanInfo();
+
+        // Memanggil metode bergerak
+        mobil.bergerak();
+        sepeda.bergerak();
+    }
+}
 ```
 
 ## Contoh Implementasi OOP
 
 Mari kita lihat contoh implementasi OOP untuk sistem perpustakaan sederhana:
 
-```python
-class Buku:
-    def __init__(self, judul, penulis):
-        self.judul = judul
-        self.penulis = penulis
-        self.dipinjam = False
+```java
+// Kelas Buku
+class Buku {
+    private String judul;
+    private String penulis;
+    private boolean dipinjam;
 
-    def pinjam(self):
-        if not self.dipinjam:
-            self.dipinjam = True
-            return True
-        return False
+    // Constructor
+    public Buku(String judul, String penulis) {
+        this.judul = judul;
+        this.penulis = penulis;
+        this.dipinjam = false;
+    }
 
-    def kembalikan(self):
-        if self.dipinjam:
-            self.dipinjam = False
-            return True
-        return False
+    // Metode untuk meminjam buku
+    public boolean pinjam() {
+        if (!dipinjam) {
+            dipinjam = true;
+            return true;
+        }
+        return false;
+    }
 
-class Perpustakaan:
-    def __init__(self):
-        self.buku = []
+    // Metode untuk mengembalikan buku
+    public boolean kembalikan() {
+        if (dipinjam) {
+            dipinjam = false;
+            return true;
+        }
+        return false;
+    }
 
-    def tambah_buku(self, buku):
-        self.buku.append(buku)
+    // Getter untuk judul buku
+    public String getJudul() {
+        return judul;
+    }
+}
 
-    def cari_buku(self, judul):
-        for buku in self.buku:
-            if buku.judul.lower() == judul.lower():
-                return buku
-        return None
+// Kelas Perpustakaan
+import java.util.ArrayList;
 
-# Penggunaan
-perpus = Perpustakaan()
-buku1 = Buku("Harry Potter", "J.K. Rowling")
-buku2 = Buku("Lord of the Rings", "J.R.R. Tolkien")
+class Perpustakaan {
+    private ArrayList<Buku> bukuList;
 
-perpus.tambah_buku(buku1)
-perpus.tambah_buku(buku2)
+    // Constructor
+    public Perpustakaan() {
+        this.bukuList = new ArrayList<>();
+    }
 
-buku = perpus.cari_buku("Harry Potter")
-if buku:
-    if buku.pinjam():
-        print(f"Buku {buku.judul} berhasil dipinjam")
-    else:
-        print("Buku sudah dipinjam")
-else:
-    print("Buku tidak ditemukan")
+    // Metode untuk menambahkan buku ke perpustakaan
+    public void tambahBuku(Buku buku) {
+        bukuList.add(buku);
+    }
+
+    // Metode untuk mencari buku berdasarkan judul
+    public Buku cariBuku(String judul) {
+        for (Buku buku : bukuList) {
+            if (buku.getJudul().equalsIgnoreCase(judul)) {
+                return buku;
+            }
+        }
+        return null;
+    }
+}
+
+// Kelas Utama untuk penggunaan
+public class Main {
+    public static void main(String[] args) {
+        // Membuat objek perpustakaan
+        Perpustakaan perpus = new Perpustakaan();
+
+        // Membuat objek buku
+        Buku buku1 = new Buku("Harry Potter", "J.K. Rowling");
+        Buku buku2 = new Buku("Lord of the Rings", "J.R.R. Tolkien");
+
+        // Menambahkan buku ke perpustakaan
+        perpus.tambahBuku(buku1);
+        perpus.tambahBuku(buku2);
+
+        // Mencari buku berdasarkan judul
+        Buku bukuDicari = perpus.cariBuku("Harry Potter");
+
+        if (bukuDicari != null) {
+            // Meminjam buku jika belum dipinjam
+            if (bukuDicari.pinjam()) {
+                System.out.println("Buku " + bukuDicari.getJudul() + " berhasil dipinjam.");
+            } else {
+                System.out.println("Buku sudah dipinjam.");
+            }
+        } else {
+            System.out.println("Buku tidak ditemukan.");
+        }
+    }
+}
 ```
+
+## Penjelasan:
+
+1. Kelas Buku:
+
+> Atribut judul dan penulis adalah informasi yang terkait dengan buku.
+> Atribut dipinjam digunakan untuk melacak status apakah buku sedang dipinjam atau tidak.
+> Metode pinjam() akan mengubah status dipinjam menjadi true jika buku belum dipinjam.
+> Metode kembalikan() akan mengubah status dipinjam kembali menjadi false jika buku sedang dipinjam.
+
+2. Kelas Perpustakaan:
+
+> Menggunakan ArrayList untuk menyimpan daftar buku.
+> Metode tambahBuku() digunakan untuk menambahkan buku ke daftar.
+> Metode cariBuku() mencari buku berdasarkan judul dan mengabaikan huruf besar/kecil dengan menggunakan metode equalsIgnoreCase().
+
+3. Kelas Main:
+
+> Pada bagian main, kita membuat objek perpustakaan dan buku.
+> Kemudian kita menambahkan buku-buku ke perpustakaan dan melakukan pencarian buku dengan judul tertentu. Jika buku ditemukan dan belum dipinjam, maka akan dipinjam.
 
 ## Keuntungan Menggunakan OOP
 
