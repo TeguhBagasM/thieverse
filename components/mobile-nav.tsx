@@ -41,7 +41,7 @@ export function MobileNav() {
             href="/blog"
             className="hover:text-blue-500 transition-colors"
           >
-            Blogs
+            Blog
           </MobileLink>
           <MobileLink
             onOpenChange={setOpen}

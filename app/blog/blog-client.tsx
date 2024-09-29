@@ -44,9 +44,9 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 mb-8">
-        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blogs</h1>
+        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
         <p className="text-xl text-muted-foreground text-center">
-          My ramblings about everything and coding.
+          Berbagi cerita seputar berbagai hal dan dunia coding.
         </p>
         <SearchInput />
       </div>
