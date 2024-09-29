@@ -35,18 +35,20 @@ export function PostItem({ slug, title, date, tags, img }: PostItemProps) {
         </Link>
       </div>
       <div className="p-4">
-        <div className="flex gap-2 mb-2">{tags?.map((tag) => <Tag tag={tag} key={tag} />)}</div>
+        <div className="flex flex-wrap gap-2 mb-2">
+          {tags?.map((tag) => <Tag tag={tag} key={tag} />)}
+        </div>
         <Link href={"/" + slug}>
-          <h3 className="font-bold capitalize text-lg xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4">
+          <h3 className="font-bold capitalize text-base xs:text-lg sm:text-xl md:text-2xl text-light mt-2 sm:mt-4">
             <span
               className="bg-gradient-to-r from-blue-500 to-blue-500 bg-[length:0px_4px]
-                group-hover:bg-[length:100%_4px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 pb-1"
+          group-hover:bg-[length:100%_4px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 pb-1"
             >
               {title}
             </span>
           </h3>
         </Link>
-        <p className="text-sm sm:text-base font-sm mt-2 flex items-center gap-1">
+        <p className="text-xs sm:text-sm md:text-base font-sm mt-2 flex items-center gap-1">
           <Calendar className="h-4 w-4 text-blue-500" />
           <time dateTime={date}>{formatDate(date)}</time>
         </p>
