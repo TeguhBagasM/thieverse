@@ -31,8 +31,8 @@ export const konsulFeaturs = [
     icon: FaClock,
   },
   {
-    title: "Investasi Cerdas",
-    description: "Dapatkan nilai maksimal dengan harga yang terjangkau.",
+    title: "Harga Terjangkau",
+    description: "Nikmati penawaran harga yang kompetitif dan ramah di kantong.",
     icon: FaWallet,
   },
   {
