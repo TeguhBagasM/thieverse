@@ -21,6 +21,6 @@ const typography = cva(["font-bold inline-block font-ubuntu"], {
   },
 });
 
-export interface ButtonVariants extends VariantProps<typeof typography> {}
+export type TypographyVariants = VariantProps<typeof typography>;
 
-export const typo = (variants: ButtonVariants) => cn(typography(variants));
+export const typo = (variants: TypographyVariants) => cn(typography(variants));
