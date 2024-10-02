@@ -74,7 +74,7 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-      <div className="ml-8 mr-8">
+      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
         <Skills />
       </div>
     </>
