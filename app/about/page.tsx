@@ -6,7 +6,9 @@ import InsightRoll from "@/components/insight-roll";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import GradientText from "@/components/ui/gradient-text";
 import DrawOutline from "@/components/ui/draw-outline-button";
-import Skills from "@/components/skills";
+import Skills from "@/components/about/skills";
+import { Experience } from "@/components/about/experience";
+import { JOB_EXPERIENCE } from "@/config/experience";
 
 export const metadata: Metadata = {
   title: "About Me",
@@ -76,6 +78,10 @@ export default function AboutPage() {
       </div>
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
         <Skills />
+      </div>
+      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+        <h2 className="text-3xl font-bold mb-6">Work Experience</h2>
+        <Experience experience={JOB_EXPERIENCE} />
       </div>
     </>
   );
