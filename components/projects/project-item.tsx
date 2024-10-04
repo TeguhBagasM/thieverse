@@ -11,9 +11,6 @@ import { TProject } from "./_project-mock";
 
 type ProjectItemProps = TProject;
 
-const linkClass =
-  "!p-0 h-full hover:!text-[#0000FF] dark:hover:!text-[#00BFFF] !flex items-center gap-2 !text-sm !text-ring";
-
 const ProjectItem: React.FC<ProjectItemProps> = ({
   title,
   description,
