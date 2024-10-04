@@ -11,7 +11,7 @@ export interface JobExperience {
 
 export const JOB_EXPERIENCE = [
   {
-    ocupation: "Tutor",
+    ocupation: "Kursus Web untuk Pemula",
     company: "",
     url: "",
     location: "Remote",
@@ -20,7 +20,7 @@ export const JOB_EXPERIENCE = [
       "Sebagai instruktur pemrograman web untuk pemula, saya memiliki pengalaman yang mendalam dalam mengajarkan dasar-dasar pengembangan web. Fokus pengajaran saya meliputi bahasa pemrograman PHP, kerangka kerja Laravel, bahasa pemformatan CSS, serta kerangka kerja Bootstrap.",
   },
   {
-    ocupation: "Laboratory Assistant",
+    ocupation: "Asisten Praktikum",
     company: "STMIK Mardira Indonesia",
     url: "https://stmik-mi.ac.id/",
     location: "Kampus STMIK Mardira Indonesia",

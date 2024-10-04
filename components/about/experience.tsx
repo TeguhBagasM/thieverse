@@ -22,17 +22,23 @@ export const Experience = ({ experience, className, ...props }: ExperienceProps)
           </time>
 
           <h3 className="text-lg font-semibold">
-            {job.ocupation} at{" "}
-            <Link
-              href={job.url || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={`Visit ${job.company} website`}
-              aria-label={`Visit ${job.company} website`}
-              className="text-primary underline transition-colors hover:text-primary/90"
-            >
-              {job.company}
-            </Link>
+            {job.ocupation}
+            {job.company && job.url && (
+              <>
+                {" "}
+                di{" "}
+                <Link
+                  href={job.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={`Visit ${job.company} website`}
+                  aria-label={`Visit ${job.company} website`}
+                  className="text-primary underline transition-colors hover:text-primary/90"
+                >
+                  {job.company}
+                </Link>
+              </>
+            )}
           </h3>
           <h4 className="my-1 text-sm font-normal text-primary/80">{job.location}</h4>
           <p className="mb-4 text-base font-normal text-muted-foreground">{job.description}</p>

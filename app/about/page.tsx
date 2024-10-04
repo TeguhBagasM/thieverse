@@ -2,9 +2,9 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
-import { FaExternalLinkAlt } from "react-icons/fa";
+// import { FaExternalLinkAlt } from "react-icons/fa";
 import GradientText from "@/components/ui/gradient-text";
-import DrawOutline from "@/components/ui/draw-outline-button";
+// import DrawOutline from "@/components/ui/draw-outline-button";
 import Skills from "@/components/about/skills";
 import { Experience } from "@/components/about/experience";
 import { JOB_EXPERIENCE } from "@/config/experience";
@@ -45,12 +45,12 @@ export default function AboutPage() {
 
           <div className="flex flex-col w-full md:w-2/3">
             <div className="flex justify-center">
-              <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
+              {/* <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
                 <DrawOutline>
                   <span>My Portfolio</span>
                   <FaExternalLinkAlt className="ml-2" />
                 </DrawOutline>
-              </a>
+              </a> */}
             </div>
             <p className="text-muted-foreground text-lg py-4">
               I&apos;m a dedicated Informatics Engineering student with a strong passion for crafting
@@ -69,7 +69,7 @@ export default function AboutPage() {
         <Skills />
       </div>
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
-        <h2 className="text-3xl font-bold mb-6">Work Experience</h2>
+        <h2 className="text-3xl font-bold mb-6">Pengalaman</h2>
         <Experience experience={JOB_EXPERIENCE} />
       </div>
     </>

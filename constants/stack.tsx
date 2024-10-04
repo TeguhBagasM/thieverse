@@ -21,6 +21,7 @@ import {
   SiStyledcomponents,
   SiTailwindcss,
   SiTypescript,
+  SiVite,
 } from "react-icons/si";
 
 export type stacksProps = Record<
@@ -34,16 +35,17 @@ export type stacksProps = Record<
 export const FRONTEND_STACKS: stacksProps = {
   JavaScript: { Icon: SiJavascript, className: "text-yellow-400" },
   TypeScript: { Icon: SiTypescript, className: "text-blue-600" },
-  "Next.js": { Icon: SiNextdotjs, className: "text-black dark:text-slate-100" },
   "React.js": { Icon: SiReact, className: "text-blue-500" },
+  "Next.js": { Icon: SiNextdotjs, className: "text-black dark:text-slate-100" },
+  "Vite.js": { Icon: SiVite, className: "" },
+  "Vue.js": { Icon: FaVuejs, className: "text-green-600" },
   TailwindCSS: { Icon: SiTailwindcss, className: "text-blue-400" },
   Bootstrap: { Icon: SiBootstrap, className: "text-blue-600" },
-  "Material UI": { Icon: SiMui, className: "text-blue-400" },
   "Shadcn UI": { Icon: SiShadcnui, className: "text-zinc-900 dark:text-zinc-100" },
   "Daisy UI": { Icon: SiDaisyui, className: "text-blue-500" },
+  "Material UI": { Icon: SiMui, className: "text-blue-400" },
   "Styled Components": { Icon: SiStyledcomponents, className: "text-pink-500" },
   CSS: { Icon: SiCss3, className: "text-blue-500" },
-  "Vue.js": { Icon: FaVuejs, className: "text-green-600" },
 };
 
 export const BACKEND_STACKS = {
