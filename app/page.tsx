@@ -17,9 +17,9 @@ export default function Home() {
               Selamat datang di Thieverse
             </h1>
             <p className="max-w-[42rem] mx-auto md:mx-0 text-muted-foreground sm:text-xl text-balance mt-4">
-              Di sini, saya senang berbagi apa yang saya pelajari tentang teknologi. Selain artikel dan
-              tutorial, saya juga membuka pintu untuk konsultasi coding. Punya pertanyaan atau ingin
-              berdiskusi tentang tugasmu? Ayo, kita obrolkan!
+              Di sini, saya senang berbagi apa yang saya pelajari tentang teknologi dan pengalaman saya
+              dalam dunia coding. Selain artikel dan tutorial, saya juga membuka pintu untuk konsultasi
+              coding.
             </p>
             <div className="flex flex-col gap-4 justify-center sm:flex-row mt-6">
               <Link
