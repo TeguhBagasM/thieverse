@@ -10,7 +10,7 @@ const projects = [
       "CSA (Creative Student Association) adalah organisasi berbasis TI yang terletak di STMIK Mardira Indonesia. Organisasi ini mencakup semua aspek TI, seperti Pemrograman, Multimedia, IoT, dan Pengembangan Game.",
     deployedURL: "https://csa-stmikmi.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
-    stacks: ["React", "Tailwind"],
+    stacks: ["React.js", "Tailwind"],
     isRepo: false,
   },
   {
@@ -20,9 +20,20 @@ const projects = [
       "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
     deployedURL: "https://thievbook.vercel.app/",
     cover: "/images/projects/thievbook.png",
-    stacks: ["React", "API Public"],
+    stacks: ["React.js", "API Public"],
     isRepo: true,
     repoUrl: "https://github.com/TeguhBagasM/thievbook",
+  },
+  {
+    id: createId(),
+    title: `ThievChat`,
+    description:
+      "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
+    deployedURL: "",
+    cover: "/images/projects/thievchat.png",
+    stacks: ["Laravel Reverb", "React.js", "Tailwind"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/thievchat",
   },
 ];
 

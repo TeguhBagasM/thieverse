@@ -1,7 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
 import { ProjectList, projects } from "@/components/projects";
-import SearchInput from "@/components/search-input";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {

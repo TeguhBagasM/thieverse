@@ -23,14 +23,15 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   return (
     <li role="listitem" className="list-none">
       <div className="grid gap-4 group el-focus-styles rounded-md">
-        <div className="aspect-video relative">
+        <div className="relative w-full h-60">
+          {" "}
           <Image
             alt={`${title} cover`}
             priority
             src={cover}
-            width={500}
-            height={300}
-            className="size-full object-cover rounded-md"
+            layout="fill"
+            objectFit="cover"
+            className="rounded-md"
           />
         </div>
 
@@ -45,17 +46,17 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
 
           <div className="flex items-center gap-4 !mt-2">
             <CustomLink
-              aria-label={`Visit ${title} live URL`}
-              href={deployedURL}
+              aria-label={`Kunjungi ${title} live URL`}
+              href={deployedURL || "#"}
               className={linkClass}
             >
-              <FaExternalLinkAlt size={12} />
-              <span>Live Preview</span>
+              {deployedURL ? <FaExternalLinkAlt size={12} /> : ""}
+              <span>{deployedURL ? "Live Demo" : ""}</span>
             </CustomLink>
 
             {isRepo && (
               <CustomLink
-                aria-label={`Visit ${title} GitHub Repo`}
+                aria-label={`Kunjungi ${title} GitHub Repo`}
                 href={repoUrl as string}
                 className={linkClass}
               >
