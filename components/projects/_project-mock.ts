@@ -1,7 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
 
-// Project cover images
-
 const projects = [
   {
     id: createId(),
@@ -11,7 +9,8 @@ const projects = [
     deployedURL: "https://csa-stmikmi.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
     stacks: ["React.js", "Tailwind"],
-    isRepo: false,
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/csa-stmikmi",
   },
   {
     id: createId(),
@@ -22,6 +21,17 @@ const projects = [
     cover: "/images/projects/thievshop.png",
     stacks: ["React.js", "Vite", "Tailwind"],
     isRepo: false,
+  },
+  {
+    id: createId(),
+    title: `ThievChat`,
+    description:
+      "ThievChat adalah aplikasi real time yang dibangun dengan Tailwind CSS, Laravel Breeze, React, Inertia.js, dan fitur waktu nyata melalui Laravel Echo dan Pusher. Aplikasi ini mendukung pengiriman pesan yang lancar, autentikasi pengguna, pelacakan status online, dan manajemen percakapan dinamis untuk pengalaman yang intuitif.",
+    deployedURL: "",
+    cover: "/images/projects/thievchat.png",
+    stacks: ["Laravel Reverb", "React.js", "Tailwind", "Inertia.js"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/thievchat",
   },
   {
     id: createId(),
@@ -36,14 +46,25 @@ const projects = [
   },
   {
     id: createId(),
-    title: `ThievChat`,
+    title: `Sistem Peminjaman Buku Perpustakaan`,
     description:
-      "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
+      "Didesain dan dikembangkan sebuah sistem informasi peminjaman buku menggunakan framework Laravel untuk mempermudah pengelolaan peminjaman dan pengembalian buku, serta meningkatkan efisiensi pengelolaan data perpustakaan.",
     deployedURL: "",
-    cover: "/images/projects/thievchat.png",
-    stacks: ["Laravel Reverb", "React.js", "Tailwind"],
+    cover: "/images/projects/perpus.png",
+    stacks: ["Laravel", "CSS", "Bootstrap", "MySQL"],
     isRepo: true,
-    repoUrl: "https://github.com/TeguhBagasM/thievchat",
+    repoUrl: "https://github.com/TeguhBagasM/kaperpus",
+  },
+  {
+    id: createId(),
+    title: `Sistem Reservasi Hotel`,
+    description:
+      "Dirancang dan dikembangkan sistem reservasi hotel berbasis web untuk memfasilitasi pemesanan kamar secara online, meningkatkan kenyamanan dan efisiensi bagi pengguna maupun manajemen hotel. Sistem ini memperbaiki pengalaman pemesanan dengan menyediakan antarmuka yang ramah pengguna dan operasi yang terintegrasi.",
+    deployedURL: "",
+    cover: "/images/projects/hotel.png",
+    stacks: ["PHP", "CSS", "Bootstrap", "MySQL"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/ujikom-hotel",
   },
 ];
 
