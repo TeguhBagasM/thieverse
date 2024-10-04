@@ -2,7 +2,6 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
-import InsightRoll from "@/components/insight-roll";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import GradientText from "@/components/ui/gradient-text";
 import DrawOutline from "@/components/ui/draw-outline-button";
@@ -15,23 +14,13 @@ export const metadata: Metadata = {
   description: "Information about me",
 };
 
-const insights: string[] = [
-  "Mahasiswa Teknik Informatika",
-  "Asisten Praktikum",
-  "25+ Lisensi dan Sertifikasi",
-  "Creative Student Association",
-  "Wakil Ketua Divisi Pemrograman",
-  "Web Developer",
-];
-
 export default function AboutPage() {
   return (
     <>
-      <InsightRoll insights={insights} />
       <div className="container max-w-6xl py-6 lg:py-10">
-        <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
-          <div className="flex-1 space-x-4">
-            <h1 className="inline-block font-black text-4xl lg:text-5xl">About Me</h1>
+        <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
+          <div className="flex-1">
+            <h1 className="font-bold text-4xl md:text-5xl text-center">About Me</h1>
           </div>
         </div>
         <hr className="my-8" />

@@ -22,14 +22,11 @@ export default function KonsultasiPage() {
   return (
     <>
       <InsightRoll insights={insights} />
-      <div className="container max-w-6xl py-8 lg:py-14">
-        {/* Header Section */}
+      <div className="container max-w-6xl py-6 lg:py-14">
         <div className="flex flex-col items-start gap-6 md:flex-row md:justify-between md:items-center md:gap-10">
-          <div className="flex-1">
-            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight lg:text-5xl">
-              Konsultasi Coding
-            </h1>
-            <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
+          <div className="flex-1 text-center">
+            <h1 className="font-bold text-4xl md:text-5xl">Konsultasi Coding</h1>
+            <p className="mt-3 text-lg text-gray-700 dark:text-gray-300">
               Siap membantu di setiap langkah belajar coding Anda.
             </p>
           </div>
