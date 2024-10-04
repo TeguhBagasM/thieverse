@@ -10,7 +10,7 @@ import { Experience } from "@/components/about/experience";
 import { JOB_EXPERIENCE } from "@/config/experience";
 
 export const metadata: Metadata = {
-  title: "About Me",
+  title: `About Me | ${siteConfig.name}`,
   description: "Information about me",
 };
 

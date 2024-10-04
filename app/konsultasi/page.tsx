@@ -5,7 +5,7 @@ import { konsulFeaturs, siteConfig } from "@/config/site";
 import { FaWhatsapp } from "react-icons/fa";
 
 export const metadata: Metadata = {
-  title: "Konsultasi",
+  title: `Konsultasi | ${siteConfig.name}`,
   description: "Konsultasi",
 };
 

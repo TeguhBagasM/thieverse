@@ -2,9 +2,10 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogPageClient from "./blog-client";
 import { Loader2 } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Thieverse",
+  title: `Blog  | ${siteConfig.name}`,
   description: "My blog made by Thiever",
 };
 

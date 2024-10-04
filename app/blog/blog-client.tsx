@@ -66,7 +66,7 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
           ))
         ) : (
           <div className="flex justify-center items-center col-span-1 md:col-span-2 lg:col-span-3 h-64">
-            <ContentNotFound text="No Articles Found" />
+            <ContentNotFound text="Artikel tidak ditemukan" />
           </div>
         )}
       </div>

@@ -15,6 +15,16 @@ const projects = [
   },
   {
     id: createId(),
+    title: `ThievShop`,
+    description:
+      "Thievshop adalah landing page e-commerce modern yang dibuat menggunakan React.js dan Vite, dengan Tailwind CSS untuk styling. Halaman ini dirancang untuk memberikan pengguna pengalaman belanja yang elegan dan lancar. Thievshop menekankan kesederhanaan dan kenyamanan, dengan tata letak yang bersih dan navigasi yang intuitif.",
+    deployedURL: "https://thievshop.vercel.app/",
+    cover: "/images/projects/thievshop.png",
+    stacks: ["React.js", "Vite", "Tailwind"],
+    isRepo: false,
+  },
+  {
+    id: createId(),
     title: `ThievBook`,
     description:
       "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
