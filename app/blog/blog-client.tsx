@@ -46,7 +46,7 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
       <div className="flex flex-col items-center gap-4 mb-8">
         <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
         <p className="text-xl text-muted-foreground text-center">
-          Berbagi cerita seputar berbagai hal dan dunia coding.
+          Berbagi wawasan dan pengalaman seputar berbagai aspek dalam dunia coding.
         </p>
         <SearchInput />
       </div>

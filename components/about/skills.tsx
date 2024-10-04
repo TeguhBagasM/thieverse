@@ -1,12 +1,12 @@
 "use client";
+
 import Marquee from "react-fast-marquee";
-import { typo } from "../ui/typography";
 import { BACKEND_STACKS, FRONTEND_STACKS, stacksProps } from "@/constants/stack";
 
 const Skills = () => {
   return (
     <section aria-label="skills" className="my-4 space-y-8 bg-background">
-      <h2 className={typo({ variant: "h2" })}>Tools that I have used</h2>
+      <h2 className="text-3xl font-bold mb-6">Skillset dan Tools</h2>
       <div className="space-y-6 w-full">
         <Marquee autoFill pauseOnHover speed={20}>
           <SkillsList stacks={FRONTEND_STACKS} />

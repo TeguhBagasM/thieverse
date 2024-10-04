@@ -53,14 +53,14 @@ export default function AboutPage() {
               </a> */}
             </div>
             <p className="text-muted-foreground text-lg py-4">
-              I&apos;m a dedicated Informatics Engineering student with a strong passion for crafting
-              innovative web applications. My expertise lies in leveraging popular frameworks and
-              libraries like Laravel, Express.js, React JS, and Tailwind CSS to deliver efficient and
-              visually appealing solutions. I&apos;m committed to meeting project deadlines and
-              continuously expanding my skillset through targeted training and certifications. As a
-              full-stack developer, I thrive on the opportunity to work on projects from conception to
-              deployment. I&apos;m eager to contribute my technical skills and problem-solving
-              abilities to a dynamic team.
+              Seorang mahasiswa Teknik Informatika yang berdedikasi dengan minat kuat dalam merancang
+              aplikasi web inovatif. Keahlian saya terletak pada pemanfaatan framework dan library
+              populer seperti Laravel, Express.js, React JS, dan Tailwind CSS untuk menghadirkan solusi
+              yang efisien dan menarik secara visual. Saya berkomitmen untuk memenuhi tenggat waktu
+              proyek dan terus memperluas keterampilan melalui pelatihan serta sertifikasi yang
+              terarah. Sebagai seorang full-stack developer, saya senang bekerja pada proyek dari tahap
+              perancangan hingga penerapan. Saya antusias untuk berkontribusi dengan keterampilan
+              teknis dan kemampuan pemecahan masalah saya dalam tim yang dinamis.
             </p>
           </div>
         </div>
