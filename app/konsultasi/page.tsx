@@ -43,8 +43,8 @@ export default function KonsultasiPage() {
             kesulitan dalam mengerjakan tugas, mulai dari pemahaman dasar hingga yang lebih kompleks.
             Dengan biaya terjangkau sebesar Rp 25.000/bulan, Anda mendapatkan akses penuh ke dukungan
             mentor kami. Jangan ragu untuk bertanya, kami selalu siap membimbing Anda kapan saja. Ayo
-            bergabung dengan Thieverse sekarang, karena kuota grup terbatas hanya untuk 20 orang. Klik
-            tombol di bawah untuk bergabung.
+            bergabung dengan Thieverse sekarang, karena kuota grup terbatas hanya untuk 20 orang. Punya
+            pertanyaan atau ingin berdiskusi tentang tugasmu? Ayo, kita obrolkan!
           </p>
           <a
             target="_blank"

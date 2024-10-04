@@ -42,7 +42,7 @@ export const konsulFeaturs = [
   },
   {
     title: "Komunitas Pembelajar Aktif",
-    description: "Bergabung dengan ekosistem Thieverse untuk belajar dan berkembang bersama.",
+    description: "Bergabung dengan Thieverse untuk belajar dan berkembang bersama.",
     icon: FaUsers,
   },
   {
