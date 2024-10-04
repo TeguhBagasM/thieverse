@@ -22,20 +22,12 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
 }) => {
   return (
     <li role="listitem" className="list-none">
-      <div className="grid gap-4 group el-focus-styles rounded-md">
-        <div className="relative w-full h-60">
-          {" "}
-          <Image
-            alt={`${title} cover`}
-            priority
-            src={cover}
-            layout="fill"
-            objectFit="cover"
-            className="rounded-md"
-          />
+      <div className="grid gap-4 group rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="relative w-full pt-[56.25%] overflow-hidden">
+          <Image alt={`${title} cover`} src={cover} layout="fill" objectFit="cover" />
         </div>
 
-        <hgroup className="space-y-2 sm:space-y-1">
+        <div className="p-4 space-y-2">
           <h2 className="font-medium font-ubuntu text-base">{title}</h2>
           <p className="text-xs text-ring" aria-label="project stacks">
             {stacks.join(" / ")}
@@ -44,15 +36,17 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             {description}
           </p>
 
-          <div className="flex items-center gap-4 !mt-2">
-            <CustomLink
-              aria-label={`Kunjungi ${title} live URL`}
-              href={deployedURL || "#"}
-              className={linkClass}
-            >
-              {deployedURL ? <FaExternalLinkAlt size={12} /> : ""}
-              <span>{deployedURL ? "Live Demo" : ""}</span>
-            </CustomLink>
+          <div className="flex flex-wrap items-center gap-4 !mt-2">
+            {deployedURL && (
+              <CustomLink
+                aria-label={`Kunjungi ${title} live URL`}
+                href={deployedURL}
+                className={linkClass}
+              >
+                <FaExternalLinkAlt size={12} />
+                <span>Live Demo</span>
+              </CustomLink>
+            )}
 
             {isRepo && (
               <CustomLink
@@ -65,7 +59,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               </CustomLink>
             )}
           </div>
-        </hgroup>
+        </div>
       </div>
     </li>
   );
