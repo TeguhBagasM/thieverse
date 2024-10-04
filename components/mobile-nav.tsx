@@ -57,6 +57,13 @@ export function MobileNav() {
           >
             Konsultasi
           </MobileLink>
+          <MobileLink
+            onOpenChange={setOpen}
+            href="/projects"
+            className="hover:text-blue-500 transition-colors"
+          >
+            Project
+          </MobileLink>
         </div>
         <div className="flex justify-center gap-4 mt-8">
           <Link

@@ -81,10 +81,13 @@ export function SiteFooter() {
           </a>
         </div>
 
-        {/* Time Display */}
         <div className="flex items-center text-sm">
           <Clock className="h-4 w-4 mr-1 text-blue-500" />
           <span>{time}</span>
+        </div>
+
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          &copy; 2024 Thieverse, All Rights Reserved
         </div>
       </div>
     </footer>
