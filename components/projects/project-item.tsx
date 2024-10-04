@@ -72,7 +72,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             {description.length > 100 && (
               <button
                 onClick={toggleDescription}
-                className="text-blue-500 hover:text-blue-700 font-medium mt-1"
+                className="text-blue-500 hover:text-blue-700 dark:hover:text-blue-400 font-medium mt-1"
               >
                 {isExpanded ? "Sembunyikan" : "Baca selengkapnya"}
               </button>
