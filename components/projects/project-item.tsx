@@ -47,7 +47,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               <CustomLink
                 aria-label={`Kunjungi ${title} GitHub Repo`}
                 href={repoUrl as string}
-                className="text-white hover:text-blue-300 transition-colors flex items-center"
+                className="text-white hover:text-blue-500 transition-colors flex items-center"
               >
                 <FaGithub size={24} />
                 <span className="ml-2">GitHub</span>

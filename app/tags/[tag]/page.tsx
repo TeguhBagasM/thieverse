@@ -38,13 +38,23 @@ export default function TagPage({ params }: TagPageProps) {
             <span>#</span>
             {title}
           </h1>
-          <p className="text-xl text-muted-foreground px-2">
+          <p className="text-xl text-muted-foreground px-2 mb-2">
             Discover more topic and expand your knowledge!
           </p>
           <hr />
         </div>
       </div>
-      <div className="container max-w-6xl grid grid-cols-1 justify-center gap-6 px-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5 mt-10">
+      <div className="container justify-center gap-6 px-4 md:gap-8 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5 mb-6">
+        <Card className="col-span-12 row-start-3 mt-10 h-fit sm:col-span-4 sm:col-start-9 sm:row-start-1">
+          <CardHeader>
+            <CardTitle>Tags</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-2">
+            {sortedTags?.map((t) => <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />)}
+          </CardContent>
+        </Card>
+      </div>
+      <div className="container max-w-6xl grid grid-cols-1 justify-center gap-6 px-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5 mt-8">
         {displayPosts?.length > 0 ? (
           displayPosts
             .filter((post) => post.published)
@@ -65,16 +75,6 @@ export default function TagPage({ params }: TagPageProps) {
         ) : (
           <p>Nothing to see here yet</p>
         )}
-      </div>
-      <div className="container justify-center gap-6 px-4 md:gap-8 lg:gap-10 xl:px-10 xl:py-10 2xl:px-24 2xl:py-5 mb-10">
-        <Card className="col-span-12 row-start-3 mt-16 h-fit sm:col-span-4 sm:col-start-9 sm:row-start-1">
-          <CardHeader>
-            <CardTitle>Tags</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-2">
-            {sortedTags?.map((t) => <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />)}
-          </CardContent>
-        </Card>
       </div>
     </>
   );

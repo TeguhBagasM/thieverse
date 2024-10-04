@@ -14,7 +14,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
       <div className="flex flex-col items-center gap-4 mb-8">
         <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Project</h1>
         <p className="text-xl text-muted-foreground text-center">
-          Berikut adalah beberapa proyek yang baru saja saya kerjakan.
+          Berikut adalah beberapa proyek yang pernah saya kerjakan.
         </p>
         <SearchInput />
       </div>
