@@ -3,6 +3,17 @@ import { createId } from "@paralleldrive/cuid2";
 const projects = [
   {
     id: createId(),
+    title: `Noteverse`,
+    description:
+      "Noteverse adalah aplikasi catatan online yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan fitur login via Google dan GitHub, Noteverse memudahkan pengguna untuk menyimpan dan mengelola catatan mereka dengan tampilan yang simpel dan responsif berkat DaisyUI.",
+    deployedURL: "https://noteverse-chi.vercel.app/",
+    cover: "/images/projects/noteverse.png",
+    stacks: ["Next.js", "TypeScript", "PostgreSQL", "Prisma"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/noteverse",
+  },
+  {
+    id: createId(),
     title: `CSA STMIK-MI`,
     description:
       "CSA (Creative Student Association) adalah organisasi berbasis TI yang terletak di STMIK Mardira Indonesia. Organisasi ini mencakup semua aspek TI, seperti Pemrograman, Multimedia, IoT, dan Pengembangan Game.",
@@ -24,17 +35,6 @@ const projects = [
   },
   {
     id: createId(),
-    title: `ThievChat`,
-    description:
-      "ThievChat adalah aplikasi real time yang dibangun dengan Tailwind CSS, Laravel Breeze, React, Inertia.js, dan fitur waktu nyata melalui Laravel Echo dan Pusher. Aplikasi ini mendukung pengiriman pesan yang lancar, autentikasi pengguna, pelacakan status online, dan manajemen percakapan dinamis untuk pengalaman yang intuitif.",
-    deployedURL: "",
-    cover: "/images/projects/thievchat.png",
-    stacks: ["Laravel Reverb", "React.js", "Tailwind", "Inertia.js"],
-    isRepo: true,
-    repoUrl: "https://github.com/TeguhBagasM/thievchat",
-  },
-  {
-    id: createId(),
     title: `ThievBook`,
     description:
       "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
@@ -43,6 +43,17 @@ const projects = [
     stacks: ["React.js", "API Public"],
     isRepo: true,
     repoUrl: "https://github.com/TeguhBagasM/thievbook",
+  },
+  {
+    id: createId(),
+    title: `ThievChat`,
+    description:
+      "ThievChat adalah aplikasi real time yang dibangun dengan Tailwind CSS, Laravel Breeze, React, Inertia.js, dan fitur waktu nyata melalui Laravel Echo dan Pusher. Aplikasi ini mendukung pengiriman pesan yang lancar, autentikasi pengguna, pelacakan status online, dan manajemen percakapan dinamis untuk pengalaman yang intuitif.",
+    deployedURL: "",
+    cover: "/images/projects/thievchat.png",
+    stacks: ["Laravel Reverb", "React.js", "Tailwind", "Inertia.js"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/thievchat",
   },
   {
     id: createId(),
