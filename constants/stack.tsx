@@ -1,4 +1,4 @@
-import { FaJava, FaVuejs } from "react-icons/fa";
+import { FaJava, FaReact, FaVuejs } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import { BiLogoPostgresql } from "react-icons/bi";
 import {
@@ -37,8 +37,9 @@ export const FRONTEND_STACKS: stacksProps = {
   TypeScript: { Icon: SiTypescript, className: "text-blue-600" },
   "React.js": { Icon: SiReact, className: "text-blue-500" },
   "Next.js": { Icon: SiNextdotjs, className: "text-black dark:text-slate-100" },
-  "Vite.js": { Icon: SiVite, className: "" },
+  "Vite.js": { Icon: SiVite, className: "text-blue-500" },
   "Vue.js": { Icon: FaVuejs, className: "text-green-600" },
+  "React Native": { Icon: FaReact, className: "text-blue-600" },
   TailwindCSS: { Icon: SiTailwindcss, className: "text-blue-400" },
   Bootstrap: { Icon: SiBootstrap, className: "text-blue-600" },
   "Shadcn UI": { Icon: SiShadcnui, className: "text-zinc-900 dark:text-zinc-100" },
