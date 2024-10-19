@@ -52,4 +52,29 @@ export const konsulFeaturs = [
   },
 ];
 
+export const codingQuotes = [
+  {
+    quote: "Code adalah puisi yang ditulis untuk mesin.",
+    author: "Anonymous",
+  },
+  {
+    quote:
+      "Pemrograman bukan tentang apa yang kamu ketahui; ini tentang apa yang dapat kamu cari tahu.",
+    author: "Chris Pine",
+  },
+  {
+    quote: "Jangan tulis kode yang lebih baik, tulis kode yang lebih mudah dipahami.",
+    author: "Boris Cherny",
+  },
+  {
+    quote:
+      "Debugging lebih sulit daripada menulis kode. Jadi, jika Anda menulis kode secermat mungkin, Anda, menurut definisi, tidak cukup pintar untuk men-debug-nya.",
+    author: "Brian Kernighan",
+  },
+  {
+    quote: "Pengembangan perangkat lunak yang baik adalah hasil dari konsentrasi, tidak kompleksitas.",
+    author: "Edsger W. Dijkstra",
+  },
+];
+
 export type SiteConfig = typeof siteConfig;

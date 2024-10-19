@@ -33,16 +33,10 @@ export function SiteFooter() {
           <img src="/images/logo.png" alt="Logo" className="h-12 w-12" />
           <div>
             <h1 className="font-semibold text-lg">{siteConfig.name}</h1>
-            <a
-              href={siteConfig.links.personalSite}
-              target="_blank"
-              className="flex items-center justify-center text-sm"
-            >
+            <div className="flex items-center justify-center text-sm">
               Made with <Heart className="text-red-500 h-4 w-4 mx-1" /> by{" "}
-              <span className="hover:text-blue-700 text-blue-500 dark:hover:text-blue-400 ml-1">
-                {siteConfig.author}
-              </span>
-            </a>
+              <span className="text-blue-500 ml-1">{siteConfig.author}</span>
+            </div>
           </div>
         </div>
         {/* Social Icons */}
