@@ -54,26 +54,32 @@ export const konsulFeaturs = [
 
 export const codingQuotes = [
   {
-    quote: "Code adalah puisi yang ditulis untuk mesin.",
-    author: "Anonymous",
+    quote: "The best way to predict the future is to invent it.",
+    author: "Alan Kay",
   },
   {
-    quote:
-      "Pemrograman bukan tentang apa yang kamu ketahui; ini tentang apa yang dapat kamu cari tahu.",
-    author: "Chris Pine",
+    quote: "Software is a great combination of artistry and engineering.",
+    author: "Bill Gates",
   },
   {
-    quote: "Jangan tulis kode yang lebih baik, tulis kode yang lebih mudah dipahami.",
-    author: "Boris Cherny",
+    quote: "Clean code always looks like it was written by someone who cares.",
+    author: "Robert C. Martin",
   },
   {
-    quote:
-      "Debugging lebih sulit daripada menulis kode. Jadi, jika Anda menulis kode secermat mungkin, Anda, menurut definisi, tidak cukup pintar untuk men-debug-nya.",
-    author: "Brian Kernighan",
+    quote: "First, solve the problem. Then, write the code.",
+    author: "John Johnson",
   },
   {
-    quote: "Pengembangan perangkat lunak yang baik adalah hasil dari konsentrasi, tidak kompleksitas.",
-    author: "Edsger W. Dijkstra",
+    quote: "The most disastrous thing that you can ever learn is your first programming language.",
+    author: "Alan Kay",
+  },
+  {
+    quote: "Code is like humor. When you have to explain it, it's bad.",
+    author: "Cory House",
+  },
+  {
+    quote: "Simplicity is the soul of efficiency.",
+    author: "Austin Freeman",
   },
 ];
 

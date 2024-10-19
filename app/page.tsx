@@ -1,13 +1,23 @@
 import { buttonVariants } from "@/components/ui/button";
-import { siteConfig } from "@/config/site";
+import { siteConfig, codingQuotes } from "@/config/site";
 import { cn, sortPosts } from "@/lib/utils";
 import { posts } from "#site/content";
 import Link from "next/link";
 import { PostItem } from "@/components/post-item";
 import { FaWhatsapp } from "react-icons/fa";
+import { useMemo } from "react";
+
+const getRandomQuote = (seed: number) => {
+  const index = seed % codingQuotes.length;
+  return codingQuotes[index];
+};
 
 export default function Home() {
   const latestPosts = sortPosts(posts).slice(0, 6);
+
+  const today = new Date().toDateString();
+  const randomQuote = useMemo(() => getRandomQuote(today.length), [today]);
+
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:mt-2 lg:py-16">
@@ -21,6 +31,10 @@ export default function Home() {
               dalam dunia coding. Selain artikel dan tutorial, saya juga membuka pintu untuk konsultasi
               coding.
             </p>
+            <blockquote className="mt-6 border-l-4 border-blue-500 pl-4 italic">
+              <p className="text-lg">{randomQuote.quote}</p>
+              <footer className="text-sm mt-2">- {randomQuote.author}</footer>
+            </blockquote>
             <div className="flex flex-col gap-4 justify-center sm:flex-row mt-6">
               <Link
                 href="/blog"
