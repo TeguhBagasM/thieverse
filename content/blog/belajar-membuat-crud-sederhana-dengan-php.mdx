@@ -1,0 +1,274 @@
+---
+title: "Membuat CRUD Sederhana"
+description: "Tutorial langkah demi langkah membuat aplikasi CRUD (Create, Read, Update, Delete) menggunakan PHP dan MySQL untuk pemula"
+date: 2024-10-26
+tags: ["php", "mysql", "crud", "backend", "database"]
+published: true
+img: "/images/blogs/php.jpg"
+---
+
+# Membuat CRUD Sederhana dengan PHP dan MySQL
+
+## Pengenalan CRUD
+
+CRUD adalah singkatan dari Create, Read, Update, dan Delete - operasi dasar yang dapat dilakukan pada database. Tutorial ini akan memandu Anda membuat aplikasi CRUD sederhana untuk mengelola data mahasiswa menggunakan PHP dan MySQL.
+
+## Persiapan Database
+
+Pertama, buat database dan tabel yang diperlukan:
+
+```sql title="database.sql"
+CREATE DATABASE db_kampus;
+USE db_kampus;
+
+CREATE TABLE mahasiswa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nim VARCHAR(10) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    jurusan VARCHAR(100) NOT NULL,
+    alamat TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Koneksi Database
+
+Buat file koneksi.php untuk menghubungkan aplikasi dengan database:
+
+```php title="koneksi.phhp"
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "db_kampus";
+
+$koneksi = mysqli_connect($host, $user, $pass, $db);
+
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+?>
+```
+
+## 1. Create (Tambah Data)
+
+Buat file tambah.php untuk form penambahan data:
+
+```php title="tambah.php"
+<?php
+include 'koneksi.php';
+
+if (isset($_POST['submit'])) {
+    $nim = $_POST['nim'];
+    $nama = $_POST['nama'];
+    $jurusan = $_POST['jurusan'];
+    $alamat = $_POST['alamat'];
+
+    $query = "INSERT INTO mahasiswa (nim, nama, jurusan, alamat)
+              VALUES ('$nim', '$nama', '$jurusan', '$alamat')";
+
+    if (mysqli_query($koneksi, $query)) {
+        header("Location: index.php");
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Mahasiswa</title>
+</head>
+<body>
+    <h2>Tambah Data Mahasiswa</h2>
+    <form method="POST">
+        <div>
+            <label>NIM:</label>
+            <input type="text" name="nim" required>
+        </div>
+        <div>
+            <label>Nama:</label>
+            <input type="text" name="nama" required>
+        </div>
+        <div>
+            <label>Jurusan:</label>
+            <input type="text" name="jurusan" required>
+        </div>
+        <div>
+            <label>Alamat:</label>
+            <textarea name="alamat"></textarea>
+        </div>
+        <button type="submit" name="submit">Simpan</button>
+    </form>
+</body>
+</html>
+```
+
+## 2. Read (Tampil Data)
+
+Buat file index.php untuk menampilkan data:
+
+```php title="index.php"
+<?php
+include 'koneksi.php';
+
+$query = "SELECT * FROM mahasiswa";
+$result = mysqli_query($koneksi, $query);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Mahasiswa</title>
+</head>
+<body>
+    <h2>Data Mahasiswa</h2>
+    <a href="tambah.php">Tambah Data</a>
+    <table border="1">
+        <tr>
+            <th>No</th>
+            <th>NIM</th>
+            <th>Nama</th>
+            <th>Jurusan</th>
+            <th>Alamat</th>
+            <th>Aksi</th>
+        </tr>
+        <?php
+        $no = 1;
+        while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+        <tr>
+            <td><?php echo $no++; ?></td>
+            <td><?php echo $row['nim']; ?></td>
+            <td><?php echo $row['nama']; ?></td>
+            <td><?php echo $row['jurusan']; ?></td>
+            <td><?php echo $row['alamat']; ?></td>
+            <td>
+                <a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
+                <a href="hapus.php?id=<?php echo $row['id']; ?>"
+                   onclick="return confirm('Yakin hapus data?')">Hapus</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+</body>
+</html>
+```
+
+## Update (Edit Data)
+
+Buat file edit.php untuk mengedit data:
+
+```php title="edit.php"
+<?php
+include 'koneksi.php';
+
+$id = $_GET['id'];
+$query = "SELECT * FROM mahasiswa WHERE id='$id'";
+$result = mysqli_query($koneksi, $query);
+$row = mysqli_fetch_assoc($result);
+
+if (isset($_POST['submit'])) {
+    $nim = $_POST['nim'];
+    $nama = $_POST['nama'];
+    $jurusan = $_POST['jurusan'];
+    $alamat = $_POST['alamat'];
+
+    $query = "UPDATE mahasiswa SET
+              nim='$nim',
+              nama='$nama',
+              jurusan='$jurusan',
+              alamat='$alamat'
+              WHERE id='$id'";
+
+    if (mysqli_query($koneksi, $query)) {
+        header("Location: index.php");
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Mahasiswa</title>
+</head>
+<body>
+    <h2>Edit Data Mahasiswa</h2>
+    <form method="POST">
+        <div>
+            <label>NIM:</label>
+            <input type="text" name="nim" value="<?php echo $row['nim']; ?>" required>
+        </div>
+        <div>
+            <label>Nama:</label>
+            <input type="text" name="nama" value="<?php echo $row['nama']; ?>" required>
+        </div>
+        <div>
+            <label>Jurusan:</label>
+            <input type="text" name="jurusan" value="<?php echo $row['jurusan']; ?>" required>
+        </div>
+        <div>
+            <label>Alamat:</label>
+            <textarea name="alamat"><?php echo $row['alamat']; ?></textarea>
+        </div>
+        <button type="submit" name="submit">Update</button>
+    </form>
+</body>
+</html>
+```
+
+## 4. Delete (Hapus Data)
+
+Buat file hapus.php untuk menghapus data:
+
+```php title="hapus.php"
+<?php
+include 'koneksi.php';
+
+$id = $_GET['id'];
+$query = "DELETE FROM mahasiswa WHERE id='$id'";
+
+if (mysqli_query($koneksi, $query)) {
+    header("Location: index.php");
+} else {
+    echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
+}
+?>
+```
+
+## Keamanan
+
+Dalam aplikasi nyata, Anda perlu menambahkan beberapa fitur keamanan:
+
+**1. Validasi Input**
+
+- Sanitasi input untuk mencegah SQL Injection
+- Validasi tipe data
+- Pembatasan panjang input
+
+**2. Prepared Statements**
+Gunakan prepared statements untuk query yang lebih aman:
+
+```php
+$stmt = $koneksi->prepare("INSERT INTO mahasiswa (nim, nama, jurusan, alamat) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssss", $nim, $nama, $jurusan, $alamat);
+```
+
+**3. Session Management**
+
+- Implementasi sistem login
+- Penggunaan token CSRF
+- Pembatasan akses
+
+### Kesimpulan
+
+Tutorial ini telah menunjukkan cara membuat aplikasi CRUD sederhana menggunakan PHP dan MySQL. Untuk pengembangan lebih lanjut, Anda bisa menambahkan:
+
+- Styling CSS untuk tampilan yang lebih menarik
+- Validasi form menggunakan JavaScript
+- Sistem autentikasi dan autorisasi
+- Pagination untuk data yang banyak
+- Fitur pencarian dan filter
