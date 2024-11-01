@@ -13,9 +13,6 @@ export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? siteConfig.url),
-  verification: {
-    google: "google35811d7512ee1aa5",
-  },
 };
 
 export const viewport: Viewport = {
@@ -32,6 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-pt-[3.5rem]" suppressHydrationWarning>
+      <head>
+        <meta name="google-site-verification" content="google35811d7512ee1aa5" />
+      </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <div className="relative flex min-h-dvh flex-col bg-background">
