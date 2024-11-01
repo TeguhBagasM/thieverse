@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-pt-[3.5rem]" suppressHydrationWarning>
       <head>
-        <meta name="google-site-verification" content="google35811d7512ee1aa5" />
+        <meta name="google-site-verification" content="SFZsDerrOFH4_XAzexbbAOG3_KbXgkMfdaLr9kyKJAc" />
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.variable)}>
         <ThemeProvider attribute="class" defaultTheme="light">
