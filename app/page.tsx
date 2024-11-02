@@ -5,18 +5,16 @@ import { posts } from "#site/content";
 import Link from "next/link";
 import { PostItem } from "@/components/post-item";
 import { FaWhatsapp } from "react-icons/fa";
-import { useMemo } from "react";
 
-const getRandomQuote = (seed: number) => {
-  const index = seed % codingQuotes.length;
+const getRandomQuote = () => {
+  const index = Math.floor(Math.random() * codingQuotes.length);
   return codingQuotes[index];
 };
 
 export default function Home() {
   const latestPosts = sortPosts(posts).slice(0, 6);
 
-  const today = new Date().toDateString();
-  const randomQuote = useMemo(() => getRandomQuote(today.length), [today]);
+  const randomQuote = getRandomQuote();
 
   return (
     <>
