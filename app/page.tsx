@@ -1,3 +1,5 @@
+"use client";
+
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig, codingQuotes } from "@/config/site";
 import { cn, sortPosts } from "@/lib/utils";
@@ -5,16 +7,37 @@ import { posts } from "#site/content";
 import Link from "next/link";
 import { PostItem } from "@/components/post-item";
 import { FaWhatsapp } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const getRandomQuote = () => {
   const index = Math.floor(Math.random() * codingQuotes.length);
   return codingQuotes[index];
 };
 
+function RandomQuote() {
+  // Mulai dengan state kosong
+  const [quote, setQuote] = useState({ quote: "", author: "" });
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setQuote(getRandomQuote());
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return (
+    <blockquote className="mt-6 border-l-4 border-blue-500 pl-4 italic">
+      <p className="text-lg">{quote.quote}</p>
+      <footer className="text-sm mt-2">- {quote.author}</footer>
+    </blockquote>
+  );
+}
+
 export default function Home() {
   const latestPosts = sortPosts(posts).slice(0, 6);
-
-  const randomQuote = getRandomQuote();
 
   return (
     <>
@@ -29,10 +52,7 @@ export default function Home() {
               dalam dunia coding. Selain artikel dan tutorial, saya juga membuka pintu untuk konsultasi
               coding.
             </p>
-            <blockquote className="mt-6 border-l-4 border-blue-500 pl-4 italic">
-              <p className="text-lg">{randomQuote.quote}</p>
-              <footer className="text-sm mt-2">- {randomQuote.author}</footer>
-            </blockquote>
+            <RandomQuote />
             <div className="flex flex-col gap-4 justify-center sm:flex-row mt-6">
               <Link
                 href="/blog"
