@@ -42,15 +42,6 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
 
           {/* Konten hover dengan transisi */}
           <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center space-y-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-            <Button
-              variant="outline"
-              onClick={handleViewDetail}
-              className="text-black dark:text-white border-white hover:text-blue-500 hover:border-blue-500 transition-colors flex items-center gap-2"
-            >
-              <Eye size={20} />
-              Detail
-            </Button>
-
             {deployedURL && (
               <CustomLink
                 aria-label={`Kunjungi ${title} live URL`}
