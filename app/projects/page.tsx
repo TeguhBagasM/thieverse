@@ -4,7 +4,7 @@ import { ProjectList, projects } from "@/components/projects";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `Project | ${siteConfig.name}`,
+  title: `Projects | ${siteConfig.name}`,
 };
 
 interface ProjectsPageProps {

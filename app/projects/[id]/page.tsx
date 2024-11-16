@@ -2,6 +2,12 @@
 import { notFound } from "next/navigation";
 import ProjectDetail from "@/components/projects/project-detail";
 import projects from "@/components/projects/_project-mock";
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: `Project Detail| ${siteConfig.name}`,
+};
 
 // Menambahkan informasi tambahan untuk setiap project
 const projectsWithDetails = projects.map((project) => ({
@@ -9,16 +15,28 @@ const projectsWithDetails = projects.map((project) => ({
   // Menambahkan field tambahan sesuai dengan project
   startDate:
     project.title === "Noteverse"
-      ? "Januari 2024"
+      ? "Agustus 2024"
       : project.title === "CSA STMIK-MI"
-        ? "November 2023"
-        : "2023",
+        ? "September 2024"
+        : project.title === "ThievStore"
+          ? "Maret 2024"
+          : project.title === "Sistem Pembayaran SPP"
+            ? "September 2021"
+            : project.title === "Sistem Reservasi Hotel"
+              ? "Maret 2022"
+              : "2023",
   endDate:
     project.title === "Noteverse"
-      ? "Februari 2024"
+      ? "Agustus 2024"
       : project.title === "CSA STMIK-MI"
-        ? "Desember 2023"
-        : "2024",
+        ? "Oktober 2024"
+        : project.title === "ThievStore"
+          ? "April 2024"
+          : project.title === "Sistem Pembayaran SPP"
+            ? "November 2021"
+            : project.title === "Sistem Reservasi Hotel"
+              ? "April 2022"
+              : "2024",
   features: getProjectFeatures(project.title),
   challenges: getProjectChallenges(project.title),
   techDetails: getProjectTechDetails(project.title, project.stacks),
@@ -44,12 +62,7 @@ function getProjectFeatures(title: string): string[] {
       ];
     // Tambahkan fitur untuk project lainnya
     default:
-      return [
-        "Tampilan responsif",
-        "User Interface yang modern",
-        "Optimasi performa",
-        "Cross-browser compatibility",
-      ];
+      return ["Tampilan responsif", "User Interface yang modern", "Optimasi performa"];
   }
 }
 
@@ -75,14 +88,13 @@ function getProjectChallenges(title: string): string[] {
         "Mengoptimalkan performa aplikasi",
         "Mengimplementasikan responsive design",
         "Mengelola state management",
-        "Mengintegrasikan berbagai teknologi",
       ];
   }
 }
 
 function getProjectTechDetails(title: string, stacks: string[]): string[] {
   const baseDetails = [
-    `Frontend dibangun dengan ${stacks[0]}`,
+    `Aplikasi dibangun dengan ${stacks[0]}`,
     `Styling menggunakan ${stacks.includes("Tailwind") ? "Tailwind CSS" : stacks.find((s) => s.includes("CSS")) || "CSS"}`,
   ];
 
