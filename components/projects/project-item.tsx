@@ -7,10 +7,14 @@ import { cn } from "@/lib/utils";
 import { typo } from "../ui/typography";
 import CustomLink from "./custom-link";
 import { TProject } from "./_project-mock";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { Eye } from "lucide-react";
 
 type ProjectItemProps = TProject;
 
 const ProjectItem: React.FC<ProjectItemProps> = ({
+  id,
   title,
   description,
   deployedURL,
@@ -20,9 +24,14 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   repoUrl,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const router = useRouter();
 
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleViewDetail = () => {
+    router.push(`/projects/${id}`);
   };
 
   return (
@@ -32,7 +41,16 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
           <Image alt={`${title} cover`} src={cover} layout="fill" objectFit="cover" />
 
           {/* Konten hover dengan transisi */}
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center space-y-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center space-y-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
+            <Button
+              variant="outline"
+              onClick={handleViewDetail}
+              className="text-black dark:text-white border-white hover:text-blue-500 hover:border-blue-500 transition-colors flex items-center gap-2"
+            >
+              <Eye size={20} />
+              Detail
+            </Button>
+
             {deployedURL && (
               <CustomLink
                 aria-label={`Kunjungi ${title} live URL`}
@@ -43,6 +61,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                 <span className="ml-2">Demo</span>
               </CustomLink>
             )}
+
             {isRepo && (
               <CustomLink
                 aria-label={`Kunjungi ${title} GitHub Repo`}
@@ -57,10 +76,23 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
         </div>
 
         <div className="p-4 space-y-2">
-          <h2 className="font-medium font-ubuntu text-base">{title}</h2>
+          <div className="flex justify-between items-start">
+            <h2 className="font-medium font-ubuntu text-base">{title}</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleViewDetail}
+              className="text-muted-foreground hover:text-primary"
+            >
+              <Eye size={16} className="mr-1" />
+              Detail
+            </Button>
+          </div>
+
           <p className="text-xs text-ring" aria-label="project stacks">
             {stacks.join(" / ")}
           </p>
+
           <div className={cn(typo({ variant: "paragraph", size: "sm" }), "relative")}>
             <p className={isExpanded ? "" : "line-clamp-2"}>{description}</p>
             {description.length > 100 && (

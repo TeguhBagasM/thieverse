@@ -46,6 +46,17 @@ const projects = [
   },
   {
     id: createId(),
+    title: `ThievStore`,
+    description:
+      "Thievstore adalah toko online yang dirancang untuk memudahkan proses jual beli produk secara online. Dengan tampilan yang user-friendly, pelanggan dapat dengan mudah mencari, memilih, dan membeli produk yang diinginkan.",
+    deployedURL: "https://thievbook.vercel.app/",
+    cover: "/images/projects/thievstore.png",
+    stacks: ["Next.js", "Typescript", "Prisma", "PostgreSQL", "Tailwind"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/thievstore",
+  },
+  {
+    id: createId(),
     title: `ThievChat`,
     description:
       "ThievChat adalah aplikasi real time yang dibangun dengan Tailwind CSS, Laravel Breeze, React, Inertia.js, dan fitur waktu nyata melalui Laravel Echo dan Pusher. Aplikasi ini mendukung pengiriman pesan yang lancar, autentikasi pengguna, pelacakan status online, dan manajemen percakapan dinamis untuk pengalaman yang intuitif.",
