@@ -77,6 +77,17 @@ const projects = [
     isRepo: true,
     repoUrl: "https://github.com/TeguhBagasM/ujikom-hotel",
   },
+  {
+    id: createId(),
+    title: `Sistem Pembayaran SPP`,
+    description:
+      "Mengembangkan sistem informasi untuk mengefektifkan proses pembayaran SPP, menjamin efisiensi dan akurasi pencatatan transaksi. Sistem ini meningkatkan pengalaman pengguna dengan memberikan solusi pembayaran yang lancar dan andal, mengurangi beban kerja administratif, dan meminimalkan kesalahan dalam dokumentasi keuangan.",
+    deployedURL: "",
+    cover: "/images/projects/spp.png",
+    stacks: ["PHP", "CSS", "Bootstrap", "MySQL"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/projectSPP",
+  },
 ];
 
 export default projects;
