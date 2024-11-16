@@ -49,7 +49,7 @@ const projects = [
     title: `ThievStore`,
     description:
       "Thievstore adalah toko online yang dirancang untuk memudahkan proses jual beli produk secara online. Dengan tampilan yang user-friendly, pelanggan dapat dengan mudah mencari, memilih, dan membeli produk yang diinginkan.",
-    deployedURL: "https://thievbook.vercel.app/",
+    deployedURL: "",
     cover: "/images/projects/thievstore.png",
     stacks: ["Next.js", "Typescript", "Prisma", "PostgreSQL", "Tailwind"],
     isRepo: true,
