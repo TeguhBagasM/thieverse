@@ -3,6 +3,16 @@ import { createId } from "@paralleldrive/cuid2";
 const projects = [
   {
     id: createId(),
+    title: `Marquizzy`,
+    description:
+      "Marquizzy adalah aplikasi quiz yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan Autentikasi menggunakan Clerk",
+    cover: "/images/projects/marquizzy.png",
+    stacks: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Tailwind", "Sanity"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/marquizzy",
+  },
+  {
+    id: createId(),
     title: `Noteverse`,
     description:
       "Noteverse adalah aplikasi catatan online yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan fitur login via Google dan GitHub, Noteverse memudahkan pengguna untuk menyimpan dan mengelola catatan mereka dengan tampilan yang simpel dan responsif berkat DaisyUI.",

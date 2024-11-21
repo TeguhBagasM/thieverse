@@ -22,9 +22,11 @@ const projectsWithDetails = projects.map((project) => ({
           ? "Maret 2024"
           : project.title === "Sistem Pembayaran SPP"
             ? "September 2021"
-            : project.title === "Sistem Reservasi Hotel"
-              ? "Maret 2022"
-              : "2023",
+            : project.title === "Marquizzy"
+              ? "November 2024"
+              : project.title === "Sistem Reservasi Hotel"
+                ? "Maret 2022"
+                : "2023",
   endDate:
     project.title === "Noteverse"
       ? "Agustus 2024"
@@ -34,9 +36,11 @@ const projectsWithDetails = projects.map((project) => ({
           ? "April 2024"
           : project.title === "Sistem Pembayaran SPP"
             ? "November 2021"
-            : project.title === "Sistem Reservasi Hotel"
-              ? "April 2022"
-              : "2024",
+            : project.title === "Marquizzy"
+              ? "November 2024"
+              : project.title === "Sistem Reservasi Hotel"
+                ? "April 2022"
+                : "2024",
   features: getProjectFeatures(project.title),
   challenges: getProjectChallenges(project.title),
   techDetails: getProjectTechDetails(project.title, project.stacks),
@@ -82,6 +86,13 @@ function getProjectChallenges(title: string): string[] {
         "Mengelola state untuk multiple chat rooms",
         "Mengimplementasikan fitur typing indicators",
       ];
+    case "Marquizzy":
+      return [
+        "Menangani koneksi real-time yang reliable",
+        "Mengoptimalkan penggunaan websocket",
+        "Mengelola state untuk multiple chat rooms",
+        "Mengimplementasikan fitur typing indicators",
+      ];
     // Tambahkan challenges untuk project lainnya
     default:
       return [
@@ -117,6 +128,14 @@ function getProjectTechDetails(title: string, stacks: string[]): string[] {
         ...baseDetails,
         "Implementasi OAuth untuk login dengan Google dan GitHub",
         "Server-side rendering dengan Next.js",
+        "API routes untuk handling backend requests",
+      ];
+    case "Marquizzy":
+      return [
+        ...baseDetails,
+        "Autentikasi menggunakan Clerk",
+        "Leaderboard untuk melihat point keseluruhan",
+        "Statistik User",
         "API routes untuk handling backend requests",
       ];
     case "ThievChat":
