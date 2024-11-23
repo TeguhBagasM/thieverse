@@ -13,14 +13,13 @@ const projects = [
   },
   {
     id: createId(),
-    title: `Noteverse`,
+    title: `CSA Quizzy`,
     description:
-      "Noteverse adalah aplikasi catatan online yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan fitur login via Google dan GitHub, Noteverse memudahkan pengguna untuk menyimpan dan mengelola catatan mereka dengan tampilan yang simpel dan responsif berkat DaisyUI.",
-    deployedURL: "https://noteverse-chi.vercel.app/",
-    cover: "/images/projects/noteverse.png",
-    stacks: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Tailwind"],
-    isRepo: true,
-    repoUrl: "https://github.com/TeguhBagasM/noteverse",
+      "CSA Quizzy adalah aplikasi kuis yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling nya.",
+    deployedURL: "https://csa-quizzy.vercel.app/",
+    cover: "/images/projects/csa-quizzy.png",
+    stacks: ["Next.js", "TypeScript", "Tailwind"],
+    isRepo: false,
   },
   {
     id: createId(),

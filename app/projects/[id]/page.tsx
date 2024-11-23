@@ -14,8 +14,8 @@ const projectsWithDetails = projects.map((project) => ({
   ...project,
   // Menambahkan field tambahan sesuai dengan project
   startDate:
-    project.title === "Noteverse"
-      ? "Agustus 2024"
+    project.title === "CSA Squizzy"
+      ? "November 2024"
       : project.title === "CSA STMIK-MI"
         ? "September 2024"
         : project.title === "ThievStore"
@@ -28,8 +28,8 @@ const projectsWithDetails = projects.map((project) => ({
                 ? "Maret 2022"
                 : "2023",
   endDate:
-    project.title === "Noteverse"
-      ? "Agustus 2024"
+    project.title === "CSA Quizzy"
+      ? "November 2024"
       : project.title === "CSA STMIK-MI"
         ? "Oktober 2024"
         : project.title === "ThievStore"
@@ -48,14 +48,6 @@ const projectsWithDetails = projects.map((project) => ({
 
 function getProjectFeatures(title: string): string[] {
   switch (title) {
-    case "Noteverse":
-      return [
-        "Autentikasi dengan Google dan GitHub",
-        "CRUD operasi untuk catatan",
-        "Tampilan responsif dengan DaisyUI",
-        "Penyimpanan data dengan PostgreSQL",
-        "Real-time updates",
-      ];
     case "ThievChat":
       return [
         "Real-time messaging dengan Laravel Echo dan Pusher",
@@ -72,13 +64,6 @@ function getProjectFeatures(title: string): string[] {
 
 function getProjectChallenges(title: string): string[] {
   switch (title) {
-    case "Noteverse":
-      return [
-        "Mengimplementasikan autentikasi yang aman",
-        "Optimasi performa dengan data yang banyak",
-        "Mengelola state management yang kompleks",
-        "Mengintegrasikan multiple third-party services",
-      ];
     case "ThievChat":
       return [
         "Menangani koneksi real-time yang reliable",
@@ -117,19 +102,11 @@ function getProjectTechDetails(title: string, stacks: string[]): string[] {
     baseDetails.push("Database PostgreSQL untuk penyimpanan data");
     baseDetails.push("Prisma sebagai ORM untuk manajemen database");
   }
-
   if (stacks.includes("MySQL")) {
     baseDetails.push("MySQL sebagai database relasional");
   }
 
   switch (title) {
-    case "Noteverse":
-      return [
-        ...baseDetails,
-        "Implementasi OAuth untuk login dengan Google dan GitHub",
-        "Server-side rendering dengan Next.js",
-        "API routes untuk handling backend requests",
-      ];
     case "Marquizzy":
       return [
         ...baseDetails,
