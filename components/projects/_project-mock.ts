@@ -15,7 +15,7 @@ const projects = [
     id: createId(),
     title: `CSA Quizzy`,
     description:
-      "CSA Quizzy adalah aplikasi kuis yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling nya.",
+      "CSA Quizzy adalah aplikasi kuis yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling-nya. Aplikasi ini memungkinkan pengguna untuk mengikuti berbagai kuis yang berfokus pada topik teknologi dan pengembangan web, seperti HTML, CSS, PHP, JavaScript, dan Laravel. Dengan tampilan yang responsif dan interaktif, pengguna dapat menikmati pengalaman belajar yang menyenangkan. Aplikasi ini juga dilengkapi dengan fitur penghitungan skor secara real-time.",
     deployedURL: "https://csa-quizzy.vercel.app/",
     cover: "/images/projects/csa-quizzy.png",
     stacks: ["Next.js", "TypeScript", "Tailwind"],
