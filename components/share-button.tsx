@@ -1,6 +1,7 @@
 "use client";
-import Link from "next/link";
+
 import React, { useState } from "react";
+import Link from "next/link";
 import { BsTwitterX, BsClipboard, BsClipboardCheck } from "react-icons/bs";
 import { Icons } from "./icons";
 import { FaWhatsapp } from "react-icons/fa";
@@ -30,7 +31,6 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
       await navigator.clipboard.writeText(url);
       setCopied(true);
 
-      // Reset copied state after 2 seconds
       setTimeout(() => {
         setCopied(false);
       }, 2000);
@@ -58,9 +58,9 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           aria-label="Copy link"
         >
           {copied ? (
-            <BsClipboardCheck className="size-4 text-green-600 dark:text-green-400" />
+            <BsClipboardCheck className="size-5 text-green-600 dark:text-green-400" />
           ) : (
-            <BsClipboard className="size-4 text-slate-600 dark:text-slate-400" />
+            <BsClipboard className="size-5 text-slate-600 dark:text-slate-400" />
           )}
         </button>
       </div>
