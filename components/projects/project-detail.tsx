@@ -24,7 +24,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
 
   return (
     <div className="container max-w-6xl py-6 lg:py-10">
-      {/* Header Section */}
       <div className="mb-8">
         <Button variant="ghost" className="mb-4 flex items-center gap-2" onClick={() => router.back()}>
           <ArrowLeft size={16} />
@@ -42,11 +41,8 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
         </div>
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Project Cover Image */}
           <div className="relative aspect-video rounded-lg overflow-hidden">
             <Image
               src={project.cover}
@@ -57,7 +53,6 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
             />
           </div>
 
-          {/* Project Description */}
           <Card>
             <CardContent className="pt-6">
               <h2 className="text-2xl font-semibold mb-4">Deskripsi Proyek</h2>
@@ -100,9 +95,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
           )}
         </div>
 
-        {/* Right Column - Project Info */}
         <div className="space-y-6">
-          {/* Project Links */}
           <Card>
             <CardContent className="pt-6">
               <h2 className="text-xl font-semibold mb-4">Tautan Proyek</h2>
