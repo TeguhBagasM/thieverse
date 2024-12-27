@@ -16,31 +16,39 @@ const projectsWithDetails = projects.map((project) => ({
   startDate:
     project.title === "CSA Quizzy"
       ? "November 2024"
-      : project.title === "CSA STMIK-MI"
-        ? "September 2024"
-        : project.title === "ThievStore"
-          ? "Maret 2024"
-          : project.title === "Sistem Pembayaran SPP"
-            ? "September 2021"
-            : project.title === "Marquizzy"
-              ? "November 2024"
-              : project.title === "Sistem Reservasi Hotel"
-                ? "Maret 2022"
-                : "2023",
+      : project.title === "SIMANIS"
+        ? "November 2024"
+        : project.title === "Marcourse"
+          ? "Oktober 2024"
+          : project.title === "CSA STMIK-MI"
+            ? "September 2024"
+            : project.title === "ThievStore"
+              ? "Maret 2024"
+              : project.title === "Sistem Pembayaran SPP"
+                ? "September 2021"
+                : project.title === "Marquizzy"
+                  ? "November 2024"
+                  : project.title === "Sistem Reservasi Hotel"
+                    ? "Maret 2022"
+                    : "2023",
   endDate:
     project.title === "CSA Quizzy"
       ? "November 2024"
-      : project.title === "CSA STMIK-MI"
-        ? "Oktober 2024"
-        : project.title === "ThievStore"
-          ? "April 2024"
-          : project.title === "Sistem Pembayaran SPP"
-            ? "November 2021"
-            : project.title === "Marquizzy"
-              ? "November 2024"
-              : project.title === "Sistem Reservasi Hotel"
-                ? "April 2022"
-                : "2024",
+      : project.title === "SIMANIS"
+        ? "Januari 2025"
+        : project.title === "Marcourse"
+          ? "November 2024"
+          : project.title === "CSA STMIK-MI"
+            ? "Oktober 2024"
+            : project.title === "ThievStore"
+              ? "April 2024"
+              : project.title === "Sistem Pembayaran SPP"
+                ? "November 2021"
+                : project.title === "Marquizzy"
+                  ? "November 2024"
+                  : project.title === "Sistem Reservasi Hotel"
+                    ? "April 2022"
+                    : "2024",
   features: getProjectFeatures(project.title),
   challenges: getProjectChallenges(project.title),
   techDetails: getProjectTechDetails(project.title, project.stacks),
@@ -55,6 +63,15 @@ function getProjectFeatures(title: string): string[] {
         "Status online tracking",
         "Manajemen percakapan dinamis",
         "Tampilan responsif dengan Tailwind CSS",
+      ];
+    case "SIMANIS":
+      return [
+        "Pemindaian QR code untuk pengembalian barang",
+        "Manajemen autentikasi pengguna dengan Laravel Breeze",
+        "Pelacakan status inventaris secara real-time",
+        "Pengelolaan data peminjaman dan pengembalian barang",
+        "Pengelolaan data asset dan barang habis pakai",
+        "Antarmuka responsif dan modern dengan Tailwind CSS",
       ];
     // Tambahkan fitur untuk project lainnya
     default:
