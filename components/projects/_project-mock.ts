@@ -3,6 +3,26 @@ import { createId } from "@paralleldrive/cuid2";
 const projects = [
   {
     id: createId(),
+    title: `Marcourse`,
+    description:
+      "Marcourse adalah platform Learning Management System (LMS) yang dirancang menggunakan Laravel Breeze untuk autentikasi, Tailwind CSS untuk antarmuka pengguna yang responsif, dan Spatie untuk manajemen role dan permission. Sistem ini didukung oleh MySQL sebagai basis data.",
+    cover: "/images/projects/marcourse.png",
+    stacks: ["Laravel", "Mysql", "Tailwind", "Spatie"],
+    isRepo: false,
+    // repoUrl: "https://github.com/TeguhBagasM/",
+  },
+  {
+    id: createId(),
+    title: `SIMANIS`,
+    description:
+      "SIMANIS (Sistem Manajemen Inventaris Sekolah) adalah aplikasi berbasis web yang dikembangkan menggunakan Laravel 11, Tailwind CSS, dan MySQL untuk mendukung pengelolaan inventaris sekolah secara efisien. Dengan integrasi Spatie untuk manajemen role dan permission, sistem ini menawarkan berbagai fitur unggulan seperti pemindaian QR code untuk proses pengembalian barang, pencatatan peminjaman, pelacakan stok barang, dan pengelolaan laporan inventaris. Antarmuka yang responsif dan modern memudahkan pengguna dari berbagai perangkat untuk mengakses dan mengelola data dengan mudah dan aman.",
+    cover: "/images/projects/simanis.png",
+    stacks: ["Laravel", "Mysql", "Tailwind", "Spatie"],
+    isRepo: false,
+    // repoUrl: "https://github.com/TeguhBagasM/",
+  },
+  {
+    id: createId(),
     title: `Marquizzy`,
     description:
       "Marquizzy adalah aplikasi quiz yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan Autentikasi menggunakan Clerk",

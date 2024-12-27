@@ -14,7 +14,7 @@ const projectsWithDetails = projects.map((project) => ({
   ...project,
   // Menambahkan field tambahan sesuai dengan project
   startDate:
-    project.title === "CSA Squizzy"
+    project.title === "CSA Quizzy"
       ? "November 2024"
       : project.title === "CSA STMIK-MI"
         ? "September 2024"
