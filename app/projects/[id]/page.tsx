@@ -9,10 +9,8 @@ export const metadata: Metadata = {
   title: `Project Detail| ${siteConfig.name}`,
 };
 
-// Menambahkan informasi tambahan untuk setiap project
 const projectsWithDetails = projects.map((project) => ({
   ...project,
-  // Menambahkan field tambahan sesuai dengan project
   startDate:
     project.title === "CSA Quizzy"
       ? "November 2024"
@@ -73,7 +71,6 @@ function getProjectFeatures(title: string): string[] {
         "Pengelolaan data asset dan barang habis pakai",
         "Antarmuka responsif dan modern dengan Tailwind CSS",
       ];
-    // Tambahkan fitur untuk project lainnya
     default:
       return ["Tampilan responsif", "User Interface yang modern", "Optimasi performa"];
   }
@@ -95,7 +92,14 @@ function getProjectChallenges(title: string): string[] {
         "Mengelola state untuk multiple chat rooms",
         "Mengimplementasikan fitur typing indicators",
       ];
-    // Tambahkan challenges untuk project lainnya
+    case "SIMANIS":
+      return [
+        "Mengintegrasikan QR code untuk pengembalian barang",
+        "Mengelola data inventaris secara efisien",
+        "Membangun sistem otorisasi role berbasis Spatie",
+        "Mengoptimalkan antarmuka dengan Tailwind CSS",
+        "Menyediakan laporan inventaris yang dapat diakses real-time",
+      ];
     default:
       return [
         "Mengoptimalkan performa aplikasi",
@@ -131,6 +135,17 @@ function getProjectTechDetails(title: string, stacks: string[]): string[] {
         "Leaderboard untuk melihat point keseluruhan",
         "Statistik User",
         "API routes untuk handling backend requests",
+      ];
+    case "SIMANIS":
+      return [
+        ...baseDetails,
+        "Pemindaian QR code untuk proses pengembalian barang",
+        "Manajemen autentikasi pengguna menggunakan Laravel",
+        "Role dan permission berbasis Spatie",
+        "Database MySQL untuk menyimpan data inventaris",
+        "Tampilan responsif menggunakan Tailwind CSS",
+        "Pembuatan laporan inventaris",
+        "Pengelolaan status barang secara real-time",
       ];
     case "ThievChat":
       return [
