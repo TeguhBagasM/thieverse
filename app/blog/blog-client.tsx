@@ -23,12 +23,10 @@ export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
   const searchParamsHook = useSearchParams();
   const query = searchParamsHook.get("query") || searchParams.query || "";
 
-  // Filter berdasarkan query
   const filteredPosts = posts
     .filter((post) => post.published)
     .filter((post) => post.title.toLowerCase().includes(query.toLowerCase()));
 
-  // Urutkan post
   const sortedPosts = sortPosts(filteredPosts);
 
   const displayPosts = sortedPosts.slice(0, displayCount);

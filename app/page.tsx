@@ -15,7 +15,6 @@ const getRandomQuote = () => {
 };
 
 function RandomQuote() {
-  // Mulai dengan state kosong
   const [quote, setQuote] = useState({ quote: "", author: "" });
   const [isClient, setIsClient] = useState(false);
 

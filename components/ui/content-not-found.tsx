@@ -1,7 +1,6 @@
 import { Frown } from "lucide-react";
 import React from "react";
 
-// Ganti dengan path gambar yang sesuai
 const NOT_FOUND_IMAGE_URL = "/images/not-found.png";
 
 const ContentNotFound = ({ text }: { text: string }) => {
