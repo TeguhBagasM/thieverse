@@ -31,7 +31,7 @@ export function MainNav() {
         About
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
       </Link>
-      <Link
+      {/* <Link
         href="/konsultasi"
         className={cn(
           "text-md font-medium transition-colors relative group hidden sm:inline-block",
@@ -40,7 +40,7 @@ export function MainNav() {
       >
         Konsultasi
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-      </Link>
+      </Link> */}
       <Link
         href="/projects"
         className={cn(
