@@ -50,13 +50,13 @@ export function MobileNav() {
           >
             About
           </MobileLink>
-          <MobileLink
+          {/* <MobileLink
             onOpenChange={setOpen}
             href="/konsultasi"
             className="hover:text-blue-500 transition-colors"
           >
             Konsultasi
-          </MobileLink>
+          </MobileLink> */}
           <MobileLink
             onOpenChange={setOpen}
             href="/projects"
