@@ -1,0 +1,185 @@
+---
+title: "Membuat CRUD dengan Upload Gambar"
+description: "Tutorial langkah demi langkah membuat aplikasi CRUD (Create, Read, Update, Delete) dengan fitur upload gambar menggunakan PHP dan MySQL."
+date: 2025-02-03
+tags: ["php", "mysql", "crud", "upload"]
+published: true
+img: "/images/blogs/crud-upload.png"
+---
+
+# Membuat CRUD dengan Upload Gambar di PHP dan MySQL
+
+## Pendahuluan
+
+CRUD (Create, Read, Update, Delete) merupakan operasi dasar dalam pengelolaan data. Dalam tutorial ini, kita akan membangun sistem CRUD yang dilengkapi fitur upload gambar menggunakan PHP dan MySQL.
+
+## Persiapan Database
+
+Buat database dan tabel untuk menyimpan data:
+
+```sql title="database.sql"
+CREATE DATABASE db_kampus;
+USE db_kampus;
+
+CREATE TABLE mahasiswa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nim VARCHAR(10) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    jurusan VARCHAR(100) NOT NULL,
+    alamat TEXT,
+    foto VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Koneksi Database
+
+Buat file `koneksi.php` untuk menghubungkan aplikasi dengan database:
+
+```php title="koneksi.php"
+<?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "db_kampus";
+
+$koneksi = mysqli_connect($host, $user, $pass, $db);
+
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+?>
+```
+
+## Menambahkan Data dengan Upload Gambar
+
+Buat file `tambah.php` untuk form penambahan data:
+
+```php title="tambah.php"
+<?php
+include 'koneksi.php';
+
+if (isset($_POST['submit'])) {
+    $nim = $_POST['nim'];
+    $nama = $_POST['nama'];
+    $jurusan = $_POST['jurusan'];
+    $alamat = $_POST['alamat'];
+
+    // Upload Gambar
+    $foto = $_FILES['foto']['name'];
+    $target = "uploads/" . basename($foto);
+
+    if (move_uploaded_file($_FILES['foto']['tmp_name'], $target)) {
+        $query = "INSERT INTO mahasiswa (nim, nama, jurusan, alamat, foto) VALUES ('$nim', '$nama', '$jurusan', '$alamat', '$foto')";
+
+        if (mysqli_query($koneksi, $query)) {
+            header("Location: index.php");
+        } else {
+            echo "Error: " . mysqli_error($koneksi);
+        }
+    } else {
+        echo "Gagal mengupload gambar.";
+    }
+}
+?>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="text" name="nim" placeholder="NIM" required>
+    <input type="text" name="nama" placeholder="Nama" required>
+    <input type="text" name="jurusan" placeholder="Jurusan" required>
+    <textarea name="alamat" placeholder="Alamat"></textarea>
+    <input type="file" name="foto" required>
+    <button type="submit" name="submit">Simpan</button>
+</form>
+```
+
+## Menampilkan Data
+
+```php title="index.php"
+<?php
+include 'koneksi.php';
+$query = "SELECT * FROM mahasiswa";
+$result = mysqli_query($koneksi, $query);
+?>
+
+<table border="1">
+    <tr>
+        <th>No</th>
+        <th>NIM</th>
+        <th>Nama</th>
+        <th>Jurusan</th>
+        <th>Alamat</th>
+        <th>Foto</th>
+        <th>Aksi</th>
+    </tr>
+    <?php $no = 1; while ($row = mysqli_fetch_assoc($result)) { ?>
+    <tr>
+        <td><?= $no++; ?></td>
+        <td><?= $row['nim']; ?></td>
+        <td><?= $row['nama']; ?></td>
+        <td><?= $row['jurusan']; ?></td>
+        <td><?= $row['alamat']; ?></td>
+        <td><img src="uploads/<?= $row['foto']; ?>" width="100"></td>
+        <td>
+            <a href="edit.php?id=<?= $row['id']; ?>">Edit</a>
+            <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin hapus?')">Hapus</a>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
+```
+
+## Mengedit Data
+
+```php title="edit.php"
+<?php
+include 'koneksi.php';
+$id = $_GET['id'];
+$query = "SELECT * FROM mahasiswa WHERE id='$id'";
+$result = mysqli_query($koneksi, $query);
+$row = mysqli_fetch_assoc($result);
+
+if (isset($_POST['submit'])) {
+    $nim = $_POST['nim'];
+    $nama = $_POST['nama'];
+    $jurusan = $_POST['jurusan'];
+    $alamat = $_POST['alamat'];
+
+    if ($_FILES['foto']['name']) {
+        $foto = $_FILES['foto']['name'];
+        $target = "uploads/" . basename($foto);
+        move_uploaded_file($_FILES['foto']['tmp_name'], $target);
+    } else {
+        $foto = $row['foto'];
+    }
+
+    $query = "UPDATE mahasiswa SET nim='$nim', nama='$nama', jurusan='$jurusan', alamat='$alamat', foto='$foto' WHERE id='$id'";
+
+    if (mysqli_query($koneksi, $query)) {
+        header("Location: index.php");
+    }
+}
+?>
+```
+
+## Menghapus Data
+
+```php title="hapus.php"
+<?php
+include 'koneksi.php';
+$id = $_GET['id'];
+$query = "SELECT foto FROM mahasiswa WHERE id='$id'";
+$result = mysqli_query($koneksi, $query);
+$row = mysqli_fetch_assoc($result);
+unlink("uploads/" . $row['foto']);
+$query = "DELETE FROM mahasiswa WHERE id='$id'";
+
+if (mysqli_query($koneksi, $query)) {
+    header("Location: index.php");
+}
+?>
+```
+
+## Kesimpulan
+
+Dalam tutorial ini, kita telah membuat sistem CRUD dengan fitur upload gambar menggunakan PHP dan MySQL. Anda bisa meningkatkan keamanan dengan validasi input dan menggunakan prepared statements.
