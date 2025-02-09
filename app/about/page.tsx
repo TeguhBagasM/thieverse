@@ -9,6 +9,8 @@ import Skills from "@/components/about/skills";
 import { Experience } from "@/components/about/experience";
 import { JOB_EXPERIENCE } from "@/config/experience";
 import Github from "@/components/about/github";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export const metadata: Metadata = {
   title: `About Me | ${siteConfig.name}`,
@@ -16,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const pdfUrl = "/CV-TeguhBagasMardiansyah.pdf";
   return (
     <>
       <div className="container max-w-6xl py-6 lg:py-10">
@@ -46,12 +49,12 @@ export default function AboutPage() {
 
           <div className="flex flex-col w-full md:w-2/3">
             <div className="flex justify-center">
-              {/* <a href={siteConfig.links.personalSite} target="_blank" rel="noopener noreferrer">
-                <DrawOutline>
-                  <span>My Portfolio</span>
-                  <FaExternalLinkAlt className="ml-2" />
-                </DrawOutline>
-              </a> */}
+              <Button asChild className="gap-2">
+                <a href={pdfUrl} download="CV-TeguhBagasMardiansyah.pdf">
+                  <Download className="h-4 w-4" />
+                  Download CV
+                </a>
+              </Button>
             </div>
             <p className="text-muted-foreground text-lg py-4">
               Seorang mahasiswa Teknik Informatika yang berdedikasi dengan minat kuat dalam merancang
