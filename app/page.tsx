@@ -1,13 +1,14 @@
 "use client";
 
 import { buttonVariants } from "@/components/ui/button";
-import { siteConfig, codingQuotes } from "@/config/site";
+import { codingQuotes } from "@/config/site";
 import { cn, sortPosts } from "@/lib/utils";
 import { posts } from "#site/content";
 import Link from "next/link";
 import { PostItem } from "@/components/post-item";
-import { FaWhatsapp } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { MdArticle } from "react-icons/md";
+import { FaRegNewspaper } from "react-icons/fa";
 
 const getRandomQuote = () => {
   const index = Math.floor(Math.random() * codingQuotes.length);
@@ -59,18 +60,17 @@ export default function Home() {
                   "w-full sm:w-fit bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 )}
               >
-                Lihat Semua Blog
+                <MdArticle className="mr-2 h-6 w-6" /> Lihat Semua Blog
               </Link>
               <Link
-                href={siteConfig.links.whatsapp}
-                target="_blank"
+                href="/project"
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
                   "w-full sm:w-fit border-2 border-blue-500 dark:border-blue-400 text-blue-500 dark:text-blue-400 py-3 px-8 rounded-full hover:bg-blue-500 dark:hover:bg-blue-400 hover:text-white dark:hover:text-white hover:border-blue-500 dark:hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
                 )}
               >
-                <FaWhatsapp className="mr-2 h-6 w-6" /> Chat Via Whatsapp
+                <FaRegNewspaper className="mr-2 h-6 w-6" /> Lihat Project
               </Link>
             </div>
           </div>
