@@ -60,17 +60,17 @@ export default function Home() {
                   "w-full sm:w-fit bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
                 )}
               >
-                <MdArticle className="mr-2 h-6 w-6" /> Lihat Semua Blog
+                <MdArticle className="mr-2 h-6 w-6" /> Jelajahi Wawasan
               </Link>
               <Link
-                href="/project"
+                href="/projects"
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
                   "w-full sm:w-fit border-2 border-blue-500 dark:border-blue-400 text-blue-500 dark:text-blue-400 py-3 px-8 rounded-full hover:bg-blue-500 dark:hover:bg-blue-400 hover:text-white dark:hover:text-white hover:border-blue-500 dark:hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
                 )}
               >
-                <FaRegNewspaper className="mr-2 h-6 w-6" /> Lihat Project
+                <FaRegNewspaper className="mr-2 h-6 w-6" /> Eksplorasi Proyek
               </Link>
             </div>
           </div>
