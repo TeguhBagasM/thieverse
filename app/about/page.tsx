@@ -8,6 +8,7 @@ import GradientText from "@/components/ui/gradient-text";
 import Skills from "@/components/about/skills";
 import { Experience } from "@/components/about/experience";
 import { JOB_EXPERIENCE } from "@/config/experience";
+import Github from "@/components/about/github";
 
 export const metadata: Metadata = {
   title: `About Me | ${siteConfig.name}`,
@@ -71,6 +72,11 @@ export default function AboutPage() {
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
         <h2 className="text-3xl font-bold mb-6">Pengalaman</h2>
         <Experience experience={JOB_EXPERIENCE} />
+      </div>
+      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+        <div className="flex justify-center">
+          <Github username="TeguhBagasM" />
+        </div>
       </div>
     </>
   );
