@@ -47,7 +47,7 @@ const projects = [
     title: `CSA STMIK-MI`,
     description:
       "CSA (Creative Student Association) adalah organisasi berbasis TI yang terletak di STMIK Mardira Indonesia. Organisasi ini mencakup semua aspek TI, seperti Pemrograman, Multimedia, IoT, dan Pengembangan Game.",
-    deployedURL: "https://csa-stmikmi.vercel.app/",
+    deployedURL: "https://csa-stmik.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
     stacks: ["React.js", "Tailwind"],
     isRepo: true,
