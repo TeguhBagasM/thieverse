@@ -157,6 +157,8 @@ Route::resource('mahasiswa', MahasiswaController::class);
 File layouts.app (Layout Utama)
 File ini digunakan untuk menyusun tampilan yang konsisten pada semua halaman. Letakkan di resources/views/layouts/app.blade.php.
 
+### File Layout (`resources/views/layouts/app.blade.php`)
+
 ```php title="app.blade.php"
 <!DOCTYPE html>
 <html lang="id">
@@ -268,7 +270,7 @@ Buat folder resources/views/mahasiswa/ lalu buat beberapa file berikut:
 
 ### Form Edit Mahasiswa (`resources/views/mahasiswa/edit.blade.php`)
 
-```php
+```php title="edit.blade.php"
 @extends('layouts.app')
 
 @section('content')
