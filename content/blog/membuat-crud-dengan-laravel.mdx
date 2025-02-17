@@ -86,7 +86,7 @@ php artisan make:controller MahasiswaController --resource
 
 Edit `app/Http/Controllers/MahasiswaController.php`:
 
-```php
+```php title="MahasiswaController.php"
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
@@ -146,7 +146,7 @@ class MahasiswaController extends Controller
 
 Tambahkan route di `routes/web.php`:
 
-```php
+```php title="web.php"
 use App\Http\Controllers\MahasiswaController;
 
 Route::resource('mahasiswa', MahasiswaController::class);
@@ -154,9 +154,42 @@ Route::resource('mahasiswa', MahasiswaController::class);
 
 ## 6. Buat View dengan Bootstrap
 
+File layouts.app (Layout Utama)
+File ini digunakan untuk menyusun tampilan yang konsisten pada semua halaman. Letakkan di resources/views/layouts/app.blade.php.
+
+```php title="app.blade.php"
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'CRUD Mahasiswa')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('mahasiswa.index') }}">CRUD Mahasiswa</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        @yield('content')
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+Buat folder resources/views/mahasiswa/ lalu buat beberapa file berikut:
+
 ### Tampilkan Data Mahasiswa (`resources/views/mahasiswa/index.blade.php`)
 
-```php
+```php title="index.blade.php"
 @extends('layouts.app')
 
 @section('content')
@@ -228,6 +261,40 @@ Route::resource('mahasiswa', MahasiswaController::class);
             <input type="text" name="jurusan" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-success">Simpan</button>
+    </form>
+</div>
+@endsection
+```
+
+### Form Edit Mahasiswa (`resources/views/mahasiswa/edit.blade.php`)
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h2>Edit Mahasiswa</h2>
+    <form action="{{ route('mahasiswa.update', $mahasiswa) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="mb-3">
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" value="{{ $mahasiswa->nama }}" required>
+        </div>
+        <div class="mb-3">
+            <label>NIM</label>
+            <input type="text" name="nim" class="form-control" value="{{ $mahasiswa->nim }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" value="{{ $mahasiswa->email }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Jurusan</label>
+            <input type="text" name="jurusan" class="form-control" value="{{ $mahasiswa->jurusan }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection
