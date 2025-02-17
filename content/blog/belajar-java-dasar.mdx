@@ -1,0 +1,146 @@
+---
+title: "Belajar Java Dasar"
+description: "Panduan lengkap belajar Java dari nol. Cocok untuk pemula yang ingin memahami dasar-dasar pemrograman dengan Java."
+date: 2025-02-17
+tags: ["java", "pemula"]
+published: true
+img: "/images/blogs/java.jpg"
+---
+
+# Java untuk Pemula: Panduan Memulai Pemrograman
+
+Java adalah salah satu bahasa pemrograman yang paling populer dan banyak digunakan di berbagai bidang, mulai dari aplikasi desktop, web, hingga pengembangan Android. Dalam panduan ini, kita akan menjelajahi dasar-dasar Java yang perlu diketahui oleh setiap pemula.
+
+<Image src="/images/blogs/java.jpg" width="718" height="304" alt="Logo Java" />
+
+## Apa itu Java?
+
+Java adalah bahasa pemrograman berorientasi objek yang dikembangkan oleh Sun Microsystems (sekarang dimiliki oleh Oracle). Java bersifat _platform-independent_, yang berarti dapat dijalankan di berbagai sistem operasi menggunakan Java Virtual Machine (JVM).
+
+## Mengapa Belajar Java?
+
+1. Java banyak digunakan di industri
+2. Berbasis _Write Once, Run Anywhere_ (WORA)
+3. Mendukung pemrograman berorientasi objek (OOP)
+4. Memiliki ekosistem yang luas dan komunitas besar
+5. Digunakan dalam pengembangan aplikasi Android
+
+## Memulai dengan Java
+
+Untuk mulai menggunakan Java, Anda memerlukan:
+
+1. JDK (Java Development Kit)
+2. Editor kode seperti VS Code, IntelliJ IDEA, atau Eclipse
+3. Terminal atau Command Prompt untuk menjalankan program
+
+## Sintaks Dasar Java
+
+File Java memiliki ekstensi ".java". Kode Java ditulis dalam kelas dengan fungsi `main` sebagai titik awal program.
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+## Variabel dalam Java
+
+Java memiliki beberapa tipe data dasar:
+
+```java
+public class VariabelJava {
+    public static void main(String[] args) {
+        String teks = "Hello, World!";
+        int angka = 42;
+        double pecahan = 3.14;
+        boolean status = true;
+
+        System.out.println(teks);
+        System.out.println(angka);
+        System.out.println(pecahan);
+        System.out.println(status);
+    }
+}
+```
+
+## Tipe Data dalam Java
+
+Java mendukung tipe data berikut:
+
+1. **Primitif**: `int`, `double`, `char`, `boolean`, dll.
+2. **Referensi**: `String`, `Array`, `Object`, dll.
+
+```java
+int umur = 25;
+double tinggi = 175.5;
+char huruf = 'A';
+boolean isJavaMudah = true;
+String nama = "Bagas";
+```
+
+## Operator dalam Java
+
+Java memiliki beberapa jenis operator:
+
+1. **Aritmatika**: `+`, `-`, `*`, `/`, `%`
+2. **Perbandingan**: `==`, `!=`, `>`, `<`, `>=`, `<=`
+3. **Logika**: `&&`, `||`, `!`
+4. **Penugasan**: `=`, `+=`, `-=`, `*=`, `/=`
+
+```java
+int a = 10;
+int b = 5;
+System.out.println(a + b); // Output: 15
+System.out.println(a == b); // Output: false
+```
+
+## Struktur Kontrol
+
+Java mendukung berbagai struktur kontrol seperti:
+
+1. **if, else, else if**
+2. **switch**
+3. **for, while, do-while**
+
+```java
+int waktu = 14;
+
+if (waktu < 12) {
+    System.out.println("Selamat pagi!");
+} else if (waktu < 18) {
+    System.out.println("Selamat siang!");
+} else {
+    System.out.println("Selamat malam!");
+}
+```
+
+## Method dalam Java
+
+Method adalah blok kode yang dapat dipanggil kembali.
+
+```java
+public class ContohMethod {
+    static void sapa() {
+        System.out.println("Halo, selamat belajar Java!");
+    }
+
+    public static void main(String[] args) {
+        sapa();
+    }
+}
+```
+
+## Array dalam Java
+
+Array digunakan untuk menyimpan banyak nilai dalam satu variabel.
+
+```java
+public class ContohArray {
+    public static void main(String[] args) {
+        String[] buah = {"Apel", "Pisang", "Jeruk"};
+        System.out.println(buah[0]); // Output: Apel
+    }
+}
+```
