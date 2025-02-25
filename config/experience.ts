@@ -11,6 +11,16 @@ export interface JobExperience {
 
 export const JOB_EXPERIENCE = [
   {
+    ocupation: "Ketua CSA",
+    company: "Creative Student Association",
+    url: "https://csa-stmikmi.vercel.app",
+    location: "Kampus STMIK Mardira Indonesia",
+    startDate: "2024-01-05",
+    description:
+      "Sebagai Ketua Creative Student Association (CSA), saya bertanggung jawab dalam memimpin organisasi yang berfokus pada pengembangan teknologi dan kreativitas anggota.",
+  },
+
+  {
     ocupation: "Kursus Web untuk Pemula",
     company: "",
     url: "",
