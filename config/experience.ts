@@ -15,7 +15,7 @@ export const JOB_EXPERIENCE = [
     company: "Creative Student Association",
     url: "https://csa-stmikmi.vercel.app",
     location: "Kampus STMIK Mardira Indonesia",
-    startDate: "2024-01-05",
+    startDate: "2025-01-25",
     description:
       "Sebagai Ketua Creative Student Association (CSA), saya bertanggung jawab dalam memimpin organisasi yang berfokus pada pengembangan teknologi dan kreativitas anggota.",
   },
