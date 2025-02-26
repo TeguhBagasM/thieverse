@@ -39,7 +39,7 @@ const SkillsList = ({ stacks }: { stacks: stacksProps }) => {
 
             {isMastered && (
               <FaStar
-                className="absolute top-0 right-0 translate-x-1/2 translate-y-[-20%] text-yellow-400 text-sm drop-shadow-md"
+                className="absolute top-0 right-0 translate-x-1/2 translate-y-[-15%] text-yellow-400 text-sm drop-shadow-md"
                 aria-label="Mastered"
               />
             )}
