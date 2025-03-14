@@ -50,8 +50,7 @@ const projects = [
     deployedURL: "https://csa-stmik.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
     stacks: ["React.js", "Tailwind"],
-    isRepo: true,
-    repoUrl: "https://github.com/TeguhBagasM/csa-stmikmi",
+    isRepo: false,
   },
   {
     id: createId(),
