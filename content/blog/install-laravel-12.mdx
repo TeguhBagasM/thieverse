@@ -1,0 +1,212 @@
+---
+title: "Cara Menginstal Laravel"
+description: "Panduan langkah demi langkah untuk menginstal Laravel, framework PHP yang populer untuk pengembangan web modern."
+date: 2025-03-14
+tags: ["laravel", "php"]
+published: true
+img: "/images/blogs/laravel.png"
+---
+
+# Cara Menginstal Laravel: Panduan untuk Pemula
+
+## Pengertian PHP
+
+PHP adalah salah satu bahasa pemrograman yang paling banyak digunakan dalam pengembangan web. Hal ini juga bukan tanpa alasan, PHP adalah bahasa pemrograman yang menjadikan WordPress, sistem manajemen konten yang paling banyak digunakan di dunia. PHP adalah bahasa pengembangan sisi server atau bahasa pemrograman back-end. Laravel adalah kerangka kerja PHP yang terkenal.
+
+## Pengertian Laravel
+
+Laravel adalah framework kerangka pemrograman PHP yang dapat digunakan untuk meningkatkan efisiensi pembangunan situs web. Website yang dihasilkan akan lebih dinamis dan teroptimasi jika framework ini digunakan. Pemrograman PHP menjadi lebih bertenaga dan optimal bila dibangun di atas sebuah framework ini karena dibandingkan dengan framework lain, framework ini memiliki kehadiran yang lebih baik dan fitur yang lebih sedikit.
+
+<Image src="/images/blogs/laravel/laravel.png" width="718" height="304" alt="Logo Laravel" />
+
+Sebelum kita mulai, pastikan Anda telah menginstal:
+
+- PHP disarankan (versi 8. atau lebih baru)
+- Composer
+- Node.js dan NPM (opsional, tapi direkomendasikan)
+
+## **Langkah 1: Install Composer**
+
+**Composer** adalah manajer dependensi untuk PHP yang digunakan untuk mengelola paket dan library dalam proyek Laravel.
+
+### **1. Instal Composer**
+
+Jika belum menginstal Composer, ikuti langkah-langkah berikut:
+
+1. **Kunjungi situs resmi Composer** → [getcomposer.org](https://getcomposer.org/)
+2. **Unduh installer sesuai sistem operasi Anda** (Windows, macOS, atau Linux)
+3. **Jalankan installer dan ikuti petunjuknya**
+
+### **2. Verifikasi Instalasi**
+
+Setelah instalasi selesai, pastikan Composer sudah terinstal dengan benar dengan menjalankan perintah berikut di terminal:
+
+```bash
+composer --version
+```
+
+Jika berhasil, akan muncul tampilan versi Composer seperti berikut:
+
+<Image
+  src="/images/blogs/laravel/composer-version.png"
+  width="718"
+  height="304"
+  alt="Cek Versi Composer"
+/>{" "}
+
+> **💡 Tips:** Gunakan versi terbaru Composer untuk menghindari error dan mendapatkan fitur terbaru.
+
+## **Langkah 2: Instal Laravel**
+
+Setelah Composer terinstal, sekarang kita akan menginstal Laravel dan membuat proyek baru.
+
+### **1. Buka Terminal**
+
+Buka **Command Prompt (CMD), Terminal, atau Git Bash** di komputer Anda.
+
+### **2. Navigasikan ke Folder Proyek**
+
+Pilih lokasi tempat Anda ingin menyimpan proyek Laravel. Misalnya, jika ingin menyimpan di folder `Documents`, jalankan:
+
+```bash
+cd Documents
+```
+
+### **3. Buat Proyek Laravel Baru**
+
+Jalankan perintah berikut untuk mengunduh dan menginstal Laravel:
+
+```bash
+composer create-project --prefer-dist laravel/laravel belajar_laravel
+```
+
+Perintah ini akan membuat folder **belajar_laravel** yang berisi semua file dan konfigurasi Laravel versi terbaru (misalnya 12.x.x).
+
+### **4. Jalankan Laravel**
+
+Setelah instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
+
+```bash
+cd belajar_laravel
+php artisan serve
+```
+
+Jika berhasil, akan muncul tampilan seperti ini:
+
+<Image
+  src="/images/blogs/laravel/jalankan-laravel.png"
+  width="728"
+  height="304"
+  alt="Jalankan Laravel"
+/>{" "}
+
+### **5. Akses Laravel di Browser**
+
+Buka web browser dan ketik alamat berikut:
+
+```
+http://localhost:8000
+```
+
+Jika semuanya berjalan lancar, Anda akan melihat halaman awal Laravel seperti ini:
+
+<Image
+  src="/images/blogs/laravel/laravel-awal.png"
+  width="728"
+  height="304"
+  alt="Tampilan Awal Laravel"
+/>{" "}
+
+## Langkah 3: Konfigurasi Proyek
+
+1. **Buka proyek di text editor** yang kalian gunakan, seperti VS Code atau PHPStorm.
+2. **Cari file** bernama **.env** di dalam folder proyek kalian.
+3. **Temukan baris berikut** di dalam file .env:
+
+   ```ini title=".env"
+   DB_CONNECTION=sqlite
+   # DB_HOST=127.0.0.1
+   # DB_PORT=3306
+   # DB_DATABASE=laravel
+   # DB_USERNAME=root
+   # DB_PASSWORD=
+   ```
+
+4. **Ubah kodenya menjadi seperti ini** agar Laravel menggunakan database MySQL:
+
+   ```ini title=".env"
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=db_belajar_laravel
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+5. **Simpan perubahan** pada file .env
+
+6. **Jalankan perintah berikut di terminal** untuk menerapkan perubahan ke database:
+
+   ```bash
+   php artisan migrate
+   ```
+
+   Perintah ini akan membuat tabel-tabel yang diperlukan oleh Laravel di database kalian.
+
+7. **Jika berhasil**, kalian akan melihat tampilan seperti berikut ini:
+
+   <Image src="/images/blogs/laravel/migrate-db.png" width="728" height="304" alt="migrate db" />
+
+Penjelasan tambahan:
+
+- **`DB_CONNECTION=mysql`** → Menggunakan MySQL sebagai database.
+- **`DB_HOST=127.0.0.1`** → Database berjalan di komputer lokal.
+- **`DB_PORT=3306`** → Port default untuk MySQL.
+- **`DB_DATABASE=db_belajar_laravel`** → Nama database yang digunakan.
+- **`DB_USERNAME=root` & `DB_PASSWORD=`** → Username dan password default MySQL.
+
+**Catatan:**  
+Jika kalian menggunakan **XAMPP**, pastikan **MySQL sudah dinyalakan** sebelum menjalankan `php artisan migrate`.
+
+Teks ini sudah cukup mudah dipahami, tetapi bisa dibuat lebih jelas dan ramah bagi pemula. Berikut adalah perbaikannya:
+
+## Langkah 4: Instal Dependensi Frontend (Opsional)
+
+Jika proyek Laravel Anda menggunakan fitur frontend seperti **Vue.js** atau **React**, maka Anda perlu menginstal dependensi frontend.
+
+### 1. **Instal Dependensi NPM**
+
+Jalankan perintah berikut di terminal untuk menginstal semua paket frontend yang diperlukan:
+
+```bash
+npm install
+```
+
+### 2. **Compile Aset Frontend**
+
+Setelah proses instalasi selesai, jalankan perintah berikut untuk mengompilasi aset frontend seperti CSS dan JavaScript:
+
+```bash
+npm run dev
+```
+
+### 🔥 **Tips Tambahan**
+
+✅ **Gunakan Artisan**  
+Laravel memiliki command-line tool bernama **Artisan** yang sangat membantu dalam pengembangan. Gunakan perintah `php artisan` untuk melihat daftar perintah yang tersedia.
+
+✅ **Baca Dokumentasi Resmi**  
+Laravel selalu diperbarui dengan fitur baru. Cek dokumentasi resmi di **[laravel.com/docs](https://laravel.com/docs)** untuk informasi terbaru.
+
+✅ **Bergabung dengan Komunitas Laravel**  
+Dapatkan bantuan dan pelajari lebih lanjut di:
+
+- **Laravel.io** → Forum diskusi resmi Laravel.
+- **Laracasts** → Video tutorial premium Laravel.
+- **Grup Facebook & Discord Laravel** → Bergabung dengan komunitas developer Laravel lainnya.
+
+## 🎉 **Kesimpulan**
+
+Selamat! 🎊 Anda telah berhasil menginstal Laravel dan siap untuk mulai membangun aplikasi web modern. Dengan berbagai fitur dan ekosistemnya yang kuat, Laravel akan membantu Anda membuat aplikasi yang scalable dan powerful.
+
+🚀 **Selamat coding! Jangan ragu untuk terus belajar dan eksplorasi dunia Laravel!** 💡🔥
