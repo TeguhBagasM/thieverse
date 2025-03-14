@@ -74,13 +74,24 @@ cd Documents
 
 ### **3. Buat Proyek Laravel Baru**
 
-Jalankan perintah berikut untuk mengunduh dan menginstal Laravel:
+Jalankan perintah berikut untuk mengunduh dan menginstal Laravel versi terbaru:
 
 ```bash
 composer create-project --prefer-dist laravel/laravel belajar_laravel
 ```
 
-Perintah ini akan membuat folder **belajar_laravel** yang berisi semua file dan konfigurasi Laravel versi terbaru (misalnya 12.x.x).
+Perintah ini akan membuat folder **`belajar_laravel`** yang berisi semua file dan konfigurasi Laravel versi terbaru (misalnya **12.x.x**).
+
+#### **🔹 Menginstal Laravel Versi Tertentu**
+
+Jika Anda ingin menginstal versi Laravel yang lebih lama (misalnya Laravel **11**), gunakan perintah berikut:
+
+```bash
+composer create-project --prefer-dist laravel/laravel belajar_laravel "11.*"
+```
+
+> **Catatan:**  
+> Gantilah **"11.\*"** dengan versi Laravel yang Anda inginkan. Pastikan versi tersebut masih didukung dan kompatibel dengan PHP yang Anda gunakan.
 
 ### **4. Jalankan Laravel**
 
