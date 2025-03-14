@@ -3,6 +3,16 @@ import { createId } from "@paralleldrive/cuid2";
 const projects = [
   {
     id: createId(),
+    title: `SpendTvise`,
+    description:
+      "SpendTvise adalah aplikasi berbasis website untuk mengelola keuangan pribadi. Fitur utama mencakup pencatatan pemasukan dan pengeluaran, visualisasi data keuangan melalui grafik dan bagan, serta fitur tambahan seperti pembuatan anggaran dan pelacakan tujuan keuangan. Tujuannya adalah memberikan gambaran jelas kondisi keuangan dan membantu pengambilan keputusan finansial yang lebih baik.",
+    cover: "/images/projects/spendtvise.png",
+    stacks: ["Mysql", "Express.js", "React", "Node.js", "Tailwind"],
+    isRepo: false,
+    // repoUrl: "https://github.com/TeguhBagasM/",
+  },
+  {
+    id: createId(),
     title: `Marcourse`,
     description:
       "Marcourse adalah platform Learning Management System (LMS) yang dirancang menggunakan Laravel Breeze untuk autentikasi, Tailwind CSS untuk antarmuka pengguna yang responsif, dan Spatie untuk manajemen role dan permission. Sistem ini didukung oleh MySQL sebagai basis data.",
