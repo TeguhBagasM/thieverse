@@ -95,7 +95,34 @@ composer create-project --prefer-dist laravel/laravel belajar_laravel "11.*"
 
 ### **4. Jalankan Laravel**
 
-Setelah instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
+Jika ada error seperti ini saat proses instalasi:
+
+<Image
+  src="/images/blogs/laravel/error-instalasi.jpeg"
+  width="718"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+langkah pertama yang harus anda lakukan adalah buka xampp, klik tombol "Config" pada baris "Apache", lalu pilih "PHP (php.ini)".
+
+<Image
+  src="/images/blogs/laravel/langkah-error-1.png"
+  width="718"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+setelah terbuka, Tekan Ctrl + F dan cari kata "zip". lalu Hapus tanda titik koma (;) di awal baris tersebut sehingga menjadi extension=zip seperti gambar dibawah ini
+
+<Image
+  src="/images/blogs/laravel/langkah-error-2.png"
+  width="718"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+Setelah selesai tekan CTRL + S untuk simpan perubahan, Jika tidak ada error atau proses instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
 
 ```bash
 cd belajar_laravel
