@@ -88,6 +88,17 @@ export default function Home() {
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl font-black text-center mb-8">
           Blog Terbaru
         </h2>
+        <div className="flex justify-end mb-4">
+          <Link
+            href="/blog"
+            className={cn(
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "border border-gray-300 dark:border-gray-600 bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium py-2 px-4 rounded-full transition-all duration-300 ease-in-out"
+            )}
+          >
+            Lihat Semua →
+          </Link>
+        </div>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
           {latestPosts.map(
             (post) =>
