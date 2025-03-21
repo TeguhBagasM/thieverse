@@ -56,7 +56,22 @@ Jika berhasil, akan muncul tampilan versi Composer seperti berikut:
 
 > **💡 Tips:** Gunakan versi terbaru Composer untuk menghindari error dan mendapatkan fitur terbaru.
 
-## Langkah 2: Instal Laravel
+## Langkah 2: Install Node.js
+
+Node.js diperlukan untuk mengelola aset frontend seperti CSS dan JavaScript dalam proyek Laravel.
+
+1. Instal Node.js
+
+- Kunjungi situs resmi Node,js → [nodejs.org](https://nodejs.org/en)
+- Unduh versi LTS (Long-Term Support) yang direkomendasikan untuk sebagian besar pengguna
+- Jalankan installer dan ikuti petunjuknya
+
+2. Verifikasi Instalasi
+   Setelah instalasi selesai, pastikan Node.js dan npm (Node Package Manager) sudah terinstal dengan benar dengan menjalankan perintah berikut di terminal:
+
+   <Image src="/images/blogs/laravel/versi-node.png" width="310" height="304" alt="error instalasi" />
+
+## Langkah 3: Instal Laravel
 
 Setelah Composer terinstal, sekarang kita akan menginstal Laravel dan membuat proyek baru.
 
@@ -93,6 +108,35 @@ composer create-project --prefer-dist laravel/laravel belajar_laravel "11.*"
 > **Catatan:**  
 > Gantilah **"11.\*"** dengan versi Laravel yang Anda inginkan. Pastikan versi tersebut masih didukung dan kompatibel dengan PHP yang Anda gunakan.
 
+Jika ada error seperti ini saat proses instalasi:
+
+<Image
+  src="/images/blogs/laravel/error-instalasi.jpeg"
+  width="810"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+langkah pertama yang harus anda lakukan adalah buka xampp, klik tombol "Config" pada baris "Apache", lalu pilih "PHP (php.ini)".
+
+<Image
+  src="/images/blogs/laravel/langkah-error-1.png"
+  width="748"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+setelah terbuka, Tekan Ctrl + F dan cari kata "zip". lalu Hapus tanda titik koma (;) di awal baris tersebut sehingga menjadi extension=zip seperti gambar dibawah ini
+
+<Image
+  src="/images/blogs/laravel/langkah-error-2.png"
+  width="788"
+  height="304"
+  alt="error instalasi"
+/>{" "}
+
+Setelah selesai tekan CTRL + S untuk simpan perubahan.
+
 ### 4. Menginstal Laravel UI dengan Bootstrap dan Autentikasi
 
 > **Catatan:**  
@@ -124,46 +168,22 @@ php artisan ui bootstrap --auth
 npm install
 ```
 
-- Kompilasi aset (CSS dan JavaScript):
-
-```bash
-npm run dev
-```
-
 ### 4. Jalankan Laravel
 
-Jika ada error seperti ini saat proses instalasi:
+> **Catatan**
+> Untuk menjalankan aplikasi Laravel, maka wajib menggunakan 2 terminal secara terpisah
+> Terminal 1 jalankan perintah php artisan serve
+> Terminal 2 jalankan perintah npm run dev
 
-<Image
-  src="/images/blogs/laravel/error-instalasi.jpeg"
-  width="810"
-  height="304"
-  alt="error instalasi"
-/>{" "}
-
-langkah pertama yang harus anda lakukan adalah buka xampp, klik tombol "Config" pada baris "Apache", lalu pilih "PHP (php.ini)".
-
-<Image
-  src="/images/blogs/laravel/langkah-error-1.png"
-  width="748"
-  height="304"
-  alt="error instalasi"
-/>{" "}
-
-setelah terbuka, Tekan Ctrl + F dan cari kata "zip". lalu Hapus tanda titik koma (;) di awal baris tersebut sehingga menjadi extension=zip seperti gambar dibawah ini
-
-<Image
-  src="/images/blogs/laravel/langkah-error-2.png"
-  width="788"
-  height="304"
-  alt="error instalasi"
-/>{" "}
-
-Setelah selesai tekan CTRL + S untuk simpan perubahan, Jika tidak ada error atau proses instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
+Jika tidak ada error atau proses instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
 
 ```bash
 cd belajar_laravel
 php artisan serve
+```
+
+```bash
+npm run dev
 ```
 
 Jika berhasil, akan muncul tampilan seperti ini:
@@ -192,7 +212,7 @@ Jika semuanya berjalan lancar, Anda akan melihat halaman awal Laravel seperti in
   alt="Tampilan Awal Laravel"
 />{" "}
 
-## Langkah 3: Konfigurasi Proyek
+## Langkah 4: Konfigurasi Proyek
 
 1. **Buka proyek di text editor** yang kalian gunakan, seperti VS Code atau PHPStorm.
 2. **Cari file** bernama **.env** di dalam folder proyek kalian.
@@ -244,26 +264,6 @@ Penjelasan tambahan:
 Jika kalian menggunakan **XAMPP**, pastikan **MySQL sudah dinyalakan** sebelum menjalankan `php artisan migrate`.
 
 Teks ini sudah cukup mudah dipahami, tetapi bisa dibuat lebih jelas dan ramah bagi pemula. Berikut adalah perbaikannya:
-
-## Langkah 4: Instal Dependensi Frontend (Opsional)
-
-Jika proyek Laravel Anda menggunakan fitur frontend seperti **Vue.js** atau **React**, maka Anda perlu menginstal dependensi frontend.
-
-### 1. Instal Dependensi NPM
-
-Jalankan perintah berikut di terminal untuk menginstal semua paket frontend yang diperlukan:
-
-```bash
-npm install
-```
-
-### 2. Compile Aset Frontend
-
-Setelah proses instalasi selesai, jalankan perintah berikut untuk mengompilasi aset frontend seperti CSS dan JavaScript:
-
-```bash
-npm run dev
-```
 
 ### Tips Tambah
 
