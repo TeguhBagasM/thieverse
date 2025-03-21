@@ -93,6 +93,43 @@ composer create-project --prefer-dist laravel/laravel belajar_laravel "11.*"
 > **Catatan:**  
 > Gantilah **"11.\*"** dengan versi Laravel yang Anda inginkan. Pastikan versi tersebut masih didukung dan kompatibel dengan PHP yang Anda gunakan.
 
+### 4. Menginstal Laravel UI dengan Bootstrap dan Autentikasi
+
+> **Catatan:**  
+> Jika ingin menginstal laravel UI, anda harus menginstal laravel versi 11 atau lebih rendah.
+
+Setelah membuat proyek Laravel baru, ikuti langkah-langkah berikut untuk menginstal Laravel UI dengan Bootstrap dan autentikasi:
+
+- Masuk ke direktori proyek Laravel:
+
+```bash
+cd belajar_laravel
+```
+
+- Instal paket Laravel UI menggunakan Composer
+
+```bash
+composer require laravel/ui
+```
+
+- Instal Bootstrap dengan fitur autentikasi:
+
+```bash
+php artisan ui bootstrap --auth
+```
+
+- Instal dependensi Node.js:
+
+```bash
+npm install
+```
+
+- Kompilasi aset (CSS dan JavaScript):
+
+```bash
+npm run dev
+```
+
 ### 4. Jalankan Laravel
 
 Jika ada error seperti ini saat proses instalasi:
