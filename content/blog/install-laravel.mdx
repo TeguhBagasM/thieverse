@@ -1,6 +1,6 @@
 ---
 title: "Cara Menginstal Laravel"
-description: "Panduan langkah demi langkah untuk menginstal Laravel, framework PHP yang populer untuk pengembangan web modern."
+description: "Panduan langkah menginstal Laravel untuk kebutuhan praktikum pemrograman web."
 date: 2025-03-14
 tags: ["laravel", "php"]
 published: true
@@ -21,9 +21,9 @@ Laravel adalah framework kerangka pemrograman PHP yang dapat digunakan untuk men
 
 Sebelum kita mulai, pastikan Anda telah menginstal:
 
-- PHP disarankan (versi 8. atau lebih baru)
-- Composer
-- Node.js dan NPM (opsional, tapi direkomendasikan)
+- PHP disarankan (minimal versi 8.2)
+- Latest Composer
+- Latest Node.js
 
 ## Langkah 1: Install Composer
 
@@ -73,7 +73,7 @@ Node.js diperlukan untuk mengelola aset frontend seperti CSS dan JavaScript dala
 
 ## Langkah 3: Instal Laravel
 
-Setelah Composer terinstal, sekarang kita akan menginstal Laravel dan membuat proyek baru.
+Setelah Composer dan Node.js terinstal, sekarang kita akan menginstal Laravel dan membuat proyek baru.
 
 ### 1. Buka Terminal
 
@@ -175,7 +175,7 @@ npm install
 > Terminal 1 jalankan perintah php artisan serve
 > Terminal 2 jalankan perintah npm run dev
 
-Jika tidak ada error atau proses instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
+Jika proses instalasi selesai, masuk ke folder proyek dan jalankan server bawaan Laravel:
 
 ```bash
 cd belajar_laravel
@@ -200,13 +200,22 @@ Jika berhasil, akan muncul tampilan seperti ini:
 Buka web browser dan ketik alamat berikut:
 
 ```
-http://localhost:8000
+http://127.0.0.1:8000
 ```
 
 Jika semuanya berjalan lancar, Anda akan melihat halaman awal Laravel seperti ini:
 
 <Image
   src="/images/blogs/laravel/laravel-awal.png"
+  width="728"
+  height="304"
+  alt="Tampilan Awal Laravel"
+/>{" "}
+
+Jika Anda menginstal Laravel 11 dan mengintegrasikan Laravel UI dengan Bootstrap, maka tampilan awalnya seperti ini:
+
+<Image
+  src="/images/blogs/laravel/laravel-11.png"
   width="728"
   height="304"
   alt="Tampilan Awal Laravel"
@@ -260,10 +269,8 @@ Penjelasan tambahan:
 - **`DB_DATABASE=db_belajar_laravel`** → Nama database yang digunakan.
 - **`DB_USERNAME=root` & `DB_PASSWORD=`** → Username dan password default MySQL.
 
-**Catatan:**  
-Jika kalian menggunakan **XAMPP**, pastikan **MySQL sudah dinyalakan** sebelum menjalankan `php artisan migrate`.
-
-Teks ini sudah cukup mudah dipahami, tetapi bisa dibuat lebih jelas dan ramah bagi pemula. Berikut adalah perbaikannya:
+> **Catatan:**  
+> Jika kalian menggunakan **XAMPP**, pastikan **MySQL sudah dinyalakan** sebelum menjalankan `php artisan migrate`.
 
 ### Tips Tambah
 
