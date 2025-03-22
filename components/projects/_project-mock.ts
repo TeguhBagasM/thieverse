@@ -6,6 +6,7 @@ const projects = [
     title: `SpendTvise`,
     description:
       "SpendTvise adalah aplikasi berbasis website untuk mengelola keuangan pribadi. Fitur utama mencakup pencatatan pemasukan dan pengeluaran, visualisasi data keuangan melalui grafik dan bagan, serta fitur tambahan seperti pembuatan anggaran dan pelacakan tujuan keuangan. Tujuannya adalah memberikan gambaran jelas kondisi keuangan dan membantu pengambilan keputusan finansial yang lebih baik.",
+    deployedURL: "https://spendtvise.vercel.app/",
     cover: "/images/projects/spendtvise.png",
     stacks: ["Mysql", "Express.js", "React", "Node.js", "Tailwind"],
     isRepo: false,
@@ -57,7 +58,7 @@ const projects = [
     title: `CSA STMIK-MI`,
     description:
       "CSA (Creative Student Association) adalah organisasi berbasis TI yang terletak di STMIK Mardira Indonesia. Organisasi ini mencakup semua aspek TI, seperti Pemrograman, Multimedia, IoT, dan Pengembangan Game.",
-    deployedURL: "https://csa-stmik.vercel.app/",
+    deployedURL: "https://csa-stmikmi.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
     stacks: ["React.js", "Tailwind"],
     isRepo: false,
