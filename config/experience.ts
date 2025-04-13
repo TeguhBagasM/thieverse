@@ -11,7 +11,7 @@ export interface JobExperience {
 
 export const JOB_EXPERIENCE = [
   {
-    ocupation: "Ketua CSA",
+    ocupation: "Ketua Umum",
     company: "Creative Student Association",
     url: "https://csa-stmikmi.vercel.app",
     location: "Kampus STMIK Mardira Indonesia",
@@ -21,13 +21,13 @@ export const JOB_EXPERIENCE = [
   },
 
   {
-    ocupation: "Kursus Web untuk Pemula",
+    ocupation: "Kursus Pemrograman untuk Pemula",
     company: "",
     url: "",
     location: "Remote",
     startDate: "2024-01-05",
     description:
-      "Sebagai instruktur pemrograman web untuk pemula, saya memiliki pengalaman yang mendalam dalam mengajarkan dasar-dasar pengembangan web. Fokus pengajaran saya meliputi bahasa pemrograman PHP, kerangka kerja Laravel, bahasa pemformatan CSS, serta kerangka kerja Bootstrap.",
+      "Sebagai instruktur pemrograman untuk pemula, saya memiliki pengalaman yang mendalam dalam mengajarkan dasar-dasar pengembangan web, serta konsep Object-Oriented Programming (OOP) menggunakan Java dan pengelolaan versi dengan Git. Fokus pengajaran saya meliputi bahasa pemrograman PHP, kerangka kerja Laravel, bahasa pemformatan CSS, serta kerangka kerja Bootstrap.",
   },
   {
     ocupation: "Asisten Praktikum",
@@ -39,7 +39,7 @@ export const JOB_EXPERIENCE = [
       "Bertanggung jawab atas pengelolaan tiga kelas Pemrograman Web, membimbing mahasiswa dalam praktikum dan menganalisis kesalahan kode program, serta mendukung dosen dalam pengajaran mata kuliah Pemrograman Web dan pengembangan modul pembelajaran.",
   },
   {
-    ocupation: "Fullstack Developer",
+    ocupation: "Web Developer",
     company: "Bara Enterprise",
     url: "https://bara.co.id/",
     location: "SMKN 2 Cimahi",
