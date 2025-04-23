@@ -25,7 +25,7 @@ export default Skills;
 
 const SkillsList = ({ stacks }: { stacks: stacksProps }) => {
   return (
-    <ul className="flex items-center gap-3" role="list">
+    <ul className="flex items-center flex-wrap gap-3" role="list">
       {Object.keys(stacks).map((stack, index) => {
         const { Icon, className, isMastered } = stacks[stack];
         return (
