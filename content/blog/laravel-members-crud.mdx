@@ -1,0 +1,156 @@
+---
+title: "Membuat Migration, Model, Controller, dan Routes di Laravel"
+description: "Panduan membuat tabel members dengan Laravel untuk pemula."
+date: 2025-05-04
+tags: ["laravel", "migration", "controller", "model", "routes"]
+published: true
+img: "/images/blogs/laravel/laravel.png"
+---
+
+# Membuat Migration, Model, Controller, dan Routes di Laravel
+
+Artikel ini akan memandu kamu membuat struktur dasar `CRUD` menggunakan Laravel. Kita akan membuat tabel `members` lengkap dengan migration, model, controller, dan route-nya.
+
+## 1. Membuat Migration
+
+Jalankan perintah artisan untuk membuat migration dan model sekaligus:
+
+```bash
+php artisan make:model Member -m
+```
+
+Perintah di atas akan membuat file model `Member.php` dan file migration di folder `database/migrations`.
+
+Edit file migration tersebut, dan sesuaikan dengan struktur berikut:
+
+```php
+Schema::create('members', function (Blueprint $table) {
+    $table->id();
+    $table->string('nama');
+    $table->enum('divisi', ['pemrograman', 'multimedia']);
+    $table->text('alamat');
+    $table->integer('angkatan');
+    $table->float('ipk');
+    $table->boolean('status');
+    $table->timestamps();
+});
+```
+
+Lalu jalankan migrasi dengan perintah:
+
+```bash
+php artisan migrate
+```
+
+## 2. Membuat Controller
+
+Selanjutnya, buat controller untuk member:
+
+```bash
+php artisan make:controller MemberController
+```
+
+Edit `app/Http/Controllers/MemberController.php` dan tambahkan method dasar seperti berikut:
+
+```php
+use App\Models\Member;
+use Illuminate\Http\Request;
+
+class MemberController extends Controller
+{
+    public function index()
+    {
+        $members = Member::all();
+        return view('members.index', compact('members'));
+    }
+
+    public function create()
+    {
+        return view('members.create');
+    }
+
+    public function store(Request $request)
+    {
+        Member::create($request->all());
+        return redirect()->route('members.index');
+    }
+
+    public function show($id)
+    {
+        $member = Member::findOrFail($id);
+        return view('members.show', compact('member'));
+    }
+
+    public function edit($id)
+    {
+        $member = Member::findOrFail($id);
+        return view('members.edit', compact('member'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $member = Member::findOrFail($id);
+        $member->update($request->all());
+        return redirect()->route('members.index');
+    }
+
+    public function destroy($id)
+    {
+        $member = Member::findOrFail($id);
+        $member->delete();
+        return redirect()->route('members.index');
+    }
+}
+```
+
+## 3. Menyesuaikan Model
+
+Edit `app/Models/Member.php` agar dapat menerima input massal:
+
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Member extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'nama',
+        'divisi',
+        'alamat',
+        'angkatan',
+        'ipk',
+        'status',
+    ];
+}
+```
+
+## 4. Menambahkan Route
+
+Tambahkan route untuk member pada file `routes/web.php`:
+
+```php
+use App\Http\Controllers\MemberController;
+
+Route::resource('members', MemberController::class);
+```
+
+## Download File View
+
+Untuk mempermudah kamu, saya sudah menyediakan file Blade `index`, `create`, dan `edit` lengkap. Silakan unduh melalui tautan berikut:
+
+<a href="/images/blogs/laravel/breeze/member_views.zip" download class="inline-block text-black">
+  Unduh File Views (ZIP)
+</a>
+
+## 5. Kesimpulan
+
+Sekarang kamu sudah memiliki setup lengkap CRUD sederhana untuk tabel `members`. Langkah selanjutnya kamu bisa membuat blade file untuk tampilan seperti `index.blade.php`, `create.blade.php`, dll.
+
+---
+
+**Semoga bermanfaat untuk proyek Laravel kamu!**  
+Untuk dokumentasi lebih lanjut, kunjungi: [https://laravel.com/docs](https://laravel.com/docs)
