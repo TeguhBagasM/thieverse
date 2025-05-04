@@ -1,0 +1,146 @@
+---
+title: "Cara Menginstal Laravel Breeze"
+description: "Panduan langkah menginstal Laravel Breeze untuk study club CSA."
+date: 2025-05-04
+tags: ["laravel", "breeze", "php"]
+published: true
+img: "/images/blogs/laravel/breeze/breeze-bg.png"
+---
+
+# Cara Menginstal Laravel Breeze: Panduan untuk Pemula
+
+## Pengertian Laravel
+
+Laravel adalah framework kerangka pemrograman PHP yang dapat digunakan untuk meningkatkan efisiensi pembangunan situs web. Website yang dihasilkan akan lebih dinamis dan teroptimasi jika framework ini digunakan. Pemrograman PHP menjadi lebih bertenaga dan optimal bila dibangun di atas framework ini karena dibandingkan dengan framework lain, Laravel memiliki dokumentasi yang baik, komunitas aktif, serta fitur modern yang terus berkembang.
+
+## Pengertian Laravel Breeze
+
+Laravel Breeze adalah package starter kit resmi dari Laravel untuk autentikasi. Breeze memberikan struktur dasar yang ringan dan minimal, menggunakan Blade template engine dan Tailwind CSS. Ini sangat cocok untuk developer yang ingin kontrol penuh terhadap tampilan dan struktur tanpa kompleksitas tambahan.
+
+<Image src="/images/blogs/laravel/breeze/breeze-bg.png" width="718" height="304" alt="Logo Laravel" />
+
+## Langkah-langkah Menginstal Laravel Breeze di Laravel 11
+
+Berikut ini adalah panduan lengkap untuk menginstal Laravel Breeze pada proyek Laravel 11:
+
+### 1. Instal Laravel
+
+Buka terminal dan jalankan perintah berikut untuk membuat proyek Laravel baru versi 11:
+
+```bash
+composer create-project --prefer-dist laravel/laravel laravel_breeze "11.*"
+```
+
+<Image
+  src="/images/blogs/laravel/breeze/install-berhasil.png"
+  width="718"
+  height="304"
+  alt="Berhasil install Laravel"
+/>
+
+Setelah instalasi selesai, masuk ke direktori proyek:
+
+```bash
+cd laravel_breeze
+```
+
+### 2. Instal Laravel Breeze
+
+Selanjutnya, jalankan perintah berikut untuk menginstal Laravel Breeze ke dalam proyek:
+
+```bash
+composer require laravel/breeze --dev
+```
+
+<Image
+  src="/images/blogs/laravel/breeze/install-2.png"
+  width="718"
+  height="304"
+  alt="Berhasil install Breeze"
+/>
+
+### 3. Jalankan Perintah Instalasi Breeze
+
+Setelah Breeze berhasil ditambahkan, jalankan:
+
+```bash
+php artisan breeze:install
+```
+
+Setelah itu, kamu akan diminta memilih beberapa opsi:
+
+- Pilih **blade** untuk template engine.
+- Untuk dark mode, pilih **No**.
+- Pilih **Pest** sebagai testing framework (atau bisa juga PHPUnit sesuai preferensi).
+
+<Image
+  src="/images/blogs/laravel/breeze/breeze-blade.png"
+  width="718"
+  height="304"
+  alt="Proses instalasi Breeze"
+/>
+
+### 4. Install Dependensi Frontend
+
+Jalankan perintah berikut untuk menginstal semua dependensi frontend:
+
+```bash
+npm install
+```
+
+Jika sudah, jalankan build untuk meng-compile file Tailwind CSS dan JavaScript:
+
+```bash
+npm run dev
+```
+
+### 5. Konfigurasi Database dan Migrasi
+
+Sebelum menjalankan migrasi, pastikan kamu sudah mengatur koneksi database di file `.env`, contoh:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_breeze
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Lalu jalankan migrasi:
+
+```bash
+php artisan migrate
+```
+
+### 6. Jalankan Aplikasi Laravel
+
+Terakhir, jalankan server lokal Laravel dengan:
+
+```bash
+php artisan serve
+```
+
+Buka browser dan akses `http://localhost:8000`. Kamu akan melihat halaman landing Laravel dan bisa mengakses halaman **login** serta **register** di sudut kanan atas.
+
+## Tampilan Default Breeze
+
+Berikut adalah contoh tampilan awal setelah instalasi Laravel Breeze berhasil:
+
+<Image
+  src="/images/blogs/laravel/breeze/halaman-login.png"
+  width="718"
+  height="304"
+  alt="Tampilan Login Breeze"
+/>
+
+## Kesimpulan
+
+Laravel Breeze adalah pilihan yang tepat untuk memulai proyek Laravel dengan autentikasi dasar. Breeze memberikan pengalaman pengembangan yang ringan dan fleksibel, cocok untuk pemula hingga developer yang ingin membangun tampilan dan alur autentikasi dari nol.
+
+Jika kamu ingin tampilan atau fitur tambahan, Breeze juga bisa dengan mudah dikembangkan lebih lanjut atau diintegrasikan dengan stack lain seperti Vue atau React.
+
+---
+
+**Selamat mencoba! Semoga tutorial ini bermanfaat untuk kamu dan tim Study Club CSA.**  
+Butuh panduan selanjutnya? Jangan ragu hubungi penulis atau cek dokumentasi resmi Laravel: [https://laravel.com/docs](https://laravel.com/docs)
