@@ -2,7 +2,7 @@
 title: "Membuat Migration, Model, Controller, dan Routes di Laravel"
 description: "Panduan membuat tabel members dengan Laravel untuk pemula."
 date: 2025-05-04
-tags: ["laravel", "migration", "controller", "model", "routes"]
+tags: ["laravel", "mvc"]
 published: true
 img: "/images/blogs/laravel/laravel.png"
 ---
@@ -142,7 +142,11 @@ Route::resource('members', MemberController::class);
 
 Untuk mempermudah kamu, saya sudah menyediakan file Blade `index`, `create`, dan `edit` lengkap. Silakan unduh melalui tautan berikut:
 
-<a href="/images/blogs/laravel/breeze/member_views.zip" download class="inline-block text-black">
+<a
+  href="/images/blogs/laravel/breeze/member_views.zip"
+  download
+  class="inline-block text-black dark:text-white"
+>
   Unduh File Views (ZIP)
 </a>
 
