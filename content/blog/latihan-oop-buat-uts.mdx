@@ -31,8 +31,8 @@ Contoh Soal buat latihan uts
 package oopj22;
 
 class Mahasiswa {
-    protected String nama;
-    protected int nim;
+    public String nama;
+    public int nim;
     private String jenisKelamin;
     private float ipk;
 
@@ -43,7 +43,7 @@ class Mahasiswa {
         this.setIpk(ipk);
     }
 
-    private void setJenisKelamin(String jenisKelamin) {
+    private [1] setJenisKelamin(String jenisKelamin) {
         if (jenisKelamin.equals("L") || jenisKelamin.equals("P")) {
             this.jenisKelamin = jenisKelamin;
         } else {
@@ -51,7 +51,7 @@ class Mahasiswa {
         }
     }
 
-    public String getJenisKelamin() {
+    public [2] getJenisKelamin() {
         return this.jenisKelamin;
     }
 
@@ -65,7 +65,7 @@ class Mahasiswa {
         }
     }
 
-    public void setIpk(float ipk) {
+    public void setIpk([3] ipk) {
         if (ipk >= 0 && ipk <= 4.0) {
             this.ipk = ipk;
         } else {
@@ -74,27 +74,19 @@ class Mahasiswa {
     }
 
     public float getIpk() {
-        return this.ipk;
-    }
-
-    public String getNama() {
-        return nama;
-    }
-
-    public int getNim() {
-        return nim;
+        [4] this.ipk;
     }
 }
 
-class MahasiswaGhaib extends Mahasiswa {
+class MahasiswaGhaib [5] Mahasiswa {
 
     public MahasiswaGhaib(String nama, int nim, String jenisKelamin, float ipk) {
-        super(nama, nim, jenisKelamin, ipk);
+        [6](nama, nim, jenisKelamin, ipk);
     }
 
     public String laporan() {
-        String status = getPanggilanJenisKelamin();
-        if (getIpk() < 3.0) {
+        String status = [7]();
+        if ([8]() < 3.0) {
             return nama + " adalah seorang " + status + " ghaib dengam IPK: " + getIpk() + " Ia perlu bimbingan akademik agar bisa kembali ke jalur yang benar.";
         } else {
             return nama + " adalah seorang " + status + " ghaib tapi IPK aman!";
@@ -104,19 +96,19 @@ class MahasiswaGhaib extends Mahasiswa {
 
 
 class MahasiswaAktif extends Mahasiswa {
-    private String ukm;
+    private [9] ukm;
 
     public MahasiswaAktif(String nama, int nim, String jenisKelamin, float ipk, String ukm) {
-        super(nama, nim, jenisKelamin, ipk);
+        [10](nama, nim, jenisKelamin, ipk);
         this.ukm = ukm;
     }
 
     public String getDeskripsi() {
-        return nama + " adalah " + getPanggilanJenisKelamin() + " aktif "  + "dari ukm " + ukm + " dengan IPK: " + getIpk();
+        return nama + " adalah " + [11]() + " aktif "  + "dari ukm " + ukm + " dengan IPK: " + getIpk();
     }
 }
 
-class MahasiswaAmbis extends Mahasiswa {
+class MahasiswaAmbis [12] Mahasiswa {
 
     public MahasiswaAmbis(String nama, int nim, String jenisKelamin, float ipk) {
         super(nama, nim, jenisKelamin, ipk);
@@ -132,7 +124,7 @@ class MahasiswaAmbis extends Mahasiswa {
     }
 }
 
-public class Encapsulation {
+public class BelajarUts {
     public static void main(String[] args) {
         MahasiswaAktif mhs1 = new MahasiswaAktif("Teguh", 12345, "L", 3.84f, "Creative Student Associaton");
         System.out.println(mhs1.getDeskripsi());
