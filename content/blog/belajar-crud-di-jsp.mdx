@@ -17,40 +17,49 @@ CRUD adalah singkatan dari **Create, Read, Update, dan Delete**—empat operasi 
 
 ### 1. Siapkan Database
 
-Buat database MySQL bernama `test`, klik new pada phpMyAdmin lalu isi nama databasenya dan klik create untuk membuat database seperti gambar dibawah ini
+Buat database MySQL bernama `test`. Caranya:
+
+1. Buka **phpMyAdmin**
+2. Klik tombol **New**
+3. Isi nama database dengan `test`
+4. Klik **Create**
+
+Contohnya seperti gambar di bawah:
 
 <Image src="/images/blogs/crud-jsp/new-db.png" width="718" height="304" alt="CRUD JSP" />
 
-Saya ada 2 cara untuk persiapan awal, yang pertama kamu bisa cek di netbeans nya, jika ada library Mysql bawaan pakai cara ini
+Saya menyediakan dua cara untuk menghubungkan project ke MySQL, tergantung apakah NetBeans kamu sudah menyediakan library MySQL secara bawaan atau tidak.
 
-### 2. Add Mysql library
+### 2. Tambahkan Library MySQL (Jika Ada di NetBeans)
 
-Setelah membuat Project Java Web Application nyam bisa lakukan langkah ini untuk menambah library bawaan Mysql nya
+Jika NetBeans kamu sudah menyediakan library MySQL, kamu bisa menambahkannya dengan langkah berikut:
 
-Klik kanan pada folder library seperti pada gambar dibawah ini
+1. Klik kanan pada folder `Libraries` di project Java Web kamu.
+2. Pilih **Add Library**
+3. Pilih **MySQL JDBC Driver**
 
-<Image src="/images/blogs/crud-jsp/add-library.png" width="304" height="304" alt="CRUD JSP" />
+Berikut tampilan langkah-langkahnya:
 
-Setelah itu, pilih library Mysql
+<Image src="/images/blogs/crud-jsp/add-library.png" width="354" height="304" alt="CRUD JSP" />
 
-<Image src="/images/blogs/crud-jsp/pilih-mysql.png" width="304" height="304" alt="CRUD JSP" />
+<Image src="/images/blogs/crud-jsp/pilih-mysql.png" width="354" height="304" alt="CRUD JSP" />
 
-Jika tidak ada library bawaan Mysql nya, bisa ikuti cara yang kedua ini
+---
 
-### Install MySQL Connector/J
+### 3. Install MySQL Connector/J (Jika Tidak Ada Library MySQL)
 
-Agar JSP dapat terkoneksi dengan MySQL, kita membutuhkan **MySQL Connector/J**.
+Jika NetBeans kamu **tidak memiliki** library MySQL bawaan, kamu bisa menambahkannya secara manual dengan MySQL Connector/J.
 
-🔗 [Download MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/)
+🔗 <a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="noopener noreferrer">Download MySQL Connector/J</a>
 
 **Langkah-langkah:**
 
-1. Pilih _Platform Independent_ dan download.
-2. Ekstrak file `.zip` lalu cari file `mysql-connector-j-x.x.x.jar`.
-3. Di project NetBeans kamu:
-   - Klik kanan `Libraries`
-   - Pilih `Add JAR/Folder`
-   - Tambahkan file `.jar` yang telah diekstrak.
+1. Pilih versi _Platform Independent_ dan unduh file `.zip`.
+2. Ekstrak file tersebut, lalu cari file `mysql-connector-j-x.x.x.jar`.
+3. Di NetBeans:
+   - Klik kanan pada `Libraries`
+   - Pilih **Add JAR/Folder**
+   - Tambahkan file `.jar` yang tadi diekstrak
 
 ## Membaca Data (Read)
 
@@ -90,3 +99,136 @@ Contoh membaca data dari tabel `daftar` dan menampilkannya ke halaman JSP.
 </body>
 </html>
 ```
+
+- ✅ executeQuery() digunakan untuk query SELECT.
+- ✅ Gunakan rs.getString() atau rs.getInt() sesuai tipe data kolom
+
+## Menambah Data (Create) - Versi Sederhana
+
+Contoh menambahkan data menggunakan Statement.
+
+```java
+<%@page import="java.sql.*" %>
+<%
+    String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+    String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
+    String DBUSER = "root";
+    String DBPASS = "";
+
+    String nama = "Budi";
+    String nim = "3923123";
+    Integer nilai = 34;
+
+    try {
+        Class.forName(DBDRIVER);
+        Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
+        String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES ('" + nim + "', '" + nama + "', " + nilai + ")";
+        Statement st = conn.createStatement();
+        st.executeUpdate(sql);
+        conn.close();
+    } catch (Exception ex) {
+        out.println("Error");
+    }
+%>
+```
+
+⚠ Hati-hati dengan SQL Injection! Untuk itu, gunakan PreparedStatement seperti di bawah ini.
+
+## Menambah Data dengan Parameter (PreparedStatement)
+
+```java
+<%@page import="java.sql.*" %>
+<%
+    String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+    String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
+    String DBUSER = "root";
+    String DBPASS = "";
+
+    String nama = "Ratna";
+    String nim = "832737";
+    Integer nilai = 34;
+
+    try {
+        Class.forName(DBDRIVER);
+        Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
+        String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES (?, ?, ?)";
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setString(1, nim);
+        st.setString(2, nama);
+        st.setInt(3, nilai);
+        st.executeUpdate();
+        conn.close();
+    } catch (Exception ex) {
+        out.println("Error");
+    }
+%>
+```
+
+## Pisahkan Akses Database ke Class Java
+
+Dalam pendekatan MVC, logika database sebaiknya dipisahkan dari tampilan JSP.
+
+```java
+package crud;
+
+import java.sql.*;
+
+public class Mahasiswa {
+    public String nim;
+    public String nama;
+    public Integer nilai;
+
+    public boolean tambah() {
+        String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+        String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
+        String DBUSER = "root";
+        String DBPASS = "";
+
+        try {
+            Class.forName(DBDRIVER);
+            Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
+            String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES (?, ?, ?)";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, this.nim);
+            st.setString(2, this.nama);
+            st.setInt(3, this.nilai);
+            st.executeUpdate();
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
+```
+
+File: mahasiswa.tambah.jsp
+
+```java
+<%@page import="crud.Mahasiswa"%>
+<%
+    Mahasiswa mahasiswa = new Mahasiswa();
+    mahasiswa.nim = "22110397";
+    mahasiswa.nama = "Nadiva";
+    mahasiswa.nilai = 95;
+
+    if (mahasiswa.tambah()) {
+        out.println("Data berhasil ditambahkan");
+    } else {
+        out.println("Data gagal disimpan");
+    }
+%>
+```
+
+✅ Method tambah() akan mengembalikan true jika berhasil, dan false jika gagal.
+
+Kesimpulan
+Dalam tutorial ini, kamu telah belajar bagaimana:
+
+Membaca data dari database ke halaman JSP
+
+Menambahkan data menggunakan Statement dan PreparedStatement
+
+Memisahkan logika database ke dalam class Java
+
+Langkah selanjutnya, kamu bisa menambahkan fitur Update dan Delete dengan prinsip yang sama, serta menyempurnakan struktur proyek menggunakan pattern MVC.
