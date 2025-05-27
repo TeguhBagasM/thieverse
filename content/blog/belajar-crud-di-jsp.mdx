@@ -1,0 +1,92 @@
+---
+title: "CRUD dengan JSP dan MySQL"
+description: "Panduan membuat aplikasi CRUD sederhana menggunakan JSP dan database MySQL."
+date: 2025-05-26
+tags: ["jsp", "java", "mysql"]
+published: true
+img: "/images/blogs/crud-jsp/crud-jsp.jpeg"
+---
+
+# CRUD dengan JSP dan MySQL
+
+CRUD adalah singkatan dari **Create, Read, Update, dan Delete**—empat operasi dasar yang digunakan saat kita berinteraksi dengan database. Dalam tutorial ini, kita akan membuat aplikasi sederhana menggunakan JSP (Java Server Pages) untuk melakukan operasi CRUD pada database MySQL.
+
+<Image src="/images/blogs/crud-jsp/crud-jsp.jpeg" width="718" height="304" alt="CRUD JSP" />
+
+## Persiapan Awal
+
+### 1. Siapkan Database
+
+Buat database MySQL bernama `test`, klik new pada phpMyAdmin lalu isi nama databasenya dan klik create untuk membuat database seperti gambar dibawah ini
+
+<Image src="/images/blogs/crud-jsp/new-db.png" width="718" height="304" alt="CRUD JSP" />
+
+Saya ada 2 cara untuk persiapan awal, yang pertama kamu bisa cek di netbeans nya, jika ada library Mysql bawaan pakai cara ini
+
+### 2. Add Mysql library
+
+Setelah membuat Project Java Web Application nyam bisa lakukan langkah ini untuk menambah library bawaan Mysql nya
+
+Klik kanan pada folder library seperti pada gambar dibawah ini
+
+<Image src="/images/blogs/crud-jsp/add-library.png" width="304" height="304" alt="CRUD JSP" />
+
+Setelah itu, pilih library Mysql
+
+<Image src="/images/blogs/crud-jsp/pilih-mysql.png" width="304" height="304" alt="CRUD JSP" />
+
+Jika tidak ada library bawaan Mysql nya, bisa ikuti cara yang kedua ini
+
+### Install MySQL Connector/J
+
+Agar JSP dapat terkoneksi dengan MySQL, kita membutuhkan **MySQL Connector/J**.
+
+🔗 [Download MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/)
+
+**Langkah-langkah:**
+
+1. Pilih _Platform Independent_ dan download.
+2. Ekstrak file `.zip` lalu cari file `mysql-connector-j-x.x.x.jar`.
+3. Di project NetBeans kamu:
+   - Klik kanan `Libraries`
+   - Pilih `Add JAR/Folder`
+   - Tambahkan file `.jar` yang telah diekstrak.
+
+## Membaca Data (Read)
+
+Contoh membaca data dari tabel `daftar` dan menampilkannya ke halaman JSP.
+
+```java
+<%@ page import="java.sql.*" %>
+<%
+    String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+    String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
+    String DBUSER = "root";
+    String DBPASS = "";
+
+    Connection conn = null;
+    Statement st = null;
+    ResultSet rs = null;
+
+    try {
+        Class.forName(DBDRIVER);
+        conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
+        st = conn.createStatement();
+        rs = st.executeQuery("SELECT * FROM daftar");
+    } catch (Exception e) {
+        out.println("Error");
+    }
+%>
+<html>
+<body>
+    <% while (rs.next()) { %>
+        ID: <%= rs.getInt("id") %><br>
+        Nama: <%= rs.getString("nama") %><br>
+        Nilai: <%= rs.getInt("nilai") %><br>
+        <hr>
+    <% }
+       rs.close(); st.close(); conn.close();
+    %>
+</body>
+</html>
+```
