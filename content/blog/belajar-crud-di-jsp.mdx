@@ -177,6 +177,22 @@ public class Mahasiswa {
     public String nama;
     public int nilai;
 
+    public void tambah() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/test", "root", "");
+
+        String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES (?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, nim);
+        ps.setString(2, nama);
+        ps.setInt(3, nilai);
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+        }
+
     public void update() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(
@@ -216,6 +232,24 @@ public class Mahasiswa {
 }
 ```
 
+File: mahasiswa.baca.jsp
+
+```java
+<%@ page import="model.Mahasiswa" %>
+<%
+    Mahasiswa mhs = new Mahasiswa();
+    try {
+        mhs.baca("22110397");
+    } catch (Exception e) {
+        out.print("Error baca: " + e.getMessage());
+    }
+%>
+NIM: <%= mhs.nim %><br>
+Nama: <%= mhs.nama %><br>
+Nilai: <%= mhs.nilai %><br>
+
+```
+
 File: mahasiswa.tambah.jsp
 
 ```java
@@ -226,12 +260,33 @@ File: mahasiswa.tambah.jsp
     mahasiswa.nama = "Ell late";
     mahasiswa.nilai = 30;
 
-    if (mahasiswa.tambah()) {
+    try {
+        mahasiswa.tambah();
         out.println("Data berhasil ditambahkan");
-    } else {
+    } catch (Exception e) {
         out.println("Data gagal disimpan");
     }
 %>
+
+```
+
+File: mahasiswa.tambah.jsp
+
+```java
+<%@ page import="model.Mahasiswa" %>
+<%
+    Mahasiswa mhs = new Mahasiswa();
+    mhs.nim = "22110397";
+    mhs.nama = "Budi Update";
+    mhs.nilai = 90;
+
+    try {
+        mhs.update();
+    } catch (Exception e) {
+        out.print("Error update: " + e.getMessage());
+    }
+%>
+
 ```
 
 ✅ Method tambah() akan mengembalikan true jika berhasil, dan false jika gagal.
