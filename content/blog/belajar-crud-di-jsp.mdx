@@ -65,139 +65,153 @@ Jika NetBeans kamu **tidak memiliki** library MySQL bawaan, kamu bisa menambahka
 
 Contoh membaca data dari tabel `daftar` dan menampilkannya ke halaman JSP.
 
-```java
+```java title="index.jsp"
 <%@ page import="java.sql.*" %>
 <%
     String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+    // test = sesuaiin sm nama db
     String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
     String DBUSER = "root";
     String DBPASS = "";
-
     Connection conn = null;
     Statement st = null;
     ResultSet rs = null;
-
     try {
         Class.forName(DBDRIVER);
         conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
         st = conn.createStatement();
-        rs = st.executeQuery("SELECT * FROM daftar");
+
+        rs = st.executeQuery("SELECT * FROM mahasiswa");
     } catch (Exception e) {
         out.println("Error");
     }
 %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
-<body>
-    <% while (rs.next()) { %>
-        ID: <%= rs.getInt("id") %><br>
-        Nama: <%= rs.getString("nama") %><br>
-        Nilai: <%= rs.getInt("nilai") %><br>
-        <hr>
-    <% }
-       rs.close(); st.close(); conn.close();
-    %>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <% while (rs.next()) {%>
+            <%= rs.getInt("id")%><br>
+            <%= rs.getString("nama")%><br>
+            <%= rs.getInt("nilai")%><br>
+            <hr>
+        <% } %>
+
+        <%
+            rs.close();
+            st.close();
+            conn.close();
+        %>
+    </body>
 </html>
 ```
 
 - ✅ executeQuery() digunakan untuk query SELECT.
 - ✅ Gunakan rs.getString() atau rs.getInt() sesuai tipe data kolom
 
-## Menambah Data (Create) - Versi Sederhana
-
-Contoh menambahkan data menggunakan Statement.
-
-```java
-<%@page import="java.sql.*" %>
-<%
-    String DBDRIVER = "com.mysql.cj.jdbc.Driver";
-    String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
-    String DBUSER = "root";
-    String DBPASS = "";
-
-    String nama = "Budi";
-    String nim = "3923123";
-    Integer nilai = 34;
-
-    try {
-        Class.forName(DBDRIVER);
-        Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
-        String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES ('" + nim + "', '" + nama + "', " + nilai + ")";
-        Statement st = conn.createStatement();
-        st.executeUpdate(sql);
-        conn.close();
-    } catch (Exception ex) {
-        out.println("Error");
-    }
-%>
-```
-
 ⚠ Hati-hati dengan SQL Injection! Untuk itu, gunakan PreparedStatement seperti di bawah ini.
 
 ## Menambah Data dengan Parameter (PreparedStatement)
 
-```java
+```java title="create.jsp"
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*" %>
 <%
     String DBDRIVER = "com.mysql.cj.jdbc.Driver";
+
     String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
+
     String DBUSER = "root";
     String DBPASS = "";
+    Connection conn = null;
+    Statement st;
 
-    String nama = "Ratna";
-    String nim = "832737";
+    String nama = "Engguh";
+    String nim = "22110397";
     Integer nilai = 34;
 
     try {
         Class.forName(DBDRIVER);
-        Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
-        String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES (?, ?, ?)";
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setString(1, nim);
-        st.setString(2, nama);
-        st.setInt(3, nilai);
-        st.executeUpdate();
+        conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
+
+        // prepare select statement
+        String sql = "INSERT INTO mahasiswa (nim,nama,nilai) values ('"+nim+"','"+nama+"',"+nilai+")";
+        st = conn.createStatement();
+        st.executeUpdate(sql);
         conn.close();
     } catch (Exception ex) {
-        out.println("Error");
+        out.println("Error" + ex.getMessage());
     }
 %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Data Baru</title>
+
+    </head>
+    <body>
+        NIM: <%= nim %><br>
+        Nama: <%= nama %><br>
+        Nilai: <%= nilai %><br>
+    </body>
+</html>
 ```
 
 ## Pisahkan Akses Database ke Class Java
 
 Dalam pendekatan MVC, logika database sebaiknya dipisahkan dari tampilan JSP.
+Buat package baru dengan nama model, lalu buat Java Class dengan nama Mahasiswa
 
-```java
-package crud;
+```java title="model/Mahasiswa.java"
+package model;
 
 import java.sql.*;
 
 public class Mahasiswa {
     public String nim;
     public String nama;
-    public Integer nilai;
+    public int nilai;
 
-    public boolean tambah() {
-        String DBDRIVER = "com.mysql.cj.jdbc.Driver";
-        String DBCONNECTION = "jdbc:mysql://localhost:3306/test";
-        String DBUSER = "root";
-        String DBPASS = "";
+    public void update() throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/test", "root", "");
 
-        try {
-            Class.forName(DBDRIVER);
-            Connection conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
-            String sql = "INSERT INTO mahasiswa (nim, nama, nilai) VALUES (?, ?, ?)";
-            PreparedStatement st = conn.prepareStatement(sql);
-            st.setString(1, this.nim);
-            st.setString(2, this.nama);
-            st.setInt(3, this.nilai);
-            st.executeUpdate();
-            conn.close();
-            return true;
-        } catch (Exception e) {
-            return false;
+        String sql = "UPDATE mahasiswa SET nama=?, nilai=? WHERE nim=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, nama);
+        ps.setInt(2, nilai);
+        ps.setString(3, nim);
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
+
+    public void baca(String cariNim) throws Exception {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/test", "root", "");
+
+        String sql = "SELECT * FROM mahasiswa WHERE nim=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, cariNim);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            this.nim = rs.getString("nim");
+            this.nama = rs.getString("nama");
+            this.nilai = rs.getInt("nilai");
         }
+
+        rs.close();
+        ps.close();
+        conn.close();
     }
 }
 ```
@@ -205,7 +219,7 @@ public class Mahasiswa {
 File: mahasiswa.tambah.jsp
 
 ```java
-<%@page import="crud.Mahasiswa"%>
+<%@page import="model.Mahasiswa"%>
 <%
     Mahasiswa mahasiswa = new Mahasiswa();
     mahasiswa.nim = "22110123";
