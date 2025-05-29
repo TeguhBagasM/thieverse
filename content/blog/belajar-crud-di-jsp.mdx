@@ -63,7 +63,9 @@ Jika NetBeans kamu **tidak memiliki** library MySQL bawaan, kamu bisa menambahka
 
 ## Membaca Data (Read)
 
-Contoh membaca data dari tabel `daftar` dan menampilkannya ke halaman JSP.
+<Image src="/images/blogs/crud-jsp/struktur.png" width="354" height="304" alt="CRUD JSP" />
+
+Contoh membaca data dari tabel `mahasiswa` dan menampilkannya ke halaman JSP.
 
 ```java title="index.jsp"
 <%@ page import="java.sql.*" %>
@@ -257,7 +259,7 @@ File: mahasiswa.tambah.jsp
 <%
     Mahasiswa mahasiswa = new Mahasiswa();
     mahasiswa.nim = "22110123";
-    mahasiswa.nama = "Ell late";
+    mahasiswa.nama = "Bahara";
     mahasiswa.nilai = 30;
 
     try {
@@ -270,24 +272,27 @@ File: mahasiswa.tambah.jsp
 
 ```
 
-File: mahasiswa.tambah.jsp
+File: mahasiswa.update.jsp
 
-```java
+```java title="mahasiswa.update.jsp"
 <%@ page import="model.Mahasiswa" %>
 <%
     Mahasiswa mhs = new Mahasiswa();
     mhs.nim = "22110397";
-    mhs.nama = "Budi Update";
+    mhs.nama = "Bahara Update";
     mhs.nilai = 90;
 
     try {
         mhs.update();
+        out.println("Data berhasil diubah");
     } catch (Exception e) {
         out.print("Error update: " + e.getMessage());
     }
 %>
 
 ```
+
+> **Catatan:** jika ingin melihat hasil semua data yang ada di database cek url ini http://localhost:8080/crud-jsp/index.jsp dan jika dicari url
 
 ✅ Method tambah() akan mengembalikan true jika berhasil, dan false jika gagal.
 
