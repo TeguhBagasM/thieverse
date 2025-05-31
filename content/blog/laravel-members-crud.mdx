@@ -53,6 +53,10 @@ php artisan make:controller MemberController
 Edit `app/Http/Controllers/MemberController.php` dan tambahkan method dasar seperti berikut:
 
 ```php
+<?php
+
+namespace App\Http\Controllers;
+
 use App\Models\Member;
 use Illuminate\Http\Request;
 
@@ -71,6 +75,25 @@ class MemberController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nama' => 'required',
+            'divisi' => 'required|in:pemrograman,multimedia',
+            'alamat' => 'required',
+            'angkatan' => 'required|numeric',
+            'ipk' => 'required',
+            'status' => 'required|boolean',
+        ],
+        [
+            'nama.required' => 'Nama wajib diisi',
+            'divisi.required' => 'Divisi wajib diisi',
+            'alamat.required' => 'Alamat wajib diisi',
+            'angkatan.required' => 'Angkatan wajib diisi',
+            'status.required' => 'Status wajib diisi',
+            'in' => ':attribute harus diisi dengan pemrograman atau multimedia',
+            'numeric' => ':attribute harus diisi dengan angka',
+            'boolean' => ':attribute harus diisi',
+        ]);
+
         Member::create($request->all());
         return redirect()->route('members.index');
     }
@@ -89,9 +112,26 @@ class MemberController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required',
+            'divisi' => 'required|in:pemrograman,multimedia',
+            'alamat' => 'required',
+            'angkatan' => 'required|numeric',
+            'ipk' => 'required',
+            'status' => 'required|boolean',
+        ],
+        [
+            'required' => ':attribute wajib diisi',
+            'in' => ':attribute harus diisi dengan pemrograman atau multimedia',
+            'numeric' => ':attribute harus diisi dengan angka',
+            'boolean' => ':attribute harus diisi',
+        ]);
+
         $member = Member::findOrFail($id);
         $member->update($request->all());
-        return redirect()->route('members.index');
+        return redirect()->route('members.index', [
+            'member' => $member
+        ]);
     }
 
     public function destroy($id)
@@ -101,6 +141,7 @@ class MemberController extends Controller
         return redirect()->route('members.index');
     }
 }
+
 ```
 
 ## 3. Menyesuaikan Model
