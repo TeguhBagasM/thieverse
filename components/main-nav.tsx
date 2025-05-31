@@ -32,10 +32,10 @@ export function MainNav() {
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
       </Link>
       <Link
-        href="/konsultasi"
+        href="/jasa"
         className={cn(
           "text-md font-medium transition-colors relative group hidden sm:inline-block",
-          pathname === "/konsultasi" ? "text-foreground" : "text-foreground/60"
+          pathname === "/jasa" ? "text-foreground" : "text-foreground/60"
         )}
       >
         Jasa
