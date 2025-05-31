@@ -2,7 +2,10 @@ import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
 import { jasaFeatures, siteConfig } from "@/config/site";
-import { FaWhatsapp, FaCode, FaUsers, FaGlobe } from "react-icons/fa";
+import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icons/fa";
+import { Link } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: `Layanan Jasa | ${siteConfig.name}`,
@@ -114,12 +117,8 @@ export default function JasaPage() {
             </span>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center text-base sm:text-lg mb-8">
-            Halo! Saya mahasiswa IT semester 6 yang memiliki passion dalam bidang coding. Meskipun
-            belum menjadi expert, saya sudah membantu 50+ teman-teman mahasiswa dalam perjalanan coding
-            mereka. Saya memahami tantangan sebagai mahasiswa - dari deadline tugas yang ketat,
-            keterbatasan budget, hingga kebingungan dalam memulai belajar. Oleh karena itu, saya ingin
-            berbagi ilmu dan pengalaman yang telah saya peroleh selama kuliah dengan harga yang
-            terjangkau untuk sesama mahasiswa.
+            Saya memberikan bimbingan dengan pendekatan praktis, materi yang mudah dipahami, dan
+            disesuaikan dengan kebutuhan belajar kamu.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -131,9 +130,15 @@ export default function JasaPage() {
               <FaWhatsapp className="mr-2" />
               Konsultasi Gratis
             </a>
-            <button className="inline-flex items-center justify-center border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
-              Lihat Portfolio Saya
-            </button>
+            <Link
+              href="/projects"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "w-full sm:w-fit bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
+              )}
+            >
+              <FaRegNewspaper className="mr-2 h-6 w-6" /> Lihat Project Saya
+            </Link>
           </div>
         </div>
 
