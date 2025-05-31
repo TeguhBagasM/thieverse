@@ -104,7 +104,7 @@ export default function JasaPage() {
           ))}
         </div>
 
-        <div className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl p-8 sm:p-12 mb-16">
+        <div className="w-full max-w-4xl bg-blue-50 dark:bg-gray-900 rounded-2xl p-8 sm:p-12 mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-6">
             Mengapa Memilih Belajar Bersama Saya?
           </h2>
