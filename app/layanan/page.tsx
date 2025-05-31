@@ -129,7 +129,6 @@ export default function JasaPage() {
             </a>
             <a
               href="/projects"
-              rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
             >
               <FaRegNewspaper className="mr-2" />

@@ -52,10 +52,10 @@ export function MobileNav() {
           </MobileLink>
           <MobileLink
             onOpenChange={setOpen}
-            href="/jasa"
+            href="/layanan"
             className="hover:text-blue-500 transition-colors"
           >
-            Jasa
+            Layanan
           </MobileLink>
           <MobileLink
             onOpenChange={setOpen}
