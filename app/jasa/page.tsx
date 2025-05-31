@@ -63,7 +63,7 @@ export default function JasaPage() {
 
       <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
         <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
-          <h1 className="inline-block font-semibold capitalize text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center text-dark dark:text-light mb-4">
+          <h1 className="inline-block font-semibold capitalize text-4xl md:text-5xl text-center text-dark dark:text-light mb-4">
             Jasa Belajar & Bantuan Coding
           </h1>
           <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
@@ -75,7 +75,7 @@ export default function JasaPage() {
           {serviceCards.map((service, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600"
+              className="bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600"
             >
               <div className="flex items-center justify-center w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4">
                 {service.icon}
@@ -130,15 +130,14 @@ export default function JasaPage() {
               <FaWhatsapp className="mr-2" />
               Konsultasi Gratis
             </a>
-            <Link
+            <a
               href="/projects"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "w-full sm:w-fit bg-blue-500 dark:bg-blue-400 text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105"
-              )}
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
             >
-              <FaRegNewspaper className="mr-2 h-6 w-6" /> Lihat Project Saya
-            </Link>
+              <FaRegNewspaper className="mr-2" />
+              Lihat Project Saya
+            </a>
           </div>
         </div>
 
@@ -150,7 +149,7 @@ export default function JasaPage() {
             {jasaFeatures?.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
+                className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
               >
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0 w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
