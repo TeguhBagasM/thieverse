@@ -19,36 +19,42 @@ export const siteConfig = {
   },
 };
 
-export const konsulFeaturs = [
+export const jasaFeatures = [
   {
-    title: "Konsultasi Tanpa Batas",
-    description: "Akses dukungan 24/7 untuk menjawab setiap pertanyaan coding Anda.",
-    icon: FaComments,
+    title: "Sesama Mahasiswa",
+    description: "Belajar bareng teman sesama mahasiswa yang paham struggle dan tantangan kuliah IT",
   },
   {
-    title: "Fleksibilitas Maksimal",
-    description: "Sesuaikan jadwal belajar dengan ritme Anda untuk hasil optimal.",
-    icon: FaClock,
+    title: "Harga Mahasiswa Banget",
+    description: "Tarif yang disesuaikan dengan budget mahasiswa, ga bikin kantong bolong",
   },
   {
-    title: "Harga Terjangkau",
-    description: "Nikmati penawaran harga yang kompetitif dan ramah di kantong.",
-    icon: FaWallet,
+    title: "Waktu Fleksibel",
+    description: "Jadwal yang bisa disesuaikan dengan jadwal kuliah dan aktivitas kampus kamu",
   },
   {
-    title: "Bimbingan Tugas Coding",
-    description: "Panduan langkah demi langkah untuk menyelesaikan tugas coding Anda.",
-    icon: FaLaptopCode,
+    title: "Belajar Sambil Ngobrol",
+    description: "Suasana belajar yang santai dan friendly, ga kaku kayak di kelas formal",
   },
   {
-    title: "Komunitas Pembelajar Aktif",
-    description: "Bergabung dengan Thieverse untuk belajar dan berkembang bersama.",
-    icon: FaUsers,
+    title: "Sharing Pengalaman",
+    description: "Berbagi tips dan trik yang udah dipraktekkan selama kuliah dan ngerjain project",
   },
   {
-    title: "Pembelajaran Tanpa Batas",
-    description: "Eksplorasi tak terbatas dengan akses penuh ke semua sumber daya selama 30 hari.",
-    icon: FaInfinity,
+    title: "Bantuan Tugas Real-time",
+    description: "Siap bantuin tugas yang lagi stuck atau deadline yang mepet",
+  },
+  {
+    title: "Komunitas Support",
+    description: "Join grup belajar bareng teman-teman lain yang sama-sama belajar coding",
+  },
+  {
+    title: "Learn by Doing",
+    description: "Belajar langsung praktek dengan project-project sederhana yang aplikatif",
+  },
+  {
+    title: "No Pressure Learning",
+    description: "Belajar tanpa tekanan, boleh nanya berkali-kali sampai paham",
   },
 ];
 

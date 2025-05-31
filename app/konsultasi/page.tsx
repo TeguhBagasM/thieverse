@@ -1,79 +1,172 @@
 import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
-import { konsulFeaturs, siteConfig } from "@/config/site";
-import { FaWhatsapp } from "react-icons/fa";
+import { jasaFeatures, siteConfig } from "@/config/site";
+import { FaWhatsapp, FaCode, FaUsers, FaGlobe } from "react-icons/fa";
 
 export const metadata: Metadata = {
-  title: `Konsultasi | ${siteConfig.name}`,
-  description: "Konsultasi",
+  title: `Layanan Jasa | ${siteConfig.name}`,
+  description: "Layanan jasa programming, mentoring, dan pengembangan website profesional",
 };
 
 const insights: string[] = [
-  "Konsultasi Kapan Saja",
-  "Harga Terjangkau",
-  "Bantu Tugas Coding Anda",
-  "Panduan untuk Pemula",
-  "Belajar Coding dari 0",
-  "Teman Belajar di Setiap Langkah",
+  "Belajar Bareng Sesama Mahasiswa",
+  "Harga Ramah Kantong Mahasiswa",
+  "Bantuin Tugas & Project Coding",
+  "Belajar Sambil Sharing Pengalaman",
+  "Teman Belajar yang Asik & Supportif",
 ];
 
-export default function KonsultasiPage() {
+const serviceCards = [
+  {
+    icon: <FaCode className="w-8 h-8 text-blue-500" />,
+    title: "Bimbingan Personal",
+    description: "Belajar coding bareng dengan pendampingan satu-satu",
+    price: "Mulai dari Rp 50.000",
+    features: ["Belajar sesuai kecepatan Anda", "Materi disesuaikan kebutuhan", "Waktu fleksibel"],
+  },
+  {
+    icon: <FaUsers className="w-8 h-8 text-green-500" />,
+    title: "Belajar Bareng Teman",
+    description: "Sesi belajar dalam grup kecil yang fun dan interaktif",
+    price: "Mulai dari Rp 30.000/orang",
+    features: [
+      "Grup maksimal 12 orang",
+      "Diskusi dan sharing bareng",
+      "Belajar sambil ngobrol santai",
+    ],
+  },
+  {
+    icon: <FaGlobe className="w-8 h-8 text-purple-500" />,
+    title: "Jasa Bikin Website",
+    description: "Bantuin bikin website sederhana untuk kebutuhan Anda",
+    price: "Mulai dari Rp 150.000",
+    features: ["Design simpel tapi keren", "Responsive di semua device", "Include hosting setup"],
+  },
+];
+
+export default function JasaPage() {
   return (
     <>
       <InsightRoll insights={insights} />
-      <div className="container max-w-6xl py-6 lg:py-14">
-        <div className="flex flex-col items-start gap-6 md:flex-row md:justify-between md:items-center md:gap-10">
-          <div className="flex-1 text-center">
-            <h1 className="font-bold text-4xl md:text-5xl">Konsultasi Coding</h1>
-            <p className="mt-3 text-lg text-gray-700 dark:text-gray-300">
-              Siap membantu di setiap langkah belajar coding Anda.
-            </p>
-          </div>
-        </div>
 
-        <hr className="my-10 border-gray-200 dark:border-gray-700" />
-
-        <div className="mb-12">
-          <h2 className="relative section-title-after text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Mengapa Memilih Thieverse?
-          </h2>
-          <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
-            Thieverse hadir sebagai rekan belajar coding Anda. Kami siap membantu Anda mengatasi segala
-            kesulitan dalam mengerjakan tugas, mulai dari pemahaman dasar hingga yang lebih kompleks.
-            Dengan biaya terjangkau sebesar Rp 25.000/bulan, Anda mendapatkan akses penuh ke dukungan
-            mentor kami. Jangan ragu untuk bertanya, kami selalu siap membimbing Anda kapan saja. Ayo
-            bergabung dengan Thieverse sekarang, karena kuota grup terbatas hanya untuk 20 orang. Punya
-            pertanyaan atau ingin berdiskusi tentang tugasmu? Ayo, kita obrolkan!
+      <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
+        <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
+          <h1 className="inline-block font-semibold capitalize text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center text-dark dark:text-light mb-4">
+            Jasa Belajar & Bantuan Coding
+          </h1>
+          <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
+            Belajar bareng mahasiswa IT semester 6 yang siap bantuin coding journey kamu!
           </p>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={siteConfig.links.whatsapp}
-            className="flex items-center justify-center bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-4 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 max-w-xs w-full sm:w-auto"
-          >
-            <FaWhatsapp className="h-6 w-6 mr-2" />
-            Chat Via WhatsApp
-          </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {konsulFeaturs?.map((feature) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl mb-16">
+          {serviceCards.map((service, index) => (
             <div
-              key={feature.title}
-              className="flex flex-col items-start p-6 border rounded-2xl shadow-sm transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md border-gray-200 dark:border-gray-700 group"
+              key={index}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-600"
             >
-              <div className="flex items-center mb-2">
-                <feature.icon className="text-3xl text-blue-600 dark:text-blue-500 dark:group-hover:text-blue-400 group-hover:text-blue-700" />
-                <h3 className="ml-3 text-2xl font-semibold text-gray-900 dark:text-gray-100">
-                  {feature.title}
-                </h3>
+              <div className="flex items-center justify-center w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4">
+                {service.icon}
               </div>
-              <p className="text-base text-gray-600 dark:text-gray-400 mt-2">{feature.description}</p>
+              <h3 className="text-xl font-semibold text-dark dark:text-light mb-2">{service.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
+                {service.description}
+              </p>
+              <div className="text-lg font-bold text-blue-600 dark:text-blue-400 mb-4">
+                {service.price}
+              </div>
+              <ul className="space-y-2 mb-6">
+                {service.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0"></span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
+                Pilih Layanan
+              </button>
             </div>
           ))}
         </div>
-      </div>
+
+        <div className="w-full max-w-4xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 sm:p-12 mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-6">
+            Kenapa Pilih Belajar Bareng Gue?
+          </h2>
+          <div className="text-center mb-6">
+            <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-4 py-2 rounded-full text-sm font-medium">
+              ✨ Sudah Dipercaya 50+ Mahasiswa
+            </span>
+          </div>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center text-base sm:text-lg mb-8">
+            Halo! Gue mahasiswa IT semester 6 yang passionate banget sama coding. Meski belum jadi
+            expert, tapi gue udah bantuin 50+ teman-teman mahasiswa dalam journey coding mereka. Gue
+            paham banget struggle sebagai mahasiswa - dari deadline tugas yang mepet, budget terbatas,
+            sampe bingung mulai dari mana. Makanya gue pengen sharing ilmu dan pengalaman yang udah gue
+            dapetin selama kuliah dengan harga yang ramah kantong kita sebagai mahasiswa.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#"
+              className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+            >
+              <FaWhatsapp className="mr-2" />
+              Konsultasi Gratis
+            </a>
+            <button className="inline-flex items-center justify-center border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+              Lihat Proyek Saya
+            </button>
+          </div>
+        </div>
+
+        <div className="w-full max-w-6xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-12">
+            Yang Bikin Beda Belajar di Sini
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {jasaFeatures?.map((feature, index) => (
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 dark:text-blue-400 text-xl font-bold">
+                      {index + 1}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-dark dark:text-light mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full max-w-4xl text-center py-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-dark dark:text-light mb-4">
+            Yuk, Mulai Belajar Bareng!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-8 text-base sm:text-lg">
+            Chat gue dulu untuk diskusi kebutuhan belajar kamu. Konsultasi gratis kok!
+          </p>
+          <a
+            href="#"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-4 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          >
+            <FaWhatsapp className="mr-2 text-xl" />
+            Chat Via WhatsApp
+          </a>
+        </div>
+      </section>
     </>
   );
 }
