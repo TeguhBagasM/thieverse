@@ -3,9 +3,6 @@ import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
 import { jasaFeatures, siteConfig } from "@/config/site";
 import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icons/fa";
-import { Link } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: `Layanan Jasa | ${siteConfig.name}`,
@@ -63,7 +60,7 @@ export default function JasaPage() {
 
       <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
         <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
-          <h1 className="inline-block font-semibold capitalize text-4xl md:text-5xl text-center text-dark dark:text-light mb-4">
+          <h1 className="inline-block font-semibold capitalize text-4xl md:text-5xl text-center mb-4">
             Jasa Belajar & Bantuan Coding
           </h1>
           <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
@@ -113,7 +110,7 @@ export default function JasaPage() {
           </h2>
           <div className="text-center mb-6">
             <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-4 py-2 rounded-full text-sm font-medium">
-              ✨ Sudah Dipercaya 50+ Mahasiswa
+              ✨ Sudah Dipercaya 100+ Mahasiswa
             </span>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center text-base sm:text-lg mb-8">
