@@ -25,7 +25,7 @@ const createWhatsAppURL = (serviceName: string, price: string) => {
 };
 
 const createConsultationURL = () => {
-  const message = `Halo! Saya ingin konsultasi gratis mengenai layanan coding. Bisakah dibantu?`;
+  const message = `Halo! Saya ingin konsultasi gratis mengenai layanan thieverse. Bisakah dibantu?`;
   return `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
 };
 
@@ -104,7 +104,7 @@ export default function JasaPage() {
           ))}
         </div>
 
-        <div className="w-full max-w-4xl bg-gradient-to-r from-blue-50 to-purple-50 dark:bg-gray-900 rounded-2xl p-8 sm:p-12 mb-16">
+        <div className="w-full max-w-4xl bg-white dark:bg-gray-900 rounded-2xl p-8 sm:p-12 mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-6">
             Mengapa Memilih Belajar Bersama Saya?
           </h2>
