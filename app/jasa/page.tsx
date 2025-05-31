@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 };
 
 const insights: string[] = [
-  "Sudah 50+ Mahasiswa Bergabung",
   "Belajar Bersama Sesama Mahasiswa",
   "Harga Terjangkau untuk Mahasiswa",
   "Bantuan Tugas & Project Coding",
@@ -18,7 +17,7 @@ const insights: string[] = [
   "Teman Belajar yang Supportif",
 ];
 
-const whatsappNumber = "+62123123123";
+const whatsappNumber = "+6281321821374";
 
 const createWhatsAppURL = (serviceName: string, price: string) => {
   const message = `Halo! Saya tertarik dengan layanan *${serviceName}* dengan budget ${price}. Bisakah konsultasi lebih lanjut?`;
@@ -49,12 +48,8 @@ const serviceCards = [
     icon: <FaGlobe className="w-8 h-8 text-purple-500" />,
     title: "Jasa Pembuatan Website",
     description: "Membantu pembuatan website sederhana untuk kebutuhan Anda",
-    price: "Mulai dari Rp 500.000",
-    features: [
-      "Design sederhana namun menarik",
-      "Responsive di semua device",
-      "Include setup hosting",
-    ],
+    price: "Mulai dari Rp 150.000",
+    features: ["Design sederhana namun menarik", "Responsive di semua device", "Free revisi 1x"],
   },
 ];
 
@@ -63,17 +58,16 @@ export default function JasaPage() {
     <>
       <InsightRoll insights={insights} />
 
-      <section className="w-full mt-16 sm:mt-24 md:mt-32 px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
+      <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
         <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
           <h1 className="inline-block font-semibold capitalize text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center text-dark dark:text-light mb-4">
             Jasa Belajar & Bantuan Coding
           </h1>
           <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-            Belajar bersama mahasiswa IT semester 6 yang siap membantu coding journey Anda!
+            Belajar bersama mahasiswa Teknik Informatika yang siap membantu coding journey Anda!
           </p>
         </div>
 
-        {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl mb-16">
           {serviceCards.map((service, index) => (
             <div
@@ -110,7 +104,6 @@ export default function JasaPage() {
           ))}
         </div>
 
-        {/* About Section */}
         <div className="w-full max-w-4xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 sm:p-12 mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-6">
             Mengapa Memilih Belajar Bersama Saya?
@@ -144,7 +137,6 @@ export default function JasaPage() {
           </div>
         </div>
 
-        {/* Features Section */}
         <div className="w-full max-w-6xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-12">
             Keunggulan Belajar di Sini
@@ -175,7 +167,6 @@ export default function JasaPage() {
           </div>
         </div>
 
-        {/* CTA Section */}
         <div className="w-full max-w-4xl text-center py-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-dark dark:text-light mb-4">
             Mari Mulai Belajar Bersama!

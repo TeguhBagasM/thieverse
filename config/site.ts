@@ -22,39 +22,40 @@ export const siteConfig = {
 export const jasaFeatures = [
   {
     title: "Sesama Mahasiswa",
-    description: "Belajar bareng teman sesama mahasiswa yang paham struggle dan tantangan kuliah IT",
+    description:
+      "Belajar bersama mahasiswa yang memahami tantangan dan kesulitan dalam perkuliahan IT",
   },
   {
-    title: "Harga Mahasiswa Banget",
-    description: "Tarif yang disesuaikan dengan budget mahasiswa, ga bikin kantong bolong",
+    title: "Harga Terjangkau",
+    description: "Tarif yang disesuaikan dengan budget mahasiswa dan tidak membebani keuangan",
   },
   {
     title: "Waktu Fleksibel",
-    description: "Jadwal yang bisa disesuaikan dengan jadwal kuliah dan aktivitas kampus kamu",
+    description: "Jadwal yang dapat disesuaikan dengan jadwal kuliah dan aktivitas kampus Anda",
   },
   {
-    title: "Belajar Sambil Ngobrol",
-    description: "Suasana belajar yang santai dan friendly, ga kaku kayak di kelas formal",
+    title: "Suasana Belajar Santai",
+    description: "Lingkungan belajar yang nyaman dan tidak formal, mendorong diskusi terbuka",
   },
   {
     title: "Sharing Pengalaman",
-    description: "Berbagi tips dan trik yang udah dipraktekkan selama kuliah dan ngerjain project",
+    description: "Berbagi tips dan strategi yang telah terbukti efektif selama perkuliahan",
   },
   {
-    title: "Bantuan Tugas Real-time",
-    description: "Siap bantuin tugas yang lagi stuck atau deadline yang mepet",
+    title: "Bantuan Tugas Cepat",
+    description: "Siap membantu menyelesaikan tugas yang sulit atau menghadapi deadline yang ketat",
   },
   {
-    title: "Komunitas Support",
-    description: "Join grup belajar bareng teman-teman lain yang sama-sama belajar coding",
+    title: "Komunitas Supportif",
+    description: "Bergabung dengan grup belajar bersama teman-teman yang memiliki minat sama",
   },
   {
-    title: "Learn by Doing",
-    description: "Belajar langsung praktek dengan project-project sederhana yang aplikatif",
+    title: "Pembelajaran Praktis",
+    description: "Fokus pada praktik langsung dengan project-project yang dapat diterapkan",
   },
   {
-    title: "No Pressure Learning",
-    description: "Belajar tanpa tekanan, boleh nanya berkali-kali sampai paham",
+    title: "Pembelajaran Tanpa Tekanan",
+    description: "Belajar dalam suasana yang santai dan boleh bertanya sampai benar-benar paham",
   },
 ];
 
