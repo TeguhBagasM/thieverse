@@ -3,6 +3,9 @@ import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
 import { jasaFeatures, siteConfig } from "@/config/site";
 import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icons/fa";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: `Layanan Jasa | ${siteConfig.name}`,
@@ -127,13 +130,17 @@ export default function JasaPage() {
               <FaWhatsapp className="mr-2" />
               Konsultasi Gratis
             </a>
-            <a
+            <Link
               href="/projects"
-              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+              rel="noreferrer"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "w-full sm:w-fit border-2 border-blue-500 dark:border-blue-400 text-blue-500 dark:text-blue-400 py-3 px-8 rounded-full hover:bg-blue-500 dark:hover:bg-blue-400 hover:text-white dark:hover:text-white hover:border-blue-500 dark:hover:border-blue-400 shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center"
+              )}
             >
-              <FaRegNewspaper className="mr-2" />
+              <FaRegNewspaper className="mr-2 h-6 w-6" />
               Lihat Project Saya
-            </a>
+            </Link>
           </div>
         </div>
 
