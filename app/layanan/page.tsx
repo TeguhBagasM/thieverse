@@ -125,7 +125,7 @@ export default function JasaPage() {
               href={createConsultationURL()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+              className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
             >
               <FaWhatsapp className="mr-2" />
               Konsultasi Gratis
