@@ -42,7 +42,7 @@ const serviceCards = [
     title: "Belajar Bersama Teman",
     description: "Sesi belajar dalam grup kecil yang interaktif dan menyenangkan",
     price: "Mulai dari Rp 30.000/orang",
-    features: ["Grup maksimal 4 orang", "Diskusi dan sharing bersama", "Suasana belajar yang santai"],
+    features: ["Grup maksimal 12 orang", "Diskusi dan sharing bersama", "Suasana belajar yang santai"],
   },
   {
     icon: <FaGlobe className="w-8 h-8 text-purple-500" />,
