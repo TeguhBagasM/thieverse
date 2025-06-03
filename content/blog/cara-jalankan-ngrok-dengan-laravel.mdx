@@ -1,0 +1,63 @@
+---
+title: "Cara Jalankan Ngrok dengan Laravel"
+description: "Panduan lengkap menggunakan Ngrok di Laravel untuk integrasi Midtrans."
+date: 2025-05-27
+tags: ["ngrok", "laravel"]
+published: true
+img: "/images/blogs/ngrok/ngrok-bg.png"
+---
+
+# Cara Jalankan Ngrok dengan Laravel (untuk Integrasi Midtrans)
+
+Jika kamu sedang mengembangkan **fitur pembayaran Midtrans** di Laravel, kamu akan butuh URL publik agar Midtrans bisa mengirim **notifikasi callback** ke server lokalmu. Solusinya: **Ngrok**.
+
+Dalam tutorial ini, kamu akan belajar **cara menjalankan Ngrok di Laravel** dan menggunakannya untuk menguji pembayaran Midtrans dari local development.
+
+## 🛠️ Prasyarat
+
+- Laravel sudah berjalan lokal (`php artisan serve`)
+- Sudah install Ngrok
+- Akun Midtrans (mode sandbox)
+
+### 1. Jalankan Laravel secara lokal
+
+Pastikan Laravel berjalan di port default:
+
+<Image src="/images/blogs/ngrok/serve.png" width="718" height="304" alt="NGROK" />
+
+```bash
+php artisan serve
+```
+
+Lalu tambahkan terminal baru
+
+<Image src="/images/blogs/ngrok/add-terminal.png" width="718" height="304" alt="NGROK" />
+
+dan jalankan perintah ini
+
+```bash
+npm run dev
+```
+
+### 2. Jalankan Ngrok
+
+Lihat direktori projek laravel anda dan klik dua kali pada ngrok Application
+
+<Image src="/images/blogs/ngrok/ngrok.png" width="718" height="304" alt="NGROK" />
+
+Akan muncul tampilan seperti ini
+
+<Image src="/images/blogs/ngrok/jalankan-ngrok.png" width="718" height="304" alt="NGROK" />
+
+dan jalankan perintah
+
+```bash
+ngrok http http://localhost:8000
+```
+
+<Image src="/images/blogs/ngrok/copy-url-ngrok.png" width="718" height="304" alt="NGROK" />
+
+Catat URL ini karena akan digunakan sebagai base URL untuk konfigurasi Midtrans.
+lalu nanti di chrome akan tampil seperti ini lalu klik visit site
+
+<Image src="/images/blogs/ngrok/klik-visit.png" width="718" height="304" alt="NGROK" />
