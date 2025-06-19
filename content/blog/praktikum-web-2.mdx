@@ -566,7 +566,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with('role')->paginate(10);
-        return view('admin.users.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     public function show(User $user)
@@ -765,3 +765,92 @@ Buat folder `resources/views/users/` dan file `index.blade.php`:
 </div>
 @endsection
 ```
+
+## Langkah 13: Testing dan Validasi
+
+### 13.1 Test Registrasi User Baru
+
+1. Akses `/register`
+2. Daftar dengan user baru
+3. Pastikan `role_id` otomatis terisi sebagai user (ID: 2)
+
+### 13.2 Test Login Admin
+
+1. Login dengan `admin@example.com` / `password`
+2. Pastikan redirect ke `/admin` (Admin Dashboard)
+3. Test akses menu Users
+
+### 13.3 Test Login User Biasa
+
+1. Login dengan user yang baru didaftarkan
+2. Pastikan redirect ke `/home`
+3. Test akses menu Produk
+4. Coba akses URL `/admin` (harus error 403)
+
+### 13.4 Test Middleware
+
+1. Logout dari sistem
+2. Coba akses langsung `/admin` (harus redirect ke login)
+3. Login sebagai user biasa
+4. Coba akses `/admin` (harus error 403)
+
+---
+
+## Tugas dan Latihan
+
+### Tugas 1: Fitur Tambahan
+
+1. Tambahkan fitur edit user di admin panel
+2. Buat halaman profile untuk user
+3. Implementasi change password
+
+### Tugas 2: Validasi dan Error Handling
+
+1. Tambahkan validasi form yang lebih lengkap
+2. Implementasi error handling yang user-friendly
+3. Tambahkan flash message untuk feedback
+
+### Tugas 3: UI/UX Improvement
+
+1. Tambahkan icon pada menu navbar
+2. Implementasi responsive design
+3. Tambahkan breadcrumb navigation
+
+---
+
+## Troubleshooting
+
+### Error: Class 'Role' not found
+
+**Solusi:** Pastikan sudah import model Role di controller:
+
+```php
+use App\Models\Role;
+```
+
+### Error: Route admin.dashboard not defined
+
+**Solusi:** Pastikan route admin sudah dibuat dengan benar di `routes/web.php`
+
+### Error: 403 Forbidden
+
+**Solusi:** Pastikan middleware admin sudah terdaftar di `Kernel.php` dan user memiliki role admin
+
+### Error: Column 'role_id' cannot be null
+
+**Solusi:** Pastikan seeder Role sudah dijalankan dan RegisterController sudah diupdate
+
+---
+
+## Kesimpulan
+
+Praktikum ini telah berhasil mengimplementasikan:
+
+- ✅ Laravel UI Authentication
+- ✅ Role Management System (Admin & User)
+- ✅ Middleware Authorization
+- ✅ Dynamic Navigation Menu
+- ✅ Role-based Redirect
+- ✅ CRUD Operations dengan Role Protection
+
+Sistem authentication dan authorization ini dapat dikembangkan lebih lanjut sesuai kebutuhan aplikasi yang akan dibangun.
