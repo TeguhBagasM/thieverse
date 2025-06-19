@@ -1,0 +1,767 @@
+---
+title: "Praktikum Pemrograman Web 2"
+description: "Langkah-Langkah Praktikum Pemrograman Web 2 Laravel UI"
+date: 2025-06-19
+tags: ["laravel"]
+published: true
+img: "/images/blogs/laravel/laravel.png"
+---
+
+# Praktikum Laravel UI Authentication & Role Management
+
+## Tujuan Pembelajaran
+
+Setelah menyelesaikan praktikum ini, mahasiswa diharapkan dapat:
+
+1. Menginstall dan mengkonfigurasi Laravel UI dengan authentication
+2. Membuat sistem role management (Admin & User)
+3. Implementasi middleware untuk authorization
+4. Membuat navigation menu berdasarkan role
+5. Mengelola redirect setelah login berdasarkan role
+
+## Prerequisites
+
+- PHP >= 8.0
+- Composer
+- Node.js & NPM
+- Database (MySQL/PostgreSQL)
+- Text Editor (VS Code recommended)
+
+---
+
+## Langkah 1: Setup Project Laravel
+
+### 1.1 Buat Project Laravel Baru
+
+```bash
+composer create-project laravel/laravel laravel-ui
+```
+
+```bash
+cd laravel-ui
+```
+
+### 1.2 Konfigurasi Database
+
+Edit file `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_ui
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+## Langkah 2: Install Laravel UI
+
+### 2.1 Install Laravel UI Package
+
+```bash
+composer require laravel/ui
+```
+
+### 2.2 Generate Authentication Scaffolding
+
+```bash
+php artisan ui bootstrap --auth
+```
+
+### 2.3 Install NPM Dependencies
+
+```bash
+npm install
+npm run dev
+```
+
+### 2.4 Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+### 2.5 Test Authentication
+
+Jalankan server:
+
+```bash
+php artisan serve
+```
+
+Akses `http://localhost:8000` dan test fitur register/login.
+
+---
+
+## Langkah 3: Membuat Sistem Role Management
+
+### 3.1 Buat Migration untuk Table Roles
+
+```bash
+php artisan make:migration create_roles_table
+```
+
+Edit file migration `database/migrations/xxxx_create_roles_table.php`:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('roles');
+    }
+};
+```
+
+### 3.2 Tambah role_id ke Table Users
+
+```bash
+php artisan make:migration add_role_id_to_users_table --table=users
+```
+
+Edit file migration:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->default(2)->after('email'); // 2 = user biasa
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
+            $table->dropColumn('role_id');
+        });
+    }
+};
+```
+
+---
+
+## Langkah 4: Membuat Model dan Relasi
+
+### 4.1 Buat Model Role
+
+```bash
+php artisan make:model Role
+```
+
+Edit `app/Models/Role.php`:
+
+```php
+<<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Role extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+}
+```
+
+### 4.2 Update Model User
+
+Edit `app/Models/User.php`:
+
+```php
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
+{
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    // Relasi ke Role
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Helper method untuk cek apakah user adalah admin
+   public function isAdmin()
+    {
+        return $this->role && $this->role->name === 'admin';
+    }
+
+    // Helper method untuk cek role
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
+}
+```
+
+---
+
+## Langkah 5: Membuat Seeder
+
+### 5.1 Buat Role Seeder
+
+```bash
+php artisan make:seeder RoleSeeder
+```
+
+Edit `database/seeders/RoleSeeder.php`:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    public function run()
+    {
+        Role::create([
+            'name' => 'admin',
+        ]);
+
+        Role::create([
+            'name' => 'user',
+        ]);
+    }
+}
+```
+
+### 5.2 Buat User Seeder
+
+```bash
+php artisan make:seeder UserSeeder
+```
+
+Edit `database/seeders/UserSeeder.php`:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role_id' => 1,
+        ]);
+    }
+}
+```
+
+### 5.3 Update Database Seeder
+
+Edit `database/seeders/DatabaseSeeder.php`:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        $this->call([
+            RoleSeeder::class,
+            UserSeeder::class,
+        ]);
+    }
+}
+```
+
+### 5.3 Jalankan Migration dan Seeder
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+---
+
+## Langkah 6: Membuat Middleware Admin
+
+### 6.1 Generate Middleware
+
+```bash
+php artisan make:middleware AdminMiddleware
+```
+
+### 6.2 Edit Middleware
+
+Edit `app/Http/Middleware/AdminMiddleware.php`:
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\Role;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class AdminMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+     public function handle(Request $request, Closure $next): Response
+    {
+        $role_id = $request->user()->role_id;
+        $admin_role = Role::where('name', 'admin')->first()->id;
+        if ($role_id != $admin_role) {
+            return abort(403, 'anda tidak bisa akses halaman admin');
+        }
+        return $next($request);
+    }
+}
+```
+
+### 6.3 Daftarkan Middleware
+
+Edit `bootstrap/app.php`, tambahkan di `$withMiddleware`:
+
+```php
+->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'isAdmin' => App\Http\Middleware\AdminMiddleware::class,
+        ]);
+    })
+```
+
+---
+
+## Langkah 7: Update Authentication Controllers
+
+### 7.1 Update RegisterController
+
+Edit `app/Http/Controllers/Auth/RegisterController.php`, update method `create`:
+
+```php
+protected function create(array $data)
+    {
+        // Ambil role 'user' dari database
+        $userRole = \App\Models\Role::where('name', 'user')->first();
+
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'role_id' => $userRole ? $userRole->id : 2,
+        ]);
+    }
+```
+
+### 7.2 Update LoginController untuk Redirect
+
+Edit `app/Http/Controllers/Auth/LoginController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+class LoginController extends Controller
+{
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->middleware('auth')->only('logout');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Redirect berdasarkan role
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // Default redirect untuk user biasa
+        return redirect()->intended('/home');
+    }
+}
+```
+
+---
+
+## Langkah 8: Membuat Controllers Admin
+
+### 8.1 Buat AdminController
+
+```bash
+php artisan make:controller Admin/AdminController
+```
+
+Edit `app/Http/Controllers/Admin/AdminController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class AdminController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('isAdmin');
+    }
+
+    public function index()
+    {
+        return view('admin.dashboard');
+    }
+}
+```
+
+### 8.2 Buat UserController untuk Admin
+
+```bash
+php artisan make:controller Admin/UserController
+```
+
+Edit `app/Http/Controllers/Admin/UserController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Role;
+use Illuminate\Http\Request;
+
+class UserController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
+    public function index()
+    {
+        $users = User::with('role')->paginate(10);
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function show(User $user)
+    {
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function destroy(User $user)
+    {
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Tidak dapat menghapus akun sendiri');
+        }
+
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
+    }
+}
+```
+
+## Langkah 9: Membuat Routes
+
+Edit `routes/web.php`:
+
+```php
+<?php
+
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/produk', [App\Http\Controllers\HomeController::class, 'produk'])->name('products.index');
+
+// Admin Routes
+Route::middleware(['isAdmin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::resource('admin/users', UserController::class);
+    // tambahkan route admin lainnya di sini
+});
+
+// User Routes
+Route::middleware(['auth'])->group(function () {
+    // tambahkan route user lainnya di sini
+});
+```
+
+---
+
+## Langkah 10: Update Navbar Berdasarkan Role
+
+Edit `resources/views/layouts/app.blade.php`, update bagian navbar:
+
+```php
+<ul class="navbar-nav ms-auto">
+    <!-- Menu berdasarkan Role -->
+    @auth
+    @if(Auth::user()->name === 'admin')
+        <!-- Menu Admin -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+        </li>
+    @else
+        <!-- Menu User -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('products.index') }}">Produk</a>
+        </li>
+        @endif
+    @endauth
+</ul>
+```
+
+---
+
+## Langkah 11: Membuat Views
+
+### 11.1 Buat Admin Dashboard
+
+Buat folder `resources/views/admin/` dan file `dashboard.blade.php`:
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Admin Dashboard') }}</div>
+
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        Selamat datang, {{ Auth::user()->name }}! Anda masuk sebagai Administrator.
+                    </div>
+
+                    <h4>Panel Admin</h4>
+                    <p>Ini adalah halaman khusus admin. Hanya user dengan role admin yang bisa mengakses halaman ini.</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Manajemen User</h5>
+                                    <p class="card-text">Kelola data pengguna sistem.</p>
+                                    <a href="{{ route('users.index') }}" class="btn btn-primary">Kelola User</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+```
+
+### 11.2 Buat Admin Users Index
+
+Buat folder `resources/views/users/` dan file `index.blade.php`:
+
+```php
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Manajemen Users</h4>
+                </div>
+
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Tanggal Daftar</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
+                                            {{ $user->role->display_name ?? 'No Role' }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                    <td>
+                                        <a href="{{ route('users.show', $user) }}" class="btn btn-sm btn-info">Detail</a>
+                                        @if($user->id !== auth()->id())
+                                            <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus</button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {{ $users->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+```
