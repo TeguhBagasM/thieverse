@@ -631,7 +631,7 @@ Edit `resources/views/layouts/app.blade.php`, update bagian navbar:
 <ul class="navbar-nav ms-auto">
     <!-- Menu berdasarkan Role -->
     @auth
-    @if(Auth::user()->name === 'admin')
+    @if(Auth::user()->role->name === 'admin')
         <!-- Menu Admin -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
