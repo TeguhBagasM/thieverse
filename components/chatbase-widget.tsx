@@ -35,7 +35,7 @@ interface ChatbaseWidgetProps {
 declare global {
   interface Window {
     chatbaseConfig: ChatbaseConfig;
-    chatbase: any;
+    chatbase: ((action: string, config: ChatbaseConfig) => void) | undefined;
   }
 }
 
@@ -116,7 +116,6 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
       };
     }
 
-    // Cleanup function
     return () => {
       const scriptToRemove = document.getElementById(chatbaseId);
       if (scriptToRemove) {
