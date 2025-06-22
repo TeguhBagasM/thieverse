@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/site-footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import ChatbaseWidget from "@/components/chatbase-widget";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
             <SiteHeader />
             <main className="flex-1">{children}</main>
             <SiteFooter />
+            <ChatbaseWidget />
           </div>
         </ThemeProvider>
       </body>
