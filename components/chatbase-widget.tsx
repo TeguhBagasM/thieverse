@@ -40,7 +40,7 @@ declare global {
 }
 
 const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
-  chatbaseId = "u1CyihuWFxg1rX3atbI3H",
+  chatbaseId = "qyKLYnzlgQercOJJRrA8j",
   buttonText = "Tanya CS",
   greeting = "Hi! What can I help you with?",
   chatHeight = "500px",
@@ -50,22 +50,18 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
 }) => {
   const { theme, resolvedTheme } = useTheme();
 
-  // Tentukan apakah mode gelap aktif
   const isDarkMode = theme === "dark" || resolvedTheme === "dark";
 
   useEffect(() => {
-    // Bersihkan script yang sudah ada
     const existingScript = document.getElementById(chatbaseId);
     if (existingScript) {
       existingScript.remove();
     }
 
-    // Reset chatbase function jika sudah ada
     if (window.chatbase && typeof window.chatbase === "function") {
       window.chatbase = undefined;
     }
 
-    // Konfigurasi chatbase berdasarkan theme
     window.chatbaseConfig = {
       buttonText,
       buttonBackground: isDarkMode ? "#3B82F6" : "#4CAF50",
@@ -106,7 +102,6 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
       };
     };
 
-    // Inisialisasi berdasarkan document state
     if (document.readyState === "complete") {
       initChatbase();
     } else {
