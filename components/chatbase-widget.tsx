@@ -40,7 +40,7 @@ declare global {
 }
 
 const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
-  chatbaseId = "qyKLYnzlgQercOJJRrA8j",
+  chatbaseId = "_xhD_xOFMum-m1AFgfenP",
   buttonText = "Tanya CS",
   greeting = "Hi! What can I help you with?",
   chatHeight = "500px",
