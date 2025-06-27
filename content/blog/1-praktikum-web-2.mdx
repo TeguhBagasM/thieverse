@@ -439,7 +439,7 @@ Edit `bootstrap/app.php`, tambahkan di `$withMiddleware`:
 
 ### 7.1 Update RegisterController
 
-Edit `app/Http/Controllers/Auth/RegisterController.php`, update method `create`:
+Edit `Auth/RegisterController.php`, update method `create`:
 
 ```php
 protected function create(array $data)
@@ -458,7 +458,7 @@ protected function create(array $data)
 
 ### 7.2 Update LoginController untuk Redirect
 
-Edit `app/Http/Controllers/Auth/LoginController.php`:
+Edit `Auth/LoginController.php`:
 
 ```php
 <?php
@@ -514,7 +514,7 @@ class LoginController extends Controller
 php artisan make:controller Admin/AdminController
 ```
 
-Edit `app/Http/Controllers/Admin/AdminController.php`:
+Edit `Admin/AdminController.php`:
 
 ```php
 <?php
@@ -544,7 +544,7 @@ class AdminController extends Controller
 php artisan make:controller Admin/UserController
 ```
 
-Edit `app/Http/Controllers/Admin/UserController.php`:
+Edit `Admin/UserController.php`:
 
 ```php
 <?php
