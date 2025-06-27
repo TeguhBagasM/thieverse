@@ -1,5 +1,5 @@
 ---
-title: "Praktikum Pemrograman Web 2"
+title: "Part: 1 Praktikum Pemrograman Web 2"
 description: "Langkah-Langkah Praktikum Pemrograman Web 2 Laravel UI"
 date: 2025-06-19
 tags: ["laravel"]
@@ -101,7 +101,7 @@ Akses `http://localhost:8000` dan test fitur register/login.
 php artisan make:migration create_roles_table
 ```
 
-Edit file migration `database/migrations/xxxx_create_roles_table.php`:
+Edit file migration `create_roles_table.php`:
 
 ```php
 <?php
@@ -560,7 +560,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('isAdmin');
     }
 
     public function index()
@@ -571,17 +571,13 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return view('admin.users.show', compact('user'));
+        return view('users.show', compact('user'));
     }
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
-            return back()->with('error', 'Tidak dapat menghapus akun sendiri');
-        }
-
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
+        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
     }
 }
 ```
@@ -605,7 +601,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/produk', [App\Http\Controllers\HomeController::class, 'produk'])->name('products.index');
+// Route::get('/produk', [App\Http\Controllers\HomeController::class, 'produk'])->name('products.index');
 
 // Admin Routes
 Route::middleware(['isAdmin'])->group(function () {
@@ -620,11 +616,48 @@ Route::middleware(['auth'])->group(function () {
 });
 ```
 
+Edit `HomeController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
+    }
+    public function produk() {
+        return "ini contoh untuk halaman produk";
+    }
+}
+
+```
+
 ---
 
 ## Langkah 10: Update Navbar Berdasarkan Role
 
-Edit `resources/views/layouts/app.blade.php`, update bagian navbar:
+Edit `resources/views/layouts/app.blade.php`:
 
 ```php
 <!-- Left Side Of Navbar -->
