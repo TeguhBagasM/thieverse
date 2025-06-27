@@ -183,7 +183,7 @@ Edit `resources/views/users/index.blade.php`:
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
-                                            {{ $user->role->display_name ?? 'No Role' }}
+                                            {{ $user->role->name ?? 'No Role' }}
                                         </span>
                                     </td>
                                     <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
@@ -231,6 +231,10 @@ Edit `resources/views/users/index.blade.php`:
 ## Langkah 14: Buat View Create User
 
 Buat file `resources/views/users/create.blade.php`:
+
+```bash
+php artisan make:view users.create
+```
 
 ```php
 @extends('layouts.app')
@@ -286,7 +290,7 @@ Buat file `resources/views/users/create.blade.php`:
                                     <option value="">Pilih Role</option>
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
-                                            {{ $role->display_name }}
+                                            {{ $role->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -346,6 +350,10 @@ Buat file `resources/views/users/create.blade.php`:
 
 Buat file `resources/views/users/edit.blade.php`:
 
+```bash
+php artisan make:view users.edit
+```
+
 ```php
 @extends('layouts.app')
 
@@ -402,7 +410,7 @@ Buat file `resources/views/users/edit.blade.php`:
                                     @foreach($roles as $role)
                                         <option value="{{ $role->id }}"
                                                 {{ old('role_id', $user->role_id) == $role->id ? 'selected' : '' }}>
-                                            {{ $role->display_name }}
+                                            {{ $role->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -463,6 +471,10 @@ Buat file `resources/views/users/edit.blade.php`:
 
 Buat file `resources/views/users/show.blade.php`:
 
+```bash
+php artisan make:view users.show
+```
+
 ```php
 @extends('layouts.app')
 
@@ -503,7 +515,7 @@ Buat file `resources/views/users/show.blade.php`:
                         <div class="col-md-3"><strong>Role:</strong></div>
                         <div class="col-md-9">
                             <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }} fs-6">
-                                {{ $user->role->display_name ?? 'No Role' }}
+                                {{ $user->role->name ?? 'No Role' }}
                             </span>
                         </div>
                     </div>
