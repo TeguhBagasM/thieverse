@@ -41,14 +41,14 @@ export function MobileNav() {
             href="/blog"
             className="hover:text-blue-500 transition-colors"
           >
-            Blogs
+            Blog
           </MobileLink>
           <MobileLink
             onOpenChange={setOpen}
             href="/about"
             className="hover:text-blue-500 transition-colors"
           >
-            About
+            Tentang
           </MobileLink>
           <MobileLink
             onOpenChange={setOpen}
@@ -62,7 +62,7 @@ export function MobileNav() {
             href="/projects"
             className="hover:text-blue-500 transition-colors"
           >
-            Projects
+            Projek
           </MobileLink>
         </div>
         <div className="flex justify-center gap-4 mt-8">

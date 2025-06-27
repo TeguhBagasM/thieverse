@@ -12,23 +12,23 @@ export function MainNav() {
         <img src="/images/logo-thieverse.png" alt="Logo" className="h-11" />
       </Link>
       <Link
-        href="/about"
-        className={cn(
-          "text-md font-medium transition-colors relative group hidden sm:inline-block",
-          pathname === "/about" ? "text-foreground" : "text-foreground/60"
-        )}
-      >
-        About
-        <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-      </Link>
-      <Link
         href="/blog"
         className={cn(
           "text-md font-medium transition-colors relative group hidden sm:inline-block",
           pathname === "/blog" ? "text-foreground" : "text-foreground/60"
         )}
       >
-        Blogs
+        Blog
+        <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+      </Link>
+      <Link
+        href="/about"
+        className={cn(
+          "text-md font-medium transition-colors relative group hidden sm:inline-block",
+          pathname === "/about" ? "text-foreground" : "text-foreground/60"
+        )}
+      >
+        Tentang
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
       </Link>
       <Link
@@ -48,7 +48,7 @@ export function MainNav() {
           pathname === "/projects" ? "text-foreground" : "text-foreground/60"
         )}
       >
-        Projects
+        Projek
         <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
       </Link>
     </nav>
