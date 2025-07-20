@@ -3,6 +3,16 @@ import { createId } from "@paralleldrive/cuid2";
 const projects = [
   {
     id: createId(),
+    title: `Expense Tracker`,
+    description:
+      "Expense Tracker adalah aplikasi berbasis web yang dibangun dengan Laravel dan Filament untuk mencatat dan mengelola keuangan pribadi. Pengguna dapat mencatat transaksi pemasukan dan pengeluaran, mengelompokkan transaksi berdasarkan kategori, serta melihat detail tanggal dan jumlah transaksi. Dengan antarmuka yang sederhana dan responsif, aplikasi ini memudahkan pengguna dalam memantau kondisi finansial mereka secara real-time.",
+    cover: "/images/projects/expense-tracker-filament.png",
+    stacks: ["MySQL", "Laravel", "Filament"],
+    isRepo: true,
+    repoUrl: "https://github.com/TeguhBagasM/expense-tracker-filament",
+  },
+  {
+    id: createId(),
     title: `SpendTvise`,
     description:
       "SpendTvise adalah aplikasi berbasis website untuk mengelola keuangan pribadi. Fitur utama mencakup pencatatan pemasukan dan pengeluaran, visualisasi data keuangan melalui grafik dan bagan, serta fitur tambahan seperti pembuatan anggaran dan pelacakan tujuan keuangan. Tujuannya adalah memberikan gambaran jelas kondisi keuangan dan membantu pengambilan keputusan finansial yang lebih baik.",

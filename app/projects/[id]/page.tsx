@@ -12,45 +12,49 @@ export const metadata: Metadata = {
 const projectsWithDetails = projects.map((project) => ({
   ...project,
   startDate:
-    project.title === "CSA Quizzy"
-      ? "November 2024"
-      : project.title === "SpendTvise"
-        ? "Februari 2025"
-        : project.title === "SIMANIS"
-          ? "November 2024"
-          : project.title === "Marcourse"
-            ? "Oktober 2024"
-            : project.title === "CSA STMIK-MI"
-              ? "September 2024"
-              : project.title === "ThievStore"
-                ? "Maret 2024"
-                : project.title === "Sistem Pembayaran SPP"
-                  ? "September 2021"
-                  : project.title === "Marquizzy"
-                    ? "November 2024"
-                    : project.title === "Sistem Reservasi Hotel"
-                      ? "Maret 2022"
-                      : "2023",
-  endDate:
-    project.title === "CSA Quizzy"
-      ? "November 2024"
-      : project.title === "SpendTvise"
-        ? "Maret 2025"
-        : project.title === "SIMANIS"
-          ? "Januari 2025"
-          : project.title === "Marcourse"
+    project.title === "Expense Tracker"
+      ? "Juli 2025"
+      : project.title === "CSA Quizzy"
+        ? "November 2024"
+        : project.title === "SpendTvise"
+          ? "Februari 2025"
+          : project.title === "SIMANIS"
             ? "November 2024"
-            : project.title === "CSA STMIK-MI"
+            : project.title === "Marcourse"
               ? "Oktober 2024"
-              : project.title === "ThievStore"
-                ? "April 2024"
-                : project.title === "Sistem Pembayaran SPP"
-                  ? "November 2021"
-                  : project.title === "Marquizzy"
-                    ? "November 2024"
-                    : project.title === "Sistem Reservasi Hotel"
-                      ? "April 2022"
-                      : "2024",
+              : project.title === "CSA STMIK-MI"
+                ? "September 2024"
+                : project.title === "ThievStore"
+                  ? "Maret 2024"
+                  : project.title === "Sistem Pembayaran SPP"
+                    ? "September 2021"
+                    : project.title === "Marquizzy"
+                      ? "November 2024"
+                      : project.title === "Sistem Reservasi Hotel"
+                        ? "Maret 2022"
+                        : "2024",
+  endDate:
+    project.title === "Expense Tracker"
+      ? "Juli 2025"
+      : project.title === "CSA Quizzy"
+        ? "November 2024"
+        : project.title === "SpendTvise"
+          ? "Maret 2025"
+          : project.title === "SIMANIS"
+            ? "Januari 2025"
+            : project.title === "Marcourse"
+              ? "November 2024"
+              : project.title === "CSA STMIK-MI"
+                ? "Oktober 2024"
+                : project.title === "ThievStore"
+                  ? "April 2024"
+                  : project.title === "Sistem Pembayaran SPP"
+                    ? "November 2021"
+                    : project.title === "Marquizzy"
+                      ? "November 2024"
+                      : project.title === "Sistem Reservasi Hotel"
+                        ? "April 2022"
+                        : "2024",
   features: getProjectFeatures(project.title),
   challenges: getProjectChallenges(project.title),
   techDetails: getProjectTechDetails(project.title, project.stacks),
@@ -58,13 +62,22 @@ const projectsWithDetails = projects.map((project) => ({
 
 function getProjectFeatures(title: string): string[] {
   switch (title) {
-    case "ThievChat":
+    case "Expense Tracker":
+      return [
+        "Pencatatan Pemasukan (Income)",
+        "Pencatatan Pengeluaran (Expense)",
+        "Grafik dan Statistik",
+        "Kelola Kategori",
+        "Tampilan responsif",
+      ];
+    case "SpendTvise":
       return [
         "Pencatatan Pemasukan (Income)",
         "Pencatatan Pengeluaran (Expense)",
         "Grafik dan Statistik",
         "Profil Pengguna",
         "Tampilan responsif dengan Tailwind CSS",
+        "Dark mode support",
       ];
     case "ThievChat":
       return [
