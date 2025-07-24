@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { Clock, Heart, Instagram, Mail } from "lucide-react";
 import { Icons } from "./icons";
 import React from "react";
+import Link from "next/link";
 
 export function SiteFooter() {
   const [time, setTime] = React.useState<string>("");
@@ -35,7 +36,15 @@ export function SiteFooter() {
             <h1 className="font-semibold text-lg">{siteConfig.name}</h1>
             <div className="flex items-center justify-center text-sm">
               Made with <Heart className="text-red-500 h-4 w-4 mx-1" /> by{" "}
-              <span className="text-blue-500 ml-1">{siteConfig.author}</span>
+              <Link
+                href={siteConfig.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 ml-1 transition-colors duration-200 hover:underline"
+                aria-label={`Visit ${siteConfig.author}'s LinkedIn profile`}
+              >
+                {siteConfig.author}
+              </Link>
             </div>
           </div>
         </div>
