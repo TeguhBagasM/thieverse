@@ -62,7 +62,7 @@ export function MobileNav() {
             href="/projects"
             className="hover:text-blue-500 transition-colors"
           >
-            Projek
+            Proyek
           </MobileLink>
         </div>
         <div className="flex justify-center gap-4 mt-8">

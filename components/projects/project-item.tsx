@@ -34,10 +34,9 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
     router.push(`/projects/${id}`);
   };
 
-  // Fungsi untuk mengoptimalkan loading image
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
-    target.src = "/images/projects/placeholder.png"; // Fallback image
+    target.src = "/images/projects/placeholder.png";
   };
 
   return (
@@ -51,10 +50,9 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
             onError={handleImageError}
-            priority={false} // Set to true only for above-the-fold images
+            priority={false}
           />
 
-          {/* Overlay dengan konten hover */}
           <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center space-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
             {deployedURL && (
               <CustomLink
