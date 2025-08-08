@@ -979,20 +979,52 @@ public function index(Request $request): JsonResponse
 
 ## Langkah 10: Testing dan Debugging
 
-### 10.1 Buat Test Data Lebih Banyak
+```http
+### Get all blog posts
+GET http://localhost:8000/api/posts
+Accept: application/json
 
-```bash
-php artisan tinker
+### Get all blog posts with pagination
+GET http://localhost:8000/api/posts?page=1
+
+### Get all blog posts with search query
+GET http://localhost:8000/api/posts?search=artikel
+Accept: application/json
+
+### Get single blog post by ID
+GET http://localhost:8000/api/posts/12
+Accept: application/json
+
+### Create a new blog post
+POST http://localhost:8000/api/posts
+Content-Type: application/json
+Accept: application/json
+
+{
+    "title": "Belajar Laravel API",
+    "content": "Ini adalah konten dari post pertama saya.",
+    "author": "Bagas",
+    "is_published": true
+}
+
+### Update blog post
+PUT http://localhost:8000/api/posts/12
+Content-Type: application/json
+Accept: application/json
+
+{
+    "title": "Belajar Laravel API (Update)",
+    "content": "Konten ini sudah diperbarui.",
+    "author": "Bagas",
+    "is_published": false
+}
+
+### Delete blog post
+DELETE http://localhost:8000/api/posts/12
+Accept: application/json
 ```
 
-Di tinker console:
-
-```php
-App\Models\Post::factory(50)->create();
-exit
-```
-
-### 10.2 Test Semua Endpoint
+### 10.1 Test Semua Endpoint
 
 Gunakan Postman Collection berikut:
 
