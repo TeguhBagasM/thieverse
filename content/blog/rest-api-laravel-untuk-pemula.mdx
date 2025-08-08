@@ -899,6 +899,41 @@ class PostController extends BaseController // Extend BaseController
             return $this->sendError('Terjadi kesalahan saat membuat artikel', [], 500);
         }
     }
+    public function update(Request $request, $id): JsonResponse
+    {
+        try {
+            $post = Post::find($id);
+
+            if (!$post) {
+                return $this->sendError('Artikel tidak ditemukan', [], 404);
+            }
+
+            // Validasi input
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'author' => 'required|string|max:255',
+                'is_published' => 'boolean'
+            ]);
+
+            // Update artikel
+            $post->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'author' => $request->author,
+                'is_published' => $request->has('is_published')
+                    ? $request->is_published
+                    : $post->is_published
+            ]);
+
+            return $this->sendResponse($post, 'Artikel berhasil diperbarui', 200);
+
+        } catch (ValidationException $e) {
+            return $this->sendError('Data tidak valid', $e->errors(), 422);
+        } catch (\Exception $e) {
+            return $this->sendError('Terjadi kesalahan saat memperbarui artikel', [], 500);
+        }
+    }
 
     // Update method destroy juga
     public function destroy($id): JsonResponse
