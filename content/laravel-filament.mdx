@@ -1,0 +1,985 @@
+---
+title: "Membangun Sistem Manajemen Keuangan Pribadi dengan Laravel 11 dan Filament"
+description: "Tutorial lengkap membuat aplikasi manajemen keuangan pribadi menggunakan Laravel 11 dengan Filament sebagai admin panel."
+date: 2025-08-14
+tags: ["laravel", "filament", "php", "keuangan", "tutorial"]
+published: true
+img: "/images/blogs/laravel/filament/finance-bg.png"
+---
+
+# Membangun Sistem Manajemen Keuangan Pribadi dengan Laravel 11 dan Filament
+
+## Pengertian Laravel dan Filament
+
+Laravel adalah framework PHP yang powerful dan elegan untuk pengembangan aplikasi web modern. Dengan sintaks yang ekspresif dan fitur-fitur canggih, Laravel memudahkan developer dalam membangun aplikasi berkualitas tinggi.
+
+**Filament** adalah admin panel yang dibangun khusus untuk Laravel menggunakan TALL stack (Tailwind CSS, Alpine.js, Laravel, dan Livewire). Filament menyediakan komponen-komponen siap pakai yang memungkinkan kita membuat interface admin yang modern dan responsif dengan cepat.
+
+<Image
+  src="/images/blogs/laravel/filament/finance-bg.png"
+  width="718"
+  height="304"
+  alt="Laravel Filament Finance App"
+/>
+
+## Fitur Aplikasi yang Akan Dibuat
+
+Dalam tutorial ini, kita akan membuat sistem manajemen keuangan pribadi dengan fitur:
+
+- **Dashboard**: Ringkasan keuangan dengan widget dan chart
+- **Manajemen Kategori**: Kategori pemasukan dan pengeluaran
+- **Pencatatan Transaksi**: Input pemasukan dan pengeluaran
+- **Laporan Keuangan**: Filter berdasarkan tanggal dan kategori
+- **Export Data**: Export laporan ke PDF dan Excel
+- **Multi-currency**: Support multiple mata uang
+
+## Persiapan dan Instalasi
+
+### 1. Membuat Proyek Laravel Baru
+
+Buat proyek Laravel 11 baru dengan perintah:
+
+```bash
+composer create-project --prefer-dist laravel/laravel finance-app "11.*"
+cd finance-app
+```
+
+### 2. Konfigurasi Database
+
+Edit file `.env` untuk konfigurasi database:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=finance_app
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Buat database `finance_app` di MySQL/phpMyAdmin.
+
+### 3. Instalasi Filament
+
+Install Filament menggunakan Composer:
+
+```bash
+composer require filament/filament
+```
+
+Lalu jalankan perintah instalasi:
+
+```bash
+php artisan filament:install --panels
+```
+
+### 4. Buat User Admin
+
+Buat user admin untuk mengakses panel:
+
+```bash
+php artisan make:filament-user
+```
+
+Isi nama, email, dan password untuk user admin.
+
+<Image
+  src="/images/blogs/laravel/filament/filament-install.png"
+  width="718"
+  height="304"
+  alt="Instalasi Filament"
+/>
+
+## Membuat Model dan Migration
+
+### 1. Model Category
+
+Buat model dan migration untuk kategori:
+
+```bash
+php artisan make:model Category -m
+```
+
+Edit migration `create_categories_table.php`:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->enum('type', ['income', 'expense']);
+            $table->string('color')->default('#6366f1');
+            $table->string('icon')->nullable();
+            $table->text('description')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('categories');
+    }
+};
+```
+
+### 2. Model Transaction
+
+Buat model dan migration untuk transaksi:
+
+```bash
+php artisan make:model Transaction -m
+```
+
+Edit migration `create_transactions_table.php`:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('transactions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->enum('type', ['income', 'expense']);
+            $table->decimal('amount', 12, 2);
+            $table->string('currency', 3)->default('IDR');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->date('transaction_date');
+            $table->json('metadata')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('transactions');
+    }
+};
+```
+
+### 3. Update Model Files
+
+Edit model `Category.php`:
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+
+class Category extends Model
+{
+    protected $fillable = [
+        'name',
+        'slug',
+        'type',
+        'color',
+        'icon',
+        'description',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($category) {
+            $category->slug = Str::slug($category->name);
+        });
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+}
+```
+
+Edit model `Transaction.php`:
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Transaction extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'type',
+        'amount',
+        'currency',
+        'title',
+        'description',
+        'transaction_date',
+        'metadata'
+    ];
+
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'transaction_date' => 'date',
+        'metadata' => 'array'
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getFormattedAmountAttribute(): string
+    {
+        return number_format($this->amount, 0, ',', '.');
+    }
+}
+```
+
+### 4. Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+<Image
+  src="/images/blogs/laravel/filament/migration-success.png"
+  width="718"
+  height="304"
+  alt="Migration Success"
+/>
+
+## Membuat Filament Resources
+
+### 1. Category Resource
+
+Buat resource untuk Category:
+
+```bash
+php artisan make:filament-resource Category
+```
+
+Edit file `app/Filament/Resources/CategoryResource.php`:
+
+```php
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\CategoryResource\Pages;
+use App\Models\Category;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+
+class CategoryResource extends Resource
+{
+    protected static ?string $model = Category::class;
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Finance Management';
+    protected static ?int $navigationSort = 1;
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Section::make('Category Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) =>
+                                $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null
+                            ),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->disabled()
+                            ->dehydrated()
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(Category::class, 'slug', ignoreRecord: true),
+
+                        Forms\Components\Select::make('type')
+                            ->options([
+                                'income' => 'Income',
+                                'expense' => 'Expense',
+                            ])
+                            ->required()
+                            ->native(false),
+
+                        Forms\Components\ColorPicker::make('color')
+                            ->default('#6366f1'),
+
+                        Forms\Components\TextInput::make('icon')
+                            ->maxLength(255)
+                            ->placeholder('heroicon-o-currency-dollar'),
+
+                        Forms\Components\Textarea::make('description')
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(true),
+                    ])
+                    ->columns(2),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'income' => 'success',
+                        'expense' => 'danger',
+                    }),
+
+                Tables\Columns\ColorColumn::make('color'),
+
+                Tables\Columns\TextColumn::make('transactions_count')
+                    ->counts('transactions')
+                    ->label('Transactions'),
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->options([
+                        'income' => 'Income',
+                        'expense' => 'Expense',
+                    ]),
+                Tables\Filters\TernaryFilter::make('is_active'),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
+        ];
+    }
+}
+```
+
+### 2. Transaction Resource
+
+Buat resource untuk Transaction:
+
+```bash
+php artisan make:filament-resource Transaction
+```
+
+Edit file `app/Filament/Resources/TransactionResource.php`:
+
+```php
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\TransactionResource\Pages;
+use App\Models\Transaction;
+use App\Models\Category;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+
+class TransactionResource extends Resource
+{
+    protected static ?string $model = Transaction::class;
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationGroup = 'Finance Management';
+    protected static ?int $navigationSort = 2;
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Section::make('Transaction Details')
+                    ->schema([
+                        Forms\Components\Select::make('type')
+                            ->options([
+                                'income' => 'Income',
+                                'expense' => 'Expense',
+                            ])
+                            ->required()
+                            ->live()
+                            ->native(false),
+
+                        Forms\Components\Select::make('category_id')
+                            ->relationship(
+                                name: 'category',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn (Builder $query, Forms\Get $get) =>
+                                    $query->where('type', $get('type'))->where('is_active', true)
+                            )
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->required(),
+                                Forms\Components\Select::make('type')
+                                    ->options([
+                                        'income' => 'Income',
+                                        'expense' => 'Expense',
+                                    ])
+                                    ->required(),
+                                Forms\Components\ColorPicker::make('color')
+                                    ->default('#6366f1'),
+                            ]),
+
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('amount')
+                            ->required()
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->minValue(0),
+
+                        Forms\Components\Select::make('currency')
+                            ->options([
+                                'IDR' => 'IDR (Rupiah)',
+                                'USD' => 'USD (Dollar)',
+                                'EUR' => 'EUR (Euro)',
+                            ])
+                            ->default('IDR')
+                            ->required(),
+
+                        Forms\Components\DatePicker::make('transaction_date')
+                            ->required()
+                            ->default(now()),
+
+                        Forms\Components\Textarea::make('description')
+                            ->maxLength(65535)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Hidden::make('user_id')
+                            ->default(auth()->id()),
+                    ])
+                    ->columns(2),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('transaction_date')
+                    ->date()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->limit(30),
+
+                Tables\Columns\TextColumn::make('category.name')
+                    ->badge()
+                    ->color(fn ($record) => $record->category->color ?? 'gray'),
+
+                Tables\Columns\TextColumn::make('type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'income' => 'success',
+                        'expense' => 'danger',
+                    }),
+
+                Tables\Columns\TextColumn::make('amount')
+                    ->money('IDR')
+                    ->sortable()
+                    ->color(fn ($record): string => $record->type === 'income' ? 'success' : 'danger'),
+
+                Tables\Columns\TextColumn::make('user.name')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->options([
+                        'income' => 'Income',
+                        'expense' => 'Expense',
+                    ]),
+
+                Tables\Filters\SelectFilter::make('category')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
+
+                Tables\Filters\Filter::make('transaction_date')
+                    ->form([
+                        Forms\Components\DatePicker::make('date_from'),
+                        Forms\Components\DatePicker::make('date_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['date_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('transaction_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['date_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('transaction_date', '<=', $date),
+                            );
+                    }),
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->defaultSort('transaction_date', 'desc');
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTransactions::route('/'),
+            'create' => Pages\CreateTransaction::route('/create'),
+            'view' => Pages\ViewTransaction::route('/{record}'),
+            'edit' => Pages\EditTransaction::route('/{record}/edit'),
+        ];
+    }
+}
+```
+
+<Image
+  src="/images/blogs/laravel/filament/transaction-table.png"
+  width="718"
+  height="304"
+  alt="Transaction Table"
+/>
+
+## Membuat Dashboard dengan Widget
+
+### 1. Stats Overview Widget
+
+Buat widget untuk statistik overview:
+
+```bash
+php artisan make:filament-widget StatsOverview --stats
+```
+
+Edit `app/Filament/Widgets/StatsOverview.php`:
+
+```php
+<?php
+
+namespace App\Filament\Widgets;
+
+use App\Models\Transaction;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Carbon;
+
+class StatsOverview extends BaseWidget
+{
+    protected function getStats(): array
+    {
+        $thisMonth = Carbon::now()->startOfMonth();
+
+        $totalIncome = Transaction::where('type', 'income')
+            ->where('transaction_date', '>=', $thisMonth)
+            ->sum('amount');
+
+        $totalExpense = Transaction::where('type', 'expense')
+            ->where('transaction_date', '>=', $thisMonth)
+            ->sum('amount');
+
+        $balance = $totalIncome - $totalExpense;
+
+        $lastMonthIncome = Transaction::where('type', 'income')
+            ->whereBetween('transaction_date', [
+                Carbon::now()->subMonth()->startOfMonth(),
+                Carbon::now()->subMonth()->endOfMonth()
+            ])
+            ->sum('amount');
+
+        $incomeChange = $lastMonthIncome > 0
+            ? (($totalIncome - $lastMonthIncome) / $lastMonthIncome) * 100
+            : 0;
+
+        return [
+            Stat::make('Total Income (This Month)', 'Rp ' . number_format($totalIncome, 0, ',', '.'))
+                ->description($incomeChange >= 0 ? '+' . number_format($incomeChange, 1) . '% from last month' : number_format($incomeChange, 1) . '% from last month')
+                ->descriptionIcon($incomeChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
+                ->color($incomeChange >= 0 ? 'success' : 'danger'),
+
+            Stat::make('Total Expense (This Month)', 'Rp ' . number_format($totalExpense, 0, ',', '.'))
+                ->description('Total spending this month')
+                ->descriptionIcon('heroicon-m-banknotes')
+                ->color('danger'),
+
+            Stat::make('Net Balance (This Month)', 'Rp ' . number_format($balance, 0, ',', '.'))
+                ->description($balance >= 0 ? 'Profit this month' : 'Loss this month')
+                ->descriptionIcon($balance >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
+                ->color($balance >= 0 ? 'success' : 'danger'),
+        ];
+    }
+}
+```
+
+### 2. Transaction Chart Widget
+
+Buat widget untuk chart:
+
+```bash
+php artisan make:filament-widget TransactionChart --chart
+```
+
+Edit `app/Filament/Widgets/TransactionChart.php`:
+
+```php
+<?php
+
+namespace App\Filament\Widgets;
+
+use App\Models\Transaction;
+use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Carbon;
+
+class TransactionChart extends BaseWidget
+{
+    protected static ?string $heading = 'Monthly Transaction Overview';
+    protected static ?int $sort = 2;
+
+    protected function getData(): array
+    {
+        $months = collect(range(1, 12))->map(function ($month) {
+            return Carbon::create(null, $month, 1)->format('M');
+        })->toArray();
+
+        $incomeData = [];
+        $expenseData = [];
+
+        foreach (range(1, 12) as $month) {
+            $income = Transaction::where('type', 'income')
+                ->whereMonth('transaction_date', $month)
+                ->whereYear('transaction_date', Carbon::now()->year)
+                ->sum('amount');
+
+            $expense = Transaction::where('type', 'expense')
+                ->whereMonth('transaction_date', $month)
+                ->whereYear('transaction_date', Carbon::now()->year)
+                ->sum('amount');
+
+            $incomeData[] = $income;
+            $expenseData[] = $expense;
+        }
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Income',
+                    'data' => $incomeData,
+                    'backgroundColor' => '#10B981',
+                    'borderColor' => '#10B981',
+                ],
+                [
+                    'label' => 'Expense',
+                    'data' => $expenseData,
+                    'backgroundColor' => '#F59E0B',
+                    'borderColor' => '#F59E0B',
+                ],
+            ],
+            'labels' => $months,
+        ];
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
+    }
+}
+```
+
+<Image
+  src="/images/blogs/laravel/filament/dashboard-widgets.png"
+  width="718"
+  height="304"
+  alt="Dashboard with Widgets"
+/>
+
+## Seeder untuk Data Sample
+
+### 1. Category Seeder
+
+Buat seeder untuk kategori:
+
+```bash
+php artisan make:seeder CategorySeeder
+```
+
+Edit `database/seeders/CategorySeeder.php`:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Category;
+
+class CategorySeeder extends Seeder
+{
+    public function run(): void
+    {
+        $categories = [
+            // Income Categories
+            ['name' => 'Salary', 'type' => 'income', 'color' => '#10B981', 'icon' => 'heroicon-o-currency-dollar'],
+            ['name' => 'Freelance', 'type' => 'income', 'color' => '#3B82F6', 'icon' => 'heroicon-o-briefcase'],
+            ['name' => 'Investment', 'type' => 'income', 'color' => '#8B5CF6', 'icon' => 'heroicon-o-chart-bar'],
+            ['name' => 'Gift', 'type' => 'income', 'color' => '#F59E0B', 'icon' => 'heroicon-o-gift'],
+
+            // Expense Categories
+            ['name' => 'Food & Dining', 'type' => 'expense', 'color' => '#EF4444', 'icon' => 'heroicon-o-home'],
+            ['name' => 'Transportation', 'type' => 'expense', 'color' => '#F97316', 'icon' => 'heroicon-o-truck'],
+            ['name' => 'Shopping', 'type' => 'expense', 'color' => '#EC4899', 'icon' => 'heroicon-o-shopping-bag'],
+            ['name' => 'Entertainment', 'type' => 'expense', 'color' => '#06B6D4', 'icon' => 'heroicon-o-film'],
+            ['name' => 'Health', 'type' => 'expense', 'color' => '#84CC16', 'icon' => 'heroicon-o-heart'],
+            ['name' => 'Education', 'type' => 'expense', 'color' => '#6366F1', 'icon' => 'heroicon-o-academic-cap'],
+        ];
+
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
+    }
+}
+```
+
+### 2. Update DatabaseSeeder
+
+Edit `database/seeders/DatabaseSeeder.php`:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $this->call([
+            CategorySeeder::class,
+        ]);
+    }
+}
+```
+
+Jalankan seeder:
+
+```bash
+php artisan db:seed
+```
+
+## Menjalankan Aplikasi
+
+### 1. Build Assets
+
+```bash
+npm install
+npm run build
+```
+
+### 2. Jalankan Server
+
+```bash
+php artisan serve
+```
+
+### 3. Akses Admin Panel
+
+Buka browser dan akses `http://localhost:8000/admin`. Login dengan kredensial admin yang dibuat sebelumnya.
+
+<Image
+  src="/images/blogs/laravel/filament/admin-login.png"
+  width="718"
+  height="304"
+  alt="Admin Login"
+/>
+
+## Fitur Tambahan
+
+### 1. Export ke PDF
+
+Install package untuk PDF:
+
+```bash
+composer require barryvdh/laravel-dompdf
+```
+
+Tambahkan action export di TransactionResource:
+
+```php
+use Barryvdh\DomPDF\Facade\Pdf;
+
+// Tambahkan di actions table
+Tables\Actions\Action::make('export_pdf')
+    ->label('Export PDF')
+    ->icon('heroicon-o-document-arrow-down')
+    ->action(function ($records) {
+        $pdf = Pdf::loadView('pdf.transactions', compact('records'));
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'transactions.pdf');
+    }),
+```
+
+### 2. Notification
+
+Tambahkan notifikasi setelah create/update transaction:
+
+```php
+use Filament\Notifications\Notification;
+
+protected function getRedirectUrl(): string
+{
+    Notification::make()
+        ->title('Transaction saved successfully')
+        ->success()
+        ->send();
+
+    return $this->getResource()::getUrl('index');
+}
+```
+
+## Tips dan Best Practices
+
+### 1. Validasi Data
+
+Selalu validasi input menggunakan form validation Filament:
+
+```php
+Forms\Components\TextInput::make('amount')
+    ->required()
+    ->numeric()
+    ->minValue(0.01)
+    ->rule('regex:/^\d+(\.\d{1,2})?$/'),
+```
+
+### 2. Security
+
+Pastikan setiap user hanya bisa mengakses data mereka sendiri:
+
+```php
+public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->id());
+}
+```
+
+### 3. Performance
+
+Gunakan eager loading untuk mencegah N+1 problem:
+
+```php
+public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->with(['category', 'user']);
+}
+```
+
+## Kesimpulan
+
+Dalam tutorial ini, kita telah berhasil membangun sistem manajemen keuangan pribadi yang lengkap menggunakan Laravel 11 dan Filament. Aplikasi ini mencakup:
+
+- Dashboard dengan widget statistik dan chart
+- Manajemen kategori dengan fitur lengkap
+- Pencatatan transaksi dengan validasi
+- Filter dan pencarian yang powerful
+- Interface admin yang modern dan responsif
+
+Filament terbukti sangat efisien untuk membangun admin panel dengan cepat tanpa mengorbankan kualitas dan fleksibilitas. Dengan kombinasi Laravel dan Filament, kita dapat fokus pada logika bisnis daripada mengurusi detail interface.
+
+## Next Steps
+
+Untuk pengembangan selanjutnya, kalian bisa menambahkan:
+
+- Multi-tenant untuk mendukung banyak user
+- API untuk mobile app
+- Scheduled backup dan export otomatis
+- Integration dengan payment gateway
+- Advanced reporting dan analytics
+
+---
+
+**Selamat mencoba!** Tutorial ini memberikan foundation yang solid untuk membangun aplikasi keuangan yang lebih kompleks. Jangan ragu untuk eksperimen dan mengembangkan fitur sesuai kebutuhan kalian.
+
+Butuh bantuan lebih lanjut? Check dokumentasi resmi:
+
+- [Laravel Documentation](https://laravel.com/docs)
+- [Filament Documentation](https://filamentphp.com/docs)
