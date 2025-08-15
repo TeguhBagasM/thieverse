@@ -1,0 +1,805 @@
+---
+title: "Membuat API Quotes dengan Express.js dan Mengonsumsinya dengan Laravel 11"
+description: "Tutorial lengkap membuat REST API sederhana menggunakan Express.js dan mengonsumsinya dengan Laravel 11 menggunakan Tailwind CSS."
+date: 2025-08-15
+tags: ["express", "laravel", "api", "tailwind", "nodejs", "php"]
+published: true
+img: "/images/blogs/express-laravel/api-cover.png"
+---
+
+# Membuat API Quotes dengan Express.js dan Mengonsumsinya dengan Laravel 11
+
+## Pengertian Express.js
+
+Express.js adalah framework web minimalis dan fleksibel untuk Node.js yang menyediakan fitur-fitur robust untuk aplikasi web dan mobile. Express menyediakan layer tipis dari fitur aplikasi web fundamental, tanpa mengaburkan fitur Node.js yang sudah familiar dan powerful.
+
+## Pengertian REST API
+
+REST (Representational State Transfer) API adalah arsitektur untuk membangun web services yang menggunakan HTTP requests untuk mengakses dan menggunakan data. REST API menggunakan HTTP methods seperti GET, POST, PUT, dan DELETE untuk melakukan operasi CRUD (Create, Read, Update, Delete).
+
+<Image
+  src="/images/blogs/express-laravel/api-cover.png"
+  width="718"
+  height="304"
+  alt="Express.js dan Laravel API"
+/>
+
+## Persiapan Project
+
+Dalam tutorial ini, kita akan membuat dua aplikasi terpisah:
+
+1. **Backend API** menggunakan Express.js dengan database quotes
+2. **Frontend Consumer** menggunakan Laravel 11 dengan Tailwind CSS
+
+## Bagian 1: Membuat Backend API dengan Express.js
+
+### 1. Inisialisasi Project Express.js
+
+Buat folder baru untuk project Express.js dan inisialisasi:
+
+```bash
+mkdir quotes-api
+cd quotes-api
+npm init -y
+```
+
+### 2. Install Dependencies
+
+Install package yang dibutuhkan:
+
+```bash
+npm install express mysql2 cors dotenv
+npm install -D nodemon
+```
+
+### 3. Setup Database MySQL
+
+Buat database dan tabel quotes:
+
+```sql
+CREATE DATABASE quotes_db;
+USE quotes_db;
+
+CREATE TABLE quotes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR(255) NOT NULL,
+    text TEXT NOT NULL,
+    category VARCHAR(100) DEFAULT 'general',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert sample data
+INSERT INTO quotes (author, text, category) VALUES
+('Albert Einstein', 'Life is like riding a bicycle. To keep your balance, you must keep moving.', 'life'),
+('Steve Jobs', 'Innovation distinguishes between a leader and a follower.', 'business'),
+('Nelson Mandela', 'It always seems impossible until it is done.', 'motivation'),
+('Maya Angelou', 'If you do not like something, change it. If you cannot change it, change your attitude.', 'wisdom');
+```
+
+### 4. Konfigurasi Environment
+
+Buat file `.env`:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=quotes_db
+```
+
+### 5. Membuat Server Express.js
+
+Buat file `server.js`:
+
+```javascript
+const express = require("express");
+const mysql = require("mysql2");
+const cors = require("cors");
+require("dotenv").config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Database connection
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+db.connect((err) => {
+  if (err) {
+    console.error("Database connection failed:", err);
+    return;
+  }
+  console.log("Connected to MySQL database");
+});
+
+// Routes
+
+// GET all quotes
+app.get("/api/quotes", (req, res) => {
+  const query = "SELECT * FROM quotes ORDER BY created_at DESC";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching quotes",
+        error: err.message,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Quotes retrieved successfully",
+      data: results,
+    });
+  });
+});
+
+// GET quote by ID
+app.get("/api/quotes/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM quotes WHERE id = ?";
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching quote",
+        error: err.message,
+      });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Quote not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Quote retrieved successfully",
+      data: results[0],
+    });
+  });
+});
+
+// POST new quote
+app.post("/api/quotes", (req, res) => {
+  const { author, text, category } = req.body;
+
+  if (!author || !text) {
+    return res.status(400).json({
+      success: false,
+      message: "Author and text are required",
+    });
+  }
+
+  const query = "INSERT INTO quotes (author, text, category) VALUES (?, ?, ?)";
+
+  db.query(query, [author, text, category || "general"], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error creating quote",
+        error: err.message,
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Quote created successfully",
+      data: {
+        id: result.insertId,
+        author,
+        text,
+        category: category || "general",
+      },
+    });
+  });
+});
+
+// PUT update quote
+app.put("/api/quotes/:id", (req, res) => {
+  const { id } = req.params;
+  const { author, text, category } = req.body;
+
+  if (!author || !text) {
+    return res.status(400).json({
+      success: false,
+      message: "Author and text are required",
+    });
+  }
+
+  const query = "UPDATE quotes SET author = ?, text = ?, category = ? WHERE id = ?";
+
+  db.query(query, [author, text, category || "general", id], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error updating quote",
+        error: err.message,
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Quote not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Quote updated successfully",
+    });
+  });
+});
+
+// DELETE quote
+app.delete("/api/quotes/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "DELETE FROM quotes WHERE id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error deleting quote",
+        error: err.message,
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Quote not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Quote deleted successfully",
+    });
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+### 6. Update package.json
+
+Tambahkan script di `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  }
+}
+```
+
+### 7. Jalankan API Server
+
+```bash
+npm run dev
+```
+
+API akan berjalan di `http://localhost:3000`. Tes API dengan:
+
+```bash
+# Get all quotes
+curl http://localhost:3000/api/quotes
+
+# Get quote by ID
+curl http://localhost:3000/api/quotes/1
+```
+
+<Image
+  src="/images/blogs/express-laravel/api-testing.png"
+  width="718"
+  height="304"
+  alt="Testing Express.js API"
+/>
+
+## Bagian 2: Membuat Frontend Consumer dengan Laravel 11
+
+### 1. Install Laravel 11
+
+```bash
+composer create-project --prefer-dist laravel/laravel quotes-consumer "11.*"
+cd quotes-consumer
+```
+
+### 2. Install Guzzle HTTP Client
+
+```bash
+composer require guzzlehttp/guzzle
+```
+
+### 3. Membuat Service untuk API
+
+Buat service class untuk handle API calls:
+
+```bash
+php artisan make:class Services/QuoteService
+```
+
+Edit file `app/Services/QuoteService.php`:
+
+```php
+<?php
+
+namespace App\Services;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+
+class QuoteService
+{
+    protected $client;
+    protected $baseUrl;
+
+    public function __construct()
+    {
+        $this->client = new Client();
+        $this->baseUrl = env('API_BASE_URL', 'http://localhost:3000/api');
+    }
+
+    public function getAllQuotes()
+    {
+        try {
+            $response = $this->client->get($this->baseUrl . '/quotes');
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error fetching quotes: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function getQuoteById($id)
+    {
+        try {
+            $response = $this->client->get($this->baseUrl . '/quotes/' . $id);
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error fetching quote: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function createQuote($data)
+    {
+        try {
+            $response = $this->client->post($this->baseUrl . '/quotes', [
+                'json' => $data
+            ]);
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error creating quote: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function updateQuote($id, $data)
+    {
+        try {
+            $response = $this->client->put($this->baseUrl . '/quotes/' . $id, [
+                'json' => $data
+            ]);
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error updating quote: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    public function deleteQuote($id)
+    {
+        try {
+            $response = $this->client->delete($this->baseUrl . '/quotes/' . $id);
+            return json_decode($response->getBody(), true);
+        } catch (RequestException $e) {
+            return [
+                'success' => false,
+                'message' => 'Error deleting quote: ' . $e->getMessage()
+            ];
+        }
+    }
+}
+```
+
+### 4. Update Environment Laravel
+
+Tambahkan di `.env`:
+
+```env
+API_BASE_URL=http://localhost:3000/api
+```
+
+### 5. Membuat Controller
+
+```bash
+php artisan make:controller QuoteController
+```
+
+Edit `app/Http/Controllers/QuoteController.php`:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Services\QuoteService;
+
+class QuoteController extends Controller
+{
+    protected $quoteService;
+
+    public function __construct(QuoteService $quoteService)
+    {
+        $this->quoteService = $quoteService;
+    }
+
+    public function index()
+    {
+        $response = $this->quoteService->getAllQuotes();
+        $quotes = $response['success'] ? $response['data'] : [];
+
+        return view('quotes.index', compact('quotes'));
+    }
+
+    public function show($id)
+    {
+        $response = $this->quoteService->getQuoteById($id);
+        $quote = $response['success'] ? $response['data'] : null;
+
+        return view('quotes.show', compact('quote'));
+    }
+
+    public function create()
+    {
+        return view('quotes.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'author' => 'required|string|max:255',
+            'text' => 'required|string',
+            'category' => 'nullable|string|max:100'
+        ]);
+
+        $response = $this->quoteService->createQuote($request->only(['author', 'text', 'category']));
+
+        if ($response['success']) {
+            return redirect()->route('quotes.index')->with('success', 'Quote created successfully!');
+        }
+
+        return back()->with('error', $response['message']);
+    }
+
+    public function edit($id)
+    {
+        $response = $this->quoteService->getQuoteById($id);
+        $quote = $response['success'] ? $response['data'] : null;
+
+        if (!$quote) {
+            return redirect()->route('quotes.index')->with('error', 'Quote not found');
+        }
+
+        return view('quotes.edit', compact('quote'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'author' => 'required|string|max:255',
+            'text' => 'required|string',
+            'category' => 'nullable|string|max:100'
+        ]);
+
+        $response = $this->quoteService->updateQuote($id, $request->only(['author', 'text', 'category']));
+
+        if ($response['success']) {
+            return redirect()->route('quotes.index')->with('success', 'Quote updated successfully!');
+        }
+
+        return back()->with('error', $response['message']);
+    }
+
+    public function destroy($id)
+    {
+        $response = $this->quoteService->deleteQuote($id);
+
+        if ($response['success']) {
+            return redirect()->route('quotes.index')->with('success', 'Quote deleted successfully!');
+        }
+
+        return back()->with('error', $response['message']);
+    }
+}
+```
+
+### 6. Setup Routes
+
+Edit `routes/web.php`:
+
+```php
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuoteController;
+
+Route::get('/', [QuoteController::class, 'index'])->name('quotes.index');
+Route::resource('quotes', QuoteController::class);
+```
+
+### 7. Membuat Views dengan Tailwind CSS
+
+Buat layout utama `resources/views/layouts/app.blade.php`:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@yield('title', 'Quotes App')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <nav class="bg-blue-600 text-white shadow-lg">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <a href="{{ route('quotes.index') }}" class="text-xl font-bold">Quotes App</a>
+          <a
+            href="{{ route('quotes.create') }}"
+            class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded transition duration-200"
+          >
+            Add Quote
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+      @if(session('success'))
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        {{ session('success') }}
+      </div>
+      @endif @if(session('error'))
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ session('error') }}
+      </div>
+      @endif @yield('content')
+    </main>
+  </body>
+</html>
+```
+
+Buat view index `resources/views/quotes/index.blade.php`:
+
+```html
+@extends('layouts.app') @section('title', 'All Quotes') @section('content')
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-3xl font-bold text-gray-800">All Quotes</h1>
+  <a
+    href="{{ route('quotes.create') }}"
+    class="bg-blue-500 hover:bg-blue-700 text-white px-6 py-2 rounded transition duration-200"
+  >
+    Add New Quote
+  </a>
+</div>
+
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  @forelse($quotes as $quote)
+  <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200">
+    <div class="mb-4">
+      <p class="text-gray-600 italic text-lg">{{ $quote['text'] }}</p>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <div>
+        <p class="font-semibold text-gray-800">— {{ $quote['author'] }}</p>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-600 mt-2">
+          {{ $quote['category'] }}
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-4 flex space-x-2">
+      <a
+        href="{{ route('quotes.show', $quote['id']) }}"
+        class="bg-gray-500 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition duration-200"
+      >
+        View
+      </a>
+      <a
+        href="{{ route('quotes.edit', $quote['id']) }}"
+        class="bg-yellow-500 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm transition duration-200"
+      >
+        Edit
+      </a>
+      <form action="{{ route('quotes.destroy', $quote['id']) }}" method="POST" class="inline">
+        @csrf @method('DELETE')
+        <button
+          type="submit"
+          class="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition duration-200"
+          onclick="return confirm('Are you sure you want to delete this quote?')"
+        >
+          Delete
+        </button>
+      </form>
+    </div>
+  </div>
+  @empty
+  <div class="col-span-full text-center py-8">
+    <p class="text-gray-500 text-lg">No quotes found.</p>
+    <a href="{{ route('quotes.create') }}" class="text-blue-500 hover:text-blue-700 mt-2 inline-block">
+      Create your first quote
+    </a>
+  </div>
+  @endforelse
+</div>
+@endsection
+```
+
+Buat view create `resources/views/quotes/create.blade.php`:
+
+```html
+@extends('layouts.app') @section('title', 'Create Quote') @section('content')
+<div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Add New Quote</h1>
+
+  <form action="{{ route('quotes.store') }}" method="POST">
+    @csrf
+
+    <div class="mb-4">
+      <label for="author" class="block text-gray-700 text-sm font-bold mb-2">Author</label>
+      <input
+        type="text"
+        name="author"
+        id="author"
+        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 @error('author') border-red-500 @enderror"
+        value="{{ old('author') }}"
+        required
+      />
+      @error('author')
+      <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+      @enderror
+    </div>
+
+    <div class="mb-4">
+      <label for="text" class="block text-gray-700 text-sm font-bold mb-2">Quote Text</label>
+      <textarea
+        name="text"
+        id="text"
+        rows="4"
+        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 @error('text') border-red-500 @enderror"
+        required
+      >
+{{ old('text') }}</textarea
+      >
+      @error('text')
+      <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+      @enderror
+    </div>
+
+    <div class="mb-6">
+      <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Category</label>
+      <input
+        type="text"
+        name="category"
+        id="category"
+        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+        value="{{ old('category', 'general') }}"
+      />
+    </div>
+
+    <div class="flex space-x-4">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-200"
+      >
+        Create Quote
+      </button>
+      <a
+        href="{{ route('quotes.index') }}"
+        class="bg-gray-500 hover:bg-gray-700 text-white px-4 py-2 rounded transition duration-200"
+      >
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
+@endsection
+```
+
+### 8. Jalankan Laravel Application
+
+```bash
+php artisan serve
+```
+
+<Image
+  src="/images/blogs/express-laravel/laravel-frontend.png"
+  width="718"
+  height="304"
+  alt="Laravel Frontend dengan Tailwind"
+/>
+
+## Testing Aplikasi
+
+### 1. Test API Endpoints
+
+```bash
+# GET all quotes
+curl -X GET http://localhost:3000/api/quotes
+
+# POST new quote
+curl -X POST http://localhost:3000/api/quotes \
+  -H "Content-Type: application/json" \
+  -d '{"author": "Test Author", "text": "This is a test quote", "category": "test"}'
+
+# PUT update quote
+curl -X PUT http://localhost:3000/api/quotes/1 \
+  -H "Content-Type: application/json" \
+  -d '{"author": "Updated Author", "text": "Updated quote text", "category": "updated"}'
+
+# DELETE quote
+curl -X DELETE http://localhost:3000/api/quotes/1
+```
+
+### 2. Test Laravel Frontend
+
+1. Buka `http://localhost:8000`
+2. Pastikan quotes tampil dari API Express.js
+3. Test fungsi Create, Read, Update, Delete melalui interface Laravel
+
+## Kesimpulan
+
+Tutorial ini menunjukkan bagaimana membuat arsitektur microservice sederhana dengan:
+
+1. **Express.js Backend**: Menyediakan REST API untuk operasi CRUD quotes
+2. **Laravel Frontend**: Mengonsumsi API menggunakan Guzzle HTTP client
+3. **Tailwind CSS**: Styling modern dan responsive
+4. **Separation of Concerns**: Backend dan frontend terpisah tapi terintegrasi
+
+### Keuntungan Arsitektur Ini:
+
+- **Skalabilitas**: Backend dan frontend bisa di-scale terpisah
+- **Teknologi Flexibility**: Bisa menggunakan teknologi terbaik untuk setiap layer
+- **Team Specialization**: Tim backend dan frontend bisa bekerja independen
+- **Multiple Clients**: API bisa digunakan oleh web, mobile, atau aplikasi lain
+
+### Next Steps:
+
+- Tambahkan authentication/authorization
+- Implementasikan caching (Redis)
+- Deploy ke production (Docker, AWS, dll)
+- Tambahkan testing (unit tests, integration tests)
+- Implementasikan API versioning
