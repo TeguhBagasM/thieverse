@@ -22,7 +22,7 @@ img: "/images/blogs/laravel/filament/filament-dasar.png"
 - **Laravel Native**: Terintegrasi sempurna dengan ecosystem Laravel
 
 <Image
-  src="/images/blogs/laravel/filament/filament-beginner-bg.png"
+  src="/images/blogs/laravel/filament/filament-dasar.png"
   width="718"
   height="304"
   alt="Laravel Filament Tutorial"
@@ -82,13 +82,6 @@ Input:
 - **Name**: Admin
 - **Email**: admin@example.com
 - **Password**: password
-
-<Image
-  src="/images/blogs/laravel/filament/install-success.png"
-  width="718"
-  height="304"
-  alt="Filament Installation Success"
-/>
 
 ## Membuat Model dan Migration
 
@@ -318,13 +311,6 @@ public function category(): BelongsTo
 php artisan migrate
 ```
 
-<Image
-  src="/images/blogs/laravel/filament/migration-complete.png"
-  width="718"
-  height="304"
-  alt="Migration Complete"
-/>
-
 ## Resource dengan --generate
 
 ### 1. Generate Category Resource
@@ -351,13 +337,6 @@ php artisan make:filament-resource Product --generate --view
 Flag `--view` akan menambahkan halaman view detail produk.
 
 Mari kita lihat hasil generate dan kemudian modifikasi sesuai kebutuhan.
-
-<Image
-  src="/images/blogs/laravel/filament/resource-generated.png"
-  width="718"
-  height="304"
-  alt="Generated Resource"
-/>
 
 ## Modifikasi Category Resource
 
@@ -803,13 +782,6 @@ class ProductResource extends Resource
 }
 ```
 
-<Image
-  src="/images/blogs/laravel/filament/product-table-advanced.png"
-  width="718"
-  height="304"
-  alt="Advanced Product Table"
-/>
-
 ## Membuat Widget untuk Dashboard
 
 ### 1. Stats Overview Widget
@@ -1002,13 +974,6 @@ class ProductChart extends ChartWidget
     }
 }
 ```
-
-<Image
-  src="/images/blogs/laravel/filament/dashboard-complete.png"
-  width="718"
-  height="304"
-  alt="Complete Dashboard"
-/>
 
 ## Customisasi Dashboard
 
@@ -1422,13 +1387,6 @@ Jalankan seeder:
 php artisan db:seed
 ```
 
-<Image
-  src="/images/blogs/laravel/filament/seeder-complete.png"
-  width="718"
-  height="304"
-  alt="Data Seeded Successfully"
-/>
-
 ## Fitur Advanced
 
 ### 1. Global Search
@@ -1560,13 +1518,6 @@ Edit `app/Providers/Filament/AdminPanelProvider.php`:
 ->darkMode(true) // Force dark mode
 ```
 
-<Image
-  src="/images/blogs/laravel/filament/custom-theme.png"
-  width="718"
-  height="304"
-  alt="Custom Theme"
-/>
-
 ## Menjalankan Aplikasi
 
 ### 1. Build Assets
@@ -1590,13 +1541,6 @@ Login dengan:
 
 - **Email**: admin@example.com
 - **Password**: password
-
-<Image
-  src="/images/blogs/laravel/filament/final-dashboard.png"
-  width="718"
-  height="304"
-  alt="Final Dashboard Result"
-/>
 
 ## Fitur-Fitur Penting yang Dipelajari
 
