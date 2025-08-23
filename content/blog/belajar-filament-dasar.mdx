@@ -44,7 +44,6 @@ cd filament-tutorial
 Edit file `.env`:
 
 ```env
-APP_NAME="Filament Tutorial"
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -60,7 +59,7 @@ Buat database `filament_tutorial` di MySQL/phpMyAdmin.
 Install Filament via Composer:
 
 ```bash
-composer require filament/filament
+composer require filament/filament:"^3.3" -W
 ```
 
 Install Filament panels:
