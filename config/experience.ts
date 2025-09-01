@@ -11,6 +11,15 @@ export interface JobExperience {
 
 export const JOB_EXPERIENCE = [
   {
+    ocupation: "Full Stack Developer",
+    company: "Tabel Data Informatika",
+    url: "https://web.tabeldata.com/",
+    location: "Jl. Pratista Raya No.17",
+    startDate: "2025-08-19",
+    description:
+      "Saya terlibat dalam proyek pengembangan API Management yang berfokus pada integrasi layanan perbankan seperti Bank BJB dan Bank Mandiri menggunakan Apache Camel. Peran saya mencakup perancangan, implementasi, dan pengujian alur integrasi (service flow) untuk memastikan data dapat ditransformasikan dan dikirim dengan aman serta konsisten antar sistem. Selain itu, saya juga berkontribusi dalam optimasi konfigurasi, dokumentasi teknis, serta pemahaman konsep integrasi enterprise agar API yang dibangun dapat digunakan secara efisien oleh berbagai layanan internal maupun eksternal perusahaan.",
+  },
+  {
     ocupation: "Ketua Umum",
     company: "Creative Student Association",
     url: "https://csa-stmikmi.vercel.app",
