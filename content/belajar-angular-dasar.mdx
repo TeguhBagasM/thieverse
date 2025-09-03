@@ -2,9 +2,9 @@
 title: "Tutorial Angular untuk Pemula - Panduan Lengkap dari Nol"
 description: "Panduan lengkap belajar Angular dari dasar untuk pemula - Tutorial komprehensif framework JavaScript modern"
 date: 2025-09-03
-tags: ["angular", "typescript", "javascript", "frontend", "tutorial", "pemula"]
+tags: ["angular", "frontend", "tutorial", "pemula"]
 published: true
-img: "/images/blogs/angular/angular-tutorial.png"
+img: "/images/blogs/angular/angular.png"
 ---
 
 # Tutorial Angular untuk Pemula - Panduan Lengkap dari Nol
@@ -807,7 +807,717 @@ export class TruncatePipe implements PipeTransform {
 <p>{{ longText | truncate:50:'...' }}</p>
 ```
 
-## Best Practices
+## 🛠️ Project Tutorial: Membuat Todo List Sederhana
+
+Mari kita praktik dengan membuat aplikasi Todo List sederhana yang mencakup semua konsep dasar Angular yang sudah kita pelajari.
+
+### 🎯 Apa yang Akan Kita Buat?
+
+**Fitur Todo List:**
+
+- ✅ Menampilkan daftar todo
+- ➕ Menambah todo baru
+- ✏️ Edit todo yang sudah ada
+- ❌ Hapus todo
+- ✔️ Tandai todo sebagai selesai/belum selesai
+- 📊 Counter jumlah todo aktif
+
+**Analogi:** Seperti **daftar belanja** digital yang bisa dicoret-coret dan ditambah-tambah.
+
+### Step 1: Persiapan Project
+
+```bash
+# Membuat project baru
+ng new todo-app
+
+# Pilihan konfigurasi:
+# - Would you like to add Angular routing? (Y/n) -> n (tidak perlu untuk project sederhana)
+# - Which stylesheet format would you like to use? -> CSS
+
+# Masuk ke direktori project
+cd todo-app
+
+# Install Angular Material (opsional, untuk styling)
+ng add @angular/material
+
+# Jalankan development server
+ng serve
+```
+
+### Step 2: Buat Interface untuk Todo
+
+Buat file `src/app/interfaces/todo.interface.ts`:
+
+```typescript
+// todo.interface.ts
+export interface Todo {
+  id: number;
+  task: string;
+  completed: boolean;
+  createdAt: Date;
+}
+```
+
+**Analogi:** Interface seperti **blueprint** atau **template** yang menentukan bentuk data todo kita.
+
+### Step 3: Buat Todo Service
+
+```bash
+ng generate service services/todo
+```
+
+```typescript
+// todo.service.ts
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
+import { Todo } from "../interfaces/todo.interface";
+
+@Injectable({
+  providedIn: "root",
+})
+export class TodoService {
+  private todos: Todo[] = [
+    { id: 1, task: "Belajar Angular", completed: false, createdAt: new Date() },
+    { id: 2, task: "Buat Todo App", completed: false, createdAt: new Date() },
+    { id: 3, task: "Deploy ke Production", completed: false, createdAt: new Date() },
+  ];
+
+  private todosSubject = new BehaviorSubject<Todo[]>(this.todos);
+  public todos$ = this.todosSubject.asObservable();
+
+  constructor() {}
+
+  // Ambil semua todos
+  getTodos(): Observable<Todo[]> {
+    return this.todos$;
+  }
+
+  // Tambah todo baru
+  addTodo(task: string): void {
+    const newTodo: Todo = {
+      id: this.generateId(),
+      task: task.trim(),
+      completed: false,
+      createdAt: new Date(),
+    };
+
+    this.todos.push(newTodo);
+    this.todosSubject.next([...this.todos]);
+  }
+
+  // Toggle status completed
+  toggleTodo(id: number): void {
+    const todo = this.todos.find((t) => t.id === id);
+    if (todo) {
+      todo.completed = !todo.completed;
+      this.todosSubject.next([...this.todos]);
+    }
+  }
+
+  // Update task
+  updateTodo(id: number, newTask: string): void {
+    const todo = this.todos.find((t) => t.id === id);
+    if (todo) {
+      todo.task = newTask.trim();
+      this.todosSubject.next([...this.todos]);
+    }
+  }
+
+  // Hapus todo
+  deleteTodo(id: number): void {
+    this.todos = this.todos.filter((t) => t.id !== id);
+    this.todosSubject.next([...this.todos]);
+  }
+
+  // Hapus semua todo yang sudah completed
+  clearCompleted(): void {
+    this.todos = this.todos.filter((t) => !t.completed);
+    this.todosSubject.next([...this.todos]);
+  }
+
+  // Generate ID unik
+  private generateId(): number {
+    return this.todos.length > 0 ? Math.max(...this.todos.map((t) => t.id)) + 1 : 1;
+  }
+
+  // Hitung todo yang belum selesai
+  getActiveTodosCount(): Observable<number> {
+    return new Observable((observer) => {
+      this.todos$.subscribe((todos) => {
+        const activeCount = todos.filter((t) => !t.completed).length;
+        observer.next(activeCount);
+      });
+    });
+  }
+}
+```
+
+**Analogi Service:** TodoService seperti **asisten pribadi** yang:
+
+- Menyimpan semua daftar todo (memory)
+- Bisa tambah/hapus/edit todo (actions)
+- Memberitahu semua component kalau ada perubahan (notifications)
+
+### Step 4: Buat Todo List Component
+
+```bash
+ng generate component components/todo-list
+```
+
+```typescript
+// todo-list.component.ts
+import { Component, OnInit } from "@angular/core";
+import { TodoService } from "../../services/todo.service";
+import { Todo } from "../../interfaces/todo.interface";
+import { Observable } from "rxjs";
+
+@Component({
+  selector: "app-todo-list",
+  templateUrl: "./todo-list.component.html",
+  styleUrls: ["./todo-list.component.css"],
+})
+export class TodoListComponent implements OnInit {
+  todos$: Observable<Todo[]>;
+  activeTodosCount$: Observable<number>;
+  editingTodoId: number | null = null;
+  editingTask: string = "";
+
+  constructor(private todoService: TodoService) {
+    this.todos$ = this.todoService.getTodos();
+    this.activeTodosCount$ = this.todoService.getActiveTodosCount();
+  }
+
+  ngOnInit(): void {}
+
+  toggleTodo(id: number): void {
+    this.todoService.toggleTodo(id);
+  }
+
+  deleteTodo(id: number): void {
+    if (confirm("Yakin mau hapus todo ini?")) {
+      this.todoService.deleteTodo(id);
+    }
+  }
+
+  startEditing(todo: Todo): void {
+    this.editingTodoId = todo.id;
+    this.editingTask = todo.task;
+  }
+
+  saveEdit(): void {
+    if (this.editingTodoId !== null && this.editingTask.trim()) {
+      this.todoService.updateTodo(this.editingTodoId, this.editingTask);
+      this.cancelEditing();
+    }
+  }
+
+  cancelEditing(): void {
+    this.editingTodoId = null;
+    this.editingTask = "";
+  }
+
+  clearCompleted(): void {
+    if (confirm("Hapus semua todo yang sudah selesai?")) {
+      this.todoService.clearCompleted();
+    }
+  }
+}
+```
+
+```html
+<!-- todo-list.component.html -->
+<div class="todo-container">
+  <h1>📝 My Todo List</h1>
+
+  <!-- Stats -->
+  <div class="stats">
+    <p>Todo aktif: <strong>{{ activeTodosCount$ | async }}</strong></p>
+    <button class="btn-clear" (click)="clearCompleted()">🗑️ Hapus yang Selesai</button>
+  </div>
+
+  <!-- Todo List -->
+  <div class="todo-list" *ngIf="todos$ | async as todos">
+    <div *ngIf="todos.length === 0" class="empty-state">
+      <p>🎉 Tidak ada todo! Santai dulu...</p>
+    </div>
+
+    <div
+      *ngFor="let todo of todos; trackBy: trackByTodoId"
+      class="todo-item"
+      [class.completed]="todo.completed"
+    >
+      <!-- Display Mode -->
+      <div *ngIf="editingTodoId !== todo.id" class="todo-display">
+        <input
+          type="checkbox"
+          [checked]="todo.completed"
+          (change)="toggleTodo(todo.id)"
+          class="todo-checkbox"
+        />
+
+        <span class="todo-text" [class.line-through]="todo.completed"> {{ todo.task }} </span>
+
+        <div class="todo-actions">
+          <button class="btn-edit" (click)="startEditing(todo)">✏️</button>
+          <button class="btn-delete" (click)="deleteTodo(todo.id)">❌</button>
+        </div>
+      </div>
+
+      <!-- Edit Mode -->
+      <div *ngIf="editingTodoId === todo.id" class="todo-edit">
+        <input
+          type="text"
+          [(ngModel)]="editingTask"
+          (keyup.enter)="saveEdit()"
+          (keyup.escape)="cancelEditing()"
+          class="edit-input"
+          #editInput
+        />
+
+        <div class="edit-actions">
+          <button class="btn-save" (click)="saveEdit()">✅</button>
+          <button class="btn-cancel" (click)="cancelEditing()">❌</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+```css
+/* todo-list.component.css */
+.todo-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.stats p {
+  margin: 0;
+  color: #666;
+}
+
+.btn-clear {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-clear:hover {
+  background-color: #c82333;
+}
+
+.empty-state {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 40px;
+}
+
+.todo-item {
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.todo-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item.completed {
+  background-color: #f8f9fa;
+  opacity: 0.7;
+}
+
+.todo-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.todo-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.todo-text {
+  flex-grow: 1;
+  font-size: 16px;
+  color: #333;
+}
+
+.todo-text.line-through {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-save,
+.btn-cancel {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.btn-edit:hover,
+.btn-save:hover {
+  background-color: #e7f3ff;
+}
+
+.btn-delete:hover,
+.btn-cancel:hover {
+  background-color: #ffebee;
+}
+
+.todo-edit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.edit-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+```
+
+### Step 5: Buat Add Todo Component
+
+```bash
+ng generate component components/add-todo
+```
+
+```typescript
+// add-todo.component.ts
+import { Component } from "@angular/core";
+import { TodoService } from "../../services/todo.service";
+
+@Component({
+  selector: "app-add-todo",
+  templateUrl: "./add-todo.component.html",
+  styleUrls: ["./add-todo.component.css"],
+})
+export class AddTodoComponent {
+  newTodoTask: string = "";
+
+  constructor(private todoService: TodoService) {}
+
+  addTodo(): void {
+    if (this.newTodoTask.trim()) {
+      this.todoService.addTodo(this.newTodoTask);
+      this.newTodoTask = ""; // Reset input
+    }
+  }
+
+  onKeyUp(event: KeyboardEvent): void {
+    if (event.key === "Enter") {
+      this.addTodo();
+    }
+  }
+}
+```
+
+```html
+<!-- add-todo.component.html -->
+<div class="add-todo-container">
+  <h2>➕ Tambah Todo Baru</h2>
+
+  <div class="add-todo-form">
+    <input
+      type="text"
+      [(ngModel)]="newTodoTask"
+      (keyup)="onKeyUp($event)"
+      placeholder="Apa yang mau dikerjakan hari ini?"
+      class="todo-input"
+      #todoInput
+    />
+
+    <button (click)="addTodo()" [disabled]="!newTodoTask.trim()" class="btn-add">Tambah</button>
+  </div>
+
+  <p class="hint">💡 Tip: Tekan Enter untuk menambah todo</p>
+</div>
+```
+
+```css
+/* add-todo.component.css */
+.add-todo-container {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.add-todo-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.todo-input {
+  flex-grow: 1;
+  padding: 12px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.todo-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.btn-add {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-add:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-add:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.hint {
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+  margin: 0;
+  text-align: center;
+}
+```
+
+### Step 6: Update App Module
+
+```typescript
+// app.module.ts
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
+
+import { AppComponent } from "./app.component";
+import { TodoListComponent } from "./components/todo-list/todo-list.component";
+import { AddTodoComponent } from "./components/add-todo/add-todo.component";
+
+@NgModule({
+  declarations: [AppComponent, TodoListComponent, AddTodoComponent],
+  imports: [
+    BrowserModule,
+    FormsModule, // Untuk ngModel
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+### Step 7: Update App Component
+
+```typescript
+// app.component.ts
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+})
+export class AppComponent {
+  title = "Todo App with Angular";
+}
+```
+
+```html
+<!-- app.component.html -->
+<div class="app-container">
+  <header class="app-header">
+    <h1>🚀 {{ title }}</h1>
+    <p>Belajar Angular dengan membuat Todo List</p>
+  </header>
+
+  <main>
+    <app-add-todo></app-add-todo>
+    <app-todo-list></app-todo-list>
+  </main>
+
+  <footer class="app-footer">
+    <p>Made with ❤️ using Angular</p>
+  </footer>
+</div>
+```
+
+```css
+/* app.component.css */
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.app-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.app-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.5rem;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+main {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.app-footer {
+  text-align: center;
+  color: white;
+  margin-top: 40px;
+  opacity: 0.8;
+}
+```
+
+### Step 8: Update Global Styles
+
+```css
+/* src/styles.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+```
+
+### Step 9: Jalankan Aplikasi
+
+```bash
+ng serve
+```
+
+Buka browser dan akses `http://localhost:4200`. Anda akan melihat aplikasi Todo List yang lengkap!
+
+### 🎉 Hasil Akhir
+
+**Fitur yang berhasil dibuat:**
+
+- ✅ Tampilan daftar todo yang cantik
+- ➕ Form untuk menambah todo baru
+- ✏️ Edit todo dengan inline editing
+- ❌ Hapus todo individual
+- ✔️ Toggle status completed
+- 🗑️ Hapus semua todo yang completed
+- 📊 Counter todo aktif
+- 🎨 Responsive design yang menarik
+
+### 📚 Konsep Angular yang Dipraktikkan
+
+1. **Components** - AddTodo & TodoList components
+2. **Services** - TodoService untuk data management
+3. **Interfaces** - Todo interface untuk type safety
+4. **Data Binding** - Two-way binding, event binding, property binding
+5. **Directives** - *ngFor, *ngIf, ngClass
+6. **Dependency Injection** - Inject TodoService ke components
+7. **Observables** - Reactive programming dengan RxJS
+8. **Lifecycle Hooks** - OnInit untuk initialization
+
+**Analogi Project:** Seperti membangun **dapur mini** dimana:
+
+- **Components** = peralatan dapur (kompor, kulkas)
+- **Service** = chef yang tahu semua resep
+- **Interface** = daftar menu standar
+- **Data Binding** = sistem komunikasi antar peralatan
+
+Selamat! Anda telah berhasil membuat aplikasi Todo List lengkap dengan Angular! 🎊
 
 ### ✅ Struktur Proyek
 
