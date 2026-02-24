@@ -44,7 +44,6 @@ export const JOB_EXPERIENCE = [
     url: "https://stmik-mi.ac.id/",
     location: "Kampus STMIK Mardira Indonesia",
     startDate: "2023-10-01",
-    endDate: "2025-08-31",
     description:
       "Bertanggung jawab atas pengelolaan lima kelas Pemrograman Web, membimbing mahasiswa dalam praktikum dan menganalisis kesalahan kode program, serta mendukung dosen dalam pengajaran mata kuliah Pemrograman Web dan pengembangan modul pembelajaran.",
   },
