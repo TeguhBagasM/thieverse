@@ -1,5 +1,15 @@
 const projects = [
   {
+    id: "csa-tasktify",
+    title: `CSA Tasktify`,
+    description:
+      "CSA Tasktify adalah aplikasi manajemen tugas yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling-nya. Aplikasi ini memungkinkan pengguna untuk membuat, mengedit, dan menghapus tugas dengan mudah. Dengan tampilan yang responsif dan interaktif, pengguna dapat mengelola daftar tugas mereka dengan efisien. Aplikasi ini juga dilengkapi dengan fitur penghitungan jumlah tugas secara real-time.",
+    cover: "/images/projects/csa-tasktify.png",
+    stacks: ["Next.js", "TypeScript", "Tailwind CSS"],
+    isRepo: false,
+    deployedURL: "https://csa-tasktify.vercel.app/",
+  },
+  {
     id: "expense-tracker",
     title: `Expense Tracker`,
     description:
