@@ -42,6 +42,31 @@ const projectDetailsMap: Record<
       "Styling menggunakan Tailwind CSS",
     ],
   },
+  "tdi-presensi": {
+    startDate: "Februari 2026",
+    endDate: "Maret 2026",
+    features: [
+      "Dashboard admin untuk monitoring presensi",
+      "Manajemen user, divisi, dan job role",
+      "Sistem persetujuan (approval) presensi user",
+      "Data presensi harian dan rekap status presensi",
+      "Presensi berbasis GPS dengan validasi harus di area kantor",
+      "Integrasi peta lokasi menggunakan OpenStreetMap",
+      "Pengaturan sistem presensi",
+    ],
+    challenges: [
+      "Menentukan radius valid lokasi kantor untuk presensi GPS",
+      "Menangani akurasi koordinat perangkat yang bervariasi",
+      "Menyusun alur approval agar data presensi tetap akurat",
+    ],
+    techDetails: [
+      "Aplikasi dibangun dengan Laravel",
+      "Bootstrap untuk antarmuka admin dashboard",
+      "PostgreSQL sebagai database relasional",
+      "OpenStreetMap untuk visualisasi dan validasi titik lokasi presensi",
+      "Validasi geolocation untuk memastikan presensi hanya dari area kantor",
+    ],
+  },
   "expense-tracker": {
     startDate: "Juli 2025",
     endDate: "Juli 2025",

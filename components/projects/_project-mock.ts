@@ -30,6 +30,15 @@ const projects = [
     deployedURL: "https://csa-tasktify.vercel.app/",
   },
   {
+    id: "tdi-presensi",
+    title: `TDI Presensi`,
+    description:
+      "TDI Presensi adalah aplikasi presensi berbasis GPS yang mewajibkan user melakukan check-in dari area kantor. Sistem ini dilengkapi dashboard admin, approval, data presensi, dan integrasi peta OpenStreetMap untuk validasi lokasi. Proyek dikerjakan Februari 2026 dan selesai Maret 2026 dengan Laravel, Bootstrap, dan PostgreSQL.",
+    cover: "/images/projects/tdi-presensi.png",
+    stacks: ["Laravel", "Bootstrap", "PostgreSQL", "OpenStreetMap"],
+    isRepo: false,
+  },
+  {
     id: "expense-tracker",
     title: `Expense Tracker`,
     description:
