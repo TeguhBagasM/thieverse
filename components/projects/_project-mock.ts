@@ -7,17 +7,16 @@ const projects = [
     cover: "/images/projects/portal-berita.png",
     stacks: ["Laravel", "Tailwind CSS", "MySQL"],
     isRepo: false,
-    // deployedURL: "https://portal-berita.vercel.app/",
   },
   {
     id: "erapor",
     title: `E-Rapor`,
     description:
-      "E-Rapor adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
+      "E-Rapor adalah sistem pengelolaan nilai sekolah berbasis web yang dikerjakan dari Februari 2026 sampai Maret 2026. Aplikasi ini memiliki 2 role utama (Admin dan Wali Kelas), fitur input nilai, import/export data nilai, cetak rapor, serta dashboard akademik. Sistem dibangun dengan Laravel, Bootstrap, dan MySQL.",
     cover: "/images/projects/erapor.png",
-    stacks: ["Laravel", "Tailwind CSS", "MySQL"],
+    stacks: ["Laravel", "Bootstrap", "MySQL"],
     isRepo: false,
-    // deployedURL: "https://portal-berita.vercel.app/",
+    // deployedURL: "",
   },
   {
     id: "csa-tasktify",

@@ -67,6 +67,31 @@ const projectDetailsMap: Record<
       "Validasi geolocation untuk memastikan presensi hanya dari area kantor",
     ],
   },
+  erapor: {
+    startDate: "Februari 2026",
+    endDate: "Maret 2026",
+    features: [
+      "Dashboard admin untuk ringkasan data akademik",
+      "2 role utama: Admin dan Wali Kelas",
+      "Manajemen master data (user, guru, siswa, kelas, jurusan, mata pelajaran)",
+      "Input nilai siswa oleh wali kelas",
+      "Import dan export data nilai",
+      "Cetak rapor siswa",
+      "Pengelolaan tahun ajaran aktif",
+    ],
+    challenges: [
+      "Menyusun aturan akses yang berbeda untuk Admin dan Wali Kelas",
+      "Menjaga validasi data saat proses import nilai dalam jumlah besar",
+      "Memastikan format cetak rapor konsisten untuk seluruh kelas",
+    ],
+    techDetails: [
+      "Aplikasi dibangun dengan Laravel",
+      "Bootstrap untuk antarmuka admin panel",
+      "MySQL sebagai database relasional",
+      "Role-based access control untuk Admin dan Wali Kelas",
+      "Fitur export/import data untuk efisiensi pengelolaan nilai",
+    ],
+  },
   "expense-tracker": {
     startDate: "Juli 2025",
     endDate: "Juli 2025",
