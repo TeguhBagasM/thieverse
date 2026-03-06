@@ -10,11 +10,11 @@ const projects = [
     // deployedURL: "https://portal-berita.vercel.app/",
   },
   {
-    id: "portal-berita",
-    title: `Portal Berita`,
+    id: "erapor",
+    title: `E-Rapor`,
     description:
-      "Portal Berita adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
-    cover: "/images/projects/portal-berita.png",
+      "E-Rapor adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
+    cover: "/images/projects/erapor.png",
     stacks: ["Laravel", "Tailwind CSS", "MySQL"],
     isRepo: false,
     // deployedURL: "https://portal-berita.vercel.app/",
