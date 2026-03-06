@@ -1,11 +1,31 @@
 const projects = [
   {
+    id: "portal-berita",
+    title: `Portal Berita`,
+    description:
+      "Portal Berita adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
+    cover: "/images/projects/portal-berita.png",
+    stacks: ["Laravel", "Tailwind CSS", "MySQL"],
+    isRepo: false,
+    // deployedURL: "https://portal-berita.vercel.app/",
+  },
+  {
+    id: "portal-berita",
+    title: `Portal Berita`,
+    description:
+      "Portal Berita adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
+    cover: "/images/projects/portal-berita.png",
+    stacks: ["Laravel", "Tailwind CSS", "MySQL"],
+    isRepo: false,
+    // deployedURL: "https://portal-berita.vercel.app/",
+  },
+  {
     id: "csa-tasktify",
     title: `CSA Tasktify`,
     description:
-      "CSA Tasktify adalah aplikasi manajemen tugas yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling-nya. Aplikasi ini memungkinkan pengguna untuk membuat, mengedit, dan menghapus tugas dengan mudah. Dengan tampilan yang responsif dan interaktif, pengguna dapat mengelola daftar tugas mereka dengan efisien. Aplikasi ini juga dilengkapi dengan fitur penghitungan jumlah tugas secara real-time.",
+      "CSA Tasktify adalah aplikasi manajemen produktivitas yang dikerjakan pada September 2025 hingga November 2025. Aplikasi ini memiliki fitur manajemen notes, tasks, dan categories, serta dibangun menggunakan React.js, TypeScript, Supabase, dan shadcn/ui.",
     cover: "/images/projects/csa-tasktify.png",
-    stacks: ["Next.js", "TypeScript", "Tailwind CSS"],
+    stacks: ["React.js", "TypeScript", "Supabase", "shadcn/ui"],
     isRepo: false,
     deployedURL: "https://csa-tasktify.vercel.app/",
   },

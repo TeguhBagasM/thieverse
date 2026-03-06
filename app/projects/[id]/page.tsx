@@ -19,6 +19,29 @@ const projectDetailsMap: Record<
     techDetails: string[];
   }
 > = {
+  "csa-tasktify": {
+    startDate: "September 2025",
+    endDate: "November 2025",
+    features: [
+      "Manajemen Notes",
+      "Manajemen Tasks",
+      "Manajemen Categories",
+      "Task status tracking",
+      "Tampilan responsif",
+    ],
+    challenges: [
+      "Menyusun relasi data tasks, notes, dan categories yang konsisten",
+      "Menjaga sinkronisasi data real-time antara frontend dan database",
+      "Mengoptimalkan UX untuk alur manajemen tugas harian",
+    ],
+    techDetails: [
+      "Aplikasi dibangun dengan React.js",
+      "Type-safe development dengan TypeScript",
+      "Supabase untuk autentikasi dan penyimpanan data",
+      "shadcn/ui untuk komponen antarmuka modern",
+      "Styling menggunakan Tailwind CSS",
+    ],
+  },
   "expense-tracker": {
     startDate: "Juli 2025",
     endDate: "Juli 2025",
@@ -64,6 +87,31 @@ const projectDetailsMap: Record<
       "MySQL sebagai database relasional",
       "Styling menggunakan Tailwind CSS",
       "Chart.js untuk visualisasi data keuangan",
+    ],
+  },
+  "portal-berita": {
+    startDate: "Februari 2026",
+    endDate: "Februari 2026",
+    features: [
+      "Manajemen Berita",
+      "Manajemen Kategori Berita",
+      "User request untuk pengajuan konten",
+      "Sistem Komentar pada artikel",
+      "Manajemen Pengguna dan role",
+      "Pencarian dan filter berita",
+      "Tampilan responsif dengan Tailwind CSS",
+    ],
+    challenges: [
+      "Menyusun struktur kategori dan relasi berita secara efisien",
+      "Menjaga keamanan input pada request user dan komentar",
+      "Mengoptimalkan query MySQL untuk daftar berita dan pencarian",
+    ],
+    techDetails: [
+      "Aplikasi dibangun dengan Laravel",
+      "Blade template untuk rendering halaman",
+      "MySQL sebagai database relasional",
+      "Styling menggunakan Tailwind CSS",
+      "Laravel Eloquent untuk manajemen data berita, kategori, dan komentar",
     ],
   },
   marcourse: {
