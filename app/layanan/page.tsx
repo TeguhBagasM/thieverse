@@ -1,58 +1,105 @@
 import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
-import { jasaFeatures, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icons/fa";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: `Layanan Jasa | ${siteConfig.name}`,
-  description: "Layanan jasa programming, mentoring, dan pengembangan website profesional",
+  title: `Layanan Les Laravel | ${siteConfig.name}`,
+  description:
+    "Layanan les Laravel untuk pemula sampai menengah: mentoring personal, kelas grup, dan pendampingan project real.",
 };
 
 const insights: string[] = [
-  "Belajar Bersama Sesama Mahasiswa",
-  "Harga Terjangkau untuk Mahasiswa",
-  "Bantuan Tugas & Project Coding",
-  "Belajar Sambil Sharing Pengalaman",
-  "Teman Belajar yang Supportif",
+  "Les Laravel dari Dasar Sampai Deploy",
+  "Belajar CRUD, Auth, dan API Laravel",
+  "Pendampingan Project Tugas Kuliah atau Freelance",
+  "Materi Praktis: Laravel 11, Filament, dan MySQL",
+  "Mentoring Santai Tapi Terarah",
 ];
 
 const whatsappNumber = "+6281321821374";
 
 const createWhatsAppURL = (serviceName: string, price: string) => {
-  const message = `Halo! Saya tertarik dengan layanan *${serviceName}* dengan budget ${price}. Bisakah konsultasi lebih lanjut?`;
+  const message = `Halo! Saya tertarik ikut *${serviceName}* (${price}) untuk belajar Laravel. Bisa konsultasi dulu?`;
   return `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
 };
 
 const createConsultationURL = () => {
-  const message = `Halo! Saya ingin konsultasi gratis mengenai layanan thieverse. Bisakah dibantu?`;
+  const message =
+    "Halo! Saya ingin konsultasi gratis untuk les Laravel (materi, jadwal, dan kebutuhan belajar).";
   return `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
 };
 
 const serviceCards = [
   {
     icon: <FaCode className="w-8 h-8 text-blue-500" />,
-    title: "Bimbingan Personal",
-    description: "Belajar coding bareng dengan pendampingan satu-satu",
-    price: "Mulai dari Rp 50.000",
-    features: ["Belajar sesuai kecepatan Anda", "Materi disesuaikan kebutuhan", "Waktu fleksibel"],
+    title: "Private Les Laravel",
+    description: "Mentoring 1-on-1 untuk bangun fondasi Laravel sampai paham alur project",
+    price: "Mulai dari Rp 75.000/sesi",
+    features: [
+      "Roadmap belajar sesuai level kamu",
+      "Bahas routing, migration, controller, blade",
+      "Feedback langsung saat ngoding",
+    ],
   },
   {
     icon: <FaUsers className="w-8 h-8 text-green-500" />,
-    title: "Belajar Bersama Teman",
-    description: "Sesi belajar dalam grup kecil yang interaktif dan menyenangkan",
-    price: "Mulai dari Rp 30.000/orang",
-    features: ["Grup maksimal 12 orang", "Diskusi dan sharing bersama", "Suasana belajar yang santai"],
+    title: "Kelas Grup Laravel",
+    description: "Belajar bareng teman dalam grup kecil untuk latihan project terstruktur",
+    price: "Mulai dari Rp 40.000/orang",
+    features: [
+      "Grup kecil supaya diskusi tetap intens",
+      "Latihan studi kasus CRUD dan autentikasi",
+      "Rekaman & catatan materi setiap sesi",
+    ],
   },
   {
     icon: <FaGlobe className="w-8 h-8 text-purple-500" />,
-    title: "Jasa Pembuatan Website",
-    description: "Membantu pembuatan website sederhana untuk kebutuhan Anda",
-    price: "Mulai dari Rp 150.000",
-    features: ["Design sederhana namun menarik", "Responsive di semua device", "Free revisi 1x"],
+    title: "Pendampingan Project Laravel",
+    description: "Cocok untuk tugas akhir, portfolio, atau project client berbasis Laravel",
+    price: "Mulai dari Rp 120.000/meeting",
+    features: [
+      "Review arsitektur project dan database",
+      "Bantu debugging error dan optimasi query",
+      "Panduan deploy ke hosting/VPS",
+    ],
+  },
+];
+
+const laravelAdvantages = [
+  {
+    title: "Belajar dari Real Case",
+    description:
+      "Materi tidak hanya teori. Kamu langsung praktik bikin fitur yang biasa dipakai di project Laravel nyata.",
+  },
+  {
+    title: "Silabus Fleksibel",
+    description:
+      "Bisa mulai dari nol atau langsung ke topik lanjutan seperti API, queue, atau Filament sesuai kebutuhan.",
+  },
+  {
+    title: "Pendekatan Step-by-Step",
+    description:
+      "Setiap sesi dibuat runtut agar kamu paham alasan di balik setiap kode, bukan sekadar copy-paste.",
+  },
+  {
+    title: "Support Setelah Sesi",
+    description:
+      "Tetap bisa tanya kendala lewat chat untuk blocker ringan setelah kelas selesai.",
+  },
+  {
+    title: "Siap Untuk Dunia Kerja",
+    description:
+      "Latihan standar workflow mulai dari Git, struktur project, sampai teknik debugging yang dipakai tim developer.",
+  },
+  {
+    title: "Target Hasil yang Jelas",
+    description:
+      "Setiap paket punya outcome yang terukur, misalnya aplikasi CRUD selesai, API jalan, atau project berhasil deploy.",
   },
 ];
 
@@ -64,10 +111,11 @@ export default function JasaPage() {
       <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
         <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
           <h1 className="inline-block font-semibold capitalize text-4xl md:text-5xl text-center mb-4">
-            Jasa Belajar & Bantuan Coding
+            Layanan Les Laravel
           </h1>
           <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-            Belajar bersama mahasiswa Teknik Informatika yang siap membantu coding journey Anda!
+            Fokus bantu kamu menguasai Laravel lewat sesi terstruktur, praktik langsung, dan pendampingan
+            sampai project jadi.
           </p>
         </div>
 
@@ -109,16 +157,16 @@ export default function JasaPage() {
 
         <div className="w-full max-w-4xl bg-blue-50 dark:bg-gray-900 rounded-2xl p-8 sm:p-12 mb-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-6">
-            Mengapa Memilih Belajar Bersama Saya?
+            Kenapa Cocok untuk Belajar Laravel?
           </h2>
           <div className="text-center mb-6">
             <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-4 py-2 rounded-full text-sm font-medium">
-              ✨ Sudah Dipercaya 100+ Mahasiswa
+              ✨ Fokus Laravel, Bukan Materi Campur-campur
             </span>
           </div>
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-center text-base sm:text-lg mb-8">
-            Saya memberikan bimbingan dengan pendekatan praktis, materi yang mudah dipahami, dan
-            disesuaikan dengan kebutuhan belajar kamu.
+            Pembelajaran dirancang dari kebutuhanmu: mulai dari dasar syntax Laravel sampai membangun
+            aplikasi end-to-end dengan best practice.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -146,10 +194,10 @@ export default function JasaPage() {
 
         <div className="w-full max-w-6xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-dark dark:text-light mb-12">
-            Keunggulan Belajar di Sini
+            Keunggulan Les Laravel di Sini
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jasaFeatures?.map((feature, index) => (
+            {laravelAdvantages.map((feature, index) => (
               <div
                 key={index}
                 className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
@@ -176,10 +224,10 @@ export default function JasaPage() {
 
         <div className="w-full max-w-4xl text-center py-16">
           <h2 className="text-2xl sm:text-3xl font-bold text-dark dark:text-light mb-4">
-            Mari Mulai Belajar Bersama!
+            Siap Naik Level di Laravel?
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-8 text-base sm:text-lg">
-            Hubungi saya untuk mendiskusikan kebutuhan belajar Anda. Konsultasi gratis!
+            Ceritakan target belajarmu, nanti saya bantu susun jalur belajar Laravel yang paling pas.
           </p>
           <a
             href={createConsultationURL()}
