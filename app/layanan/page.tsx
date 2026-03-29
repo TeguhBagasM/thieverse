@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: `Layanan Les Laravel | ${siteConfig.name}`,
+  title: `Layanan Jasa ${siteConfig.name}`,
   description:
     "Layanan les Laravel untuk pemula sampai menengah: mentoring personal, kelas grup, dan pendampingan project real.",
 };
@@ -111,7 +111,7 @@ export default function JasaPage() {
       <section className="w-full px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col items-center">
         <div className="relative w-full flex flex-col items-center justify-center py-16 sm:py-20">
           <h1 className="inline-block font-semibold capitalize text-4xl md:text-5xl text-center mb-4">
-            Layanan Les Laravel
+            Layanan Jasa
           </h1>
           <p className="text-center text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
             Fokus bantu kamu menguasai Laravel lewat sesi terstruktur, praktik langsung, dan pendampingan
