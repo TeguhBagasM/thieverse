@@ -4,6 +4,10 @@ import Giscus from "@giscus/react";
 import { env } from "@/constants/env";
 
 const PostComments = () => {
+  if (!env.NEXT_PUBLIC_GISCUS_REPO_ID || !env.NEXT_PUBLIC_GISCUS_CATEGORY_ID) {
+    return null;
+  }
+
   return (
     <div className="w-full mt-4">
       <Giscus

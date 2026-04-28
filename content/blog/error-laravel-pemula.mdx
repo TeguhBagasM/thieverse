@@ -1,0 +1,592 @@
+---
+title: "Error Laravel Pemula"
+description: "Kumpulan error Laravel yang paling sering dialami pemula, lengkap dengan penyebab dan solusi singkat."
+date: 2026-04-11
+tags: ["laravel", "pemula", "troubleshooting"]
+published: true
+img: "/images/blogs/laravel/laravel.png"
+---
+
+# Kumpulan Error Laravel yang Sering Dihadapi Pemula
+
+Artikel ini dibuat sebagai catatan error yang paling sering muncul saat baru belajar Laravel. Tujuannya supaya kalau muncul masalah, Anda bisa langsung cek gejala, penyebab, dan solusi singkatnya tanpa harus mencari dari nol.
+
+Kalau nanti Anda kirim screenshot error, artikel ini juga bisa diperbarui lagi per bagian supaya lebih cocok dengan kasus yang Anda temui.
+
+## Cara Pakai Artikel Ini
+
+1. Cocokkan pesan error yang muncul di terminal atau browser.
+2. Buka subbagian yang paling mirip dengan kasus Anda.
+3. Ikuti solusi singkatnya.
+4. Kalau belum beres, catat screenshot error dan tambahkan ke bagian yang sesuai.
+
+---
+
+## 1. XAMPP Belum Dinyalakan
+
+### Gejala
+
+- `localhost` tidak bisa dibuka
+- Database tidak tersambung
+- Muncul pesan seperti `Connection refused` atau `SQLSTATE[HY000] [2002]`
+
+### Penyebab
+
+Apache dan MySQL belum berjalan di XAMPP.
+
+### Solusi
+
+1. Buka XAMPP Control Panel
+2. Nyalakan `Apache`
+3. Nyalakan `MySQL`
+4. Coba buka lagi project Laravel
+
+### Catatan Screenshot
+
+Kalau Anda punya screenshot, taruh di bagian ini supaya mudah dikenali saat praktik.
+
+---
+
+## 2. Belum Menjalankan `php artisan serve`
+
+### Gejala
+
+- Browser menampilkan `ERR_CONNECTION_REFUSED`
+- Halaman Laravel tidak muncul di `http://127.0.0.1:8000`
+- Project terlihat ada, tetapi web tidak hidup
+
+### Penyebab
+
+Laravel belum dijalankan sebagai server lokal.
+
+### Solusi
+
+Jalankan perintah berikut di terminal:
+
+```bash
+php artisan serve
+```
+
+Kalau terminal ditutup, server juga berhenti. Jalankan ulang jika perlu.
+
+---
+
+## 3. Belum Menjalankan `npm run dev`
+
+### Gejala
+
+- Tampilan berantakan
+- CSS tidak muncul
+- JavaScript tidak jalan
+- Asset dari Vite tidak terbaca
+
+### Penyebab
+
+Dependency frontend belum dijalankan.
+
+### Solusi
+
+Jalankan:
+
+```bash
+npm install
+npm run dev
+```
+
+Kalau ini belum dijalankan, desain Bootstrap atau Vite biasanya tidak tampil dengan benar.
+
+---
+
+## 4. `.env` Salah atau Database Tidak Cocok
+
+### Gejala
+
+- Login database gagal
+- Migrasi gagal
+- Muncul `Access denied for user`
+- Muncul `Unknown database`
+
+### Penyebab
+
+Isi `.env` belum sesuai dengan database yang dipakai.
+
+### Solusi
+
+Periksa bagian ini:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Pastikan nama database benar-benar sudah dibuat di MySQL.
+
+---
+
+## 5. `APP_KEY` Belum Ada
+
+### Gejala
+
+- Muncul error terkait encryption key
+- Aplikasi terasa belum siap dipakai
+
+### Penyebab
+
+Project belum memiliki application key.
+
+### Solusi
+
+Jalankan:
+
+```bash
+php artisan key:generate
+```
+
+---
+
+## 6. Class Tidak Ditemukan
+
+### Gejala
+
+- `Class 'Role' not found`
+- `Class 'User' not found`
+- `Target class does not exist`
+- `Undefined type`
+
+### Penyebab
+
+- Lupa import class
+- Namespace salah
+- Nama class tidak sesuai dengan nama file
+
+### Solusi
+
+Tambahkan import yang benar di bagian atas file:
+
+```php
+use App\Models\Role;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+```
+
+Kalau error muncul di route, controller juga harus di-import di `web.php`.
+
+---
+
+## 7. Import Belum Ada di `web.php`
+
+### Gejala
+
+- Route tidak jalan
+- Controller tidak terbaca
+- Halaman tertentu gagal dibuka
+
+### Penyebab
+
+Controller atau facade belum di-import di file route.
+
+### Solusi
+
+Pastikan bagian atas `routes/web.php` sudah benar:
+
+```php
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
+use Illuminate\Support\Facades\Route;
+```
+
+Kalau Anda memakai controller lain, tambahkan juga di sini.
+
+---
+
+## 8. Import Belum Ada di Controller
+
+### Gejala
+
+- `Hash` tidak dikenali
+- `Request` tidak dikenali
+- `User` atau `Role` error saat dipanggil
+
+### Penyebab
+
+Class yang dipakai di controller belum di-import.
+
+### Solusi
+
+Contoh import yang umum dipakai:
+
+```php
+use App\Models\User;
+use App\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+```
+
+---
+
+## 9. Import Belum Ada di Model
+
+### Gejala
+
+- Relasi model error
+- Method relasi tidak terbaca
+- `belongsTo`, `hasMany`, atau class model lain gagal dipakai
+
+### Penyebab
+
+Model belum memanggil class relasi dengan benar.
+
+### Solusi
+
+Contoh pada model `User`:
+
+```php
+use App\Models\Role;
+```
+
+Contoh pada model `Role`:
+
+```php
+use App\Models\User;
+```
+
+---
+
+## 10. Import Belum Ada di Seeder
+
+### Gejala
+
+- Seeder gagal dijalankan
+- Class seeder tidak ditemukan
+- Data tidak masuk saat `db:seed`
+
+### Penyebab
+
+Seeder belum mengimpor model atau facade yang dipakai.
+
+### Solusi
+
+Contoh import yang sering diperlukan:
+
+```php
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+```
+
+Kalau seeder lain memakai class tambahan, tambahkan juga import yang sesuai.
+
+---
+
+## 11. Import Belum Ada di Migration
+
+### Gejala
+
+- Migration gagal dijalankan
+- Error schema atau blueprint tidak dikenali
+
+### Penyebab
+
+File migration tidak memakai import bawaan Laravel.
+
+### Solusi
+
+Pastikan migration punya import ini:
+
+```php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+```
+
+---
+
+## 12. Route Tidak Ditemukan
+
+### Gejala
+
+- `Route [admin.dashboard] not defined`
+- Link menu gagal dibuka
+- Redirect tidak bekerja
+
+### Penyebab
+
+Nama route salah atau route belum dibuat.
+
+### Solusi
+
+Periksa definisi route:
+
+```php
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+```
+
+Pastikan nama route yang dipanggil di blade atau controller sama persis.
+
+---
+
+## 13. View Tidak Ditemukan
+
+### Gejala
+
+- `View [home] not found`
+- `View [users.index] not found`
+- Halaman blank atau error saat render view
+
+### Penyebab
+
+Nama file view salah atau folder view belum dibuat.
+
+### Solusi
+
+Pastikan file view ada di lokasi yang benar, misalnya:
+
+- `resources/views/home.blade.php`
+- `resources/views/users/index.blade.php`
+- `resources/views/admin/dashboard.blade.php`
+
+Perhatikan juga penulisan nama folder dan file.
+
+---
+
+## 14. Migration Belum Dijalankan
+
+### Gejala
+
+- Tabel belum terbentuk
+- Error tabel tidak ditemukan
+- Query database gagal
+
+### Penyebab
+
+Migration belum dijalankan setelah membuat tabel atau kolom baru.
+
+### Solusi
+
+Jalankan:
+
+```bash
+php artisan migrate
+```
+
+Kalau data awal juga dibutuhkan, lanjutkan dengan:
+
+```bash
+php artisan db:seed
+```
+
+---
+
+## 15. Column Tidak Ada di Database
+
+### Gejala
+
+- `Unknown column 'role_id'`
+- `SQLSTATE` error saat insert atau update
+
+### Penyebab
+
+Kolom belum dibuat di migration atau nama kolom tidak sama dengan yang dipakai di kode.
+
+### Solusi
+
+Periksa migration, lalu pastikan nama kolom di kode sama persis dengan database.
+
+Kalau kolom baru sudah ditambahkan, jalankan ulang migration sesuai kebutuhan project.
+
+---
+
+## 16. `role_id` Tidak Terisi Saat Register
+
+### Gejala
+
+- Registrasi gagal
+- Data user masuk tetapi role kosong
+- Muncul error `Column 'role_id' cannot be null`
+
+### Penyebab
+
+Proses register belum mengisi role default.
+
+### Solusi
+
+Pastikan register controller menambahkan `role_id` saat membuat user.
+
+Contoh:
+
+```php
+'role_id' => $userRole ? $userRole->id : 2,
+```
+
+---
+
+## 17. Middleware Mengembalikan 403 Forbidden
+
+### Gejala
+
+- User biasa tidak bisa membuka halaman admin
+- Browser menampilkan akses ditolak
+
+### Penyebab
+
+Middleware berhasil bekerja, tetapi user yang login memang bukan admin.
+
+### Solusi
+
+1. Pastikan middleware sudah benar terdaftar
+2. Cek role user yang login
+3. Pastikan user admin punya role yang sesuai di database
+
+Kalau error ini muncul pada user biasa, sebenarnya itu tanda middleware berjalan dengan benar.
+
+---
+
+## 18. Typo pada Nama Class, Method, atau Route
+
+### Gejala
+
+- Error muncul padahal kodenya terlihat hampir sama
+- Link menu salah arah
+- Method tidak terpanggil
+
+### Contoh Typo
+
+- `AdminDashboard` ditulis `AdminDasboard`
+- `role_id` ditulis `roleid`
+- `admin.dashboard` ditulis `admin.dashbord`
+- `UserController` ditulis `UsersController`
+
+### Solusi
+
+1. Cocokkan nama class, method, route, dan file dengan teliti
+2. Periksa huruf besar dan kecil
+3. Gunakan fitur search di editor untuk memastikan konsisten
+
+---
+
+## 19. Error Duplikat Data
+
+### Gejala
+
+- `Duplicate entry`
+- Email tidak bisa disimpan karena sudah ada
+- Seeder gagal karena data yang sama sudah pernah dibuat
+
+### Penyebab
+
+Data yang dimasukkan sudah ada di database.
+
+### Solusi
+
+1. Hapus data lama jika memang untuk testing
+2. Gunakan validasi `unique`
+3. Pastikan seeder tidak membuat data yang sama berulang-ulang
+
+---
+
+## 20. Mass Assignment Error
+
+### Gejala
+
+- Data tidak tersimpan
+- Muncul error terkait mass assignment
+
+### Penyebab
+
+Field yang dikirim belum ada di `$fillable` model.
+
+### Solusi
+
+Tambahkan field yang dibutuhkan ke `$fillable`.
+
+Contoh:
+
+```php
+protected $fillable = [
+	'name',
+	'email',
+	'password',
+	'role_id',
+];
+```
+
+---
+
+## 21. Cache Masih Menyimpan Konfigurasi Lama
+
+### Gejala
+
+- Perubahan route belum terbaca
+- Config lama masih dipakai
+- Error masih muncul walau file sudah diubah
+
+### Penyebab
+
+Cache Laravel belum dibersihkan.
+
+### Solusi
+
+Jalankan perintah berikut bila perlu:
+
+```bash
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+```
+
+---
+
+## 22. Error Saat Route Model Binding
+
+### Gejala
+
+- `No query results for model`
+- Detail data tidak muncul
+- Halaman edit atau show gagal dibuka
+
+### Penyebab
+
+ID yang dipakai tidak ada di database atau route model binding salah.
+
+### Solusi
+
+Pastikan data yang dipanggil memang ada, lalu cek definisi route dan parameter model binding.
+
+---
+
+## Template Untuk Tambah Screenshot Error
+
+Kalau nanti Anda mau menempel screenshot error di artikel ini, bisa pakai pola berikut:
+
+```mdx
+### Error: Nama Error
+
+**Gejala:**
+
+- ...
+
+**Penyebab:**
+
+...
+
+**Solusi:**
+
+...
+
+**Screenshot:**
+
+<!-- tempel gambar error di sini -->
+```
+
+---
+
+## Penutup
+
+Kebanyakan error Laravel untuk pemula sebenarnya berputar di masalah yang sama: server belum jalan, import belum lengkap, route salah, migration belum dijalankan, atau typo kecil yang sulit kelihatan.
+
+Kalau Anda sudah punya screenshot error tertentu, saya bisa bantu lanjut isi artikel ini per kasus supaya isinya lebih spesifik dan lebih enak dibaca.

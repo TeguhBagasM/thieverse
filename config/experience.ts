@@ -16,6 +16,7 @@ export const JOB_EXPERIENCE = [
     url: "https://web.tabeldata.com/",
     location: "Jl. Pratista Raya No.17",
     startDate: "2025-08-19",
+    endDate: "2026-02-26",
     description:
       "Saya terlibat dalam proyek pengembangan API Management yang berfokus pada integrasi layanan perbankan seperti Bank BJB dan Bank Mandiri menggunakan Apache Camel. Peran saya mencakup perancangan, implementasi, dan pengujian alur integrasi (service flow) untuk memastikan data dapat ditransformasikan dan dikirim dengan aman serta konsisten antar sistem. Selain itu, saya juga berkontribusi dalam optimasi konfigurasi, dokumentasi teknis, serta pemahaman konsep integrasi enterprise agar API yang dibangun dapat digunakan secara efisien oleh berbagai layanan internal maupun eksternal perusahaan.",
   },
@@ -25,6 +26,7 @@ export const JOB_EXPERIENCE = [
     url: "https://csa-stmikmi.vercel.app",
     location: "Kampus STMIK Mardira Indonesia",
     startDate: "2025-01-25",
+    endDate: "2026-04-18",
     description:
       "Sebagai Ketua Creative Student Association (CSA), saya bertanggung jawab dalam memimpin organisasi yang berfokus pada pengembangan teknologi dan kreativitas anggota.",
   },
