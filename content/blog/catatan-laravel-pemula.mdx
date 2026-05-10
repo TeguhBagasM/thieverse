@@ -118,5 +118,520 @@ Download Composer di:
 Gunakan command berikut:
 
 ```bash
-composer create-project laravel/laravel belajar-laravel
+composer create-project --prefer-dist laravel/laravel:^12 belajar-laravel
 ```
+
+---
+
+# 1. Menjalankan Project Laravel
+
+Setelah project berhasil dibuat, masuk dulu ke folder project lalu jalankan server Laravel dengan perintah berikut:
+
+```bash
+cd belajar-laravel
+php artisan serve
+```
+
+Kalau command ini berhasil dijalankan, Laravel akan membuat server lokal dan biasanya bisa diakses lewat alamat:
+
+```text
+http://localhost:8000
+```
+
+Angka `8000` itu adalah port. Analogi sederhananya, kalau rumah itu adalah website, maka port adalah nomor pintu rumahnya. Jadi browser tahu harus masuk lewat pintu yang mana.
+
+Kalau server aktif, kita bisa buka browser dan melihat tampilan awal Laravel.
+
+---
+
+# 2. Konfigurasi Database di File .env
+
+Sebelum Laravel bisa ambil data dari database, kita harus memberi tahu Laravel database mana yang dipakai. Pengaturannya ada di file `.env`.
+
+Contoh bagian yang perlu diperhatikan:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=belajar_laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Penjelasannya:
+
+- `DB_DATABASE` adalah nama database yang akan dipakai
+- `DB_USERNAME` adalah nama user database
+- `DB_PASSWORD` adalah password database
+
+Analogi sederhananya, database itu seperti gudang makanan di restoran. Laravel harus tahu letak gudangnya, siapa yang boleh masuk, dan kunci apa yang digunakan. Kalau salah isi, Laravel seperti pelayan yang bingung mencari dapur.
+
+Pastikan database yang ditulis di `.env` memang sudah dibuat di MySQL atau phpMyAdmin.
+
+---
+
+# 3. Install Laravel UI Bootstrap
+
+Laravel UI dipakai untuk membantu menyiapkan tampilan dasar frontend seperti login, register, dan integrasi Bootstrap dengan lebih cepat.
+
+Bootstrap sendiri adalah framework CSS yang membuat tampilan website jadi lebih rapi tanpa harus menulis CSS dari nol semuanya.
+
+Kalau dianalogikan, Laravel UI itu seperti paket peralatan dapur, sedangkan Bootstrap itu seperti set meja dan dekorasi restoran yang sudah siap pakai. Kita jadi lebih cepat menata tampilan.
+
+Jalankan command berikut:
+
+```bash
+composer require laravel/ui
+php artisan ui bootstrap
+npm install
+npm run dev
+```
+
+Penjelasan singkat:
+
+- `composer require laravel/ui` untuk memasang paket Laravel UI
+- `php artisan ui bootstrap` untuk menambahkan Bootstrap ke project
+- `npm install` untuk mengunduh dependency frontend
+- `npm run dev` untuk membangun asset frontend agar siap dipakai
+
+Kalau semua berhasil, Bootstrap sudah bisa digunakan di halaman view.
+
+---
+
+# 4. Penjelasan Struktur Folder Laravel
+
+Sebelum lanjut ke coding, kita perlu kenal dulu struktur folder Laravel. Ini penting supaya tidak bingung saat mencari file.
+
+| Folder                 | Fungsi                                         |
+| ---------------------- | ---------------------------------------------- |
+| `routes`               | Tempat mengatur alamat URL aplikasi            |
+| `app/Http/Controllers` | Tempat logika aplikasi diproses                |
+| `app/Models`           | Tempat model untuk berhubungan dengan database |
+| `resources/views`      | Tempat file tampilan HTML atau Blade           |
+| `database/migrations`  | Tempat struktur tabel database dibuat          |
+
+Analogi sederhananya:
+
+- `routes` itu seperti papan petunjuk jalan
+- `controllers` itu seperti kasir yang menerima pesanan
+- `models` itu seperti staf yang mengambil data dari gudang
+- `views` itu seperti tampilan makanan di meja
+- `migrations` itu seperti denah pembuatan ruangan baru di restoran
+
+Kalau memahami folder ini, belajar Laravel jadi jauh lebih mudah.
+
+---
+
+# 5. Membuat Model + Migration + Controller Sekaligus
+
+Laravel menyediakan command praktis untuk membuat beberapa file sekaligus.
+
+```bash
+php artisan make:model Mahasiswa -mcs
+```
+
+Command ini akan membuat:
+
+- Model `Mahasiswa`
+- Migration tabel mahasiswa
+- Controller `Mahasiswa`
+- Seeder `Mahasiswa`
+
+Arti singkatan yang dipakai:
+
+- `-m` = migration
+- `-c` = controller
+- `-s` = seeder
+
+Jadi, dengan satu command ini kita tidak perlu membuat file satu per satu. Rasanya seperti pesan paket lengkap di restoran, bukan pesan menu secara terpisah.
+
+---
+
+# 6. Membuat Migration Tabel Mahasiswa
+
+Setelah migration dibuat, buka file migration di folder `database/migrations`. Nama file biasanya mirip seperti ini:
+
+```php
+create_mahasiswas_table.php
+```
+
+Lalu isi migration-nya seperti berikut:
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::create('mahasiswa', function (Blueprint $table) {
+      $table->id();
+      $table->string('nama');
+      $table->string('nim');
+      $table->string('jurusan');
+      $table->text('alamat');
+      $table->timestamps();
+    });
+  }
+
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::dropIfExists('mahasiswa');
+  }
+};
+```
+
+Penjelasan bagian penting:
+
+- `Schema::create()` digunakan untuk membuat tabel baru
+- `Blueprint` adalah objek yang dipakai untuk menyusun kolom-kolom tabel
+- `$table->id()` membuat primary key otomatis
+- `$table->string('nama')` membuat kolom teks pendek
+- `$table->text('alamat')` cocok untuk teks yang lebih panjang
+- `$table->timestamps()` membuat kolom `created_at` dan `updated_at`
+
+Kalau dianalogikan, `Schema::create()` itu seperti perintah membangun meja baru di restoran, sedangkan `Blueprint` adalah daftar bentuk meja dan bagian-bagiannya.
+
+---
+
+# 7. Menjalankan Migration
+
+Setelah migration selesai dibuat, jalankan perintah berikut:
+
+```bash
+php artisan migrate
+```
+
+Kalau command ini dijalankan, Laravel akan membaca file migration lalu membuat tabel di database sesuai struktur yang sudah kita tulis.
+
+Jadi, migration itu seperti proses pembangunan ruangan berdasarkan denah yang sudah disiapkan. Begitu dijalankan, tabel `mahasiswa` akan muncul di database.
+
+---
+
+# 8. Membuat Seeder Mahasiswa
+
+Seeder dipakai untuk mengisi data awal ke dalam database. Ini sangat membantu saat belajar, karena kita tidak perlu input data manual satu per satu.
+
+Buat seeder dengan command berikut:
+
+```bash
+php artisan make:seeder MahasiswaSeeder
+```
+
+Lalu isi file seeder-nya seperti ini:
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class MahasiswaSeeder extends Seeder
+{
+  /**
+   * Run the database seeds.
+   */
+  public function run(): void
+  {
+    DB::table('mahasiswa')->insert([
+      [
+        'nama' => 'Andi Pratama',
+        'nim' => '2201001',
+        'jurusan' => 'Teknik Informatika',
+        'alamat' => 'Jakarta',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'nama' => 'Siti Aisyah',
+        'nim' => '2201002',
+        'jurusan' => 'Sistem Informasi',
+        'alamat' => 'Bandung',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'nama' => 'Budi Santoso',
+        'nim' => '2201003',
+        'jurusan' => 'Teknik Komputer',
+        'alamat' => 'Surabaya',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'nama' => 'Dewi Lestari',
+        'nim' => '2201004',
+        'jurusan' => 'Informatika',
+        'alamat' => 'Yogyakarta',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'nama' => 'Rizky Ramadhan',
+        'nim' => '2201005',
+        'jurusan' => 'Teknik Informatika',
+        'alamat' => 'Semarang',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+    ]);
+  }
+}
+```
+
+Di sini kita memakai `DB::table('mahasiswa')->insert([ ... ])` untuk memasukkan data langsung ke tabel.
+
+Seeder itu seperti pelayan yang langsung mengisi stok menu awal di dapur supaya kita bisa langsung latihan tanpa menunggu input manual.
+
+---
+
+# 9. Daftarkan Seeder ke DatabaseSeeder.php
+
+Agar seeder bisa dijalankan lewat `db:seed`, kita harus mendaftarkannya di file `DatabaseSeeder.php`.
+
+Tambahkan baris berikut di method `run()`:
+
+```php
+public function run(): void
+{
+  $this->call([
+    MahasiswaSeeder::class,
+  ]);
+}
+```
+
+Pastikan juga sudah import class-nya jika dibutuhkan:
+
+```php
+use Database\Seeders\MahasiswaSeeder;
+```
+
+Kalau tidak didaftarkan, Laravel tidak tahu seeder mana yang harus dijalankan.
+
+---
+
+# 10. Menjalankan Seeder
+
+Setelah terdaftar, jalankan seeder dengan command berikut:
+
+```bash
+php artisan db:seed
+```
+
+Kalau sukses, data dummy mahasiswa akan masuk ke tabel database.
+
+Analogi sederhananya, ini seperti mengisi etalase restoran dengan menu contoh supaya pelanggan bisa langsung melihat pilihannya.
+
+---
+
+# 11. Membuat Controller MahasiswaController
+
+Controller bertugas menerima request lalu menentukan data apa yang akan dikirim ke view.
+
+Buka file controller yang sudah dibuat tadi, lalu isi fokus utamanya seperti ini:
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Mahasiswa;
+use Illuminate\Http\Request;
+
+class MahasiswaController extends Controller
+{
+  public function index()
+  {
+    $mahasiswa = Mahasiswa::all();
+
+    return view('mahasiswa.index', compact('mahasiswa'));
+  }
+}
+```
+
+Fokus kita hanya ke method `index()` karena method ini biasanya dipakai untuk menampilkan daftar data.
+
+---
+
+# 12. Mengambil Data Menggunakan Model
+
+Bagian ini ada di controller:
+
+```php
+$mahasiswa = Mahasiswa::all();
+```
+
+Arti `all()` adalah mengambil semua data dari tabel.
+
+Kalau dianalogikan, `all()` itu seperti pelayan yang mengambil semua pesanan yang tersedia dari dapur, bukan cuma satu menu.
+
+Karena kita sedang belajar READ data, maka `all()` adalah cara paling sederhana untuk mengambil seluruh data mahasiswa.
+
+---
+
+# 13. Mengirim Data ke View Menggunakan compact()
+
+Setelah data diambil, data tersebut dikirim ke view dengan `compact()`.
+
+Contohnya:
+
+```php
+return view('mahasiswa.index', compact('mahasiswa'));
+```
+
+Fungsi `compact()` adalah membuat data array dengan nama variabel yang sama agar lebih ringkas.
+
+Jadi, daripada menulis array panjang, kita cukup menulis nama variabelnya saja.
+
+Kalau dianalogikan, `compact()` itu seperti menaruh pesanan ke nampan dan memberi label supaya bagian dapur dan meja kasir tahu apa isi kirimannya.
+
+---
+
+# 14. Membuat Route di web.php
+
+Sekarang kita hubungkan alamat URL ke controller.
+
+Tambahkan route berikut di file `routes/web.php`:
+
+```php
+use App\Http\Controllers\MahasiswaController;
+
+Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
+```
+
+Kalau user membuka `/mahasiswa`, Laravel akan memanggil `index()` dari `MahasiswaController`.
+
+### Alur lengkapnya:
+
+```text
+Route -> Controller -> Model -> Database -> View
+```
+
+Penjelasan sederhananya:
+
+- Route menentukan jalan masuk
+- Controller menerima permintaan
+- Model mengambil data
+- Database menyimpan data
+- View menampilkan hasil ke browser
+
+Ini sama seperti alur di restoran: pelanggan datang, pelayan menerima pesanan, dapur menyiapkan makanan, lalu makanan disajikan ke meja.
+
+---
+
+# 15. Membuat View Mahasiswa
+
+Sekarang kita buat tampilan untuk menampilkan data mahasiswa.
+
+Buat file berikut:
+
+```text
+resources/views/mahasiswa/index.blade.php
+```
+
+Lalu isi dengan kode berikut:
+
+```php
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Mahasiswa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Data Mahasiswa</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped align-middle">
+                <thead class="table-dark">
+                  <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Alamat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($mahasiswa as $item)
+                    <tr>
+                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ $item->nama }}</td>
+                      <td>{{ $item->nim }}</td>
+                      <td>{{ $item->jurusan }}</td>
+                      <td>{{ $item->alamat }}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+```
+
+### Fungsi Blade Template
+
+Blade adalah template engine milik Laravel yang memudahkan kita menulis tampilan dengan sintaks yang lebih simpel.
+
+Contohnya, `@foreach` dipakai untuk mengulang data dari database agar setiap mahasiswa bisa ditampilkan satu per satu.
+
+Kalau dianalogikan, Blade itu seperti buku menu yang bisa otomatis menyesuaikan daftar makanan sesuai stok yang ada di dapur.
+
+---
+
+# 16. Hasil Akhir dan Kesimpulan
+
+Setelah semua langkah di atas dijalankan, kita sudah berhasil menampilkan data mahasiswa dari database ke halaman view menggunakan Laravel 12.
+
+Alur kerjanya seperti ini:
+
+- Laravel memakai pola MVC
+- Route mengatur jalan atau alamat tujuan
+- Controller mengatur logika aplikasi
+- Model mengambil data dari database
+- View menampilkan data ke browser
+
+Kalau dipahami dengan analogi restoran, maka:
+
+- Route adalah papan arah
+- Controller adalah pelayan
+- Model adalah staf dapur yang mengambil bahan
+- Database adalah gudang
+- View adalah makanan yang akhirnya disajikan ke pelanggan
+
+Itulah dasar pertama belajar Laravel. Jika sesi ini sudah paham, maka langkah berikutnya akan jauh lebih mudah.
+
+---
+
+# Penutup
+
+Di sesi ini kita sudah belajar dari membuat project, menghubungkan database, membuat migration, mengisi data dummy, sampai menampilkan data mahasiswa di view.
+
+Kalau kamu masih baru belajar, jangan langsung terburu-buru. Ulangi lagi alurnya sampai benar-benar paham, karena Laravel itu sebenarnya sederhana kalau kita sudah mengerti jalannya data dari route sampai view.
