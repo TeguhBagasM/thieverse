@@ -24,7 +24,9 @@ export default function AboutPage() {
       <div className="container max-w-6xl py-6 lg:py-10">
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
           <div className="flex-1">
-            <h1 className="font-bold text-4xl md:text-5xl text-center">About Me</h1>
+            <h1 className="font-bold text-4xl md:text-5xl text-center">
+              About Me
+            </h1>
           </div>
         </div>
         <hr className="my-8" />
@@ -34,7 +36,9 @@ export default function AboutPage() {
               <AvatarImage src="/teguh.jpg" alt={siteConfig.author} />
               <AvatarFallback>TBM</AvatarFallback>
             </Avatar>
-            <h2 className="text-2xl font-bold text-center break-words">{siteConfig.author}</h2>
+            <h2 className="text-2xl font-bold text-center break-words">
+              {siteConfig.author}
+            </h2>
             <div className="w-fit rounded-lg bg-gradient-to-r dark:from-blue-400 from-blue-600 dark:to-teal-400 to-teal-600 p-px">
               <div className="rounded-lg dark:bg-neutral-950/80 bg-white/80 text-md">
                 <GradientText
@@ -57,14 +61,14 @@ export default function AboutPage() {
               </Button>
             </div>
             <p className="text-muted-foreground text-lg py-4">
-              Seorang mahasiswa Teknik Informatika yang berdedikasi dengan minat kuat dalam merancang
-              aplikasi web inovatif. Keahlian saya terletak pada pemanfaatan framework dan library
-              populer seperti Laravel, Express.js, React JS, dan Tailwind CSS untuk menghadirkan solusi
-              yang efisien dan menarik secara visual. Saya berkomitmen untuk memenuhi tenggat waktu
-              proyek dan terus memperluas keterampilan melalui pelatihan serta sertifikasi yang
-              terarah. Sebagai seorang full-stack developer, saya senang bekerja pada proyek dari tahap
-              perancangan hingga penerapan. Saya antusias untuk berkontribusi dengan keterampilan
-              teknis dan kemampuan pemecahan masalah saya dalam tim yang dinamis.
+              Pengembang Fullstack berfokus Backend dengan pengalaman dalam
+              membangun dan mengembangkan aplikasi web secara end-to-end.
+              Memiliki kemampuan dalam pengembangan backend, pengelolaan
+              database, integrasi API, autentikasi, serta pengembangan antarmuka
+              pengguna modern. Terbiasa mempelajari dan menggunakan berbagai
+              teknologi sesuai kebutuhan proyek. Memiliki kemampuan adaptasi,
+              problem solving, dan kemauan belajar yang tinggi dalam
+              mengeksplorasi teknologi baru.
             </p>
           </div>
         </div>
