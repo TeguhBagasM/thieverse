@@ -1,5 +1,15 @@
 const projects = [
   {
+    id: "kantin-mardira",
+    title: `Kantin Mardira`,
+    description:
+      "Kantin Mardira adalah aplikasi berbasis web untuk mengelola dan menampilkan menu makanan serta pencatatan transaksi. Aplikasi ini dibangun dengan Golang, Vue, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen menu, pencatatan, dan laporan transaksi.",
+    cover: "/images/projects/kantin-mardira.png",
+    stacks: ["Golang", "Vue", "Tailwind CSS", "MySQL"],
+    isRepo: false,
+    deployedURL: "https://kantin-mardira.vercel.app/",
+  },
+  {
     id: "portal-berita",
     title: `Portal Berita`,
     description:
@@ -85,7 +95,14 @@ const projects = [
     description:
       "Marquizzy adalah aplikasi quiz yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan Autentikasi menggunakan Clerk",
     cover: "/images/projects/marquizzy.png",
-    stacks: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Tailwind", "Sanity"],
+    stacks: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind",
+      "Sanity",
+    ],
     isRepo: true,
     repoUrl: "https://github.com/TeguhBagasM/marquizzy",
   },
