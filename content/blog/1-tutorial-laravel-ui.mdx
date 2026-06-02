@@ -768,7 +768,7 @@ Buat folder `resources/views/users/` dan file `index.blade.php`:
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <span class="badge bg-{{ $user->isAdmin() ? 'danger' : 'primary' }}">
-                                            {{ $user->role->display_name ?? 'No Role' }}
+                                            {{ $user->role->name ?? 'No Role' }}
                                         </span>
                                     </td>
                                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
