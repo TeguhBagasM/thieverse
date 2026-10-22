@@ -49,6 +49,7 @@
     "remark-rehype": "^11.1.0",
     "remark-slug": "^7.0.1",
     "rss": "^1.2.2",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "unified": "^11.0.5",

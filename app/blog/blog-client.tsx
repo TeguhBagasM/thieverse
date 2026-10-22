@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { posts } from "#site/content";
 import { PostItem } from "@/components/post-item";
 import SearchInput from "@/components/search-input";
 import ContentNotFound from "@/components/ui/content-not-found";
 import { sortPosts } from "@/lib/utils";
+import type { PostSummary } from "@/lib/posts";
 import { Button } from "@/components/ui/button";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
@@ -16,16 +16,17 @@ interface BlogPageClientProps {
   searchParams: {
     query?: string;
   };
+  posts: PostSummary[];
 }
 
-export default function BlogPageClient({ searchParams }: BlogPageClientProps) {
+export default function BlogPageClient({ searchParams, posts }: BlogPageClientProps) {
   const [displayCount, setDisplayCount] = useState(INITIAL_POSTS_COUNT);
   const searchParamsHook = useSearchParams();
   const query = searchParamsHook.get("query") || searchParams.query || "";
 
-  const filteredPosts = posts
-    .filter((post) => post.published)
-    .filter((post) => post.title.toLowerCase().includes(query.toLowerCase()));
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(query.toLowerCase())
+  );
 
   const sortedPosts = sortPosts(filteredPosts);
 

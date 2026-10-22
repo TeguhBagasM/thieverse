@@ -1,4 +1,5 @@
 import { posts } from "#site/content";
+import { getPostBySlug } from "@/lib/posts";
 import { MDXContent } from "@/components/mdx-components";
 import { notFound } from "next/navigation";
 import "@/styles/mdx.css";
@@ -22,8 +23,7 @@ interface PostPageProps {
 
 async function getPostFromParams(params: PostPageProps["params"]) {
   const slug = params?.slug?.join("/");
-  const post = posts.find((post) => post.slugAsParams === slug);
-  return post;
+  return getPostBySlug(slug);
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     openGraph: {
       title: post.title,
       description: post.description,
-      url: siteConfig.url + post.slug,
+      url: `${siteConfig.url}/${post.slug.replace(/^\/+/, "")}`,
       siteName: siteConfig.name,
       locale: "en_US",
       type: "article",

@@ -16,7 +16,7 @@ export function formatDate(input: string | number): string {
   });
 }
 
-export function sortPosts(posts: Array<Post>) {
+export function sortPosts<T extends { date: string }>(posts: T[]) {
   return posts.sort((a, b) => {
     if (a.date > b.date) return -1;
     if (a.date < b.date) return 1;

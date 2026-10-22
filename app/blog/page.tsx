@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import BlogPageClient from "./blog-client";
 import { Loader2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { getAllPostSummaries } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: `Blog  | ${siteConfig.name}`,
@@ -19,7 +20,7 @@ export default function BlogPage({ searchParams }: { searchParams: { query?: str
         </div>
       }
     >
-      <BlogPageClient searchParams={searchParams} />
+      <BlogPageClient searchParams={searchParams} posts={getAllPostSummaries()} />
     </Suspense>
   );
 }
