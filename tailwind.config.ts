@@ -13,9 +13,13 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
-        "2xl": "1400px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1200px",
+        "2xl": "1200px",
       },
     },
     extend: {
@@ -44,6 +48,12 @@ const config = {
         },
       }),
       colors: {
+        paper: "hsl(var(--color-paper))",
+        surface: "hsl(var(--color-surface))",
+        ink: "hsl(var(--color-ink))",
+        line: "hsl(var(--color-line))",
+        focus: "hsl(var(--color-focus))",
+        "accent-soft": "hsl(var(--color-accent-soft))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -79,9 +89,13 @@ const config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        DEFAULT: "4px",
+        sm: "4px",
+        md: "4px",
+        lg: "8px",
+        xl: "8px",
+        "2xl": "8px",
+        "3xl": "8px",
       },
       keyframes: {
         "shadow-animate": {
