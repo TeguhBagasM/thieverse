@@ -2,12 +2,12 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogPageClient from "./blog-client";
 import { Loader2 } from "lucide-react";
-import { siteConfig } from "@/config/site";
 import { getAllPostSummaries } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: `Blog  | ${siteConfig.name}`,
-  description: "My blog made by Thiever",
+  title: "Blog",
+  description: "Catatan dan tutorial seputar Laravel, web development, dan pengalaman belajar.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage({ searchParams }: { searchParams: { query?: string } }) {

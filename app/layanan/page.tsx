@@ -1,16 +1,16 @@
 import React from "react";
 import { Metadata } from "next";
 import InsightRoll from "@/components/insight-roll";
-import { siteConfig } from "@/config/site";
 import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icons/fa";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: `Layanan Jasa ${siteConfig.name}`,
+  title: "Layanan",
   description:
     "Layanan les Laravel untuk pemula sampai menengah: mentoring personal, kelas grup, dan pendampingan project real.",
+  alternates: { canonical: "/layanan" },
 };
 
 const insights: string[] = [

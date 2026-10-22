@@ -5,7 +5,7 @@ const whatsappMessage = "Halo kak, saya ingin bergabung dengan Thieverse";
 export const siteConfig = {
   name: "Thieverse",
   url: "https://thieverse.vercel.app",
-  description: "Nextjs 14 blog using velite, tailwind and shadcn",
+  description: "Portofolio, catatan belajar, dan layanan mentoring Laravel oleh Teguh Bagas M.",
   author: "Teguh Bagas M",
   job: "Web Developer",
   campus: "STMIK Mardira Indonesia",

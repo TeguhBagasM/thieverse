@@ -16,9 +16,15 @@ interface TagPageProps {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { tag } = params;
   return {
-    title: `Topic ${tag} | Thieverse`,
-    description: `Posts on the topic of ${tag}`,
+    title: `Topik ${tag}`,
+    description: `Artikel tentang ${tag} di Thieverse.`,
+    alternates: { canonical: `/tags/${tag}` },
   };
+}
+
+export async function generateStaticParams() {
+  const tags = getAllTags(posts);
+  return Object.keys(tags).map((tag) => ({ tag: slug(tag) }));
 }
 
 export default function TagPage({ params }: TagPageProps) {

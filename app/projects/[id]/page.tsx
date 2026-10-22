@@ -3,11 +3,30 @@ import { notFound } from "next/navigation";
 import ProjectDetail from "@/components/projects/project-detail";
 import projects from "@/components/projects/_project-mock";
 import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = {
-  title: `Project Detail | ${siteConfig.name}`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const project = projects.find((item) => item.id === params.id);
+
+  if (!project) {
+    return { title: "Detail Proyek" };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+    alternates: { canonical: `/projects/${project.id}` },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      type: "website",
+      images: [{ url: project.cover, alt: project.title }],
+    },
+  };
+}
 
 const projectDetailsMap: Record<
   string,

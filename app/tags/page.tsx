@@ -4,8 +4,9 @@ import { posts } from "#site/content";
 import { Tag } from "@/components/tag";
 
 export const metadata: Metadata = {
-  title: "Tags",
-  description: "Topic I've written about",
+  title: "Topik",
+  description: "Kumpulan topik yang pernah ditulis di Thieverse.",
+  alternates: { canonical: "/tags" },
 };
 
 export default async function TagsPage() {

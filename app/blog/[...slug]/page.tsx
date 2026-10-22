@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       description: post.description,
       url: `${siteConfig.url}/${post.slug.replace(/^\/+/, "")}`,
       siteName: siteConfig.name,
-      locale: "en_US",
+      locale: "id_ID",
       type: "article",
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
@@ -64,6 +64,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       title: post.title,
       description: post.description,
       images: ogImages,
+    },
+    alternates: {
+      canonical: `/${post.slug.replace(/^\/+/, "")}`,
     },
   };
 }
@@ -83,7 +86,7 @@ export default async function PostPage({ params }: PostPageProps) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
-    image: post.img,
+    image: new URL(post.img, siteConfig.url).toString(),
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
     author: [
@@ -94,11 +97,13 @@ export default async function PostPage({ params }: PostPageProps) {
     ],
   };
 
+  const safeJsonLd = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd }}
       />
       <article className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 relative w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-3xl overflow-hidden">

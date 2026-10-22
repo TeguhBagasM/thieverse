@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: `About Me | ${siteConfig.name}`,
-  description: "Information about me",
+  title: "Tentang",
+  description: `Tentang ${siteConfig.author}, web developer yang berfokus pada backend dan Laravel.`,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
