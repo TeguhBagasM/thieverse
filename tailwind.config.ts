@@ -20,8 +20,29 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-display, ui-sans-serif)", ...fontFamily.sans],
+        display: ["var(--font-display, ui-sans-serif)", ...fontFamily.sans],
+        body: ["var(--font-body, Georgia)", "Georgia", "serif"],
+        mono: ["var(--font-mono, ui-monospace)", ...fontFamily.mono],
       },
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            fontFamily: "var(--font-body, Georgia), Georgia, serif",
+            "h1, h2, h3, h4": {
+              fontFamily: "var(--font-display, ui-sans-serif), ui-sans-serif, system-ui, sans-serif",
+            },
+          },
+        },
+        invert: {
+          css: {
+            fontFamily: "var(--font-body, Georgia), Georgia, serif",
+            "h1, h2, h3, h4": {
+              fontFamily: "var(--font-display, ui-sans-serif), ui-sans-serif, system-ui, sans-serif",
+            },
+          },
+        },
+      }),
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
