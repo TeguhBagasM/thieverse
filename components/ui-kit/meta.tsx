@@ -1,24 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 type MetaProps = {
   date?: string;
   readingTime?: number;
   className?: string;
 };
-
-function formatDate(date: string) {
-  const parsed = new Date(date);
-
-  if (Number.isNaN(parsed.getTime())) {
-    return date;
-  }
-
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(parsed);
-}
 
 export function Meta({ date, readingTime, className }: MetaProps) {
   if (!date && !readingTime) {

@@ -24,7 +24,7 @@ const SpotlightButton = () => {
       const left = `${(offsetX / width) * 100}%`;
       const top = `${(offsetY / height) * 100}%`;
 
-      spanRef.current!.animate({ left, top }, { duration: 250, fill: "forwards" });
+      spanRef.current!.animate({ left, top }, { duration: 150, fill: "forwards" });
     };
 
     const handleMouseLeave = () => {
