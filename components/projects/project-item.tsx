@@ -47,7 +47,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               <CustomLink
                 aria-label={`View ${title} live demo`}
                 href={deployedURL}
-                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:text-primary"
+                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:bg-overlay/50"
               >
                 <FaExternalLinkAlt size={20} />
                 <span>Live Demo</span>
@@ -58,7 +58,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               <CustomLink
                 aria-label={`View ${title} source code on GitHub`}
                 href={repoUrl}
-                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:text-primary"
+                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:bg-overlay/50"
               >
                 <FaGithub size={20} />
                 <span>Source Code</span>

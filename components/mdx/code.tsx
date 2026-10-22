@@ -30,7 +30,7 @@ const CopyButton = ({ children, nested = false }: { children: React.ReactNode; n
           className="sticky right-[10px] top-0 rounded-md bg-code p-1 text-code-foreground transition-colors duration-150"
         >
           {copySuccess ? (
-            <Check className="size-4 text-primary" />
+            <Check className="size-4 text-code-foreground" />
           ) : (
             <Clipboard className="size-4 text-code-foreground/80" />
           )}
