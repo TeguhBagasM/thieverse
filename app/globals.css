@@ -86,6 +86,19 @@
   body {
     @apply bg-background text-foreground;
   }
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid hsl(var(--color-focus));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply absolute left-4 top-4 z-50 -translate-y-24 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
 }
 @layer utilities {
   .layout {

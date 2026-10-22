@@ -12,6 +12,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Icons } from "./icons";
 import { Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { navItems } from "@/config/nav";
 import { buttonVariants } from "./ui/button";
 
 export function MobileNav() {
@@ -22,7 +23,7 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button variant="outline" className="w-10 px-0 sm:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle Theme</span>
+          <span className="sr-only">Buka menu navigasi</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="right">
@@ -36,34 +37,16 @@ export function MobileNav() {
           <span className="font-bold text-lg ml-2">{siteConfig.name}</span>
         </MobileLink>
         <div className="flex flex-col gap-6 mt-6">
-          <MobileLink
-            onOpenChange={setOpen}
-            href="/blog"
-            className="hover:text-blue-500 transition-colors"
-          >
-            Blog
-          </MobileLink>
-          <MobileLink
-            onOpenChange={setOpen}
-            href="/about"
-            className="hover:text-blue-500 transition-colors"
-          >
-            Tentang
-          </MobileLink>
-          <MobileLink
-            onOpenChange={setOpen}
-            href="/layanan"
-            className="hover:text-blue-500 transition-colors"
-          >
-            Layanan
-          </MobileLink>
-          <MobileLink
-            onOpenChange={setOpen}
-            href="/projects"
-            className="hover:text-blue-500 transition-colors"
-          >
-            Proyek
-          </MobileLink>
+          {navItems.map((item) => (
+            <MobileLink
+              key={item.href}
+              onOpenChange={setOpen}
+              href={item.href}
+              className="hover:text-blue-500 transition-colors"
+            >
+              {item.title}
+            </MobileLink>
+          ))}
         </div>
         <div className="flex justify-center gap-4 mt-8">
           <Link

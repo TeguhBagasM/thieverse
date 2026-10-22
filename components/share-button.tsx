@@ -43,13 +43,30 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
     <div className="ml-auto flex flex-col space-y-2">
       <p className="text-sm text-gray-600 dark:text-gray-300">Share this post</p>
       <div className="flex space-x-4">
-        <Link href={twitterShareUrl} target="_blank" rel="noopener noreferrer">
+        <Link
+          href={twitterShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Bagikan di X"
+        >
           <BsTwitterX className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
         </Link>
-        <Link href={whatsappShareUrl} target="_blank" rel="noopener noreferrer" className="pl-1">
+        <Link
+          href={whatsappShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pl-1"
+          aria-label="Bagikan di WhatsApp"
+        >
           <FaWhatsapp className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
         </Link>
-        <Link href={linkedinShareUrl} target="_blank" rel="noopener noreferrer" className="pl-1">
+        <Link
+          href={linkedinShareUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pl-1"
+          aria-label="Bagikan di LinkedIn"
+        >
           <Icons.linkedin className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
         </Link>
         <button

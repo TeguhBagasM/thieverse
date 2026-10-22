@@ -6,7 +6,6 @@ import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/config/site";
 import { SiteFooter } from "@/components/site-footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import ChatbaseWidget from "@/components/chatbase-widget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? siteConfig.url),
@@ -57,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-pt-[3.5rem]" suppressHydrationWarning>
+    <html lang="id" className="scroll-pt-20" suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="A7Tf1CNgvk_g20vK1y-5Ld4p_vVG3x6nj1JvFPEbUag" />
       </head>
@@ -69,12 +68,16 @@ export default function RootLayout({
           fontMono.variable
         )}
       >
+        <a href="#main-content" className="skip-link">
+          Lewati ke konten
+        </a>
         <ThemeProvider attribute="class" defaultTheme="light">
           <div className="relative flex min-h-dvh flex-col bg-background">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main id="main-content" tabIndex={-1} className="flex-1">
+              {children}
+            </main>
             <SiteFooter />
-            <ChatbaseWidget />
           </div>
         </ThemeProvider>
       </body>
