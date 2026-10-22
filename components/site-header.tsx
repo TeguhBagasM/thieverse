@@ -11,7 +11,7 @@ import ThemeToggler from "./theme/theme-toggler";
 export function SiteHeader() {
   return (
     <header className="z-10 sticky top-0 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-20 max-w-screen-2xl items-center">
+      <div className="container flex h-20 items-center">
         <MainNav />
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center">
@@ -19,7 +19,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.linkedin className="h-5 w-5 transition-transform transform hover:scale-110" />
+                <Icons.linkedin className="h-5 w-5 transition-colors duration-150" />
                 <span className="sr-only">LinkedIn</span>
               </div>
             </Link>
@@ -27,7 +27,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Icons.gitHub className="h-5 w-5 transition-transform transform hover:scale-110" />
+                <Icons.gitHub className="h-5 w-5 transition-colors duration-150" />
                 <span className="sr-only">GitHub</span>
               </div>
             </Link>
@@ -35,7 +35,7 @@ export function SiteHeader() {
               <div
                 className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
               >
-                <Instagram className="h-5 w-5 transition-transform transform hover:scale-110" />
+                <Instagram className="h-5 w-5 transition-colors duration-150" />
                 <span className="sr-only">Instagram</span>
               </div>
             </Link>

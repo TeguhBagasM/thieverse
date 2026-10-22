@@ -12,6 +12,10 @@
     --color-accent: 227.1 69.4% 46.1%;
     --color-accent-soft: 225.7 60% 93.1%;
     --color-focus: 5.7 62% 43.3%;
+    --color-code: 217 33% 12%;
+    --color-code-foreground: 210 20% 92%;
+    --color-overlay: 0 0% 0%;
+    --color-overlay-foreground: 0 0% 100%;
 
     --background: var(--color-paper);
     --foreground: var(--color-ink);
@@ -90,6 +94,24 @@
     outline: 2px solid hsl(var(--color-focus));
     outline-offset: 3px;
   }
+  .prose {
+    --tw-prose-body: hsl(var(--color-ink));
+    --tw-prose-headings: hsl(var(--color-ink));
+    --tw-prose-lead: hsl(var(--color-muted));
+    --tw-prose-links: hsl(var(--color-ink));
+    --tw-prose-bold: hsl(var(--color-ink));
+    --tw-prose-counters: hsl(var(--color-muted));
+    --tw-prose-bullets: hsl(var(--color-muted));
+    --tw-prose-hr: hsl(var(--color-line));
+    --tw-prose-quotes: hsl(var(--color-muted));
+    --tw-prose-quote-borders: hsl(var(--color-accent));
+    --tw-prose-captions: hsl(var(--color-muted));
+    --tw-prose-code: hsl(var(--color-ink));
+    --tw-prose-pre-code: hsl(var(--color-code-foreground));
+    --tw-prose-pre-bg: hsl(var(--color-code));
+    --tw-prose-th-borders: hsl(var(--color-line));
+    --tw-prose-td-borders: hsl(var(--color-line));
+  }
 }
 
 @layer components {
@@ -103,16 +125,6 @@
 @layer utilities {
   .layout {
     @apply mx-auto max-w-3xl px-6;
-  }
-
-  .animated-cards::before {
-    @apply pointer-events-none absolute select-none rounded-lg opacity-0 transition-opacity duration-300 hover:opacity-100 z-[-1] content-[''] -inset-px;
-    background: radial-gradient(
-      400px circle at var(--x) var(--y),
-      theme("colors.primary.DEFAULT") 25%,
-      rgba(255, 255, 255, 0) 50%,
-      transparent 80%
-    );
   }
 }
 @supports (view-transition-name: none) {

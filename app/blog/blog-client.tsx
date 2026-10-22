@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PostItem } from "@/components/post-item";
 import SearchInput from "@/components/search-input";
-import ContentNotFound from "@/components/ui/content-not-found";
+import { EmptyState } from "@/components/ui-kit/empty-state";
 import { sortPosts } from "@/lib/utils";
 import type { PostSummary } from "@/lib/posts";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui-kit/container";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const INITIAL_POSTS_COUNT = 6;
@@ -41,7 +42,7 @@ export default function BlogPageClient({ searchParams, posts }: BlogPageClientPr
   };
 
   return (
-    <div className="container max-w-6xl py-6 lg:py-10">
+    <Container className="py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 mb-8">
         <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
         <p className="text-xl text-muted-foreground text-center">
@@ -64,8 +65,8 @@ export default function BlogPageClient({ searchParams, posts }: BlogPageClientPr
             />
           ))
         ) : (
-          <div className="flex justify-center items-center col-span-1 md:col-span-2 lg:col-span-3 h-64">
-            <ContentNotFound text="Artikel tidak ditemukan" />
+          <div className="col-span-1 flex h-64 items-center justify-center md:col-span-2 lg:col-span-3">
+            <EmptyState title="Artikel tidak ditemukan" className="h-full" />
           </div>
         )}
       </div>
@@ -81,6 +82,6 @@ export default function BlogPageClient({ searchParams, posts }: BlogPageClientPr
           </Button>
         ) : null}
       </div>
-    </div>
+    </Container>
   );
 }

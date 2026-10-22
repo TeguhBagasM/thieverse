@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import { typo } from "../ui/typography";
 import CustomLink from "./custom-link";
 import { TProject } from "./_project-mock";
 import { Button } from "@/components/ui/button";
+import { CoverImage } from "@/components/ui-kit/cover-image";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 
@@ -34,31 +33,21 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
     router.push(`/projects/${id}`);
   };
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const target = e.target as HTMLImageElement;
-    target.src = "/images/projects/placeholder.png";
-  };
-
   return (
     <li role="listitem" className="list-none">
-      <div className="grid gap-4 group rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow duration-300">
-        <div className="relative w-full pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-800">
-          <Image
-            alt={`${title} project screenshot`}
-            src={cover}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
-            onError={handleImageError}
-            priority={false}
-          />
-
-          <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center space-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+      <div className="group grid gap-4 overflow-hidden rounded-lg border border-line bg-surface">
+        <CoverImage
+          src={cover}
+          alt={`${title} project screenshot`}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="rounded-none border-0"
+        >
+          <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-overlay/60 opacity-0 transition-opacity duration-150 ease-in-out group-hover:opacity-100">
             {deployedURL && (
               <CustomLink
                 aria-label={`View ${title} live demo`}
                 href={deployedURL}
-                className="text-white hover:text-blue-400 transition-colors flex items-center gap-2 px-4 py-2 rounded-md bg-black/20 backdrop-blur-sm"
+                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:text-primary"
               >
                 <FaExternalLinkAlt size={20} />
                 <span>Live Demo</span>
@@ -69,25 +58,25 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               <CustomLink
                 aria-label={`View ${title} source code on GitHub`}
                 href={repoUrl}
-                className="text-white hover:text-blue-400 transition-colors flex items-center gap-2 px-4 py-2 rounded-md bg-black/20 backdrop-blur-sm"
+                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:text-primary"
               >
                 <FaGithub size={20} />
                 <span>Source Code</span>
               </CustomLink>
             )}
           </div>
-        </div>
+        </CoverImage>
 
-        <div className="p-4 space-y-3">
-          <div className="flex justify-between items-start gap-2">
-            <h2 className="font-medium font-ubuntu text-base text-gray-900 dark:text-gray-100 line-clamp-1">
+        <div className="space-y-3 p-4">
+          <div className="flex items-start justify-between gap-2">
+            <h2 className="line-clamp-1 text-base font-medium text-foreground">
               {title}
             </h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={handleViewDetail}
-              className="text-muted-foreground hover:text-primary shrink-0"
+              className="shrink-0 text-muted-foreground hover:text-primary"
               aria-label={`View detailed information about ${title}`}
             >
               <Eye size={16} className="mr-1" />
@@ -99,21 +88,21 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             {stacks.map((stack, index) => (
               <span
                 key={`${id}-stack-${index}`}
-                className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md"
+                className="rounded bg-accent-soft px-2 py-1 text-xs text-foreground"
               >
                 {stack}
               </span>
             ))}
           </div>
 
-          <div className={cn(typo({ variant: "paragraph", size: "sm" }), "relative")}>
-            <p className={cn("text-gray-600 dark:text-gray-400", !isExpanded && "line-clamp-3")}>
+          <div className="relative">
+            <p className={cn("text-sm text-muted-foreground", !isExpanded && "line-clamp-3")}>
               {description}
             </p>
             {description.length > 150 && (
               <button
                 onClick={toggleDescription}
-                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium mt-2 text-sm transition-colors"
+                className="mt-2 text-sm font-medium text-primary transition-colors duration-150 hover:text-foreground"
                 aria-expanded={isExpanded}
                 aria-label={isExpanded ? "Show less description" : "Show more description"}
               >

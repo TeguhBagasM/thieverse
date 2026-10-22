@@ -24,9 +24,13 @@ const SearchInput = () => {
   }, [currentPath, debouncedSearch, router]);
 
   return (
-    <div className="relative sm:max-w-xs w-full">
-      <Search className="absolute left-2 top-2/4 -translate-y-2/4 size-4 text-muted-foreground" />
+    <div className="relative w-full sm:max-w-xs">
+      <label htmlFor="site-search" className="sr-only">
+        Cari
+      </label>
+      <Search className="absolute left-2 top-2/4 size-4 -translate-y-2/4 text-muted-foreground" aria-hidden="true" />
       <Input
+        id="site-search"
         type="search"
         placeholder="Search..."
         className="w-full rounded-lg bg-background pl-8"

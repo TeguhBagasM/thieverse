@@ -17,12 +17,12 @@ export function MainNav() {
           key={item.href}
           href={item.href}
           className={cn(
-            "text-md font-medium transition-colors relative group hidden sm:inline-block",
+            "relative hidden text-base font-medium transition-colors duration-150 group sm:inline-block",
             pathname === item.href ? "text-foreground" : "text-foreground/60"
           )}
         >
           {item.title}
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-primary transition-all duration-200 group-hover:w-full"></span>
         </Link>
       ))}
     </nav>

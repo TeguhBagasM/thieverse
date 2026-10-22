@@ -32,14 +32,14 @@ const SkillsList = ({ stacks }: { stacks: stacksProps }) => {
           <li
             role="listitem"
             key={index}
-            className="relative flex w-max items-center gap-2 rounded-full border px-4 py-2 text-[15px] shadow-sm border-slate-300 dark:border-slate-700 dark:bg-slate-900 bg-slate-100 text-slate-900 dark:text-slate-50"
+            className="relative flex w-max items-center gap-2 rounded border border-line bg-surface px-4 py-2 text-[15px] text-foreground"
           >
             <Icon className={className} aria-label={stack} />
             <span className="whitespace-nowrap">{stack}</span>
 
             {isMastered && (
               <FaStar
-                className="absolute top-0 right-0 translate-x-1/2 translate-y-[-15%] text-yellow-400 text-sm drop-shadow-md"
+                className="absolute top-0 right-0 translate-x-1/2 translate-y-[-15%] text-focus text-sm"
                 aria-label="Mastered"
               />
             )}

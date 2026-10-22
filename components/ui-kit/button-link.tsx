@@ -32,8 +32,8 @@ export function ButtonLink({
     <Link
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded border text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        variants[variant],
         sizes[size],
+        variants[variant],
         className
       )}
       {...props}

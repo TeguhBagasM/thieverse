@@ -6,19 +6,19 @@ import { navItems } from "@/config/nav";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-slate-200 dark:bg-slate-900 py-6 text-gray-950 dark:text-gray-200 mt-8">
-      <div className="container mx-auto flex flex-col items-center space-y-6">
+    <footer className="mt-8 bg-surface py-6 text-foreground">
+      <div className="container flex flex-col items-center space-y-6">
         <div className="flex items-center space-x-4">
           <img src="/images/logo.png" alt="Logo" className="h-12 w-12" />
           <div>
             <p className="font-semibold text-lg">{siteConfig.name}</p>
             <div className="flex items-center justify-center text-sm">
-              Made with <Heart className="text-red-500 h-4 w-4 mx-1" /> by{" "}
+              Made with <Heart className="text-focus h-4 w-4 mx-1" /> by{" "}
               <Link
                 href={siteConfig.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 ml-1 transition-colors duration-200 hover:underline"
+                className="ml-1 text-primary transition-colors duration-150 hover:underline"
                 aria-label={`Visit ${siteConfig.author}'s LinkedIn profile`}
               >
                 {siteConfig.author}
@@ -32,7 +32,7 @@ export function SiteFooter() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-gray-700 dark:text-gray-300 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              className="text-muted-foreground transition-colors duration-150 hover:text-primary"
             >
               {item.title}
             </Link>
@@ -45,7 +45,7 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
             href="mailto:teguhbagas2134@gmail.com"
-            className="transition-transform transform hover:scale-110"
+            className="transition-colors duration-150 hover:text-primary"
             aria-label="Kirim email ke Teguh Bagas M"
           >
             <Mail className="h-6 w-6" />
@@ -54,7 +54,7 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
             href={siteConfig.links.linkedin}
-            className="transition-transform transform hover:scale-110"
+            className="transition-colors duration-150 hover:text-primary"
             aria-label="LinkedIn Teguh Bagas M"
           >
             <Icons.linkedin className="h-6 w-6" />
@@ -63,7 +63,7 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
             href={siteConfig.links.github}
-            className="transition-transform transform hover:scale-110"
+            className="transition-colors duration-150 hover:text-primary"
             aria-label="GitHub Teguh Bagas M"
           >
             <Icons.gitHub className="h-6 w-6" />
@@ -72,14 +72,14 @@ export function SiteFooter() {
             target="_blank"
             rel="noreferrer"
             href={siteConfig.links.instagram}
-            className="transition-transform transform hover:scale-110"
+            className="transition-colors duration-150 hover:text-primary"
             aria-label="Instagram Teguh Bagas M"
           >
             <Instagram className="h-6 w-6" />
           </a>
         </div>
 
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} Thieverse, All Rights Reserved
         </div>
       </div>

@@ -54,6 +54,10 @@ const config = {
         line: "hsl(var(--color-line))",
         focus: "hsl(var(--color-focus))",
         "accent-soft": "hsl(var(--color-accent-soft))",
+        code: "hsl(var(--color-code))",
+        "code-foreground": "hsl(var(--color-code-foreground))",
+        overlay: "hsl(var(--color-overlay))",
+        "overlay-foreground": "hsl(var(--color-overlay-foreground))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -98,13 +102,6 @@ const config = {
         "3xl": "8px",
       },
       keyframes: {
-        "shadow-animate": {
-          "0%": { boxShadow: "0 0 8px 4px rgba(59, 130, 246, 0.7)" }, // Initial shadow
-          "25%": { boxShadow: "0 0 8px 4px rgba(236, 72, 153, 0.7)" }, // Intermediate shadow
-          "50%": { boxShadow: "0 0 8px 4px rgba(168, 85, 247, 0.7)" }, // Middle shadow
-          "75%": { boxShadow: "0 0 8px 4px rgba(236, 72, 153, 0.7)" }, // Intermediate shadow
-          "100%": { boxShadow: "0 0 8px 4px rgba(59, 130, 246, 0.7)" }, // Final shadow
-        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -119,7 +116,6 @@ const config = {
         },
       },
       animation: {
-        "shadow-animate": "shadow-animate 4s linear infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         roll: "roll 24s linear infinite",

@@ -42,7 +42,7 @@ export function MobileNav() {
               key={item.href}
               onOpenChange={setOpen}
               href={item.href}
-              className="hover:text-blue-500 transition-colors"
+              className="transition-colors duration-150 hover:text-primary"
             >
               {item.title}
             </MobileLink>
@@ -55,7 +55,7 @@ export function MobileNav() {
             rel="noreferrer"
             className={cn(buttonVariants({ variant: "ghost" }))}
           >
-            <Icons.gitHub className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <Icons.gitHub className="h-6 w-6 transition-colors duration-150" />
             <span className="sr-only">GitHub</span>
           </Link>
           <Link
@@ -64,7 +64,7 @@ export function MobileNav() {
             rel="noreferrer"
             className={cn(buttonVariants({ variant: "ghost" }))}
           >
-            <Instagram className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <Instagram className="h-6 w-6 transition-colors duration-150" />
             <span className="sr-only">Instagram</span>
           </Link>
           <Link
@@ -73,7 +73,7 @@ export function MobileNav() {
             rel="noreferrer"
             className={cn(buttonVariants({ variant: "ghost" }))}
           >
-            <Icons.linkedin className="h-6 w-6 transition-transform transform hover:scale-110" />
+            <Icons.linkedin className="h-6 w-6 transition-colors duration-150" />
             <span className="sr-only">LinkedIn</span>
           </Link>
         </div>

@@ -13,7 +13,7 @@
 [data-rehype-pretty-code-figure] code[data-line-numbers] > [data-line]::before {
   counter-increment: line;
   content: counter(line);
-  @apply mr-4 inline-block w-4 text-right text-gray-500;
+  @apply mr-4 inline-block w-4 text-right text-muted-foreground;
 }
 
 [data-rehype-pretty-code-figure] [data-line] {
@@ -21,17 +21,16 @@
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-line] {
-  background: rgba(200, 200, 255, 0.1);
-  @apply border-l-blue-400;
+  background: hsl(var(--color-accent-soft));
+  @apply border-l-accent;
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-chars] {
-  @apply rounded bg-zinc-600/50;
-  box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+  @apply rounded bg-accent-soft;
 }
 
 [data-rehype-pretty-code-figure] [data-chars-id] {
-  @apply border-b-2 p-1 shadow-none;
+  @apply border-b-2 p-1;
 }
 
 .subheading-anchor {
@@ -51,7 +50,7 @@ code > [data-line]::before {
   width: 1rem;
   margin-right: 2rem;
   text-align: right;
-  color: gray;
+  color: hsl(var(--color-muted));
 }
 
 code[data-line-numbers-max-digits="2"] > [data-line]::before {

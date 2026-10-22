@@ -21,15 +21,15 @@ const Tabs: React.FC<TabsProps> = ({ children }) => {
 
   return (
     <>
-      <div className="mt-[2em] rounded-t-md bg-[#0b192d] text-sm font-medium text-gray-300">
+      <div className="mt-[2em] rounded-t-md bg-code text-sm font-medium text-code-foreground">
         {children.map((child) => (
           <Badge
             key={child.props.id}
             variant={activeTab === child.props.id ? "default" : "outline"}
             className={`my-2 ml-2 rounded border-0 hover:cursor-pointer ${
               activeTab === child.props.id
-                ? "bg-slate-500 text-slate-950 hover:bg-slate-500"
-                : "text-slate-400 transition hover:text-slate-500"
+                ? "bg-primary text-primary-foreground hover:bg-primary"
+                : "text-code-foreground/70 transition-colors duration-150 hover:text-code-foreground"
             }`}
             onClick={() => setActiveTab(child.props.id)}
           >
@@ -37,7 +37,7 @@ const Tabs: React.FC<TabsProps> = ({ children }) => {
           </Badge>
         ))}
       </div>
-      <div className="my-0 rounded-b-md border border-[#0b192d] bg-[#1e293b]">
+      <div className="my-0 rounded-b-md border border-code bg-code text-code-foreground">
         {children.map((child) => {
           if (child.props.id === activeTab) {
             return (

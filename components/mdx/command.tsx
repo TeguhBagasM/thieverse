@@ -23,8 +23,8 @@ const Command = ({ command, nested = false }: { command: string; nested?: boolea
     <>
       <div className="relative flex max-h-96 w-auto items-center overflow-y-auto">
         <div ref={commandRef} className="relative w-auto flex-grow">
-          <pre className="overflow-wrap: break-word; white-space: pre-wrap; bg-[#1e293b]">
-            <span className="sticky-ml-[2px] select-none text-gray-500" aria-hidden="true">
+          <pre className="whitespace-pre-wrap break-words bg-code p-3 text-code-foreground">
+            <span className="ml-[2px] select-none text-code-foreground/60" aria-hidden="true">
               $&nbsp;
             </span>
             <span className="font-mono">{command}</span>
@@ -32,12 +32,13 @@ const Command = ({ command, nested = false }: { command: string; nested?: boolea
             {!nested && (
               <button
                 onClick={copyToClipboard}
-                className="absolute right-[10px] top-[36px] z-10 rounded-md bg-gray-300 p-1 transition dark:bg-gray-900"
+                aria-label="Copy command"
+                className="absolute right-[10px] top-[36px] z-10 rounded-md bg-code-foreground/10 p-1 text-code-foreground transition-colors duration-150"
               >
                 {copySuccess ? (
-                  <Check className="size-4 text-green-600 dark:text-green-400" />
+                  <Check className="size-4 text-primary" />
                 ) : (
-                  <Clipboard className="size-4 text-gray-600" />
+                  <Clipboard className="size-4 text-code-foreground/80" />
                 )}
               </button>
             )}

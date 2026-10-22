@@ -8,9 +8,10 @@ import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
 import Image from "next/image";
 import ShareButton from "@/components/share-button";
-import DrawOutline from "@/components/ui/draw-outline-button";
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui-kit/button-link";
+import { Meta } from "@/components/ui-kit/meta";
+import { Prose } from "@/components/ui-kit/prose";
 import PostComments from "@/components/giscus";
 import PostTableOfContent from "@/components/toc";
 
@@ -98,6 +99,7 @@ export default async function PostPage({ params }: PostPageProps) {
   };
 
   const safeJsonLd = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+  const readingTime = Math.max(1, Math.ceil(post.body.split(/\s+/).length / 200));
 
   return (
     <>
@@ -105,9 +107,9 @@ export default async function PostPage({ params }: PostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd }}
       />
-      <article className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 relative w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/0% z-10" />
+      <article className="container">
+        <div className="relative mb-8 h-[50vh] w-full overflow-hidden rounded-lg sm:h-[60vh] lg:h-[70vh]">
+          <div className="absolute inset-0 z-10 bg-overlay/50" />
           <Image
             src={post.img}
             alt={post.title}
@@ -116,7 +118,7 @@ export default async function PostPage({ params }: PostPageProps) {
             priority
             sizes="(max-width: 1024px) 100vw, 1024px"
           />
-          <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-white">
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-overlay-foreground">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4">
               {post.title}
             </h1>
@@ -133,11 +135,12 @@ export default async function PostPage({ params }: PostPageProps) {
                     alt="author"
                     width={45}
                     height={45}
-                    className="rounded-full bg-white"
+                    className="rounded-full bg-surface"
                   />
                   <div className="flex-1 text-left leading-tight">
-                    <p className="font-mediumgue text-lg">{siteConfig.author}</p>
-                    <p className="text-[14px] text-muted-foreground">{siteConfig.job}</p>
+                    <p className="font-medium text-lg">{siteConfig.author}</p>
+                    <p className="text-sm text-muted-foreground">{siteConfig.job}</p>
+                    <Meta date={post.date} readingTime={readingTime} className="mt-1" />
                   </div>
                 </div>
                 <h2 className="text-lg font-semibold mb-2">Tags</h2>
@@ -155,18 +158,16 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </div>
           <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
-            <div className="prose dark:prose-invert max-w-none">
+            <Prose>
               <MDXContent code={post.body} />
               <hr className="mt-10" />
               <div className="flex justify-center">
-                <Link href="/blog">
-                  <DrawOutline>
-                    <ChevronLeft className="mr-2 size-4" />
-                    <span>See all blogs</span>
-                  </DrawOutline>
-                </Link>
+                <ButtonLink href="/blog" variant="link">
+                  <ChevronLeft className="mr-2 size-4" />
+                  <span>See all blogs</span>
+                </ButtonLink>
               </div>
-            </div>
+            </Prose>
             <PostComments />
           </div>
         </div>

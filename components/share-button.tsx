@@ -41,7 +41,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
 
   return (
     <div className="ml-auto flex flex-col space-y-2">
-      <p className="text-sm text-gray-600 dark:text-gray-300">Share this post</p>
+      <p className="text-sm text-muted-foreground">Share this post</p>
       <div className="flex space-x-4">
         <Link
           href={twitterShareUrl}
@@ -49,7 +49,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           rel="noopener noreferrer"
           aria-label="Bagikan di X"
         >
-          <BsTwitterX className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
+          <BsTwitterX className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
         <Link
           href={whatsappShareUrl}
@@ -58,7 +58,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           className="pl-1"
           aria-label="Bagikan di WhatsApp"
         >
-          <FaWhatsapp className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
+          <FaWhatsapp className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
         <Link
           href={linkedinShareUrl}
@@ -67,17 +67,17 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           className="pl-1"
           aria-label="Bagikan di LinkedIn"
         >
-          <Icons.linkedin className="size-5 text-slate-600 dark:text-slate-400 transition-transform transform hover:scale-110" />
+          <Icons.linkedin className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
         <button
           onClick={handleCopyLink}
-          className="transition-transform transform hover:scale-110"
+          className="transition-colors duration-150 hover:text-primary"
           aria-label="Copy link"
         >
           {copied ? (
-            <BsClipboardCheck className="size-5 text-green-600 dark:text-green-400" />
+            <BsClipboardCheck className="size-5 text-primary" />
           ) : (
-            <BsClipboard className="size-5 text-slate-600 dark:text-slate-400" />
+            <BsClipboard className="size-5 text-muted-foreground" />
           )}
         </button>
       </div>

@@ -59,14 +59,13 @@ export function MDXContent({ code }: MdxProps) {
   return (
     <div
       className="
-      prose-blockquote:bg-blue-500 
-      prose-blockquote:border-blue-500 
-      prose-blockquote:bg-blue-600/20
+      prose-blockquote:border-l-primary
+      prose-blockquote:bg-accent-soft
       prose-blockquote:p-2
       prose-blockquote:px-6
       prose-blockquote:not-italic
       prose-blockquote:rounded-r-lg
-      prose-li:marker:text-blue-600
+      prose-li:marker:text-primary
     "
     >
       <Component components={components} />

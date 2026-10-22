@@ -13,7 +13,7 @@ export const Disclosure: React.FC<DisclosureProps> = ({ title, children }) => {
   return (
     <div>
       <button
-        className="my-2 flex w-full items-center rounded-md p-2 text-left transition hover:bg-neutral-50/10"
+        className="my-2 flex w-full items-center rounded-md p-2 text-left transition-colors duration-150 hover:bg-accent-soft"
         onClick={() => setIsOpen(!isOpen)}
       >
         <ChevronRight
