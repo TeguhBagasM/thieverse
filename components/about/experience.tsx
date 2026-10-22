@@ -36,7 +36,7 @@ export const Experience = ({ experience, className, ...props }: ExperienceProps)
                   rel="noopener noreferrer"
                   title={`Visit ${job.company} website`}
                   aria-label={`Visit ${job.company} website`}
-                  className="text-primary underline transition-colors hover:text-primary/90"
+                  className="text-primary underline transition-colors duration-150 hover:text-primary/90"
                 >
                   {job.company}
                 </Link>

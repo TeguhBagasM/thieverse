@@ -17,7 +17,7 @@ export const Disclosure: React.FC<DisclosureProps> = ({ title, children }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <ChevronRight
-          className={`transition-transform ${isOpen ? "rotate-90" : ""} mr-2`}
+          className={`transition-transform duration-150 ${isOpen ? "rotate-90" : ""} mr-2`}
         />
         <span className="font-bold">{title}</span>
       </button>
