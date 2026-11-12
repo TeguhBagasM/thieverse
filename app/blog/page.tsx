@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "My blog made by Thiever",
 };
 
-export default function BlogPage({ searchParams }: { searchParams: { query?: string } }) {
+export default function BlogPage() {
   return (
     <Suspense
       fallback={
@@ -19,7 +19,7 @@ export default function BlogPage({ searchParams }: { searchParams: { query?: str
         </div>
       }
     >
-      <BlogPageClient searchParams={searchParams} />
+      <BlogPageClient />
     </Suspense>
   );
 }

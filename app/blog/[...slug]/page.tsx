@@ -1,7 +1,7 @@
 import { posts } from "#site/content";
 import { MDXContent } from "@/components/mdx-components";
 import { notFound } from "next/navigation";
-import "@/styles/mdx.css";
+// import "@/styles/mdx.css";
 import { Metadata } from "next";
 import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
@@ -124,7 +124,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <div>
                 <div className="mt-4 mb-4 flex space-x-4">
                   <Image
-                    src="/images/teguh.jpg"
+                    src="/images/teguh.jpeg"
                     alt="author"
                     width={45}
                     height={45}
