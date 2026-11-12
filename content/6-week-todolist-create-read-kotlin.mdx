@@ -1,0 +1,429 @@
+---
+title: "Todo List Android (Bagian 1): Menyimpan dan Menampilkan Daftar Tugas"
+description: "Lanjutan aplikasi login: buat data class Todo, simpan daftar tugas ke penyimpanan lokal dalam format JSON, lalu tambah (Create) dan tampilkan (Read) tugas dengan Jetpack Compose."
+date: 2026-11-21
+tags: ["android", "kotlin", "mobile", "compose"]
+published: true
+img: "/images/blogs/kotlin/android-login.png"
+---
+
+# Todo List Android (Bagian 1): Create dan Read
+
+Pada tutorial sebelumnya kita sudah membuat aplikasi dengan halaman Login, Register, dan Dashboard. Sekarang halaman Dashboard kita kembangkan menjadi **todo list**.
+
+Di bagian 1 ini kamu akan membuat dua dari empat operasi CRUD:
+
+- **C**reate: menambah tugas baru.
+- **R**ead: menampilkan daftar tugas.
+
+Operasi **U**pdate dan **D**elete dikerjakan di bagian 2.
+
+## Prasyarat
+
+- Proyek `LoginApp` dari tutorial sebelumnya sudah berjalan: login, register, dan Dashboard berfungsi.
+- Sudah membaca materi **Dasar Kotlin**, terutama null safety, lambda, dan data class.
+
+## Apa yang Berubah di Proyek?
+
+Struktur folder tidak berubah. Yang kita lakukan hanya:
+
+| Aksi | File | Package |
+| --- | --- | --- |
+| Buat baru | `Todo.kt` | `data` |
+| Buat baru | `TodoStorage.kt` | `data` |
+| Ganti isi | `AppNavigation.kt` | `navigation` |
+| Ganti isi | `DashboardScreen.kt` | `ui` |
+
+File lain (`LoginScreen`, `RegisterScreen`, `User`, `UserStorage`, `MainActivity`) **tidak disentuh**.
+
+Ingat aturan dari tutorial sebelumnya: `ui` boleh memanggil `data`, tetapi `data` tidak boleh tahu apa pun tentang `ui`. Kita akan melihat aturan ini dipakai lagi hari ini.
+
+## Langkah 1: Data Class Todo
+
+Klik kanan package `data`, pilih **New → Kotlin Class/File → File**, beri nama `Todo`. Pertahankan baris `package` paling atas, lalu isi seluruhnya dengan:
+
+```kotlin
+package com.example.loginapp.data
+
+// Satu item tugas.
+// - id     : penanda unik, dipakai untuk mencari item saat diubah atau dihapus
+// - title  : isi tugas
+// - isDone : sudah selesai atau belum (default: belum)
+//
+// Semua properti memakai val (immutable, tidak bisa diubah langsung).
+// Untuk "mengubah" todo, nanti kita membuat salinan baru dengan copy().
+data class Todo(
+    val id: Long,
+    val title: String,
+    val isDone: Boolean = false
+)
+```
+
+**Mengapa `id` bertipe `Long`?** Kita akan membuat id dari waktu saat ini dalam milidetik (`System.currentTimeMillis()`), dan angkanya sekitar 1,7 triliun. Itu melebihi batas `Int` (sekitar 2,1 miliar).
+
+**Mengapa perlu id?** Dua tugas bisa punya judul yang sama, jadi judul tidak bisa dipakai untuk membedakan. Id adalah identitas yang pasti unik.
+
+## Langkah 2: TodoStorage
+
+SharedPreferences hanya bisa menyimpan tipe sederhana seperti `String`, `Int`, dan `Boolean`. Ia **tidak bisa menyimpan list objek**. Karena itu daftar todo kita ubah menjadi satu teks berformat **JSON**, lalu teks itu yang disimpan.
+
+Contoh isi teks JSON untuk dua tugas:
+
+```json
+[
+  {"id": 1731390000000, "title": "Belajar Kotlin", "isDone": false},
+  {"id": 1731390060000, "title": "Kerjakan tugas", "isDone": true}
+]
+```
+
+Tanda kurung siku `[...]` adalah daftar (array), dan kurung kurawal `{...}` adalah satu objek. Android sudah menyediakan library JSON bawaan (`org.json`), jadi kita tidak perlu menambah dependency.
+
+Buat file `TodoStorage` di package `data`:
+
+```kotlin
+package com.example.loginapp.data
+
+import android.content.Context
+import org.json.JSONArray
+import org.json.JSONObject
+
+// Kelas ini mengurus penyimpanan dan pembacaan daftar todo.
+// Sama seperti UserStorage, tampilan tidak perlu tahu cara penyimpanannya.
+class TodoStorage(context: Context) {
+
+    private val prefs = context.getSharedPreferences("todo_prefs", Context.MODE_PRIVATE)
+
+    // Setiap user punya daftar todo sendiri, dibedakan lewat key.
+    // Contoh: user "budi" memakai key "todos_budi".
+    private fun keyFor(username: String) = "todos_$username"
+
+    // READ: baca teks JSON dari penyimpanan, lalu ubah menjadi List<Todo>.
+    fun getAll(username: String): List<Todo> {
+        // getString() mengembalikan String? (null jika belum pernah ada data).
+        // "?: return emptyList()" artinya: jika sebelah kiri null,
+        // langsung keluar dari fungsi dan kembalikan list kosong.
+        val json = prefs.getString(keyFor(username), null) ?: return emptyList()
+
+        val array = JSONArray(json)
+        val result = mutableListOf<Todo>()
+
+        // 0 until array.length() = indeks 0 sampai (jumlah - 1)
+        for (i in 0 until array.length()) {
+            val obj = array.getJSONObject(i)
+            result.add(
+                Todo(
+                    id = obj.getLong("id"),
+                    title = obj.getString("title"),
+                    isDone = obj.getBoolean("isDone")
+                )
+            )
+        }
+        return result
+    }
+
+    // Simpan seluruh daftar: ubah setiap Todo menjadi objek JSON,
+    // kumpulkan dalam satu array, lalu simpan array itu sebagai String.
+    fun saveAll(username: String, todos: List<Todo>) {
+        val array = JSONArray()
+
+        for (todo in todos) {
+            val obj = JSONObject()
+            obj.put("id", todo.id)
+            obj.put("title", todo.title)
+            obj.put("isDone", todo.isDone)
+            array.put(obj)
+        }
+
+        // array.toString() menghasilkan teks JSON seperti contoh di atas
+        prefs.edit().putString(keyFor(username), array.toString()).apply()
+    }
+}
+```
+
+### Membaca kode ini pelan-pelan
+
+- **`List<Todo>`** adalah list yang hanya berisi objek `Todo`. Tanda `<...>` disebut *generic*: kita memberi tahu Kotlin jenis isi list-nya.
+- **`?: return emptyList()`** menggabungkan operator elvis dengan `return`. Ini cara ringkas Kotlin untuk menangani kasus "datanya belum ada" di awal fungsi, sehingga kode setelahnya boleh yakin bahwa `json` **tidak null**.
+- **`Todo(id = obj.getLong("id"), ...)`** memakai *named argument*: nama parameter ditulis eksplisit supaya mudah dibaca.
+- **`mutableListOf<Todo>()`** membuat list kosong yang bisa ditambah. Setelah selesai diisi, ia dikembalikan sebagai `List<Todo>` biasa (read-only) kepada pemanggil.
+
+## Langkah 3: Memperbarui AppNavigation
+
+`DashboardScreen` sekarang membutuhkan `TodoStorage`. Pembuat objeknya ada di `AppNavigation`, jadi file ini perlu diperbarui. **Ganti seluruh isi** `AppNavigation.kt` dengan:
+
+```kotlin
+package com.example.loginapp.navigation
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.example.loginapp.data.TodoStorage
+import com.example.loginapp.data.UserStorage
+import com.example.loginapp.ui.DashboardScreen
+import com.example.loginapp.ui.LoginScreen
+import com.example.loginapp.ui.RegisterScreen
+
+enum class Screen {
+    LOGIN, REGISTER, DASHBOARD
+}
+
+@Composable
+fun AppNavigation() {
+    val context = LocalContext.current
+
+    // Objek penyimpanan dibuat sekali, lalu dibagikan ke halaman yang membutuhkan.
+    // BARU: todoStorage untuk daftar tugas.
+    val userStorage = remember { UserStorage(context) }
+    val todoStorage = remember { TodoStorage(context) }
+
+    var currentScreen by rememberSaveable { mutableStateOf(Screen.LOGIN) }
+    var loggedInUser by rememberSaveable { mutableStateOf("") }
+
+    Surface(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+        when (currentScreen) {
+            Screen.LOGIN -> LoginScreen(
+                userStorage = userStorage,
+                onLoginSuccess = { username ->
+                    loggedInUser = username
+                    currentScreen = Screen.DASHBOARD
+                },
+                onGoToRegister = { currentScreen = Screen.REGISTER }
+            )
+
+            Screen.REGISTER -> RegisterScreen(
+                userStorage = userStorage,
+                onRegisterSuccess = { currentScreen = Screen.LOGIN },
+                onGoToLogin = { currentScreen = Screen.LOGIN }
+            )
+
+            Screen.DASHBOARD -> DashboardScreen(
+                username = loggedInUser,
+                todoStorage = todoStorage,   // BARU: dikirim ke Dashboard
+                onLogout = {
+                    loggedInUser = ""
+                    currentScreen = Screen.LOGIN
+                }
+            )
+        }
+    }
+}
+```
+
+Perbedaannya dari versi sebelumnya hanya tiga baris: `import ...TodoStorage`, `val todoStorage = ...`, dan `todoStorage = todoStorage` pada `DashboardScreen`. Setelah file ini disimpan, `DashboardScreen` akan merah karena belum menerima parameter itu. Itu wajar dan kita perbaiki di langkah berikut.
+
+## Langkah 4: DashboardScreen (Create dan Read)
+
+**Ganti seluruh isi** `DashboardScreen.kt` dengan:
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.Todo
+import com.example.loginapp.data.TodoStorage
+
+@Composable
+fun DashboardScreen(
+    username: String,
+    todoStorage: TodoStorage,
+    onLogout: () -> Unit
+) {
+    // mutableStateListOf: list yang dipantau Compose.
+    // Jika isinya berubah (add/remove/set), tampilan otomatis diperbarui.
+    // (mutableListOf biasa TIDAK dipantau, jadi tampilan tidak akan berubah.)
+    //
+    // Saat pertama dibuat, isinya diambil dari penyimpanan lokal.
+    // apply { ... } : jalankan blok pada list yang baru dibuat, lalu kembalikan list itu.
+    val todos = remember {
+        mutableStateListOf<Todo>().apply { addAll(todoStorage.getAll(username)) }
+    }
+
+    // Teks yang sedang diketik di kolom "Tugas baru".
+    // rememberSaveable: teks tidak hilang saat layar diputar.
+    var newTitle by rememberSaveable { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Baris atas: sapaan di kiri, tombol logout di kanan
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Selamat datang, $username!",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f) // ambil sisa ruang yang tersedia
+            )
+            TextButton(onClick = onLogout) {
+                Text("Logout")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Jumlah tugas. todos.size otomatis ikut berubah karena todos adalah state.
+        Text(
+            text = "${todos.size} tugas",
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== CREATE =====
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = newTitle,
+                onValueChange = { newTitle = it },
+                label = { Text("Tugas baru") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(
+                onClick = {
+                    // Abaikan jika kosong atau hanya spasi
+                    if (newTitle.isNotBlank()) {
+                        // 1. Tambah ke list di memori.
+                        //    id memakai waktu saat ini (milidetik) agar unik.
+                        todos.add(
+                            Todo(
+                                id = System.currentTimeMillis(),
+                                title = newTitle.trim()
+                            )
+                        )
+                        // 2. Simpan seluruh list ke penyimpanan lokal
+                        todoStorage.saveAll(username, todos)
+                        // 3. Kosongkan kolom input
+                        newTitle = ""
+                    }
+                }
+            ) {
+                Text("Tambah")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== READ =====
+        if (todos.isEmpty()) {
+            // Tampilan saat belum ada data (disebut "empty state")
+            Text("Belum ada tugas. Tambahkan tugas pertamamu!")
+        } else {
+            // LazyColumn: daftar yang bisa di-scroll dan hanya menggambar
+            // item yang terlihat di layar (hemat memori untuk daftar panjang).
+            LazyColumn {
+                // key = id membantu Compose mengenali item yang sama saat daftar berubah
+                items(todos, key = { it.id }) { todo ->
+                    TodoItem(todo = todo)
+                }
+            }
+        }
+    }
+}
+
+// Tampilan satu baris todo. Dipisah menjadi fungsi sendiri agar
+// DashboardScreen tidak terlalu panjang dan TodoItem bisa dipakai ulang.
+@Composable
+fun TodoItem(todo: Todo) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Text(
+            text = todo.title,
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+```
+
+## Langkah 5: Menjalankan dan Menguji
+
+Jalankan aplikasi, lalu coba:
+
+1. Login dengan akun dari tutorial sebelumnya (akun lama masih valid karena `UserStorage` tidak berubah). Dashboard menampilkan "0 tugas" dan "Belum ada tugas".
+2. Tambahkan 3 tugas. Tekan **Tambah** dengan kolom kosong, tidak boleh ada yang bertambah.
+3. Ketik sebagian teks di kolom, lalu **putar layar**. Teks tetap ada (karena `rememberSaveable`), dan daftar tugas tidak hilang.
+4. Tutup aplikasi sepenuhnya (swipe dari recent apps), buka lagi, login. Tugas masih ada karena tersimpan di penyimpanan lokal.
+5. Logout, register akun lain, lalu login. Daftar tugasnya kosong karena setiap user punya daftar sendiri.
+
+> Username bersifat **case-sensitive**: `Budi` dan `budi` dianggap dua akun berbeda dengan daftar tugas yang terpisah.
+
+{/* Tambahkan screenshot hasil aplikasi di sini */}
+
+## Memahami Alur Saat Tombol Tambah Ditekan
+
+Urutkan kejadiannya, ini adalah inti tutorial hari ini:
+
+1. Pengguna mengetik. Setiap huruf memanggil `onValueChange`, sehingga `newTitle` berubah dan kolom digambar ulang dengan teks terbaru.
+2. Pengguna menekan **Tambah**. Lambda `onClick` berjalan.
+3. `todos.add(...)` menambah item ke list. Karena `todos` adalah `mutableStateListOf`, Compose **tahu** list berubah dan menggambar ulang bagian yang memakainya (jumlah tugas dan `LazyColumn`).
+4. `todoStorage.saveAll(...)` menulis seluruh list ke penyimpanan, supaya data tidak hilang saat aplikasi ditutup.
+5. `newTitle = ""` mengosongkan kolom input.
+
+Perhatikan bahwa **dua hal harus diubah**: list di memori (supaya tampilan berubah) dan penyimpanan (supaya data awet). Jika lupa langkah 4, tugas muncul di layar tetapi hilang saat aplikasi ditutup.
+
+```text
+DashboardScreen  ->  TodoStorage  ->  SharedPreferences
+     (ui)              (data)           (teks JSON)
+```
+
+## Konsep Kotlin dan Compose yang Dipakai
+
+| Kode | Konsep |
+| --- | --- |
+| `data class Todo(...)` | Data class: `toString`, `equals`, `copy` otomatis |
+| `prefs.getString(...) ?: return emptyList()` | Elvis operator dengan `return` untuk menangani null |
+| `for (i in 0 until array.length())` | Perulangan dengan range |
+| `"todos_$username"` | String template |
+| `mutableStateListOf<Todo>().apply { ... }` | Scope function `apply` |
+| `onClick = { ... }` dan `items(todos) { todo -> ... }` | Lambda dan trailing lambda |
+| `newTitle.isNotBlank()` dan `trim()` | Fungsi bantu pada String |
+| `Modifier.weight(1f)` | Membagi sisa ruang di dalam `Row` atau `Column` |
+| `remember` dan `rememberSaveable` | Menyimpan state; yang kedua bertahan saat layar diputar |
+
+### Mengapa `mutableStateListOf`, bukan `mutableListOf`?
+
+Compose hanya menggambar ulang tampilan jika ia **tahu** ada data yang berubah. `mutableListOf` biasa tidak memberi tahu siapa pun saat isinya berubah, sedangkan `mutableStateListOf` memberi tahu Compose. Coba sendiri sebagai eksperimen: ganti sementara dengan `mutableListOf`, tambah tugas, lalu perhatikan bahwa tampilan tidak berubah (sampai ada hal lain yang memicu gambar ulang).
+
+### Mengapa `remember`, bukan variabel biasa?
+
+Fungsi `@Composable` dapat dijalankan ulang berkali-kali oleh Compose. Variabel biasa di dalamnya akan dibuat ulang dari nol setiap kali. `remember` menyimpan nilainya di antara pemanggilan tersebut.
+
+## Batasan Versi Ini
+
+- **Aplikasi crash jika data JSON rusak.** Untuk latihan ini kita abaikan.
+- **SharedPreferences cocok untuk data kecil.** Untuk data besar atau butuh pencarian, gunakan database seperti Room.
+- **Password masih disimpan sebagai teks biasa.** Hanya untuk belajar.
+
+## Tantangan
+
+1. Tampilkan `Toast` setiap kali tugas berhasil ditambahkan.
+2. Cegah penambahan tugas dengan judul yang sama persis. (Petunjuk: `todos.any { it.title == ... }`.)
+3. Ubah tampilan `TodoItem`: warna kartu, ukuran font.
+4. Ganti teks "0 tugas" menjadi "Belum ada tugas" saat list kosong, dan "1 tugas" saat berisi satu.
+
+Di bagian 2, kita lengkapi CRUD dengan **Update** dan **Delete**. Sampai jumpa! 🚀

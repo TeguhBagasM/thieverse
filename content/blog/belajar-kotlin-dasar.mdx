@@ -1,0 +1,466 @@
+---
+title: "Dasar-Dasar Kotlin untuk Pemula: Persiapan Membuat Aplikasi Android"
+description: "Pelajari dasar Kotlin yang paling sering dipakai di Android: variabel, null safety, fungsi, collection, lambda, class, dan data class, lengkap dengan latihan."
+date: 2026-11-12
+tags: ["kotlin", "android", "mobile", "pemula"]
+published: true
+img: "/images/blogs/kotlin/kotlin.png"
+---
+
+# Dasar-Dasar Kotlin untuk Pemula
+
+Kotlin adalah bahasa pemrograman modern yang dikembangkan oleh JetBrains. Sejak 2019 Google memprioritaskan Kotlin sebagai bahasa utama untuk pengembangan Android (pendekatan "Kotlin-first"). Jetpack Compose, yang kita pakai untuk membuat tampilan, ditulis dan dirancang untuk Kotlin.
+
+Materi ini bukan kursus Kotlin lengkap. Isinya dipilih dari fitur yang **benar-benar muncul** di aplikasi login dan todo list yang akan kita buat. Di setiap bagian ada catatan **Di proyek kita** yang menunjukkan di mana konsep itu dipakai.
+
+## Cara Berlatih
+
+Cara paling mudah adalah **Kotlin Playground** di [play.kotlinlang.org](https://play.kotlinlang.org). Tidak perlu instalasi, cukup buka di browser, tempel kode, lalu klik Run.
+
+Semua contoh di bawah ditulis di dalam fungsi `main`, yaitu titik awal program Kotlin biasa. Program akan menjalankan isi `main` dari atas ke bawah.
+
+```kotlin
+fun main() {
+    println("Halo, Kotlin!") // println mencetak teks ke layar
+}
+```
+
+Ketik sendiri semua contoh, jangan hanya copy-paste. Mengetik membantu kamu menemukan error dan membacanya.
+
+## 1. Variabel: val dan var
+
+Kotlin punya dua kata kunci untuk membuat variabel:
+
+| Kata kunci | Artinya | Bisa diubah? |
+| --- | --- | --- |
+| `val` | value, nilai tetap | Tidak |
+| `var` | variable, nilai berubah | Ya |
+
+```kotlin
+fun main() {
+    val nama = "Budi"   // val: setelah diisi tidak bisa diganti
+    var umur = 20       // var: boleh diganti
+
+    umur = 21           // OK
+    // nama = "Sari"    // ERROR: val tidak bisa diubah
+
+    println("Halo, $nama! Umur kamu $umur tahun.")
+}
+```
+
+**Kebiasaan yang baik:** selalu mulai dengan `val`, dan ubah menjadi `var` hanya jika memang perlu berubah. Kode jadi lebih mudah dipahami karena lebih sedikit hal yang bisa berubah diam-diam.
+
+### Tipe data
+
+Kotlin menentukan tipe secara otomatis dari nilainya (**type inference**). Kamu juga boleh menuliskannya secara eksplisit.
+
+```kotlin
+val umur = 20            // otomatis Int
+val tinggi: Double = 170.5   // tipe ditulis eksplisit setelah tanda titik dua
+```
+
+| Tipe | Isi | Contoh |
+| --- | --- | --- |
+| `Int` | bilangan bulat (maksimal sekitar 2,1 miliar) | `42` |
+| `Long` | bilangan bulat besar | `1731390000000L` |
+| `Double` | bilangan desimal | `3.14` |
+| `Boolean` | benar atau salah | `true`, `false` |
+| `Char` | satu karakter | `'A'` |
+| `String` | teks | `"Halo"` |
+
+> **Di proyek kita:** ID todo bertipe `Long` karena kita memakai waktu dalam milidetik (`System.currentTimeMillis()`), dan angkanya jauh lebih besar dari batas `Int`.
+
+### String template
+
+Tanda `$` menyisipkan nilai variabel ke dalam teks. Untuk ekspresi, bungkus dengan kurung kurawal.
+
+```kotlin
+fun main() {
+    val nama = "Budi"
+    val umur = 20
+    println("Halo, $nama!")                  // Halo, Budi!
+    println("Tahun depan: ${umur + 1} tahun") // Tahun depan: 21 tahun
+}
+```
+
+> **Di proyek kita:** `"Selamat datang, $username!"` dan `"todos_$username"`.
+
+## 2. Null Safety
+
+Di banyak bahasa, `null` (artinya "tidak ada nilai") adalah sumber crash yang paling umum. Kotlin mengatasinya dengan memisahkan dua jenis tipe:
+
+- `String` : **tidak boleh** null.
+- `String?` : **boleh** null (perhatikan tanda tanya).
+
+```kotlin
+fun cariNama(id: Int): String? {
+    return if (id == 1) "Budi" else null   // id lain: tidak ditemukan
+}
+
+fun main() {
+    val hasil: String? = cariNama(2)
+
+    // val panjang: Int = hasil.length   // ERROR saat compile: hasil bisa null
+
+    println(hasil?.length)        // null   (safe call: tidak crash)
+    println(hasil?.length ?: 0)   // 0      (elvis: nilai cadangan jika null)
+}
+```
+
+| Operator | Nama | Fungsi |
+| --- | --- | --- |
+| `?.` | safe call | Jalankan hanya jika tidak null, kalau null hasilnya null |
+| `?:` | elvis | Jika sebelah kiri null, pakai nilai sebelah kanan |
+| `!!` | non-null assertion | Memaksa "pasti tidak null". Jika ternyata null, **aplikasi crash**. Hindari. |
+
+Ada juga fungsi bantu seperti `isNullOrBlank()` untuk mengecek teks yang null, kosong, atau hanya spasi.
+
+> **Di proyek kita:** `prefs.getString("user_budi", null)` mengembalikan `String?`, karena data bisa saja belum pernah disimpan. Di `TodoStorage` nanti kita memakai `?: return emptyList()`: jika datanya null, langsung kembalikan list kosong.
+
+## 3. Fungsi
+
+```kotlin
+// Bentuk lengkap: fun nama(parameter): TipeKembalian { ... }
+fun tambah(a: Int, b: Int): Int {
+    return a + b
+}
+
+// Bentuk singkat untuk fungsi satu ekspresi
+fun kali(a: Int, b: Int) = a * b
+
+// Parameter dengan nilai default
+fun sapa(nama: String, salam: String = "Halo") {
+    println("$salam, $nama!")
+}
+
+fun main() {
+    println(tambah(2, 3))     // 5
+    println(kali(2, 3))       // 6
+
+    sapa("Budi")                          // Halo, Budi!
+    sapa("Sari", "Selamat pagi")          // Selamat pagi, Sari!
+    sapa(salam = "Hai", nama = "Andi")    // named argument: urutan bebas
+}
+```
+
+Fungsi yang tidak mengembalikan nilai sebenarnya mengembalikan `Unit` (artinya "tidak ada hasil yang berarti"). Kamu tidak perlu menuliskannya, tapi akan sering melihatnya, misalnya pada `onClick: () -> Unit`.
+
+> **Di proyek kita:** semua tampilan Compose adalah fungsi biasa yang diberi tanda `@Composable`. Penulisan `Text(text = "Login", style = ...)` memakai named argument. Karena itulah urutan parameter di Compose bisa bebas.
+
+## 4. Percabangan dan Perulangan
+
+### if sebagai ekspresi
+
+Di Kotlin `if` bisa menghasilkan nilai.
+
+```kotlin
+fun main() {
+    val nilai = 75
+    val status = if (nilai >= 60) "Lulus" else "Tidak lulus"
+    println(status)   // Lulus
+}
+```
+
+### when
+
+`when` adalah versi `if-else` bertingkat yang lebih rapi, mirip `switch` di bahasa lain tapi lebih kuat.
+
+```kotlin
+fun gradeOf(nilai: Int): String = when {
+    nilai >= 85 -> "A"
+    nilai >= 70 -> "B"
+    nilai >= 55 -> "C"
+    else -> "D"
+}
+
+fun main() {
+    println(gradeOf(90))   // A
+    println(gradeOf(60))   // C
+}
+```
+
+> **Di proyek kita:** `when (currentScreen)` memilih halaman yang ditampilkan.
+
+### Perulangan
+
+```kotlin
+fun main() {
+    for (i in 1..3) println(i)           // 1, 2, 3  (1..3 termasuk 3)
+    for (i in 0 until 3) println(i)      // 0, 1, 2  (until tidak termasuk 3)
+
+    val buah = listOf("apel", "jeruk")
+    for (b in buah) println(b)           // apel, jeruk
+
+    var n = 3
+    while (n > 0) {
+        println(n)
+        n--                               // n-- artinya n = n - 1
+    }
+}
+```
+
+## 5. Collection: List dan Map
+
+Collection adalah kumpulan data. Yang paling sering dipakai adalah `List`.
+
+| Jenis | Bisa ditambah/dihapus? | Dibuat dengan |
+| --- | --- | --- |
+| `List` | Tidak (read-only) | `listOf(...)` |
+| `MutableList` | Ya | `mutableListOf(...)` |
+
+```kotlin
+fun main() {
+    val tetap = listOf("A", "B")
+    // tetap.add("C")             // ERROR: List tidak bisa diubah
+
+    val bisaBerubah = mutableListOf("A", "B")
+    bisaBerubah.add("C")          // [A, B, C]
+    bisaBerubah.remove("A")       // [B, C]
+    println(bisaBerubah.size)     // 2
+    println(bisaBerubah[0])       // B  (indeks dimulai dari 0)
+}
+```
+
+Perhatikan bahwa `val` pada `bisaBerubah` berarti **variabelnya** tidak bisa menunjuk ke list lain, tetapi **isi** list tetap boleh berubah.
+
+### Operasi yang sering dipakai
+
+Operasi berikut menerima lambda (dijelaskan di bagian 6). `it` mewakili elemen yang sedang diperiksa.
+
+```kotlin
+fun main() {
+    val angka = listOf(1, 2, 3, 4, 5)
+
+    println(angka.filter { it % 2 == 0 })     // [2, 4]       ambil yang memenuhi syarat
+    println(angka.map { it * it })            // [1, 4, 9, 16, 25]  ubah tiap elemen
+    println(angka.count { it > 2 })           // 3            hitung yang memenuhi syarat
+    println(angka.firstOrNull { it > 3 })     // 4            elemen pertama, atau null
+    println(angka.indexOfFirst { it == 3 })   // 2            posisi pertama, atau -1
+    println(angka.sum())                      // 15
+}
+```
+
+### Map
+
+`Map` menyimpan pasangan **key dan value**, mirip kamus.
+
+```kotlin
+fun main() {
+    val nilai = mapOf("Budi" to 80, "Sari" to 90)
+    println(nilai["Sari"])    // 90
+    println(nilai["Andi"])    // null  (key tidak ada, makanya hasilnya bertipe Int?)
+}
+```
+
+> **Di proyek kita:** SharedPreferences bekerja seperti Map: `"user_budi"` adalah key, password adalah value. Daftar todo kita simpan di `mutableStateListOf`, yaitu `MutableList` khusus milik Compose.
+
+## 6. Lambda dan Higher-Order Function
+
+Ini konsep terpenting untuk Compose. **Lambda** adalah potongan kode yang bisa disimpan di variabel atau dikirim ke fungsi lain.
+
+```kotlin
+fun main() {
+    // Tipe fungsi: (String) -> Unit  artinya menerima String, tidak mengembalikan apa-apa
+    val sapa: (String) -> Unit = { nama -> println("Halo, $nama") }
+    sapa("Sari")   // Halo, Sari
+
+    // Jika lambda hanya punya satu parameter, boleh dipanggil dengan nama "it"
+    val kuadrat: (Int) -> Int = { it * it }
+    println(kuadrat(4))   // 16
+}
+```
+
+Fungsi yang menerima fungsi lain sebagai parameter disebut **higher-order function**.
+
+```kotlin
+fun ulangi(kali: Int, aksi: () -> Unit) {
+    for (i in 1..kali) aksi()
+}
+
+fun main() {
+    // Jika parameter terakhir adalah lambda, kurung kurawal boleh ditulis di luar kurung biasa.
+    // Ini disebut "trailing lambda".
+    ulangi(3) {
+        println("Kotlin")
+    }
+}
+```
+
+> **Di proyek kita:** kamu akan sering melihat bentuk ini:
+>
+> ```kotlin
+> Button(onClick = { println("diklik") }) {
+>     Text("Login")
+> }
+> ```
+>
+> `onClick = { ... }` adalah lambda yang dijalankan saat tombol ditekan. Blok `{ Text("Login") }` setelahnya adalah trailing lambda yang berisi isi tombol. Selain itu, `onLoginSuccess: (String) -> Unit` pada `LoginScreen` adalah **tipe fungsi**: halaman Login "memberi tahu" pemanggilnya bahwa login berhasil dengan memanggil fungsi tersebut. Pola ini disebut **callback**.
+
+## 7. Class, Data Class, dan Enum
+
+### Class
+
+```kotlin
+// "private var nilai" di dalam kurung adalah constructor sekaligus properti
+class Counter(private var nilai: Int = 0) {
+    fun tambah() {
+        nilai++
+    }
+
+    fun ambil(): Int = nilai
+}
+
+fun main() {
+    val c = Counter()      // membuat objek (tidak perlu kata "new")
+    c.tambah()
+    c.tambah()
+    println(c.ambil())     // 2
+}
+```
+
+> **Di proyek kita:** `class UserStorage(context: Context)` menerima `context` sebagai parameter constructor.
+
+### Data class
+
+Untuk class yang tugas utamanya **menyimpan data**, Kotlin menyediakan `data class`. Kotlin otomatis membuatkan `toString()`, `equals()`, dan `copy()`.
+
+```kotlin
+data class Mahasiswa(
+    val nim: String,
+    val nama: String,
+    val aktif: Boolean = true    // nilai default
+)
+
+fun main() {
+    val m1 = Mahasiswa("123", "Budi")
+    println(m1)   // Mahasiswa(nim=123, nama=Budi, aktif=true)
+
+    // copy: membuat objek BARU dengan sebagian nilai diganti
+    val m2 = m1.copy(nama = "Budi Santoso")
+    println(m2)   // Mahasiswa(nim=123, nama=Budi Santoso, aktif=true)
+    println(m1)   // tidak berubah: Mahasiswa(nim=123, nama=Budi, aktif=true)
+
+    // Dua data class dianggap sama jika isinya sama
+    println(m1 == Mahasiswa("123", "Budi"))   // true
+}
+```
+
+Perhatikan bahwa semua properti memakai `val`. Data class biasanya dibuat **immutable** (tidak diubah), dan jika ada perubahan, kita membuat salinan baru dengan `copy`. Pola ini penting di Compose karena Compose mendeteksi perubahan saat objek **diganti**.
+
+> **Di proyek kita:** `data class User(...)` dan `data class Todo(...)`. Di tutorial todo, "mengubah" todo berarti `todos[index] = todo.copy(isDone = true)`.
+
+### Enum class
+
+Enum adalah daftar pilihan yang jumlahnya tetap.
+
+```kotlin
+enum class Screen { LOGIN, REGISTER, DASHBOARD }
+
+fun main() {
+    val sekarang = Screen.LOGIN
+    println(sekarang)   // LOGIN
+}
+```
+
+Keuntungannya dibanding menulis teks `"login"` secara manual adalah typo akan ketahuan saat compile, bukan saat aplikasi berjalan.
+
+## 8. Scope Function: apply dan let
+
+Dua fungsi kecil ini akan muncul di kode kita.
+
+```kotlin
+fun main() {
+    // apply: membuat objek lalu langsung mengisinya, hasilnya objek itu sendiri
+    val daftar = mutableListOf<Int>().apply {
+        add(1)
+        add(2)
+    }
+    println(daftar)   // [1, 2]
+
+    // let: jalankan blok hanya jika tidak null; nilainya tersedia sebagai "it"
+    val nama: String? = "Budi"
+    nama?.let { println("Panjang nama: ${it.length}") }   // Panjang nama: 4
+}
+```
+
+> **Di proyek kita:** `.apply()` pada `prefs.edit()...apply()` adalah fungsi lain yang kebetulan bernama sama (milik SharedPreferences), sedangkan `mutableStateListOf<Todo>().apply { addAll(...) }` memakai `apply` milik Kotlin. Di dialog edit nanti kita juga memakai `todoToEdit?.let { ... }`.
+
+## 9. Jembatan ke Jetpack Compose
+
+Sekarang kita bisa membaca satu baris yang tadinya terlihat asing:
+
+```kotlin
+var username by remember { mutableStateOf("") }
+```
+
+| Potongan | Artinya |
+| --- | --- |
+| `var username` | variabel yang bisa berubah |
+| `mutableStateOf("")` | membuat **state**, yaitu nilai yang dipantau Compose. Jika berubah, tampilan digambar ulang. |
+| `remember { ... }` | `remember` menerima **trailing lambda**. Nilai disimpan agar tidak hilang saat tampilan digambar ulang. |
+| `by` | membuat kita bisa menulis `username` langsung, tidak perlu `username.value` |
+
+Hampir seluruh Compose adalah gabungan konsep yang sudah kamu pelajari: fungsi, named argument, lambda, trailing lambda, dan data class.
+
+## Latihan
+
+Kerjakan di Kotlin Playground.
+
+1. Buat fungsi `hitungRataRata(nilai: List<Int>): Double`. Jika list kosong, kembalikan `0.0`. (Petunjuk: `isEmpty()` dan `average()`.)
+2. Buat fungsi `gradeOf(nilai: Int): String` dengan `when`, lalu tampilkan grade untuk nilai 90, 72, 55, dan 30.
+3. Buat fungsi `salam(nama: String?): String`. Jika `nama` null atau kosong, kembalikan `"Halo, Tamu!"`, selain itu `"Halo, <nama>!"`. (Petunjuk: `isNullOrBlank()`.)
+4. Buat `data class Produk(val nama: String, val harga: Int, val stok: Int)`. Buat list berisi 5 produk, tampilkan nama produk yang stoknya lebih dari 0, lalu hitung total nilai stok (`harga * stok` dijumlahkan). (Petunjuk: `filter`, `sumOf`.)
+5. Buat fungsi `ulangi(kali: Int, aksi: (Int) -> Unit)` yang memanggil `aksi` dengan nomor perulangan (1, 2, 3, dst.), lalu panggil dengan trailing lambda.
+6. **Mini CRUD di console.** Buat `data class Todo(val id: Int, val title: String, val isDone: Boolean = false)` dan `val todos = mutableListOf<Todo>()`. Lakukan: tambah 3 todo, tandai todo ber-id 1 sebagai selesai, hapus todo ber-id 2, lalu cetak semua todo yang tersisa dengan format `[x] judul` atau `[ ] judul`.
+
+Latihan 6 adalah versi console dari aplikasi yang akan kita bangun. Jika kamu paham jawabannya, tutorial berikutnya akan terasa jauh lebih mudah.
+
+### Contoh jawaban latihan 6
+
+Coba kerjakan sendiri dulu sebelum membuka ini.
+
+```kotlin
+data class Todo(val id: Int, val title: String, val isDone: Boolean = false)
+
+fun main() {
+    val todos = mutableListOf<Todo>()
+
+    // Create
+    todos.add(Todo(1, "Belajar Kotlin"))
+    todos.add(Todo(2, "Kerjakan tugas Android"))
+    todos.add(Todo(3, "Istirahat"))
+
+    // Update: cari posisinya, lalu ganti dengan salinan baru
+    val index = todos.indexOfFirst { it.id == 1 }
+    if (index != -1) {
+        todos[index] = todos[index].copy(isDone = true)
+    }
+
+    // Delete: hapus semua todo yang memenuhi syarat
+    todos.removeAll { it.id == 2 }
+
+    // Read
+    for (todo in todos) {
+        val tanda = if (todo.isDone) "[x]" else "[ ]"
+        println("$tanda ${todo.title}")
+    }
+    // Hasil:
+    // [x] Belajar Kotlin
+    // [ ] Istirahat
+}
+```
+
+## Rangkuman
+
+| Konsep | Kata kunci | Ingat |
+| --- | --- | --- |
+| Variabel | `val`, `var` | Mulai dari `val` |
+| Null safety | `?`, `?.`, `?:` | Hindari `!!` |
+| Fungsi | `fun` | Named argument dan nilai default |
+| Percabangan | `if`, `when` | Keduanya bisa menghasilkan nilai |
+| Collection | `List`, `MutableList`, `Map` | `filter`, `map`, `count`, `indexOfFirst` |
+| Lambda | `{ ... }`, `it` | Trailing lambda: lambda di luar kurung |
+| Data class | `data class`, `copy` | Ubah dengan membuat salinan |
+| Enum | `enum class` | Pilihan tetap, aman dari typo |
+
+Setelah ini, lanjutkan ke tutorial membuat aplikasi login dan register. Selamat berlatih! 🚀

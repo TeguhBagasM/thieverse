@@ -1,0 +1,566 @@
+---
+title: "Membuat Aplikasi Login dan Register di Android (Kotlin + Jetpack Compose)"
+description: "Tutorial dari nol membuat aplikasi Android dengan halaman login, register, dan dashboard. Data disimpan lokal dengan SharedPreferences, dengan struktur folder data, ui, dan navigation sejak awal."
+date: 2026-11-12
+tags: ["android", "kotlin", "mobile", "compose", "pemula"]
+published: true
+img: "/images/blogs/kotlin/android-login.png"
+---
+
+# Membuat Aplikasi Login dan Register di Android
+
+Pada tutorial ini kita membuat aplikasi Android dengan tiga halaman:
+
+1. **Login**: memasukkan username dan password.
+2. **Register**: membuat akun baru.
+3. **Dashboard**: halaman setelah login yang menampilkan tulisan "Selamat datang".
+
+Data akun disimpan di penyimpanan lokal perangkat dengan **SharedPreferences**, jadi tidak perlu server atau database.
+
+Halaman Dashboard sengaja dibuat sederhana. Di tutorial berikutnya, halaman ini kita kembangkan menjadi aplikasi todo list.
+
+## Prasyarat
+
+- Android Studio versi terbaru.
+- Sudah membaca materi **Dasar Kotlin**, terutama bagian `val`/`var`, null safety, lambda, dan data class.
+- Emulator atau HP Android.
+
+## Gambaran Besar: Tiga Folder
+
+Sejak awal kita membagi kode ke tiga folder (package) berdasarkan **tugasnya**:
+
+| Package | Isi | Tugas |
+| --- | --- | --- |
+| `data` | `User`, `UserStorage` | Bentuk data dan cara menyimpannya |
+| `ui` | `LoginScreen`, `RegisterScreen`, `DashboardScreen` | Tampilan |
+| `navigation` | `AppNavigation` | Mengatur halaman mana yang tampil |
+
+Satu aturan yang perlu diingat: **`ui` boleh memanggil `data`, tetapi `data` tidak boleh tahu apa pun tentang `ui`.** Dengan aturan ini, suatu hari kita bisa mengganti cara penyimpanan (misalnya ke database) tanpa menyentuh tampilan.
+
+## Langkah 1: Membuat Proyek Baru
+
+1. Buka Android Studio, pilih **New Project**.
+2. Pada tab **Phone and Tablet**, pilih template **Empty Activity**, lalu klik **Next**.
+3. Isi konfigurasi:
+   - **Name**: `LoginApp`
+   - **Package name**: `com.example.loginapp`
+   - **Minimum SDK**: API 24 (atau default yang diberikan)
+4. Klik **Finish**, lalu tunggu **Gradle Sync** selesai (lihat progress bar di bagian bawah).
+
+{/* Tambahkan screenshot dialog New Project di sini */}
+
+> Nama menu bisa sedikit berbeda antarversi Android Studio. Jika ada pilihan "Empty Activity" dan "Empty Views Activity", pilih **Empty Activity** (bukan Views), karena kita memakai Jetpack Compose.
+
+## Langkah 2: Mengenal File Default
+
+Buka panel **Project** di sisi kiri dan pastikan tampilannya **Android**.
+
+| File / Folder | Fungsi |
+| --- | --- |
+| `MainActivity.kt` | Titik masuk aplikasi |
+| `ui/theme/` | Warna, font, dan tema bawaan |
+| `AndroidManifest.xml` | Konfigurasi aplikasi (nama, ikon, daftar activity) |
+| `build.gradle.kts` | Konfigurasi build dan dependency |
+
+Folder `ui` sudah ada karena `theme` berada di dalamnya. Kita tidak mengubah file lain selain `MainActivity.kt`.
+
+## Langkah 3: Membuat Folder data dan navigation
+
+1. Klik kanan package `com.example.loginapp`, pilih **New → Package**.
+2. Ketik nama lengkapnya: `com.example.loginapp.data`, lalu Enter.
+3. Ulangi untuk `com.example.loginapp.navigation`.
+
+Jika folder `ui` belum ada di proyekmu, buat dengan cara yang sama: `com.example.loginapp.ui`.
+
+### Cara membuat file Kotlin
+
+Untuk semua file berikut, caranya sama: **klik kanan pada package yang dituju → New → Kotlin Class/File → pilih File → ketik nama**.
+
+Karena dibuat dari klik kanan di package, Android Studio otomatis menulis baris `package` yang benar. Kamu hanya perlu mengganti isi di bawahnya.
+
+> Kita membuat file dari yang paling bawah (data) ke atas (ui, navigation, MainActivity). Dengan urutan ini, hampir tidak ada error merah karena file yang dibutuhkan sudah ada lebih dulu.
+
+## Langkah 4: Package data
+
+### User.kt
+
+Buat file `User` di package `data`. Pertahankan baris `package` paling atas, lalu isi seluruhnya dengan:
+
+```kotlin
+package com.example.loginapp.data
+
+// data class: class khusus untuk menyimpan data.
+// Kotlin otomatis membuatkan toString(), equals(), dan copy().
+// Dengan membungkus username dan password dalam satu objek,
+// kita tidak perlu mengirim dua String terpisah ke mana-mana.
+data class User(
+    val username: String,
+    val password: String
+)
+```
+
+### UserStorage.kt
+
+Buat file `UserStorage` di package `data`:
+
+```kotlin
+package com.example.loginapp.data
+
+import android.content.Context
+
+// Kelas ini mengurus penyimpanan dan pembacaan akun.
+// Semua urusan SharedPreferences dikumpulkan di sini supaya
+// tampilan (ui) tidak perlu tahu cara penyimpanannya.
+class UserStorage(context: Context) {
+
+    // SharedPreferences adalah penyimpanan sederhana berbentuk pasangan key-value.
+    // "user_prefs" adalah nama file penyimpanannya.
+    // MODE_PRIVATE artinya hanya aplikasi ini yang boleh mengaksesnya.
+    private val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
+    // Setiap akun disimpan dengan key unik: "user_" + username.
+    // Contoh: key "user_budi" berisi password milik budi.
+    // Mengembalikan true jika berhasil, false jika username sudah dipakai.
+    fun register(user: User): Boolean {
+        val key = "user_${user.username}"
+
+        // contains(): cek apakah key sudah pernah disimpan
+        if (prefs.contains(key)) {
+            return false
+        }
+
+        // apply() menyimpan perubahan
+        prefs.edit().putString(key, user.password).apply()
+        return true
+    }
+
+    // Login berhasil jika akun ada DAN password-nya sama.
+    fun login(username: String, password: String): Boolean {
+        // getString(key, default): mengembalikan String? (bisa null jika akun belum ada)
+        val savedPassword = prefs.getString("user_$username", null)
+
+        // savedPassword != null memastikan akun memang ada
+        return savedPassword != null && savedPassword == password
+    }
+}
+```
+
+## Langkah 5: Package ui
+
+### LoginScreen.kt
+
+Buat file `LoginScreen` di package `ui`:
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.UserStorage
+
+// @Composable menandai fungsi ini sebagai bagian dari tampilan Compose.
+// Parameter di bawah adalah "kabel" ke bagian lain aplikasi:
+// - userStorage     : untuk mengecek akun
+// - onLoginSuccess  : dipanggil jika login berhasil (membawa username)
+// - onGoToRegister  : dipanggil jika pengguna menekan tombol ke halaman register
+@Composable
+fun LoginScreen(
+    userStorage: UserStorage,
+    onLoginSuccess: (String) -> Unit,
+    onGoToRegister: () -> Unit
+) {
+    // "state": nilai yang jika berubah akan membuat tampilan digambar ulang otomatis.
+    // remember menjaga nilainya agar tidak hilang saat tampilan digambar ulang.
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+
+    // Column menyusun elemen secara vertikal (atas ke bawah)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()      // penuhi seluruh layar
+            .padding(24.dp),    // jarak dari tepi layar
+        verticalArrangement = Arrangement.Center,           // tengah layar (vertikal)
+        horizontalAlignment = Alignment.CenterHorizontally  // tengah layar (horizontal)
+    ) {
+        Text(text = "Login", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(24.dp)) // spasi kosong
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it }, // perbarui state setiap kali pengguna mengetik
+            label = { Text("Username") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            singleLine = true,
+            // Mengubah tampilan teks menjadi titik-titik agar password tersembunyi
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Pesan error hanya tampil jika errorMessage tidak kosong
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                // trim() membuang spasi di awal dan akhir
+                val cleanUsername = username.trim()
+
+                if (cleanUsername.isEmpty() || password.isEmpty()) {
+                    errorMessage = "Username dan password wajib diisi"
+                } else if (userStorage.login(cleanUsername, password)) {
+                    // Login berhasil: kosongkan error lalu beri tahu pemanggil
+                    errorMessage = ""
+                    onLoginSuccess(cleanUsername)
+                } else {
+                    errorMessage = "Username atau password salah"
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Login")
+        }
+
+        // TextButton: tombol tanpa latar belakang, cocok untuk tautan
+        TextButton(onClick = onGoToRegister) {
+            Text("Belum punya akun? Register")
+        }
+    }
+}
+```
+
+### RegisterScreen.kt
+
+Buat file `RegisterScreen` di package `ui`:
+
+```kotlin
+package com.example.loginapp.ui
+
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.User
+import com.example.loginapp.data.UserStorage
+
+// Parameter:
+// - userStorage       : untuk menyimpan akun baru
+// - onRegisterSuccess : dipanggil setelah akun berhasil dibuat
+// - onGoToLogin       : dipanggil jika pengguna ingin kembali ke halaman login
+@Composable
+fun RegisterScreen(
+    userStorage: UserStorage,
+    onRegisterSuccess: () -> Unit,
+    onGoToLogin: () -> Unit
+) {
+    // Context dibutuhkan untuk menampilkan Toast (pesan singkat di layar)
+    val context = LocalContext.current
+
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Register", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Konfirmasi Password") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                val cleanUsername = username.trim()
+
+                // Validasi berurutan, berhenti di kesalahan pertama
+                if (cleanUsername.isEmpty() || password.isEmpty()) {
+                    errorMessage = "Semua kolom wajib diisi"
+                } else if (password != confirmPassword) {
+                    errorMessage = "Konfirmasi password tidak sama"
+                } else {
+                    // register() mengembalikan false jika username sudah dipakai
+                    val success = userStorage.register(User(cleanUsername, password))
+
+                    if (success) {
+                        Toast.makeText(context, "Registrasi berhasil, silakan login", Toast.LENGTH_SHORT).show()
+                        onRegisterSuccess()
+                    } else {
+                        errorMessage = "Username sudah dipakai"
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Register")
+        }
+
+        TextButton(onClick = onGoToLogin) {
+            Text("Sudah punya akun? Login")
+        }
+    }
+}
+```
+
+### DashboardScreen.kt
+
+Buat file `DashboardScreen` di package `ui`:
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+// Halaman setelah login berhasil.
+// username diterima dari luar agar bisa ditampilkan pada tulisan sambutan.
+@Composable
+fun DashboardScreen(
+    username: String,
+    onLogout: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // "$username" adalah string template: nilainya disisipkan ke dalam teks
+        Text(
+            text = "Selamat datang, $username!",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(onClick = onLogout) {
+            Text("Logout")
+        }
+    }
+}
+```
+
+## Langkah 6: Package navigation
+
+### AppNavigation.kt
+
+Buat file `AppNavigation` di package `navigation`:
+
+```kotlin
+package com.example.loginapp.navigation
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.example.loginapp.data.UserStorage
+import com.example.loginapp.ui.DashboardScreen
+import com.example.loginapp.ui.LoginScreen
+import com.example.loginapp.ui.RegisterScreen
+
+// Daftar halaman yang ada di aplikasi.
+// Dengan enum, kita tidak perlu menulis teks "login" atau "dashboard"
+// secara manual sehingga terhindar dari typo.
+enum class Screen {
+    LOGIN, REGISTER, DASHBOARD
+}
+
+// Komponen yang memutuskan halaman mana yang sedang tampil.
+@Composable
+fun AppNavigation() {
+    val context = LocalContext.current
+
+    // Objek penyimpanan dibuat sekali, lalu dibagikan ke halaman yang membutuhkan.
+    val userStorage = remember { UserStorage(context) }
+
+    // State halaman aktif dan user yang sedang login.
+    // rememberSaveable (bukan remember) dipakai agar nilainya tidak hilang
+    // saat layar diputar, karena saat itu Activity dibuat ulang.
+    var currentScreen by rememberSaveable { mutableStateOf(Screen.LOGIN) }
+    var loggedInUser by rememberSaveable { mutableStateOf("") }
+
+    // Surface adalah latar belakang. safeDrawingPadding() mencegah konten
+    // tertutup status bar atau navigation bar.
+    Surface(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+        // when mirip switch: pilih tampilan sesuai nilai currentScreen
+        when (currentScreen) {
+            Screen.LOGIN -> LoginScreen(
+                userStorage = userStorage,
+                onLoginSuccess = { username ->
+                    loggedInUser = username
+                    currentScreen = Screen.DASHBOARD
+                },
+                onGoToRegister = { currentScreen = Screen.REGISTER }
+            )
+
+            Screen.REGISTER -> RegisterScreen(
+                userStorage = userStorage,
+                onRegisterSuccess = { currentScreen = Screen.LOGIN },
+                onGoToLogin = { currentScreen = Screen.LOGIN }
+            )
+
+            Screen.DASHBOARD -> DashboardScreen(
+                username = loggedInUser,
+                onLogout = {
+                    loggedInUser = ""
+                    currentScreen = Screen.LOGIN
+                }
+            )
+        }
+    }
+}
+```
+
+## Langkah 7: MainActivity.kt
+
+Buka `MainActivity.kt` bawaan, **hapus seluruh isinya**, lalu ganti dengan:
+
+```kotlin
+package com.example.loginapp
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import com.example.loginapp.navigation.AppNavigation
+
+// MainActivity adalah pintu masuk aplikasi.
+// Tugasnya hanya memasang tampilan. Semua logika halaman ada di AppNavigation.
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // setContent: menentukan tampilan yang dipasang pada activity ini
+        setContent {
+            // MaterialTheme memberi gaya (warna, font) bawaan Material Design
+            MaterialTheme {
+                AppNavigation()
+            }
+        }
+    }
+}
+```
+
+> Template bawaan juga membuat tema khusus proyek (namanya mengikuti nama proyek, misalnya `LoginAppTheme`) di folder `ui/theme`. Di tutorial ini kita memakai `MaterialTheme` biasa agar sederhana. Kamu boleh menggantinya sebagai latihan.
+
+## Langkah 8: Menjalankan Aplikasi
+
+1. Pilih emulator atau HP pada toolbar atas.
+2. Klik **Run** (ikon segitiga hijau) atau tekan `Shift + F10`.
+
+{/* Tambahkan screenshot hasil aplikasi di sini */}
+
+### Skenario pengujian
+
+1. Pada halaman Login, tekan **Login** dengan kolom kosong. Harus muncul pesan error.
+2. Tekan **Belum punya akun? Register**.
+3. Isi konfirmasi password yang **berbeda**. Harus muncul pesan error.
+4. Register dengan benar. Kamu kembali ke halaman Login.
+5. Register lagi dengan **username yang sama**. Harus muncul "Username sudah dipakai".
+6. Login dengan akun yang benar. Muncul "Selamat datang, (username)!".
+7. **Putar layar** emulator. Kamu tetap berada di Dashboard.
+8. Tekan **Logout**, tutup aplikasi sepenuhnya, buka lagi, lalu login. Berhasil, karena akun tersimpan lokal.
+
+## Cara Kerja Singkat
+
+- `UserStorage` (data) menyimpan dan membaca akun dari SharedPreferences.
+- Setiap halaman (ui) hanya mengurus tampilannya dan memberi tahu kejadian lewat callback seperti `onLoginSuccess`.
+- `AppNavigation` memegang variabel `currentScreen`. Saat nilainya berubah, Compose otomatis menggambar ulang halaman yang sesuai. Inilah konsep **state**.
+
+Alur data satu arah:
+
+```text
+MainActivity -> AppNavigation -> LoginScreen -> UserStorage
+                  (navigation)       (ui)          (data)
+```
+
+## Batasan Versi Ini
+
+- **Password disimpan sebagai teks biasa.** Ini hanya untuk belajar. Aplikasi sungguhan harus memakai hashing dan autentikasi lewat server.
+- **Status login tidak disimpan.** Setelah aplikasi ditutup, pengguna harus login lagi.
+- **Tombol Back sistem belum mengatur perpindahan halaman.** Menekan Back dari Register akan menutup aplikasi.
+
+## Tantangan
+
+1. Validasi: password minimal 6 karakter.
+2. Tambahkan tombol untuk menampilkan atau menyembunyikan password.
+3. Ubah tampilan: warna, ukuran font, atau tambahkan ikon.
+4. Tampilkan Toast saat login berhasil.
+
+Di tutorial berikutnya, halaman Dashboard kita ubah menjadi todo list. Selamat bereksperimen dan happy coding! 🚀

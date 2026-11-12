@@ -1,0 +1,392 @@
+---
+title: "Todo List Android (Bagian 2): Update, Delete, dan Menyelesaikan CRUD"
+description: "Lengkapi aplikasi todo list dengan checkbox selesai, edit judul lewat dialog, dan hapus dengan konfirmasi. Dilengkapi ringkasan CRUD, latihan mandiri, dan daftar persiapan UTS."
+date: 2026-11-28
+tags: ["android", "kotlin", "mobile", "compose"]
+published: true
+img: "/images/blogs/kotlin/android-login.png"
+---
+
+# Todo List Android (Bagian 2): Update dan Delete
+
+Di bagian 1 kita sudah menyelesaikan **C**reate dan **R**ead. Sekarang kita lengkapi dengan:
+
+- **U**pdate: menandai tugas selesai lewat checkbox dan mengedit judul lewat dialog.
+- **D**elete: menghapus tugas dengan dialog konfirmasi.
+
+Hanya **satu file** yang berubah: `DashboardScreen.kt`. Semua file lain sudah benar dari bagian 1.
+
+## Prasyarat
+
+- Aplikasi dari bagian 1 sudah berjalan (tambah dan tampil tugas berfungsi).
+- Paham `data class`, `copy()`, dan lambda.
+
+## Bagaimana "Mengubah" Data yang Immutable?
+
+`Todo` memakai `val` untuk semua propertinya, jadi kita **tidak bisa** menulis `todo.isDone = true`. Caranya:
+
+1. Cari posisi todo di list.
+2. Buat salinan dengan nilai baru memakai `copy()`.
+3. **Ganti** elemen lama dengan salinan itu.
+
+```kotlin
+val index = todos.indexOfFirst { it.id == todo.id }   // 1. cari posisi (-1 jika tidak ada)
+if (index != -1) {
+    todos[index] = todo.copy(isDone = !todo.isDone)    // 2 dan 3. salin lalu ganti
+}
+```
+
+Penjelasan per bagian:
+
+- `indexOfFirst { it.id == todo.id }` mengembalikan posisi elemen pertama yang memenuhi syarat, atau `-1` jika tidak ada. Pengecekan `index != -1` mencegah crash jika todo ternyata sudah tidak ada.
+- `todo.copy(isDone = ...)` membuat objek **baru** dengan semua nilai sama, kecuali `isDone`. Objek lama tidak berubah.
+- `!todo.isDone` membalik nilai Boolean: `true` menjadi `false`, dan sebaliknya.
+- `todos[index] = ...` mengganti elemen pada posisi itu. Compose mendeteksi bahwa elemen **diganti**, lalu menggambar ulang baris tersebut.
+
+## Langkah 1: Mengganti Isi DashboardScreen.kt
+
+**Ganti seluruh isi** `DashboardScreen.kt` dengan kode berikut. Bagian yang **baru** dibanding bagian 1 ditandai komentar `BARU`.
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.Todo
+import com.example.loginapp.data.TodoStorage
+
+@Composable
+fun DashboardScreen(
+    username: String,
+    todoStorage: TodoStorage,
+    onLogout: () -> Unit
+) {
+    val todos = remember {
+        mutableStateListOf<Todo>().apply { addAll(todoStorage.getAll(username)) }
+    }
+    var newTitle by rememberSaveable { mutableStateOf("") }
+
+    // BARU: state untuk dialog.
+    // "Todo?" artinya boleh null.
+    // - null         : tidak ada dialog yang tampil
+    // - berisi Todo  : dialog tampil untuk todo tersebut
+    var todoToEdit by remember { mutableStateOf<Todo?>(null) }
+    var todoToDelete by remember { mutableStateOf<Todo?>(null) }
+
+    // BARU: fungsi lokal agar baris yang sama tidak ditulis berulang.
+    fun saveToStorage() {
+        todoStorage.saveAll(username, todos)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Selamat datang, $username!",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
+            TextButton(onClick = onLogout) {
+                Text("Logout")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // BARU: count { ... } menghitung todo yang memenuhi syarat (isDone == true)
+        Text(
+            text = "${todos.count { it.isDone }} dari ${todos.size} tugas selesai",
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== CREATE =====
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = newTitle,
+                onValueChange = { newTitle = it },
+                label = { Text("Tugas baru") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(
+                onClick = {
+                    if (newTitle.isNotBlank()) {
+                        todos.add(
+                            Todo(
+                                id = System.currentTimeMillis(),
+                                title = newTitle.trim()
+                            )
+                        )
+                        saveToStorage()
+                        newTitle = ""
+                    }
+                }
+            ) {
+                Text("Tambah")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== READ =====
+        if (todos.isEmpty()) {
+            Text("Belum ada tugas. Tambahkan tugas pertamamu!")
+        } else {
+            LazyColumn {
+                items(todos, key = { it.id }) { todo ->
+                    TodoItem(
+                        todo = todo,
+
+                        // ===== UPDATE (1): centang selesai =====
+                        onToggle = {
+                            val index = todos.indexOfFirst { it.id == todo.id }
+                            if (index != -1) {
+                                todos[index] = todo.copy(isDone = !todo.isDone)
+                                saveToStorage()
+                            }
+                        },
+
+                        // Menekan Edit hanya "mengingat" todo mana yang diedit.
+                        // Dialog-nya sendiri ditampilkan di bagian bawah.
+                        onEdit = { todoToEdit = todo },
+
+                        // Sama untuk Hapus: simpan dulu todo yang akan dihapus
+                        onDelete = { todoToDelete = todo }
+                    )
+                }
+            }
+        }
+    }
+
+    // ===== UPDATE (2): dialog edit judul =====
+    // ?.let { ... } : blok hanya berjalan jika todoToEdit tidak null,
+    // dan nilainya tersedia dengan nama "target".
+    todoToEdit?.let { target ->
+        EditTodoDialog(
+            initialTitle = target.title,
+            onDismiss = { todoToEdit = null },   // tutup dialog
+            onSave = { updatedTitle ->
+                val index = todos.indexOfFirst { it.id == target.id }
+                if (index != -1) {
+                    todos[index] = target.copy(title = updatedTitle)
+                    saveToStorage()
+                }
+                todoToEdit = null                // tutup dialog setelah simpan
+            }
+        )
+    }
+
+    // ===== DELETE: dialog konfirmasi =====
+    todoToDelete?.let { target ->
+        AlertDialog(
+            onDismissRequest = { todoToDelete = null },
+            title = { Text("Hapus tugas?") },
+            text = { Text("\"${target.title}\" akan dihapus permanen.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        todos.remove(target)
+                        saveToStorage()
+                        todoToDelete = null
+                    }
+                ) {
+                    Text("Hapus")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { todoToDelete = null }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+}
+
+// BARU: TodoItem sekarang punya checkbox, tombol Edit, dan tombol Hapus.
+//
+// Komponen ini TIDAK tahu cara mengubah data. Ia hanya memberi tahu
+// pemanggilnya lewat callback (onToggle, onEdit, onDelete).
+// Pola ini membuat TodoItem mudah dipakai ulang dan diuji.
+@Composable
+fun TodoItem(
+    todo: Todo,
+    onToggle: () -> Unit,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = todo.isDone,
+                onCheckedChange = { onToggle() }
+            )
+
+            Text(
+                text = todo.title,
+                modifier = Modifier.weight(1f),
+                // Coret judul jika sudah selesai
+                textDecoration = if (todo.isDone) TextDecoration.LineThrough else TextDecoration.None
+            )
+
+            TextButton(onClick = onEdit) { Text("Edit") }
+            TextButton(onClick = onDelete) { Text("Hapus") }
+        }
+    }
+}
+
+// BARU: dialog untuk mengedit judul.
+// State "title" milik dialog ini sendiri, dimulai dari judul lama.
+@Composable
+fun EditTodoDialog(
+    initialTitle: String,
+    onDismiss: () -> Unit,
+    onSave: (String) -> Unit
+) {
+    var title by remember { mutableStateOf(initialTitle) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Edit tugas") },
+        text = {
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("Judul tugas") },
+                singleLine = true
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    // Judul kosong tidak boleh disimpan
+                    if (title.isNotBlank()) {
+                        onSave(title.trim())
+                    }
+                }
+            ) {
+                Text("Simpan")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Batal")
+            }
+        }
+    )
+}
+```
+
+## Langkah 2: Menjalankan dan Menguji
+
+1. Tambahkan 3 tugas. Teks di bawah sapaan menunjukkan "0 dari 3 tugas selesai".
+2. Centang satu tugas. Judulnya tercoret dan penghitung menjadi "1 dari 3".
+3. Tekan **Edit**, ubah judul, lalu **Simpan**. Coba juga mengosongkan judul: tombol Simpan tidak boleh berefek.
+4. Tekan **Hapus**. Muncul konfirmasi. Tekan **Batal** (tugas tetap ada), lalu ulangi dan tekan **Hapus** (tugas hilang).
+5. Tutup aplikasi sepenuhnya, buka lagi, login. Semua perubahan (centang, edit, hapus) harus tetap ada.
+
+{/* Tambahkan screenshot hasil aplikasi di sini */}
+
+## Memahami Kode Baru
+
+### State yang bisa null untuk dialog
+
+```kotlin
+var todoToEdit by remember { mutableStateOf<Todo?>(null) }
+```
+
+Ini cara umum mengatur dialog di Compose. Nilai `null` berarti dialog tertutup, dan nilai berisi `Todo` berarti dialog terbuka untuk todo itu. **Satu variabel menyimpan dua informasi sekaligus**: apakah dialog tampil, dan untuk data yang mana.
+
+Tulisan `mutableStateOf<Todo?>(null)` memakai tipe eksplisit di dalam tanda `<...>`. Itu perlu karena nilai awalnya `null`, dan Kotlin tidak bisa menebak tipe lengkapnya dari `null` saja.
+
+### Blok `?.let`
+
+```kotlin
+todoToEdit?.let { target ->
+    EditTodoDialog( ... )
+}
+```
+
+Baca sebagai: "jika `todoToEdit` tidak null, jalankan blok ini, dan sebut nilainya `target`." Jika null, seluruh blok dilewati dan dialog tidak digambar. Di dalam blok, `target` sudah bertipe `Todo` (bukan `Todo?`), sehingga aman dipakai tanpa `?.`.
+
+### Callback naik, data turun
+
+Perhatikan alur `TodoItem`:
+
+- Data (`todo`) dikirim **ke bawah** sebagai parameter.
+- Kejadian (`onToggle`, `onEdit`, `onDelete`) dikirim **ke atas** lewat lambda.
+
+`TodoItem` tidak mengubah data sendiri. Semua keputusan ada di `DashboardScreen`. Pola ini disebut **state hoisting** dan menjadi dasar arsitektur aplikasi Compose.
+
+### Fungsi di dalam fungsi
+
+`fun saveToStorage()` ditulis di dalam `DashboardScreen`. Kotlin mengizinkan *local function*, yaitu fungsi yang hanya bisa dipakai di dalam fungsi pembungkusnya dan bisa langsung mengakses variabel di sekitarnya (`todos`, `username`). Cocok untuk menghindari penulisan baris yang sama berulang kali.
+
+### Ringkasan CRUD
+
+| Operasi | Kode utama | Disimpan? |
+| --- | --- | --- |
+| **C**reate | `todos.add(Todo(...))` | `saveToStorage()` |
+| **R**ead | `todoStorage.getAll(...)` lalu `LazyColumn` | (hanya membaca) |
+| **U**pdate | `todos[index] = todo.copy(...)` | `saveToStorage()` |
+| **D**elete | `todos.remove(target)` | `saveToStorage()` |
+
+Polanya selalu sama: **ubah list di memori, lalu simpan ke penyimpanan lokal.**
+
+## Batasan
+
+- **Dialog tertutup saat layar diputar**, karena state dialog memakai `remember` biasa. Daftar todo tetap aman karena sudah tersimpan.
+- **Semua logika masih ada di `DashboardScreen`.** Untuk aplikasi lebih besar, logika dipindah ke **ViewModel** agar tampilan tidak mengurus data. Itu topik berikutnya.
+- **Setiap perubahan menyimpan seluruh list.** Untuk data besar, gunakan database seperti Room.
+- **Password masih disimpan sebagai teks biasa.** Hanya untuk belajar.
+
+## Latihan Mandiri
+
+1. **Filter:** tambahkan tiga tombol Semua, Belum Selesai, dan Selesai di atas daftar. (Petunjuk: simpan pilihan filter sebagai state, lalu tampilkan hasil `todos.filter { ... }`.)
+2. **Hapus yang selesai:** tombol "Hapus semua yang selesai". (Petunjuk: `todos.removeAll { it.isDone }`.)
+3. **Pencarian:** kolom pencarian yang memfilter todo berdasarkan judul. (Petunjuk: `contains(query, ignoreCase = true)`.)
+4. **Field baru:** tambahkan `createdAt: Long` pada `Todo`, simpan di JSON, dan tampilkan tanggalnya. Data lama yang sudah tersimpan tidak punya field ini. (Petunjuk: `obj.optLong("createdAt", 0L)` memberi nilai default jika field tidak ada.)
+5. **Validasi:** tolak judul yang sudah ada (abaikan huruf besar atau kecil) dan tampilkan pesan error.
+6. **Tampilan:** ganti warna kartu todo yang sudah selesai.
+
+## Persiapan UTS
+
+Pastikan kamu bisa menjelaskan dan menulis ulang tanpa melihat contoh:
+
+- Perbedaan `val` dan `var`, tipe nullable dan non-null, `?.`, `?:`, dan `?.let`.
+- Cara membaca dan menulis lambda, termasuk trailing lambda.
+- Apa itu `data class`, dan mengapa memakai `copy()`.
+- Apa itu state di Compose, dan perbedaan `remember` dengan `rememberSaveable`.
+- Mengapa memakai `mutableStateListOf`, bukan `mutableListOf`.
+- Pembagian package `data`, `ui`, `navigation`, dan aturan siapa boleh memanggil siapa.
+- Alur Login, Register, dan Dashboard, serta bagaimana `AppNavigation` mengatur halaman.
+- Cara data disimpan dan dibaca dari SharedPreferences, dan mengapa list diubah menjadi JSON.
+- Pemetaan CRUD ke kode: Create, Read, Update, Delete.
+
+Selamat berlatih dan semoga sukses di UTS! 🚀
