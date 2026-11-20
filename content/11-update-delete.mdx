@@ -1,0 +1,433 @@
+---
+title: "Cloud Firestore di Android (Bagian 2): Update, Delete, dan Menyelesaikan CRUD"
+description: "Lengkapi CRUD dengan Firestore: centang selesai, edit judul lewat dialog, hapus dengan konfirmasi, dan panduan memindahkan proyek kelompok dari penyimpanan lokal ke Firebase."
+date: 2026-11-17
+tags: ["android", "kotlin", "firebase", "firestore", "compose"]
+published: true
+img: "/images/blogs/firestore-2.png"
+---
+
+# Cloud Firestore di Android (Bagian 2): Update dan Delete
+
+Di bagian 1 kita sudah menyelesaikan **C**reate dan **R**ead. Sekarang kita lengkapi **U**pdate dan **D**elete. Dua file berubah: `TodoRepository.kt` dan `DashboardScreen.kt`.
+
+## Prasyarat
+
+- Bagian 1 sudah berjalan: tugas bisa ditambah dan tampil realtime.
+
+## Update dan Delete di Firestore
+
+Setiap dokumen punya id. Dengan id itu kita bisa menunjuk dokumen yang tepat:
+
+```kotlin
+// UPDATE: ubah satu field saja, field lain tidak disentuh
+db.collection("users").document(uid).collection("todos")
+    .document(todoId)
+    .update("isDone", true)
+
+// DELETE
+db.collection("users").document(uid).collection("todos")
+    .document(todoId)
+    .delete()
+```
+
+Bandingkan dengan versi lokal. Dulu kita harus mencari posisi dengan `indexOfFirst`, membuat salinan dengan `copy()`, mengganti elemen list, lalu menyimpan semuanya. Sekarang cukup **menunjuk dokumen dan mengirim perintah**. Daftar di layar diperbarui sendiri oleh listener dari bagian 1.
+
+## Langkah 1: Melengkapi TodoRepository
+
+**Ganti seluruh isi** `data/TodoRepository.kt`. Fungsi `add` dan `listen` sama seperti sebelumnya, dan tiga fungsi baru ditandai `BARU`.
+
+```kotlin
+package com.example.loginapp.data
+
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+
+class TodoRepository {
+
+    private val db = FirebaseFirestore.getInstance()
+
+    private fun todosOf(uid: String) =
+        db.collection("users").document(uid).collection("todos")
+
+    // ===== CREATE =====
+    fun add(uid: String, title: String, onError: (String) -> Unit) {
+        val data = hashMapOf<String, Any>(
+            "title" to title,
+            "isDone" to false,
+            "createdAt" to System.currentTimeMillis()
+        )
+
+        todosOf(uid)
+            .add(data)
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Gagal menambah tugas")
+            }
+    }
+
+    // ===== READ (realtime) =====
+    fun listen(
+        uid: String,
+        onChange: (List<Todo>) -> Unit,
+        onError: (String) -> Unit
+    ): ListenerRegistration {
+        return todosOf(uid)
+            .orderBy("createdAt")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onError(error.localizedMessage ?: "Gagal memuat data")
+                } else if (snapshot != null) {
+                    val list = snapshot.documents.map { doc ->
+                        Todo(
+                            id = doc.id,
+                            title = doc.getString("title") ?: "",
+                            isDone = doc.getBoolean("isDone") ?: false,
+                            createdAt = doc.getLong("createdAt") ?: 0L
+                        )
+                    }
+                    onChange(list)
+                }
+            }
+    }
+
+    // ===== UPDATE (BARU) =====
+    // update("field", nilai) hanya mengubah field itu.
+    // Jika dokumennya sudah tidak ada, Firestore mengembalikan error.
+    fun setDone(uid: String, todoId: String, isDone: Boolean, onError: (String) -> Unit) {
+        todosOf(uid).document(todoId)
+            .update("isDone", isDone)
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Gagal mengubah status")
+            }
+    }
+
+    // ===== UPDATE judul (BARU) =====
+    fun updateTitle(uid: String, todoId: String, title: String, onError: (String) -> Unit) {
+        todosOf(uid).document(todoId)
+            .update("title", title)
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Gagal mengubah judul")
+            }
+    }
+
+    // ===== DELETE (BARU) =====
+    fun delete(uid: String, todoId: String, onError: (String) -> Unit) {
+        todosOf(uid).document(todoId)
+            .delete()
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Gagal menghapus tugas")
+            }
+    }
+}
+```
+
+## Langkah 2: Melengkapi DashboardScreen
+
+**Ganti seluruh isi** `ui/DashboardScreen.kt`. Bagian baru ditandai `BARU`.
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.Todo
+import com.example.loginapp.data.TodoRepository
+
+@Composable
+fun DashboardScreen(
+    uid: String,
+    email: String,
+    todoRepository: TodoRepository,
+    onLogout: () -> Unit
+) {
+    var todos by remember { mutableStateOf<List<Todo>>(emptyList()) }
+    var isLoaded by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+    var newTitle by rememberSaveable { mutableStateOf("") }
+
+    // BARU: state dialog. null = dialog tertutup, berisi Todo = dialog terbuka.
+    var todoToEdit by remember { mutableStateOf<Todo?>(null) }
+    var todoToDelete by remember { mutableStateOf<Todo?>(null) }
+
+    // BARU: fungsi sederhana yang dipakai ulang untuk melaporkan error
+    // dari semua operasi (tipe: (String) -> Unit)
+    val showError: (String) -> Unit = { message -> errorMessage = message }
+
+    DisposableEffect(uid) {
+        val registration = todoRepository.listen(
+            uid = uid,
+            onChange = { list ->
+                todos = list
+                isLoaded = true
+                errorMessage = ""
+            },
+            onError = { message ->
+                errorMessage = message
+                isLoaded = true
+            }
+        )
+        onDispose { registration.remove() }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Selamat datang, $email!",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
+            TextButton(onClick = onLogout) {
+                Text("Logout")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // BARU: ringkasan jumlah tugas selesai
+        Text(
+            text = "${todos.count { it.isDone }} dari ${todos.size} tugas selesai",
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== CREATE =====
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = newTitle,
+                onValueChange = { newTitle = it },
+                label = { Text("Tugas baru") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(
+                onClick = {
+                    if (newTitle.isNotBlank()) {
+                        todoRepository.add(uid, newTitle.trim(), showError)
+                        newTitle = ""
+                    }
+                }
+            ) {
+                Text("Tambah")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== READ =====
+        when {
+            !isLoaded -> Text("Memuat data...")
+            todos.isEmpty() -> Text("Belum ada tugas. Tambahkan tugas pertamamu!")
+            else -> LazyColumn {
+                items(todos, key = { it.id }) { todo ->
+                    TodoItem(
+                        todo = todo,
+
+                        // ===== UPDATE (1): centang selesai =====
+                        // Cukup kirim perintah ke Firestore. Tampilan berubah
+                        // sendiri saat listener menerima data terbaru.
+                        onToggle = {
+                            todoRepository.setDone(uid, todo.id, !todo.isDone, showError)
+                        },
+
+                        // Menekan Edit atau Hapus hanya "mengingat" todo-nya.
+                        // Dialognya ditampilkan di bagian bawah fungsi ini.
+                        onEdit = { todoToEdit = todo },
+                        onDelete = { todoToDelete = todo }
+                    )
+                }
+            }
+        }
+    }
+
+    // ===== UPDATE (2): dialog edit judul =====
+    todoToEdit?.let { target ->
+        EditTodoDialog(
+            initialTitle = target.title,
+            onDismiss = { todoToEdit = null },
+            onSave = { updatedTitle ->
+                todoRepository.updateTitle(uid, target.id, updatedTitle, showError)
+                todoToEdit = null
+            }
+        )
+    }
+
+    // ===== DELETE: dialog konfirmasi =====
+    todoToDelete?.let { target ->
+        AlertDialog(
+            onDismissRequest = { todoToDelete = null },
+            title = { Text("Hapus tugas?") },
+            text = { Text("\"${target.title}\" akan dihapus permanen.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        todoRepository.delete(uid, target.id, showError)
+                        todoToDelete = null
+                    }
+                ) {
+                    Text("Hapus")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { todoToDelete = null }) {
+                    Text("Batal")
+                }
+            }
+        )
+    }
+}
+
+// Satu baris todo. Tidak tahu apa pun tentang Firebase:
+// hanya menampilkan data dan memberi tahu pemanggilnya lewat callback.
+@Composable
+fun TodoItem(
+    todo: Todo,
+    onToggle: () -> Unit,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = todo.isDone,
+                onCheckedChange = { onToggle() }
+            )
+
+            Text(
+                text = todo.title,
+                modifier = Modifier.weight(1f),
+                textDecoration = if (todo.isDone) TextDecoration.LineThrough else TextDecoration.None
+            )
+
+            TextButton(onClick = onEdit) { Text("Edit") }
+            TextButton(onClick = onDelete) { Text("Hapus") }
+        }
+    }
+}
+
+@Composable
+fun EditTodoDialog(
+    initialTitle: String,
+    onDismiss: () -> Unit,
+    onSave: (String) -> Unit
+) {
+    var title by remember { mutableStateOf(initialTitle) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Edit tugas") },
+        text = {
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = { Text("Judul tugas") },
+                singleLine = true
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (title.isNotBlank()) {
+                        onSave(title.trim())
+                    }
+                }
+            ) {
+                Text("Simpan")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Batal")
+            }
+        }
+    )
+}
+```
+
+## Langkah 3: Menjalankan dan Menguji
+
+1. Tambahkan 3 tugas. Teks di bawah sapaan menunjukkan "0 dari 3 tugas selesai".
+2. Centang satu tugas. Judulnya tercoret dan penghitung berubah.
+3. Tekan **Edit**, ubah judul, **Simpan**. Coba juga mengosongkan judul: tombol Simpan tidak berefek.
+4. Tekan **Hapus**. Tekan **Batal** (tugas tetap ada), lalu ulangi dan tekan **Hapus** (tugas hilang).
+5. Buka console Firestore dan pastikan setiap perubahan tercermin di dokumen.
+6. Tutup aplikasi, buka lagi, dan login. Semua perubahan tetap ada.
+7. Login dengan akun yang sama di perangkat lain. Datanya sama.
+
+{/* Tambahkan screenshot hasil aplikasi di sini */}
+
+## Ringkasan CRUD: Lokal vs Firebase
+
+| Operasi | Versi lokal (Pertemuan 6 dan 7) | Versi Firebase |
+| --- | --- | --- |
+| **C**reate | `todos.add(...)` + `saveAll(...)` | `todosOf(uid).add(data)` |
+| **R**ead | `getAll(...)` sekali di awal | `addSnapshotListener` (realtime) |
+| **U**pdate | `copy()` + `todos[index] = ...` + `saveAll(...)` | `document(id).update("field", nilai)` |
+| **D**elete | `todos.remove(...)` + `saveAll(...)` | `document(id).delete()` |
+
+Pola barunya: **aplikasi mengirim perintah, Firestore mengirim balik data terbaru lewat listener.** Aplikasi tidak lagi mengubah list sendiri.
+
+## Memindahkan Proyek Kelompok ke Firebase
+
+Proyek kelompok kalian sudah punya pola yang sama dengan todo list. Langkah migrasinya:
+
+| Langkah | Yang dilakukan |
+| --- | --- |
+| 1 | Buat proyek Firebase untuk kelompok, aktifkan Authentication (Email/Password) dan Firestore |
+| 2 | Terapkan setup Gradle, `google-services.json`, dan izin internet seperti Pertemuan 9 |
+| 3 | Ganti login dan register lokal dengan `AuthRepository` |
+| 4 | Ubah `data class` entitas kalian: `id: String` dan field lain dengan nilai default |
+| 5 | Buat `NamaEntitasRepository` dengan pola `add`, `listen`, `update`, `delete` seperti `TodoRepository` |
+| 6 | Ubah `Dashboard` kalian: pakai `DisposableEffect` untuk `listen`, dan ganti pemanggilan `Storage` dengan `Repository` |
+| 7 | Ubah path collection (misalnya `users/{uid}/transaksi`) dan sesuaikan **security rules**-nya |
+
+> Pastikan path di kode sama dengan path di rules. Ketidakcocokan keduanya adalah penyebab paling umum `PERMISSION_DENIED`.
+
+## Batasan
+
+- **Callback bukan satu-satunya cara.** Aplikasi produksi biasanya memakai coroutines dan ViewModel agar logika terpisah dari tampilan.
+- **Tidak ada penanganan offline yang eksplisit.** Firestore menyimpan perubahan sementara di perangkat dan mengirimnya saat internet kembali, tetapi aplikasi kita tidak memberi tahu pengguna kondisi tersebut.
+- **Dialog tertutup saat layar diputar**, karena state dialog memakai `remember`. Data aman karena ada di server.
+- **Tidak ada pagination.** Semua tugas dibaca sekaligus. Untuk data ribuan, perlu `limit()` dan paging.
+- **Rules hanya mengecek kepemilikan.** Rules belum memvalidasi isi data (misalnya `title` tidak boleh kosong). Firestore rules mendukung validasi isi, tetapi tidak dibahas di sini.
+
+## Latihan Mandiri
+
+1. **Filter:** tombol Semua, Belum Selesai, dan Selesai. (Petunjuk: filter di sisi aplikasi dengan `todos.filter { ... }`.)
+2. **Hapus semua yang selesai:** satu tombol. (Petunjuk: loop `todos.filter { it.isDone }`, lalu panggil `delete` untuk tiap item.)
+3. **Pencarian:** kolom pencarian yang memfilter berdasarkan judul. (Petunjuk: `contains(query, ignoreCase = true)`.)
+4. **Validasi rules:** tambahkan syarat di rules agar `title` wajib berupa string dan tidak kosong. (Petunjuk: `request.resource.data.title is string`. Baca dokumentasi Firestore Security Rules.)
+5. **Jam server:** ganti `System.currentTimeMillis()` dengan `FieldValue.serverTimestamp()` untuk `createdAt`. Pikirkan apa yang berubah pada tipe data saat dibaca kembali.
+
+Selamat berlatih dan semoga proyek kelompokmu berhasil! 🚀

@@ -1,0 +1,453 @@
+---
+title: "Cloud Firestore di Android (Bagian 1): Create dan Read dengan Data Realtime"
+description: "Pindahkan daftar todo dari penyimpanan lokal ke Cloud Firestore. Tambah tugas, tampilkan secara realtime, dan amankan data dengan security rules."
+date: 2026-11-17
+tags: ["android", "kotlin", "firebase", "firestore", "compose"]
+published: true
+img: "/images/blogs/firestore-1.png"
+---
+
+# Cloud Firestore di Android (Bagian 1): Create dan Read
+
+Pada tutorial sebelumnya kita sudah memakai Firebase Authentication. Sekarang daftar todo kita pindahkan dari SharedPreferences ke **Cloud Firestore**, database di server milik Firebase. Keuntungannya: data tersimpan di server, bisa diakses dari perangkat mana pun, dan tampilan dapat berubah **otomatis** saat data berubah.
+
+## Prasyarat
+
+- Pertemuan 9 selesai: login dan register Firebase berfungsi.
+- Dependency `firebase-firestore` sudah ada di Gradle (sudah kita tambahkan di Pertemuan 9).
+
+## Mengenal Firestore
+
+Firestore adalah database **NoSQL** berbasis dokumen. Tidak ada tabel dan baris seperti di MySQL. Strukturnya:
+
+- **Collection**: kumpulan dokumen, seperti folder.
+- **Document**: satu data berisi pasangan field dan nilai, seperti satu objek JSON.
+- Sebuah dokumen bisa memiliki collection di dalamnya (*subcollection*).
+
+Struktur data kita:
+
+```text
+users                      (collection)
+ └── {uid}                 (document, id = id pengguna dari Firebase Auth)
+      └── todos            (subcollection)
+           ├── {todoId}    (document)
+           │     title: "Belajar Kotlin"
+           │     isDone: false
+           │     createdAt: 1731390000000
+           └── {todoId}    ...
+```
+
+Dengan struktur ini, setiap pengguna punya daftar todo sendiri di `users/uid-nya/todos`. Tidak perlu lagi kunci seperti `"todos_$username"`.
+
+## Langkah 1: Membuat Database di Console
+
+1. Di console Firebase, buka **Build → Firestore Database → Create database**.
+2. Pilih edition **Standard**.
+3. Pilih lokasi server yang dekat, misalnya `asia-southeast2` (Jakarta). **Lokasi tidak bisa diubah setelah dibuat.**
+4. Pilih **Start in production mode**, lalu **Create**.
+
+{/* Tambahkan screenshot di sini */}
+
+> Nama opsi bisa berbeda antarversi console. Intinya: pilih mode **production** (terkunci), bukan *test mode*, karena test mode membuka database untuk siapa saja.
+
+## Langkah 2: Security Rules
+
+Pada mode production, semua akses ditolak sampai kita membuat aturan. Aturan inilah yang **melindungi data**, bukan kerahasiaan file `google-services.json`.
+
+1. Di halaman Firestore, buka tab **Rules**.
+2. Ganti seluruh isinya dengan:
+
+```text
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Hanya pemilik yang boleh membaca dan menulis todo miliknya.
+    match /users/{userId}/todos/{todoId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+3. Klik **Publish**.
+
+Cara membacanya: "Untuk dokumen di `users/{userId}/todos/...`, izinkan baca dan tulis **hanya jika** pengguna sudah login (`request.auth != null`) **dan** id pengguna itu sama dengan `userId` pada path." Artinya Budi tidak bisa membaca todo milik Sari, walaupun ia tahu path-nya.
+
+## Langkah 3: Data Class Todo (Diperbarui)
+
+Id dokumen Firestore berupa `String`, bukan `Long`. **Ganti seluruh isi** `data/Todo.kt`:
+
+```kotlin
+package com.example.loginapp.data
+
+// id sekarang String karena dibuat otomatis oleh Firestore.
+// createdAt dipakai untuk mengurutkan: tugas terlama di atas.
+data class Todo(
+    val id: String = "",
+    val title: String = "",
+    val isDone: Boolean = false,
+    val createdAt: Long = 0L
+)
+```
+
+Sekarang `TodoStorage.kt` akan error karena masih memakai `id` bertipe `Long`. File itu tidak kita perlukan lagi. **Hapus `TodoStorage.kt`** (klik kanan → Delete).
+
+## Langkah 4: TodoRepository
+
+Klik kanan package `data`, buat file `TodoRepository`:
+
+```kotlin
+package com.example.loginapp.data
+
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+
+class TodoRepository {
+
+    // Objek untuk berbicara dengan Firestore
+    private val db = FirebaseFirestore.getInstance()
+
+    // Alamat collection todo milik satu pengguna: users/{uid}/todos
+    private fun todosOf(uid: String) =
+        db.collection("users").document(uid).collection("todos")
+
+    // ===== CREATE =====
+    // Satu dokumen = satu Map berisi field dan nilainya.
+    // Dokumen baru mendapat id acak otomatis dari Firestore.
+    fun add(uid: String, title: String, onError: (String) -> Unit) {
+        val data = hashMapOf<String, Any>(
+            "title" to title,
+            "isDone" to false,
+            "createdAt" to System.currentTimeMillis()
+        )
+
+        todosOf(uid)
+            .add(data)
+            .addOnFailureListener { e ->
+                onError(e.localizedMessage ?: "Gagal menambah tugas")
+            }
+    }
+
+    // ===== READ (realtime) =====
+    // Berbeda dengan SharedPreferences yang dibaca sekali,
+    // addSnapshotListener "berlangganan" ke data. Setiap kali isi collection
+    // berubah (dari aplikasi ini, perangkat lain, atau console),
+    // blok di bawah dijalankan lagi dengan data terbaru.
+    //
+    // Mengembalikan ListenerRegistration, yaitu "tiket langganan"
+    // yang harus dibatalkan (remove) saat tidak dibutuhkan lagi.
+    fun listen(
+        uid: String,
+        onChange: (List<Todo>) -> Unit,
+        onError: (String) -> Unit
+    ): ListenerRegistration {
+        return todosOf(uid)
+            .orderBy("createdAt")   // urutkan dari yang terlama
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onError(error.localizedMessage ?: "Gagal memuat data")
+                } else if (snapshot != null) {
+                    // Ubah setiap dokumen Firestore menjadi objek Todo.
+                    // "?:" memberi nilai cadangan jika field tidak ada.
+                    val list = snapshot.documents.map { doc ->
+                        Todo(
+                            id = doc.id,
+                            title = doc.getString("title") ?: "",
+                            isDone = doc.getBoolean("isDone") ?: false,
+                            createdAt = doc.getLong("createdAt") ?: 0L
+                        )
+                    }
+                    onChange(list)
+                }
+            }
+    }
+}
+```
+
+### Membaca kode ini pelan-pelan
+
+- **`db.collection("users").document(uid).collection("todos")`** menelusuri path `users/uid/todos`, dari collection ke dokumen ke subcollection.
+- **`hashMapOf<String, Any>(...)`** membuat `Map` dengan kunci String dan nilai apa saja. `"title" to title` membuat satu pasangan (sudah kita lihat di bagian Map pada materi Kotlin dasar).
+- **`.map { doc -> Todo(...) }`** adalah fungsi `map` pada list yang sudah kita pelajari: mengubah setiap elemen (dokumen) menjadi objek lain (`Todo`).
+- **`doc.getString("title") ?: ""`** adalah elvis operator: field tidak ada berarti pakai string kosong. Menjaga aplikasi tidak crash karena data yang tidak lengkap.
+
+## Langkah 5: AppNavigation
+
+**Ganti seluruh isi** `navigation/AppNavigation.kt`:
+
+```kotlin
+package com.example.loginapp.navigation
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import com.example.loginapp.data.AuthRepository
+import com.example.loginapp.data.TodoRepository
+import com.example.loginapp.ui.DashboardScreen
+import com.example.loginapp.ui.LoginScreen
+import com.example.loginapp.ui.RegisterScreen
+
+enum class Screen {
+    LOGIN, REGISTER, DASHBOARD
+}
+
+@Composable
+fun AppNavigation() {
+    val authRepository = remember { AuthRepository() }
+    val todoRepository = remember { TodoRepository() }
+
+    var currentScreen by rememberSaveable {
+        mutableStateOf(
+            if (authRepository.isLoggedIn()) Screen.DASHBOARD else Screen.LOGIN
+        )
+    }
+
+    // Dashboard butuh uid. Jika karena suatu hal uid kosong (tidak ada sesi),
+    // paksa tampilkan Login agar aplikasi tidak crash.
+    val uid = authRepository.currentUid()
+    val screenToShow =
+        if (currentScreen == Screen.DASHBOARD && uid == null) Screen.LOGIN else currentScreen
+
+    Surface(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+        when (screenToShow) {
+            Screen.LOGIN -> LoginScreen(
+                authRepository = authRepository,
+                onLoginSuccess = { currentScreen = Screen.DASHBOARD },
+                onGoToRegister = { currentScreen = Screen.REGISTER }
+            )
+
+            Screen.REGISTER -> RegisterScreen(
+                authRepository = authRepository,
+                onRegisterSuccess = { currentScreen = Screen.DASHBOARD },
+                onGoToLogin = { currentScreen = Screen.LOGIN }
+            )
+
+            Screen.DASHBOARD -> DashboardScreen(
+                uid = uid ?: "",
+                email = authRepository.currentEmail() ?: "",
+                todoRepository = todoRepository,
+                onLogout = {
+                    authRepository.signOut()
+                    currentScreen = Screen.LOGIN
+                }
+            )
+        }
+    }
+}
+```
+
+## Langkah 6: DashboardScreen (Create dan Read)
+
+**Ganti seluruh isi** `ui/DashboardScreen.kt`:
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.Todo
+import com.example.loginapp.data.TodoRepository
+
+@Composable
+fun DashboardScreen(
+    uid: String,
+    email: String,
+    todoRepository: TodoRepository,
+    onLogout: () -> Unit
+) {
+    // PERUBAHAN PENTING dibanding versi lokal:
+    // dulu kita memegang mutableStateListOf dan mengubahnya sendiri.
+    // Sekarang sumber kebenaran ada di Firestore. Kita cukup menampung
+    // kiriman terbaru dari listener, dalam bentuk List biasa.
+    var todos by remember { mutableStateOf<List<Todo>>(emptyList()) }
+
+    // false sampai data pertama datang dari server (untuk teks "Memuat...")
+    var isLoaded by remember { mutableStateOf(false) }
+
+    var errorMessage by remember { mutableStateOf("") }
+    var newTitle by rememberSaveable { mutableStateOf("") }
+
+    // DisposableEffect: kode "efek samping" yang terikat pada siklus hidup tampilan.
+    // - Blok utama berjalan saat tampilan MUNCUL  -> mulai berlangganan data.
+    // - onDispose berjalan saat tampilan HILANG   -> batalkan langganan.
+    // Tanpa onDispose, listener tetap hidup setelah logout dan menimbulkan error.
+    // (uid) = kunci: jika uid berganti, efek dijalankan ulang.
+    DisposableEffect(uid) {
+        val registration = todoRepository.listen(
+            uid = uid,
+            onChange = { list ->
+                todos = list          // ganti isi dengan data terbaru
+                isLoaded = true
+                errorMessage = ""
+            },
+            onError = { message ->
+                errorMessage = message
+                isLoaded = true
+            }
+        )
+
+        onDispose { registration.remove() }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Selamat datang, $email!",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.weight(1f)
+            )
+            TextButton(onClick = onLogout) {
+                Text("Logout")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "${todos.size} tugas",
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== CREATE =====
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(
+                value = newTitle,
+                onValueChange = { newTitle = it },
+                label = { Text("Tugas baru") },
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Button(
+                onClick = {
+                    if (newTitle.isNotBlank()) {
+                        // Kita TIDAK menambah ke list sendiri.
+                        // Cukup kirim ke Firestore, lalu listener di atas
+                        // otomatis mengirim list terbaru (termasuk tugas ini).
+                        todoRepository.add(uid, newTitle.trim()) { message ->
+                            errorMessage = message
+                        }
+                        newTitle = ""
+                    }
+                }
+            ) {
+                Text("Tambah")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // ===== READ =====
+        // when tanpa argumen: kondisi diperiksa dari atas, yang pertama benar dipakai
+        when {
+            !isLoaded -> Text("Memuat data...")
+            todos.isEmpty() -> Text("Belum ada tugas. Tambahkan tugas pertamamu!")
+            else -> LazyColumn {
+                items(todos, key = { it.id }) { todo ->
+                    TodoItem(todo = todo)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TodoItem(todo: Todo) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Text(
+            text = todo.title,
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+```
+
+## Langkah 7: Menjalankan dan Menguji
+
+1. Jalankan aplikasi dan login. Muncul "Memuat data..." sebentar, lalu "Belum ada tugas".
+2. Tambahkan 3 tugas. Tugas muncul di layar.
+3. Di console, buka **Firestore Database → Data**. Kamu melihat `users → (uid) → todos` berisi 3 dokumen.
+4. **Eksperimen realtime:** biarkan aplikasi terbuka, lalu di console ubah field `title` salah satu dokumen. Judul di aplikasi **berubah sendiri** tanpa menekan apa pun.
+5. **Eksperimen multi-perangkat (opsional):** login dengan akun yang sama di dua emulator, tambahkan tugas di satu emulator, dan lihat muncul di emulator lain.
+6. **Eksperimen offline (opsional):** matikan internet emulator, tambahkan tugas. Tugas tetap tampil, lalu terkirim ke server saat internet kembali.
+7. Logout, register akun lain, dan pastikan daftar tugasnya kosong.
+
+{/* Tambahkan screenshot hasil aplikasi dan console di sini */}
+
+### Jika muncul pesan `PERMISSION_DENIED`
+
+Berarti Firestore menolak akses. Periksa:
+
+1. Rules sudah di-**Publish** (bukan hanya diketik).
+2. Path di rules sama dengan path di kode: `users/{userId}/todos/{todoId}`.
+3. Pengguna benar-benar sudah login.
+
+## Konsep yang Dipelajari
+
+| Konsep | Penjelasan |
+| --- | --- |
+| Collection dan Document | Struktur data Firestore: folder dan isinya |
+| Subcollection | Data per pengguna di `users/{uid}/todos` |
+| Security rules | Aturan akses yang dijalankan di server Firebase |
+| Snapshot listener | Berlangganan data. Setiap perubahan dikirim otomatis. |
+| `DisposableEffect` | Memulai dan menghentikan langganan sesuai siklus hidup tampilan |
+| Satu sumber kebenaran | Aplikasi mengirim perintah, Firestore mengirim balik datanya |
+
+### Perbedaan alur dengan versi lokal
+
+| | Lokal (SharedPreferences) | Firebase (Firestore) |
+| --- | --- | --- |
+| Tambah data | `todos.add(...)` lalu `saveAll(...)` | `repository.add(...)` saja |
+| Tampilan berubah karena | list di memori diubah | listener mengirim data baru |
+| Siapa menyimpan data | aplikasi, di HP | server Firebase |
+
+## Batasan Versi Ini
+
+- **`createdAt` memakai jam HP**, yang bisa salah jika jam perangkat diubah. Firestore menyediakan `FieldValue.serverTimestamp()` untuk memakai jam server.
+- **Setiap perubahan dihitung sebagai pembacaan** pada kuota gratis. Untuk belajar tidak masalah, untuk aplikasi besar perlu diperhatikan.
+- **Pemetaan dokumen ke `Todo` ditulis manual.** Firestore bisa memetakan otomatis (`toObject`), tetapi butuh aturan tambahan pada data class. Cara manual lebih mudah dilihat jalannya oleh pemula.
+
+## Tantangan
+
+1. Tampilkan `Toast` saat tugas berhasil ditambah.
+2. Cegah penambahan tugas dengan judul yang sama persis.
+3. Coba ubah rules menjadi `allow read, write: if true;`, lalu jelaskan risikonya. **Kembalikan ke aturan semula setelah mencoba.**
+
+Di tutorial berikutnya kita menyelesaikan CRUD dengan **Update** dan **Delete**. 🚀

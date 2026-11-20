@@ -1,0 +1,561 @@
+---
+title: "Firebase Authentication di Android: Register dan Login dengan Email"
+description: "Hubungkan aplikasi Android ke Firebase, lalu ganti login lokal dengan Firebase Authentication. Sesi login bertahan setelah aplikasi ditutup."
+date: 2026-11-17
+tags: ["android", "kotlin", "firebase", "mobile"]
+published: true
+img: "/images/blogs/firebase-auth.png"
+---
+
+# Firebase Authentication di Android
+
+Sampai sekarang akun kita disimpan di HP dengan SharedPreferences. Artinya akun hanya ada di satu perangkat, dan password tersimpan sebagai teks biasa. Pada tutorial ini kita memakai **Firebase Authentication**, layanan milik Google yang menyimpan akun di server dan menangani keamanan password untuk kita.
+
+Yang akan kamu kerjakan:
+
+1. Membuat proyek Firebase dan menghubungkannya ke aplikasi.
+2. Mengganti `UserStorage` dengan `AuthRepository`.
+3. Mengubah Login dan Register agar memakai email dan password.
+4. Membuat sesi login bertahan, jadi pengguna tidak login ulang setiap membuka aplikasi.
+
+Daftar todo masih memakai penyimpanan lokal. Itu kita ganti di tutorial berikutnya.
+
+## Prasyarat
+
+- Proyek `LoginApp` dari Pertemuan 5 sampai 7 sudah berjalan.
+- Akun Google.
+- Koneksi internet. Emulator harus yang memiliki **Google Play** (ikon Play Store di daftar emulator).
+
+## Apa itu Firebase?
+
+Firebase adalah kumpulan layanan backend dari Google. Kita memakai dua di antaranya:
+
+| Layanan | Fungsi | Dipakai di |
+| --- | --- | --- |
+| Authentication | Mengelola akun dan login | Pertemuan 9 |
+| Cloud Firestore | Database di server | Pertemuan 10 dan 11 |
+
+Paket gratis (Spark) cukup untuk belajar dan tidak membutuhkan kartu kredit.
+
+## Langkah 1: Membuat Proyek Firebase
+
+1. Buka [console.firebase.google.com](https://console.firebase.google.com) dan login dengan akun Google.
+2. Klik **Create a project** (atau **Add project**), isi nama, misalnya `loginapp-kelas`.
+3. Google Analytics tidak kita perlukan, boleh dimatikan agar lebih cepat.
+4. Tunggu sampai proyek selesai dibuat, lalu klik **Continue**.
+
+{/* Tambahkan screenshot console di sini */}
+
+## Langkah 2: Mendaftarkan Aplikasi Android
+
+1. Di halaman utama proyek, klik ikon **Android**.
+2. Isi **Android package name** dengan `com.example.loginapp`. Nilainya harus **sama persis** dengan `applicationId` di `app/build.gradle.kts` (huruf besar dan kecil berpengaruh).
+3. Klik **Register app**.
+4. Klik **Download google-services.json**.
+5. Di Android Studio, ubah tampilan panel Project dari **Android** menjadi **Project** (menu di kiri atas panel). Pindahkan file `google-services.json` ke dalam folder `app/` (sejajar dengan `build.gradle.kts` milik modul app).
+6. Di console, klik **Next** sampai selesai. Langkah menambah SDK di console kita lewati, karena kita lakukan sendiri di langkah berikut.
+
+> Nama file harus tepat `google-services.json`. Jika browser menamainya `google-services (1).json`, ubah namanya.
+
+## Langkah 3: Mengaktifkan Login Email/Password
+
+1. Di console, buka **Build → Authentication → Get started**.
+2. Pada tab **Sign-in method**, pilih **Email/Password**.
+3. Aktifkan **Email/Password** (bukan opsi *Email link* di bawahnya), lalu **Save**.
+
+## Langkah 4: Menambahkan Firebase ke Gradle
+
+Template Android Studio terbaru menyimpan versi library di `gradle/libs.versions.toml`.
+
+### 4.1 `gradle/libs.versions.toml`
+
+Tambahkan baris berikut di bagian yang sesuai (jangan hapus isi yang sudah ada):
+
+```toml
+[versions]
+googleServices = "4.5.0"
+firebaseBom = "34.17.0"
+
+[libraries]
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+
+[plugins]
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+```
+
+> Nomor versi di atas adalah yang terbaru saat tutorial ditulis. Cek versi terbaru di [dokumentasi Firebase](https://firebase.google.com/docs/android/setup).
+
+### 4.2 `build.gradle.kts` (level proyek, di folder paling luar)
+
+Tambahkan satu baris di dalam blok `plugins`:
+
+```kotlin
+plugins {
+    // ... baris yang sudah ada ...
+    alias(libs.plugins.google.services) apply false
+}
+```
+
+### 4.3 `app/build.gradle.kts` (level modul)
+
+Tambahkan plugin di blok `plugins` paling atas:
+
+```kotlin
+plugins {
+    // ... baris yang sudah ada ...
+    alias(libs.plugins.google.services)
+}
+```
+
+Lalu tambahkan dependency di dalam blok `dependencies`:
+
+```kotlin
+dependencies {
+    // ... baris yang sudah ada ...
+
+    // BoM (Bill of Materials): mengatur agar semua library Firebase
+    // memakai versi yang cocok satu sama lain. Karena itu library di bawahnya
+    // TIDAK perlu ditulis nomor versinya.
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+}
+```
+
+Klik **Sync Now** pada banner yang muncul, lalu tunggu sampai selesai tanpa error.
+
+> **Jangan memakai library berakhiran `-ktx`** (misalnya `firebase-auth-ktx`) yang sering muncul di tutorial lama. Modul tersebut sudah dihapus dari Firebase BoM sejak versi 34.0.0. Fungsinya sudah digabung ke library utama.
+
+### 4.4 Izin internet
+
+Buka `app/src/main/AndroidManifest.xml`, tambahkan satu baris di atas tag `<application>`:
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+SDK Firebase biasanya sudah menambahkan izin ini sendiri, tetapi menuliskannya eksplisit tidak merugikan dan membuat kodenya mudah dibaca.
+
+## Langkah 5: AuthRepository
+
+Di tutorial sebelumnya kita punya `UserStorage` yang menyimpan akun di HP. Sekarang kita buat pengganti yang berbicara dengan Firebase.
+
+Klik kanan package `data`, pilih **New → Kotlin Class/File → File**, beri nama `AuthRepository`:
+
+```kotlin
+package com.example.loginapp.data
+
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+
+// Repository = kelas yang menjadi "pintu" ke sumber data.
+// Tampilan (ui) cukup memanggil fungsi di sini dan tidak perlu tahu
+// bahwa di belakangnya ada Firebase.
+class AuthRepository {
+
+    // FirebaseAuth.getInstance() mengambil objek Firebase Auth milik aplikasi ini.
+    private val auth = FirebaseAuth.getInstance()
+
+    // Firebase menyimpan sesi login di perangkat.
+    // Selama pengguna belum logout, currentUser tetap terisi walaupun aplikasi ditutup.
+    fun isLoggedIn(): Boolean = auth.currentUser != null
+
+    fun currentUid(): String? = auth.currentUser?.uid
+
+    fun currentEmail(): String? = auth.currentUser?.email
+
+    // Permintaan ke Firebase berjalan lewat internet, jadi hasilnya TIDAK langsung ada.
+    // Karena itu hasilnya dikirim lewat callback onResult:
+    // - null          : berhasil
+    // - berisi String : pesan error untuk ditampilkan
+    fun register(email: String, password: String, onResult: (String?) -> Unit) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Setelah akun dibuat, Firebase otomatis langsung login
+                    onResult(null)
+                } else {
+                    onResult(errorMessage(task.exception))
+                }
+            }
+    }
+
+    fun login(email: String, password: String, onResult: (String?) -> Unit) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onResult(null)
+                } else {
+                    onResult(errorMessage(task.exception))
+                }
+            }
+    }
+
+    fun signOut() {
+        auth.signOut()
+    }
+
+    // Mengubah error Firebase menjadi pesan yang mudah dibaca.
+    // "is" mengecek jenis (tipe) dari exception tersebut.
+    private fun errorMessage(e: Exception?): String = when (e) {
+        is FirebaseAuthWeakPasswordException -> "Password terlalu lemah (minimal 6 karakter)"
+        is FirebaseAuthUserCollisionException -> "Email sudah terdaftar"
+        is FirebaseAuthInvalidCredentialsException -> "Email atau password salah"
+        is FirebaseAuthInvalidUserException -> "Email atau password salah"
+        is FirebaseNetworkException -> "Tidak ada koneksi internet"
+        else -> "Terjadi kesalahan: ${e?.localizedMessage}"
+    }
+}
+```
+
+### Membaca kode ini pelan-pelan
+
+- **`(String?) -> Unit`** adalah tipe fungsi: menerima `String?` (boleh null), tidak mengembalikan apa-apa. Ini callback yang akan dipanggil **nanti**, saat Firebase sudah membalas.
+- **`.addOnCompleteListener { task -> ... }`** artinya: "kerjakan blok ini ketika permintaan selesai, berhasil maupun gagal." Ini lambda yang sudah kita pelajari.
+- **Kenapa tidak `return` hasilnya langsung?** Permintaan internet butuh waktu. Jika fungsi menunggu, tampilan akan macet. Karena itu hasilnya "dikabari" lewat callback.
+- **`when (e) { is ... -> }`** mengecek tipe objek. Satu Exception bisa berasal dari banyak jenis kesalahan, dan kita beri pesan berbeda untuk tiap jenis.
+
+## Langkah 6: LoginScreen (versi Firebase)
+
+**Ganti seluruh isi** `ui/LoginScreen.kt` dengan:
+
+```kotlin
+package com.example.loginapp.ui
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.AuthRepository
+
+@Composable
+fun LoginScreen(
+    authRepository: AuthRepository,
+    onLoginSuccess: () -> Unit,
+    onGoToRegister: () -> Unit
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+
+    // BARU: true selama kita menunggu balasan dari Firebase.
+    // Dipakai untuk menonaktifkan tombol agar tidak diklik berulang kali.
+    var isLoading by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Login", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                val cleanEmail = email.trim()
+
+                if (cleanEmail.isEmpty() || password.isEmpty()) {
+                    errorMessage = "Email dan password wajib diisi"
+                } else {
+                    errorMessage = ""
+                    isLoading = true
+
+                    // Kirim ke Firebase. Blok di bawah dijalankan SETELAH Firebase membalas.
+                    authRepository.login(cleanEmail, password) { error ->
+                        isLoading = false
+                        if (error == null) {
+                            onLoginSuccess()
+                        } else {
+                            errorMessage = error
+                        }
+                    }
+                }
+            },
+            enabled = !isLoading,   // tombol mati selama loading
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (isLoading) "Memproses..." else "Login")
+        }
+
+        TextButton(onClick = onGoToRegister) {
+            Text("Belum punya akun? Register")
+        }
+    }
+}
+```
+
+## Langkah 7: RegisterScreen (versi Firebase)
+
+**Ganti seluruh isi** `ui/RegisterScreen.kt` dengan:
+
+```kotlin
+package com.example.loginapp.ui
+
+import android.util.Patterns
+import android.widget.Toast
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.loginapp.data.AuthRepository
+
+@Composable
+fun RegisterScreen(
+    authRepository: AuthRepository,
+    onRegisterSuccess: () -> Unit,
+    onGoToLogin: () -> Unit
+) {
+    val context = LocalContext.current
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Register", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password (minimal 6 karakter)") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Konfirmasi Password") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        if (errorMessage.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                val cleanEmail = email.trim()
+
+                // Validasi di sisi aplikasi dulu, supaya tidak membuang permintaan internet
+                if (cleanEmail.isEmpty() || password.isEmpty()) {
+                    errorMessage = "Semua kolom wajib diisi"
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(cleanEmail).matches()) {
+                    // Patterns.EMAIL_ADDRESS: pola format email bawaan Android
+                    errorMessage = "Format email tidak valid"
+                } else if (password.length < 6) {
+                    errorMessage = "Password minimal 6 karakter"
+                } else if (password != confirmPassword) {
+                    errorMessage = "Konfirmasi password tidak sama"
+                } else {
+                    errorMessage = ""
+                    isLoading = true
+
+                    authRepository.register(cleanEmail, password) { error ->
+                        isLoading = false
+                        if (error == null) {
+                            Toast.makeText(context, "Registrasi berhasil", Toast.LENGTH_SHORT).show()
+                            // Firebase sudah otomatis login, jadi langsung ke Dashboard
+                            onRegisterSuccess()
+                        } else {
+                            errorMessage = error
+                        }
+                    }
+                }
+            },
+            enabled = !isLoading,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(if (isLoading) "Memproses..." else "Register")
+        }
+
+        TextButton(onClick = onGoToLogin) {
+            Text("Sudah punya akun? Login")
+        }
+    }
+}
+```
+
+## Langkah 8: AppNavigation
+
+**Ganti seluruh isi** `navigation/AppNavigation.kt` dengan:
+
+```kotlin
+package com.example.loginapp.navigation
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.example.loginapp.data.AuthRepository
+import com.example.loginapp.data.TodoStorage
+import com.example.loginapp.ui.DashboardScreen
+import com.example.loginapp.ui.LoginScreen
+import com.example.loginapp.ui.RegisterScreen
+
+enum class Screen {
+    LOGIN, REGISTER, DASHBOARD
+}
+
+@Composable
+fun AppNavigation() {
+    val context = LocalContext.current
+
+    // UserStorage diganti AuthRepository. TodoStorage sementara masih lokal.
+    val authRepository = remember { AuthRepository() }
+    val todoStorage = remember { TodoStorage(context) }
+
+    // BARU: halaman awal ditentukan oleh status login.
+    // Jika Firebase masih menyimpan sesi, langsung masuk Dashboard.
+    var currentScreen by rememberSaveable {
+        mutableStateOf(
+            if (authRepository.isLoggedIn()) Screen.DASHBOARD else Screen.LOGIN
+        )
+    }
+
+    Surface(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+        when (currentScreen) {
+            Screen.LOGIN -> LoginScreen(
+                authRepository = authRepository,
+                onLoginSuccess = { currentScreen = Screen.DASHBOARD },
+                onGoToRegister = { currentScreen = Screen.REGISTER }
+            )
+
+            Screen.REGISTER -> RegisterScreen(
+                authRepository = authRepository,
+                onRegisterSuccess = { currentScreen = Screen.DASHBOARD },
+                onGoToLogin = { currentScreen = Screen.LOGIN }
+            )
+
+            Screen.DASHBOARD -> DashboardScreen(
+                // Sementara, email dipakai sebagai "username" agar
+                // DashboardScreen dari Pertemuan 7 tidak perlu diubah.
+                username = authRepository.currentEmail() ?: "",
+                todoStorage = todoStorage,
+                onLogout = {
+                    authRepository.signOut()   // hapus sesi di perangkat
+                    currentScreen = Screen.LOGIN
+                }
+            )
+        }
+    }
+}
+```
+
+## Langkah 9: Membersihkan File Lama
+
+`UserStorage.kt` dan `User.kt` tidak dipakai lagi. Klik kanan masing-masing, pilih **Delete**. Jika Android Studio memberi peringatan masih ada yang memakai, periksa bahwa `LoginScreen`, `RegisterScreen`, dan `AppNavigation` sudah diganti seperti di atas.
+
+## Langkah 10: Menjalankan dan Menguji
+
+1. Jalankan aplikasi pada emulator yang punya Google Play.
+2. Register dengan email dan password 6 karakter atau lebih. Kamu langsung masuk Dashboard.
+3. Di console Firebase, buka **Authentication → Users**. Email yang baru didaftarkan muncul di sana.
+4. Tutup aplikasi sepenuhnya, lalu buka lagi. Kamu **langsung masuk Dashboard** tanpa login ulang.
+5. Tekan **Logout**, lalu login lagi dengan akun yang sama.
+6. Coba kesalahan: password salah, email format salah, register dengan email yang sudah ada, dan register saat internet dimatikan. Setiap kasus harus menampilkan pesan yang sesuai.
+
+{/* Tambahkan screenshot halaman Users di console di sini */}
+
+> Daftar todo di Dashboard masih tersimpan di HP (SharedPreferences), dengan email sebagai kuncinya. Itu kita pindahkan ke Firestore di tutorial berikutnya.
+
+## Konsep yang Dipelajari
+
+| Konsep | Penjelasan |
+| --- | --- |
+| Backend as a Service | Server, database akun, dan keamanan disediakan Firebase |
+| Repository | Kelas perantara antara tampilan dan sumber data |
+| Callback asinkron | Hasil permintaan internet datang **nanti**, bukan langsung |
+| State `isLoading` | Memberi tahu pengguna bahwa proses sedang berjalan |
+| Sesi persisten | Firebase menyimpan status login di perangkat |
+
+## Batasan Versi Ini
+
+- **Belum ada verifikasi email dan fitur lupa password.** Firebase menyediakannya, tetapi tidak kita pakai agar materi tidak terlalu panjang.
+- **Callback bukan satu-satunya cara.** Kode produksi Android biasanya memakai *coroutines* untuk kode asinkron. Callback dipilih agar lebih mudah dipahami pemula.
+- **File `google-services.json` berisi identitas proyek Firebase.** Isinya bukan password dan tidak membuka akses ke data. Yang melindungi data adalah *security rules* (dibahas di Pertemuan 10), bukan kerahasiaan file ini.
+
+## Tantangan
+
+1. Tampilkan tombol lihat atau sembunyikan password.
+2. Tambahkan fitur **Lupa password** memakai `auth.sendPasswordResetEmail(email)`.
+3. Tampilkan `CircularProgressIndicator` saat `isLoading` bernilai true.
+
+Di tutorial berikutnya, daftar todo kita pindahkan ke **Cloud Firestore**. Sampai jumpa! 🚀
