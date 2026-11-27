@@ -108,7 +108,7 @@ export default async function PostPage({ params }: PostPageProps) {
         dangerouslySetInnerHTML={{ __html: safeJsonLd }}
       />
       <article className="container">
-        <div className="relative mb-8 h-[50vh] w-full overflow-hidden rounded-lg sm:h-[60vh] lg:h-[70vh]">
+        <div className="relative isolate mb-8 h-[50vh] w-full overflow-hidden rounded-lg sm:h-[60vh] lg:h-[70vh]">
           <div className="absolute inset-0 z-10 bg-overlay/60" />
           <Image
             src={post.img}

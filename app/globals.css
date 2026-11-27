@@ -96,24 +96,6 @@
     outline: 2px solid hsl(var(--color-focus));
     outline-offset: 3px;
   }
-  .prose {
-    --tw-prose-body: hsl(var(--color-ink));
-    --tw-prose-headings: hsl(var(--color-ink));
-    --tw-prose-lead: hsl(var(--color-muted));
-    --tw-prose-links: hsl(var(--color-ink));
-    --tw-prose-bold: hsl(var(--color-ink));
-    --tw-prose-counters: hsl(var(--color-muted));
-    --tw-prose-bullets: hsl(var(--color-muted));
-    --tw-prose-hr: hsl(var(--color-line));
-    --tw-prose-quotes: hsl(var(--color-muted));
-    --tw-prose-quote-borders: hsl(var(--color-accent));
-    --tw-prose-captions: hsl(var(--color-muted));
-    --tw-prose-code: hsl(var(--color-ink));
-    --tw-prose-pre-code: hsl(var(--color-code-foreground));
-    --tw-prose-pre-bg: hsl(var(--color-code));
-    --tw-prose-th-borders: hsl(var(--color-line));
-    --tw-prose-td-borders: hsl(var(--color-line));
-  }
 }
 
 @layer components {
@@ -195,6 +177,25 @@
 }
 
 @layer utilities {
+  /* Di utilities agar menang atas warna bawaan plugin typography. */
+  .prose {
+    --tw-prose-body: hsl(var(--color-ink));
+    --tw-prose-headings: hsl(var(--color-ink));
+    --tw-prose-lead: hsl(var(--color-muted));
+    --tw-prose-links: hsl(var(--color-ink));
+    --tw-prose-bold: hsl(var(--color-ink));
+    --tw-prose-counters: hsl(var(--color-muted));
+    --tw-prose-bullets: hsl(var(--color-muted));
+    --tw-prose-hr: hsl(var(--color-line));
+    --tw-prose-quotes: hsl(var(--color-muted));
+    --tw-prose-quote-borders: hsl(var(--color-accent));
+    --tw-prose-captions: hsl(var(--color-muted));
+    --tw-prose-code: hsl(var(--color-ink));
+    --tw-prose-pre-code: hsl(var(--color-code-foreground));
+    --tw-prose-pre-bg: hsl(var(--color-code));
+    --tw-prose-th-borders: hsl(var(--color-line));
+    --tw-prose-td-borders: hsl(var(--color-line));
+  }
   .layout {
     @apply mx-auto max-w-3xl px-6;
   }
