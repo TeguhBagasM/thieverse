@@ -4,57 +4,84 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    color-scheme: light;
+    --color-paper: 100 14.3% 91.8%;
+    --color-surface: 72 26.3% 96.3%;
+    --color-ink: 157.5 27.6% 11.4%;
+    --color-muted: 148 7.7% 38.2%;
+    --color-line: 114 10% 80.4%;
+    --color-accent: 227.1 69.4% 46.1%;
+    --color-accent-soft: 225.7 60% 93.1%;
+    --color-focus: 5.7 62% 43.3%;
+    --color-code: 217 33% 12%;
+    --color-code-foreground: 210 20% 92%;
+    --color-overlay: 0 0% 0%;
+    --color-overlay-foreground: 0 0% 100%;
+
+    --background: var(--color-paper);
+    --foreground: var(--color-ink);
+    --card: var(--color-surface);
+    --card-foreground: var(--color-ink);
+    --popover: var(--color-surface);
+    --popover-foreground: var(--color-ink);
+    --primary: var(--color-accent);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--color-surface);
+    --secondary-foreground: var(--color-ink);
+    --muted: var(--color-surface);
+    --muted-foreground: var(--color-muted);
+    --accent: var(--color-accent-soft);
+    --accent-foreground: var(--color-ink);
+    --destructive: var(--color-focus);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--color-line);
+    --input: var(--color-line);
+    --ring: var(--color-focus);
+    --chart-1: var(--color-accent);
+    --chart-2: var(--color-ink);
+    --chart-3: var(--color-focus);
+    --chart-4: var(--color-accent-soft);
+    --chart-5: var(--color-muted);
+    --radius: 8px;
+    --radius-sm: 4px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
   }
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    color-scheme: dark;
+    --color-paper: 150 18.2% 8.6%;
+    --color-surface: 147.3 18.6% 11.6%;
+    --color-ink: 120 15% 92.2%;
+    --color-muted: 137.1 8.3% 67.1%;
+    --color-line: 145.7 13.7% 20%;
+    --color-accent: 226.6 100% 78%;
+    --color-accent-soft: 224.7 43.9% 21%;
+    --color-focus: 7.2 100% 73.9%;
+
+    --background: var(--color-paper);
+    --foreground: var(--color-ink);
+    --card: var(--color-surface);
+    --card-foreground: var(--color-ink);
+    --popover: var(--color-surface);
+    --popover-foreground: var(--color-ink);
+    --primary: var(--color-accent);
+    --primary-foreground: var(--color-paper);
+    --secondary: var(--color-surface);
+    --secondary-foreground: var(--color-ink);
+    --muted: var(--color-surface);
+    --muted-foreground: var(--color-muted);
+    --accent: var(--color-accent-soft);
+    --accent-foreground: var(--color-ink);
+    --destructive: var(--color-focus);
+    --destructive-foreground: var(--color-paper);
+    --border: var(--color-line);
+    --input: var(--color-line);
+    --ring: var(--color-focus);
+    --chart-1: var(--color-accent);
+    --chart-2: var(--color-ink);
+    --chart-3: var(--color-focus);
+    --chart-4: var(--color-accent-soft);
+    --chart-5: var(--color-muted);
   }
 }
 
@@ -65,20 +92,112 @@
   body {
     @apply bg-background text-foreground;
   }
+  :where(a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid hsl(var(--color-focus));
+    outline-offset: 3px;
+  }
 }
-@layer utilities {
-  .layout {
-    @apply mx-auto max-w-3xl px-6;
+
+@layer components {
+  .skip-link {
+    @apply absolute left-4 top-4 z-50 -translate-y-24 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+}
+/* Hero */
+@layer components {
+  .hero-backdrop {
+    background-image:
+      radial-gradient(58% 52% at 78% 46%, hsl(217 85% 62% / 0.22), transparent 70%),
+      radial-gradient(48% 44% at 4% 96%, hsl(150 40% 30% / 0.14), transparent 70%);
+  }
+  .dark .hero-backdrop {
+    background-image:
+      radial-gradient(58% 52% at 78% 46%, hsl(224 90% 62% / 0.2), transparent 70%),
+      radial-gradient(48% 44% at 4% 96%, hsl(152 55% 30% / 0.18), transparent 70%);
+  }
+  .hero-slide {
+    animation: hero-slide 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-rise {
+    animation: hero-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--hero-delay, 0ms) both;
+  }
+  .hero-bob {
+    animation: hero-bob 1.4s ease-in-out 1.2s 3;
   }
 
-  .animated-cards::before {
-    @apply pointer-events-none absolute select-none rounded-lg opacity-0 transition-opacity duration-300 hover:opacity-100 z-[-1] content-[''] -inset-px;
-    background: radial-gradient(
-      400px circle at var(--x) var(--y),
-      theme("colors.primary.DEFAULT") 25%,
-      rgba(255, 255, 255, 0) 50%,
-      transparent 80%
-    );
+  .hero-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, hsl(217 90% 70% / 0.32) 50%, transparent 65%);
+    transform: translateX(-110%);
+  }
+  .hero-shine:hover::after,
+  .hero-shine:focus-visible::after {
+    transform: translateX(110%);
+    transition: transform 0.6s ease;
+  }
+}
+
+@keyframes hero-slide {
+  from {
+    transform: translateY(18px);
+  }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes hero-bob {
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Tanpa ini, jeda stagger tetap menyembunyikan teks sesaat. */
+  .hero-slide,
+  .hero-rise,
+  .hero-bob {
+    animation: none;
+  }
+  .hero-shine::after {
+    display: none;
+  }
+}
+
+@layer utilities {
+  /* Di utilities agar menang atas warna bawaan plugin typography. */
+  .prose {
+    --tw-prose-body: hsl(var(--color-ink));
+    --tw-prose-headings: hsl(var(--color-ink));
+    --tw-prose-lead: hsl(var(--color-muted));
+    --tw-prose-links: hsl(var(--color-ink));
+    --tw-prose-bold: hsl(var(--color-ink));
+    --tw-prose-counters: hsl(var(--color-muted));
+    --tw-prose-bullets: hsl(var(--color-muted));
+    --tw-prose-hr: hsl(var(--color-line));
+    --tw-prose-quotes: hsl(var(--color-muted));
+    --tw-prose-quote-borders: hsl(var(--color-accent));
+    --tw-prose-captions: hsl(var(--color-muted));
+    --tw-prose-code: hsl(var(--color-ink));
+    --tw-prose-pre-code: hsl(var(--color-code-foreground));
+    --tw-prose-pre-bg: hsl(var(--color-code));
+    --tw-prose-th-borders: hsl(var(--color-line));
+    --tw-prose-td-borders: hsl(var(--color-line));
+  }
+  .layout {
+    @apply mx-auto max-w-3xl px-6;
   }
 }
 @supports (view-transition-name: none) {
@@ -87,7 +206,7 @@
   }
 
   ::view-transition-group(root) {
-    animation-duration: 0.7s;
+    animation-duration: 0.2s;
     animation-timing-function: linear(
       0 0%,
       0.2342 12.49%,
@@ -110,13 +229,13 @@
     mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><filter id="blur"><feGaussianBlur stdDeviation="2"/></filter></defs><circle cx="0" cy="0" r="18" fill="white" filter="url(%23blur)"/></svg>')
       top left / 0 no-repeat;
     mask-origin: content-box;
-    animation: scale 1s;
+    animation: scale 0.2s;
     transform-origin: top left;
   }
 
   ::view-transition-old(root),
   .dark::view-transition-old(root) {
-    animation: scale 1s;
+    animation: scale 0.2s;
     transform-origin: top left;
     z-index: -1;
   }
@@ -125,5 +244,31 @@
     to {
       mask-size: 350vmax;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-roll {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

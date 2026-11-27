@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useTheme } from "next-themes";
 
 interface ChatbaseConfig {
   buttonText: string;
@@ -48,10 +47,6 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
   buttonBottom = "20px",
   buttonRight = "20px",
 }) => {
-  const { theme, resolvedTheme } = useTheme();
-
-  const isDarkMode = theme === "dark" || resolvedTheme === "dark";
-
   useEffect(() => {
     const existingScript = document.getElementById(chatbaseId);
     if (existingScript) {
@@ -64,8 +59,8 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
 
     window.chatbaseConfig = {
       buttonText,
-      buttonBackground: isDarkMode ? "#3B82F6" : "#4CAF50",
-      buttonIconColor: "#ffffff",
+      buttonBackground: "hsl(var(--primary))",
+      buttonIconColor: "hsl(var(--primary-foreground))",
       buttonBottom,
       buttonRight,
       roundedCorners: true,
@@ -74,10 +69,10 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
       chatHeight,
       chatWidth,
       fontSize: "16px",
-      chatBackground: isDarkMode ? "#1F2937" : "#ffffff",
-      chatTextColor: isDarkMode ? "#ffffff" : "#000000",
-      inputBackground: isDarkMode ? "#374151" : "#f0f0f0",
-      primaryColor: isDarkMode ? "#3B82F6" : "#4CAF50",
+      chatBackground: "hsl(var(--card))",
+      chatTextColor: "hsl(var(--card-foreground))",
+      inputBackground: "hsl(var(--muted))",
+      primaryColor: "hsl(var(--primary))",
       allowClose: true,
     };
 
@@ -122,7 +117,7 @@ const ChatbaseWidget: React.FC<ChatbaseWidgetProps> = ({
         scriptToRemove.remove();
       }
     };
-  }, [isDarkMode, chatbaseId, buttonText, greeting, chatHeight, chatWidth, buttonBottom, buttonRight]);
+  }, [chatbaseId, buttonText, greeting, chatHeight, chatWidth, buttonBottom, buttonRight]);
 
   return null;
 };

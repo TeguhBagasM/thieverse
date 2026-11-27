@@ -3,11 +3,30 @@ import { notFound } from "next/navigation";
 import ProjectDetail from "@/components/projects/project-detail";
 import projects from "@/components/projects/_project-mock";
 import { Metadata } from "next";
-import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = {
-  title: `Project Detail | ${siteConfig.name}`,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const project = projects.find((item) => item.id === params.id);
+
+  if (!project) {
+    return { title: "Detail Proyek" };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+    alternates: { canonical: `/projects/${project.id}` },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      type: "website",
+      images: [{ url: project.cover, alt: project.title }],
+    },
+  };
+}
 
 const projectDetailsMap: Record<
   string,
@@ -445,41 +464,15 @@ const projectDetailsMap: Record<
   },
 };
 
-const projectsWithDetails = projects.map((project) => {
-  const details = projectDetailsMap[project.id];
-
-  if (!details) {
-    return {
-      ...project,
-      startDate: "2024",
-      endDate: "2024",
-      features: ["Tampilan responsif", "User Interface yang modern", "Optimasi performa"],
-      challenges: [
-        "Mengoptimalkan performa aplikasi",
-        "Mengimplementasikan responsive design",
-        "Mengelola state management",
-      ],
-      techDetails: [
-        `Aplikasi dibangun dengan ${project.stacks[0]}`,
-        `Styling menggunakan ${project.stacks.includes("Tailwind") ? "Tailwind CSS" : "CSS"}`,
-      ],
-    };
-  }
-
-  return {
-    ...project,
-    ...details,
-  };
-});
-
 export default async function ProjectDetailPage({ params }: { params: { id: string } }) {
-  const project = projectsWithDetails.find((p) => p.id === params.id);
+  const project = projects.find((item) => item.id === params.id);
 
   if (!project) {
     notFound();
   }
 
-  return <ProjectDetail project={project} />;
+  // Bagian timeline, fitur, tantangan, dan detail teknis hanya tampil bila datanya ada.
+  return <ProjectDetail project={{ ...project, ...projectDetailsMap[project.id] }} />;
 }
 
 export async function generateStaticParams() {

@@ -4,7 +4,9 @@ import { ProjectList, projects } from "@/components/projects";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: `Projects | ${siteConfig.name}`,
+  title: "Proyek",
+  description: `Kumpulan proyek web yang dikerjakan oleh ${siteConfig.author}.`,
+  alternates: { canonical: "/projects" },
 };
 
 interface ProjectsPageProps {
@@ -15,7 +17,7 @@ interface ProjectsPageProps {
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ searchParams }) => {
   const filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(decodeURIComponent(searchParams.query || ""))
+    project.title.toLowerCase().includes((searchParams.query || "").toLowerCase())
   );
 
   return (

@@ -2,11 +2,12 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogPageClient from "./blog-client";
 import { Loader2 } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { getAllPostSummaries } from "@/lib/posts";
 
 export const metadata: Metadata = {
-  title: `Blog  | ${siteConfig.name}`,
-  description: "My blog made by Thiever",
+  title: "Blog",
+  description: "Catatan dan tutorial seputar Laravel, web development, dan pengalaman belajar.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {
@@ -14,12 +15,12 @@ export default function BlogPage() {
     <Suspense
       fallback={
         <div className="flex flex-col items-center justify-center min-h-screen">
-          <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
-          <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Loading...</p>
+          <Loader2 className="w-16 h-16 text-primary animate-spin" />
+          <p className="mt-4 text-lg font-semibold text-muted-foreground">Memuat...</p>
         </div>
       }
     >
-      <BlogPageClient />
+      <BlogPageClient searchParams={searchParams} posts={getAllPostSummaries()} />
     </Suspense>
   );
 }

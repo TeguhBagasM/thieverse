@@ -13,8 +13,8 @@ const Github: React.FC<GithubProps> = ({ username }) => {
   const [fontSize, setFontSize] = useState(16);
 
   const theme = {
-    light: ["hsl(0, 0%, 92%)", "#0000FF"],
-    dark: ["#161b22", "#0000FF"],
+    light: ["hsl(var(--color-line))", "hsl(var(--color-accent))"],
+    dark: ["hsl(var(--color-line))", "hsl(var(--color-accent))"],
   };
 
   useEffect(() => {
@@ -47,9 +47,9 @@ const Github: React.FC<GithubProps> = ({ username }) => {
 
   return (
     <div className="flex flex-col items-center py-8 w-full overflow-x-auto">
-      <h1 className="text-xl md:text-2xl font-bold mb-6">
-        Aktivitas <span className="text-blue-600">Coding</span> Saya
-      </h1>
+      <h2 className="text-xl md:text-2xl font-bold mb-6">
+        Aktivitas <span className="text-primary">Coding</span> Saya
+      </h2>
       <div className="min-w-[300px] flex justify-center">
         <GitHubCalendar
           username={username}

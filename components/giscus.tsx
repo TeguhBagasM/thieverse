@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
 import Giscus from "@giscus/react";
+import { useTheme } from "next-themes";
 import { env } from "@/constants/env";
 
 const PostComments = () => {
+  const { resolvedTheme } = useTheme();
+
   if (!env.NEXT_PUBLIC_GISCUS_REPO_ID || !env.NEXT_PUBLIC_GISCUS_CATEGORY_ID) {
     return null;
   }
@@ -21,7 +24,7 @@ const PostComments = () => {
         reactionsEnabled="1"
         emitMetadata="0"
         inputPosition="top"
-        theme="dark"
+        theme={resolvedTheme === "dark" ? "dark" : "light"}
         lang="id"
       />
     </div>

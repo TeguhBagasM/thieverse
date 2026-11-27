@@ -1,4 +1,5 @@
 import { posts } from "#site/content";
+import { getPostBySlug } from "@/lib/posts";
 import { MDXContent } from "@/components/mdx-components";
 import { notFound } from "next/navigation";
 // import "@/styles/mdx.css";
@@ -7,9 +8,10 @@ import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
 import Image from "next/image";
 import ShareButton from "@/components/share-button";
-import DrawOutline from "@/components/ui/draw-outline-button";
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ui-kit/button-link";
+import { Meta } from "@/components/ui-kit/meta";
+import { Prose } from "@/components/ui-kit/prose";
 import PostComments from "@/components/giscus";
 import PostTableOfContent from "@/components/toc";
 
@@ -22,8 +24,7 @@ interface PostPageProps {
 
 async function getPostFromParams(params: PostPageProps["params"]) {
   const slug = params?.slug?.join("/");
-  const post = posts.find((post) => post.slugAsParams === slug);
-  return post;
+  return getPostBySlug(slug);
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
@@ -50,9 +51,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     openGraph: {
       title: post.title,
       description: post.description,
-      url: siteConfig.url + post.slug,
+      url: `${siteConfig.url}/${post.slug.replace(/^\/+/, "")}`,
       siteName: siteConfig.name,
-      locale: "en_US",
+      locale: "id_ID",
       type: "article",
       publishedTime: publishedAt,
       modifiedTime: modifiedAt,
@@ -64,6 +65,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       title: post.title,
       description: post.description,
       images: ogImages,
+    },
+    alternates: {
+      canonical: `/${post.slug.replace(/^\/+/, "")}`,
     },
   };
 }
@@ -83,7 +87,7 @@ export default async function PostPage({ params }: PostPageProps) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
-    image: post.img,
+    image: new URL(post.img, siteConfig.url).toString(),
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
     author: [
@@ -94,15 +98,18 @@ export default async function PostPage({ params }: PostPageProps) {
     ],
   };
 
+  const safeJsonLd = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
+  const readingTime = Math.max(1, Math.ceil(post.body.split(/\s+/).length / 200));
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd }}
       />
-      <article className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 relative w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/0% z-10" />
+      <article className="container">
+        <div className="relative isolate mb-8 h-[50vh] w-full overflow-hidden rounded-lg sm:h-[60vh] lg:h-[70vh]">
+          <div className="absolute inset-0 z-10 bg-overlay/60" />
           <Image
             src={post.img}
             alt={post.title}
@@ -111,7 +118,7 @@ export default async function PostPage({ params }: PostPageProps) {
             priority
             sizes="(max-width: 1024px) 100vw, 1024px"
           />
-          <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-white">
+          <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 z-20 text-overlay-foreground">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-4">
               {post.title}
             </h1>
@@ -128,14 +135,15 @@ export default async function PostPage({ params }: PostPageProps) {
                     alt="author"
                     width={45}
                     height={45}
-                    className="rounded-full bg-white"
+                    className="size-[45px] shrink-0 rounded-full bg-surface object-cover"
                   />
                   <div className="flex-1 text-left leading-tight">
-                    <p className="font-mediumgue text-lg">{siteConfig.author}</p>
-                    <p className="text-[14px] text-muted-foreground">{siteConfig.job}</p>
+                    <p className="font-medium text-lg">{siteConfig.author}</p>
+                    <p className="text-sm text-muted-foreground">{siteConfig.job}</p>
+                    <Meta date={post.date} readingTime={readingTime} className="mt-1" />
                   </div>
                 </div>
-                <h2 className="text-lg font-semibold mb-2">Tags</h2>
+                <h2 className="text-lg font-semibold mb-2">Topik</h2>
                 <div className="flex flex-wrap gap-2">
                   {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
                 </div>
@@ -149,19 +157,17 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
-            <div className="prose dark:prose-invert max-w-none">
+          <div className="col-span-12 min-w-0 lg:col-span-8 mt-4 mb-5">
+            <Prose>
               <MDXContent code={post.body} />
               <hr className="mt-10" />
               <div className="flex justify-center">
-                <Link href="/blog">
-                  <DrawOutline>
-                    <ChevronLeft className="mr-2 size-4" />
-                    <span>See all blogs</span>
-                  </DrawOutline>
-                </Link>
+                <ButtonLink href="/blog" variant="link">
+                  <ChevronLeft className="mr-2 size-4" />
+                  <span>Lihat semua artikel</span>
+                </ButtonLink>
               </div>
-            </div>
+            </Prose>
             <PostComments />
           </div>
         </div>

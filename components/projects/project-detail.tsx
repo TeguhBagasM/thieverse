@@ -6,6 +6,8 @@ import { ArrowLeft, ExternalLink, Github, Calendar, Layers, Code2 } from "lucide
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui-kit/button-link";
+import { Container } from "@/components/ui-kit/container";
 import { useRouter } from "next/navigation";
 import { TProject } from "@/components/projects/_project-mock";
 
@@ -23,7 +25,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
   const router = useRouter();
 
   return (
-    <div className="container max-w-6xl py-6 lg:py-10">
+    <Container className="py-6 lg:py-10">
       <div className="mb-8">
         <Button variant="ghost" className="mb-4 flex items-center gap-2" onClick={() => router.back()}>
           <ArrowLeft size={16} />
@@ -47,9 +49,9 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
             <Image
               src={project.cover}
               alt={project.title}
-              layout="fill"
-              objectFit="cover"
-              className="transition-transform duration-300 hover:scale-105"
+              fill
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              className="object-cover"
             />
           </div>
 
@@ -101,20 +103,28 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
               <h2 className="text-xl font-semibold mb-4">Tautan Proyek</h2>
               <div className="space-y-3">
                 {project.deployedURL && (
-                  <Button variant="outline" className="w-full justify-start gap-2" asChild>
-                    <a href={project.deployedURL} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-4 h-4" />
-                      Lihat Demo
-                    </a>
-                  </Button>
+                  <ButtonLink
+                    href={project.deployedURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="secondary"
+                    className="w-full justify-start gap-2"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Lihat Demo
+                  </ButtonLink>
                 )}
                 {project.isRepo && project.repoUrl && (
-                  <Button variant="outline" className="w-full justify-start gap-2" asChild>
-                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4" />
-                      Source Code
-                    </a>
-                  </Button>
+                  <ButtonLink
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="secondary"
+                    className="w-full justify-start gap-2"
+                  >
+                    <Github className="w-4 h-4" />
+                    Source Code
+                  </ButtonLink>
                 )}
               </div>
             </CardContent>
@@ -159,7 +169,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
           )}
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

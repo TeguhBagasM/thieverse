@@ -13,11 +13,11 @@ export const Disclosure: React.FC<DisclosureProps> = ({ title, children }) => {
   return (
     <div>
       <button
-        className="my-2 flex w-full items-center rounded-md p-2 text-left transition hover:bg-neutral-50/10"
+        className="my-2 flex w-full items-center rounded-md p-2 text-left transition-colors duration-150 hover:bg-accent-soft"
         onClick={() => setIsOpen(!isOpen)}
       >
         <ChevronRight
-          className={`transition-transform ${isOpen ? "rotate-90" : ""} mr-2`}
+          className={`transition-transform duration-150 ${isOpen ? "rotate-90" : ""} mr-2`}
         />
         <span className="font-bold">{title}</span>
       </button>

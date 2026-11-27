@@ -8,37 +8,31 @@ import { MobileNav } from "./mobile-nav";
 import { Instagram } from "lucide-react";
 import ThemeToggler from "./theme/theme-toggler";
 
+const socialLinks = [
+  { href: siteConfig.links.linkedin, label: "LinkedIn", Icon: Icons.linkedin },
+  { href: siteConfig.links.github, label: "GitHub", Icon: Icons.gitHub },
+  { href: siteConfig.links.instagram, label: "Instagram", Icon: Instagram },
+];
+
 export function SiteHeader() {
   return (
-    <header className="z-10 sticky top-0 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-20 max-w-screen-2xl items-center">
+    <header className="z-10 sticky top-0 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
+      <div className="container flex h-20 items-center">
         <MainNav />
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center">
-            <Link href={siteConfig.links.linkedin} target="_blank" rel="noreferrer">
-              <div
-                className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
+            {socialLinks.map(({ href, label, Icon }) => (
+              <Link
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={label}
+                className={cn(buttonVariants({ variant: "ghost" }), "hidden w-10 px-0 sm:inline-flex")}
               >
-                <Icons.linkedin className="h-5 w-5 transition-transform transform hover:scale-110" />
-                <span className="sr-only">LinkedIn</span>
-              </div>
-            </Link>
-            <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-              <div
-                className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
-              >
-                <Icons.gitHub className="h-5 w-5 transition-transform transform hover:scale-110" />
-                <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link href={siteConfig.links.instagram} target="_blank" rel="noreferrer">
-              <div
-                className={cn(buttonVariants({ variant: "ghost" }), "w-10 px-0 hidden sm:inline-flex")}
-              >
-                <Instagram className="h-5 w-5 transition-transform transform hover:scale-110" />
-                <span className="sr-only">Instagram</span>
-              </div>
-            </Link>
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </Link>
+            ))}
             <ThemeToggler />
             <MobileNav />
           </nav>

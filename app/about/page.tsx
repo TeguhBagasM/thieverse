@@ -3,29 +3,30 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { siteConfig } from "@/config/site";
 import { Metadata } from "next";
 // import { FaExternalLinkAlt } from "react-icons/fa";
-import GradientText from "@/components/ui/gradient-text";
 // import DrawOutline from "@/components/ui/draw-outline-button";
 import Skills from "@/components/about/skills";
 import { Experience } from "@/components/about/experience";
 import { JOB_EXPERIENCE } from "@/config/experience";
 import Github from "@/components/about/github";
-import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { ButtonLink } from "@/components/ui-kit/button-link";
+import { Container } from "@/components/ui-kit/container";
 
 export const metadata: Metadata = {
-  title: `About Me | ${siteConfig.name}`,
-  description: "Information about me",
+  title: "Tentang",
+  description: `Tentang ${siteConfig.author}, web developer yang berfokus pada backend dan Laravel.`,
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   const pdfUrl = "/CV-TeguhBagasMardiansyah.pdf";
   return (
     <>
-      <div className="container max-w-6xl py-6 lg:py-10">
+      <Container className="py-6 lg:py-10">
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
           <div className="flex-1">
             <h1 className="font-bold text-4xl md:text-5xl text-center">
-              About Me
+              Tentang Saya
             </h1>
           </div>
         </div>
@@ -39,26 +40,17 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-center break-words">
               {siteConfig.author}
             </h2>
-            <div className="w-fit rounded-lg bg-gradient-to-r dark:from-blue-400 from-blue-600 dark:to-teal-400 to-teal-600 p-px">
-              <div className="rounded-lg dark:bg-neutral-950/80 bg-white/80 text-md">
-                <GradientText
-                  as="span"
-                  className="flex items-center justify-center gap-0.5 bg-gradient-to-r dark:from-blue-400 from-blue-600 dark:to-teal-400 to-teal-600 px-3 py-px text-md font-medium"
-                >
-                  Web Developer
-                </GradientText>
-              </div>
-            </div>
+            <span className="inline-flex items-center justify-center rounded border border-line bg-surface px-3 py-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+              Web Developer
+            </span>
           </div>
 
           <div className="flex flex-col w-full md:w-2/3">
             <div className="flex justify-center">
-              <Button asChild className="gap-2">
-                <a href={pdfUrl} download="CV-TeguhBagasMardiansyah.pdf">
-                  <Download className="h-4 w-4" />
-                  Download CV
-                </a>
-              </Button>
+              <ButtonLink href={pdfUrl} download="CV-TeguhBagasMardiansyah.pdf">
+                <Download className="h-4 w-4" />
+                Download CV
+              </ButtonLink>
             </div>
             <p className="text-muted-foreground text-lg py-4">
               Pengembang Fullstack berfokus Backend dengan pengalaman dalam
@@ -72,19 +64,19 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-      </div>
-      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      </Container>
+      <Container className="my-12">
         <Skills />
-      </div>
-      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      </Container>
+      <Container className="my-12">
         <h2 className="text-3xl font-bold mb-6">Pengalaman</h2>
         <Experience experience={JOB_EXPERIENCE} />
-      </div>
-      <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 my-12">
+      </Container>
+      <Container className="my-12">
         <div className="flex justify-center">
           <Github username="TeguhBagasM" />
         </div>
-      </div>
+      </Container>
     </>
   );
 }

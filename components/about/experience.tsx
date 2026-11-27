@@ -15,7 +15,7 @@ export const Experience = ({ experience, className, ...props }: ExperienceProps)
         <li className="mb-10 ml-4" key={job.startDate}>
           <div className="absolute left-[-0.43rem] mt-1.5 size-3 rounded-full border border-muted-foreground bg-muted-foreground" />
           <time
-            className="mb-1 text-sm leading-none text-slate-600 dark:text-slate-300"
+            className="mb-1 text-sm leading-none text-muted-foreground"
             dateTime={job.startDate}
           >
             {`${Formaters.formatDate(
@@ -36,7 +36,7 @@ export const Experience = ({ experience, className, ...props }: ExperienceProps)
                   rel="noopener noreferrer"
                   title={`Visit ${job.company} website`}
                   aria-label={`Visit ${job.company} website`}
-                  className="text-primary underline transition-colors hover:text-primary/90"
+                  className="text-primary underline transition-colors duration-150 hover:text-primary/90"
                 >
                   {job.company}
                 </Link>

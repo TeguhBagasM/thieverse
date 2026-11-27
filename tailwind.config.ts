@@ -13,16 +13,51 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
-        "2xl": "1400px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1200px",
+        "2xl": "1200px",
       },
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-display, ui-sans-serif)", ...fontFamily.sans],
+        display: ["var(--font-display, ui-sans-serif)", ...fontFamily.sans],
+        body: ["var(--font-body, Georgia)", "Georgia", "serif"],
+        mono: ["var(--font-mono, ui-monospace)", ...fontFamily.mono],
       },
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            fontFamily: "var(--font-body, Georgia), Georgia, serif",
+            "h1, h2, h3, h4": {
+              fontFamily: "var(--font-display, ui-sans-serif), ui-sans-serif, system-ui, sans-serif",
+            },
+          },
+        },
+        invert: {
+          css: {
+            fontFamily: "var(--font-body, Georgia), Georgia, serif",
+            "h1, h2, h3, h4": {
+              fontFamily: "var(--font-display, ui-sans-serif), ui-sans-serif, system-ui, sans-serif",
+            },
+          },
+        },
+      }),
       colors: {
+        paper: "hsl(var(--color-paper))",
+        surface: "hsl(var(--color-surface))",
+        ink: "hsl(var(--color-ink))",
+        line: "hsl(var(--color-line))",
+        focus: "hsl(var(--color-focus))",
+        "accent-soft": "hsl(var(--color-accent-soft))",
+        code: "hsl(var(--color-code))",
+        "code-foreground": "hsl(var(--color-code-foreground))",
+        overlay: "hsl(var(--color-overlay))",
+        "overlay-foreground": "hsl(var(--color-overlay-foreground))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -58,18 +93,15 @@ const config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        DEFAULT: "4px",
+        sm: "4px",
+        md: "4px",
+        lg: "8px",
+        xl: "8px",
+        "2xl": "8px",
+        "3xl": "8px",
       },
       keyframes: {
-        "shadow-animate": {
-          "0%": { boxShadow: "0 0 8px 4px rgba(59, 130, 246, 0.7)" }, // Initial shadow
-          "25%": { boxShadow: "0 0 8px 4px rgba(236, 72, 153, 0.7)" }, // Intermediate shadow
-          "50%": { boxShadow: "0 0 8px 4px rgba(168, 85, 247, 0.7)" }, // Middle shadow
-          "75%": { boxShadow: "0 0 8px 4px rgba(236, 72, 153, 0.7)" }, // Intermediate shadow
-          "100%": { boxShadow: "0 0 8px 4px rgba(59, 130, 246, 0.7)" }, // Final shadow
-        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -84,7 +116,6 @@ const config = {
         },
       },
       animation: {
-        "shadow-animate": "shadow-animate 4s linear infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         roll: "roll 24s linear infinite",

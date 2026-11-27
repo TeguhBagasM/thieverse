@@ -39,7 +39,22 @@ function YouTube({
   );
 }
 
+// Judul halaman sudah menjadi h1, jadi "#" di dalam artikel diturunkan ke h2.
+function ArticleHeading(props: React.ComponentPropsWithoutRef<"h2">) {
+  return <h2 {...props} />;
+}
+
+function ArticleTable(props: React.ComponentPropsWithoutRef<"table">) {
+  return (
+    <div className="overflow-x-auto">
+      <table {...props} />
+    </div>
+  );
+}
+
 const components = {
+  h1: ArticleHeading,
+  table: ArticleTable,
   Image,
   Callout,
   Tab,
@@ -59,14 +74,13 @@ export function MDXContent({ code }: MdxProps) {
   return (
     <div
       className="
-      prose-blockquote:bg-blue-500 
-      prose-blockquote:border-blue-500 
-      prose-blockquote:bg-blue-600/20
+      prose-blockquote:border-l-primary
+      prose-blockquote:bg-accent-soft
       prose-blockquote:p-2
       prose-blockquote:px-6
       prose-blockquote:not-italic
       prose-blockquote:rounded-r-lg
-      prose-li:marker:text-blue-600
+      prose-li:marker:text-primary
     "
     >
       <Component components={components} />
