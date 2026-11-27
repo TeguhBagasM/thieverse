@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import CustomLink from "./custom-link";
 import { TProject } from "./_project-mock";
-import { Button } from "@/components/ui/button";
 import { CoverImage } from "@/components/ui-kit/cover-image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Eye } from "lucide-react";
 
 type ProjectItemProps = TProject;
@@ -23,95 +21,86 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   repoUrl,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const router = useRouter();
-
-  const toggleDescription = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const handleViewDetail = () => {
-    router.push(`/projects/${id}`);
-  };
+  const detailHref = `/projects/${id}`;
+  const linkClass =
+    "inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:text-primary";
 
   return (
-    <li role="listitem" className="list-none">
-      <div className="group grid gap-4 overflow-hidden rounded-lg border border-line bg-surface">
-        <CoverImage
-          src={cover}
-          alt={`${title} project screenshot`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="rounded-none border-0"
-        >
-          <div className="absolute inset-0 flex flex-col items-center justify-center space-y-3 bg-overlay/60 opacity-0 transition-opacity duration-150 ease-in-out group-hover:opacity-100">
-            {deployedURL && (
-              <CustomLink
-                aria-label={`View ${title} live demo`}
-                href={deployedURL}
-                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:bg-overlay/50"
-              >
-                <FaExternalLinkAlt size={20} />
-                <span>Live Demo</span>
-              </CustomLink>
-            )}
+    <li className="list-none">
+      <article className="flex h-full flex-col overflow-hidden rounded-lg border border-line bg-surface">
+        {/* Duplikat tautan judul, jadi disembunyikan dari keyboard dan pembaca layar. */}
+        <Link href={detailHref} tabIndex={-1} aria-hidden="true">
+          <CoverImage
+            src={cover}
+            alt={`Tampilan proyek ${title}`}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="rounded-none border-0"
+          />
+        </Link>
 
-            {isRepo && repoUrl && (
-              <CustomLink
-                aria-label={`View ${title} source code on GitHub`}
-                href={repoUrl}
-                className="flex items-center gap-2 rounded bg-overlay/30 px-4 py-2 text-overlay-foreground backdrop-blur-sm transition-colors duration-150 hover:bg-overlay/50"
-              >
-                <FaGithub size={20} />
-                <span>Source Code</span>
-              </CustomLink>
-            )}
-          </div>
-        </CoverImage>
-
-        <div className="space-y-3 p-4">
-          <div className="flex items-start justify-between gap-2">
-            <h2 className="line-clamp-1 text-base font-medium text-foreground">
+        <div className="flex flex-1 flex-col gap-3 p-4">
+          <h2 className="line-clamp-1 text-base font-medium text-foreground">
+            <Link href={detailHref} className="transition-colors duration-150 hover:text-primary">
               {title}
-            </h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleViewDetail}
-              className="shrink-0 text-muted-foreground hover:text-primary"
-              aria-label={`View detailed information about ${title}`}
-            >
-              <Eye size={16} className="mr-1" />
-              Detail
-            </Button>
-          </div>
+            </Link>
+          </h2>
 
-          <div className="flex flex-wrap gap-1" aria-label="Technologies used">
-            {stacks.map((stack, index) => (
-              <span
-                key={`${id}-stack-${index}`}
-                className="rounded bg-accent-soft px-2 py-1 text-xs text-foreground"
-              >
+          <ul className="flex flex-wrap gap-1" aria-label="Teknologi yang digunakan">
+            {stacks.map((stack) => (
+              <li key={stack} className="rounded bg-accent-soft px-2 py-1 text-xs text-foreground">
                 {stack}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <div className="relative">
+          <div>
             <p className={cn("text-sm text-muted-foreground", !isExpanded && "line-clamp-3")}>
               {description}
             </p>
             {description.length > 150 && (
               <button
-                onClick={toggleDescription}
+                type="button"
+                onClick={() => setIsExpanded(!isExpanded)}
                 className="mt-2 text-sm font-medium text-primary transition-colors duration-150 hover:text-foreground"
                 aria-expanded={isExpanded}
-                aria-label={isExpanded ? "Show less description" : "Show more description"}
               >
                 {isExpanded ? "Sembunyikan" : "Baca selengkapnya"}
               </button>
             )}
           </div>
+
+          <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-3">
+            <Link href={detailHref} className={linkClass} aria-label={`Detail proyek ${title}`}>
+              <Eye size={16} aria-hidden="true" />
+              Detail
+            </Link>
+            {deployedURL && (
+              <a
+                href={deployedURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+                aria-label={`Demo ${title}`}
+              >
+                <FaExternalLinkAlt size={14} aria-hidden="true" />
+                Demo
+              </a>
+            )}
+            {isRepo && repoUrl && (
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+                aria-label={`Source code ${title}`}
+              >
+                <FaGithub size={16} aria-hidden="true" />
+                Source Code
+              </a>
+            )}
+          </div>
         </div>
-      </div>
+      </article>
     </li>
   );
 };

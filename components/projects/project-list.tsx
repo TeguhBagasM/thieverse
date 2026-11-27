@@ -20,15 +20,17 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         <SearchInput />
       </div>
       <hr className="mb-8" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.length > 0 ? (
-          projects.map((project) => <ProjectItem key={project.id} {...project} />)
-        ) : (
-          <div className="col-span-1 flex h-64 items-center justify-center md:col-span-2 lg:col-span-3">
-            <EmptyState title="Project tidak ditemukan" className="h-full" />
-          </div>
-        )}
-      </div>
+      {projects.length > 0 ? (
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project) => (
+            <ProjectItem key={project.id} {...project} />
+          ))}
+        </ul>
+      ) : (
+        <div className="flex h-64 items-center justify-center">
+          <EmptyState title="Proyek tidak ditemukan" className="h-full" />
+        </div>
+      )}
     </Container>
   );
 };
