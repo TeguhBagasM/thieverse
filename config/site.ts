@@ -59,35 +59,4 @@ export const jasaFeatures = [
   },
 ];
 
-export const codingQuotes = [
-  {
-    quote: "The best way to predict the future is to invent it.",
-    author: "Alan Kay",
-  },
-  {
-    quote: "Software is a great combination of artistry and engineering.",
-    author: "Bill Gates",
-  },
-  {
-    quote: "Clean code always looks like it was written by someone who cares.",
-    author: "Robert C. Martin",
-  },
-  {
-    quote: "First, solve the problem. Then, write the code.",
-    author: "John Johnson",
-  },
-  {
-    quote: "The most disastrous thing that you can ever learn is your first programming language.",
-    author: "Alan Kay",
-  },
-  {
-    quote: "Code is like humor. When you have to explain it, it's bad.",
-    author: "Cory House",
-  },
-  {
-    quote: "Simplicity is the soul of efficiency.",
-    author: "Austin Freeman",
-  },
-];
-
 export type SiteConfig = typeof siteConfig;

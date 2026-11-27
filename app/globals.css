@@ -124,6 +124,76 @@
     @apply translate-y-0;
   }
 }
+/* Hero */
+@layer components {
+  .hero-backdrop {
+    background-image:
+      radial-gradient(58% 52% at 78% 46%, hsl(217 85% 62% / 0.22), transparent 70%),
+      radial-gradient(48% 44% at 4% 96%, hsl(150 40% 30% / 0.14), transparent 70%);
+  }
+  .dark .hero-backdrop {
+    background-image:
+      radial-gradient(58% 52% at 78% 46%, hsl(224 90% 62% / 0.2), transparent 70%),
+      radial-gradient(48% 44% at 4% 96%, hsl(152 55% 30% / 0.18), transparent 70%);
+  }
+  .hero-slide {
+    animation: hero-slide 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-rise {
+    animation: hero-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--hero-delay, 0ms) both;
+  }
+  .hero-bob {
+    animation: hero-bob 1.4s ease-in-out 1.2s 3;
+  }
+
+  .hero-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, hsl(217 90% 70% / 0.32) 50%, transparent 65%);
+    transform: translateX(-110%);
+  }
+  .hero-shine:hover::after,
+  .hero-shine:focus-visible::after {
+    transform: translateX(110%);
+    transition: transform 0.6s ease;
+  }
+}
+
+@keyframes hero-slide {
+  from {
+    transform: translateY(18px);
+  }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes hero-bob {
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Tanpa ini, jeda stagger tetap menyembunyikan teks sesaat. */
+  .hero-slide,
+  .hero-rise,
+  .hero-bob {
+    animation: none;
+  }
+  .hero-shine::after {
+    display: none;
+  }
+}
+
 @layer utilities {
   .layout {
     @apply mx-auto max-w-3xl px-6;
