@@ -17,7 +17,7 @@ interface ProjectsPageProps {
 
 const ProjectsPage: React.FC<ProjectsPageProps> = ({ searchParams }) => {
   const filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(decodeURIComponent(searchParams.query || ""))
+    project.title.toLowerCase().includes((searchParams.query || "").toLowerCase())
   );
 
   return (
