@@ -16,7 +16,7 @@ export default function BlogPage({ searchParams }: { searchParams: { query?: str
       fallback={
         <div className="flex flex-col items-center justify-center min-h-screen">
           <Loader2 className="w-16 h-16 text-primary animate-spin" />
-          <p className="mt-4 text-lg font-semibold text-muted-foreground">Loading...</p>
+          <p className="mt-4 text-lg font-semibold text-muted-foreground">Memuat...</p>
         </div>
       }
     >

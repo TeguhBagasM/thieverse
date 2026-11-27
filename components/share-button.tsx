@@ -41,7 +41,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
 
   return (
     <div className="ml-auto flex flex-col space-y-2">
-      <p className="text-sm text-muted-foreground">Share this post</p>
+      <p className="text-sm text-muted-foreground">Bagikan artikel</p>
       <div className="flex space-x-4">
         <Link
           href={twitterShareUrl}
@@ -72,7 +72,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
         <button
           onClick={handleCopyLink}
           className="transition-colors duration-150 hover:text-primary"
-          aria-label="Copy link"
+          aria-label="Salin tautan"
         >
           {copied ? (
             <BsClipboardCheck className="size-5 text-primary" />

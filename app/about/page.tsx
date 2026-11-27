@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
           <div className="flex-1">
             <h1 className="font-bold text-4xl md:text-5xl text-center">
-              About Me
+              Tentang Saya
             </h1>
           </div>
         </div>

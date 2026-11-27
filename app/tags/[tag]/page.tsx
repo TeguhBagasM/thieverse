@@ -48,7 +48,7 @@ export default function TagPage({ params }: TagPageProps) {
               {title}
             </h1>
             <p className="mb-2 px-2 text-xl text-muted-foreground">
-              Discover more topic and expand your knowledge!
+              Jelajahi topik lain dan perluas wawasanmu.
             </p>
             <hr />
           </div>
@@ -57,7 +57,7 @@ export default function TagPage({ params }: TagPageProps) {
       <Container className="mt-10">
         <Card className="h-fit w-full">
           <CardHeader>
-            <CardTitle>Tags</CardTitle>
+            <CardTitle>Topik</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {sortedTags?.map((t) => <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />)}
@@ -84,7 +84,7 @@ export default function TagPage({ params }: TagPageProps) {
             })
         ) : (
           <div className="col-span-1 md:col-span-2 lg:col-span-3">
-            <EmptyState title="Nothing to see here yet" />
+            <EmptyState title="Belum ada artikel" />
           </div>
         )}
       </Container>
