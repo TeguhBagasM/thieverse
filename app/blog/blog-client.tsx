@@ -14,13 +14,10 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 const INITIAL_POSTS_COUNT = 6;
 
 interface BlogPageClientProps {
-  searchParams: {
-    query?: string;
-  };
   posts: PostSummary[];
 }
 
-export default function BlogPageClient({ searchParams, posts }: BlogPageClientProps) {
+export default function BlogPageClient({ posts }: BlogPageClientProps) {
   const [displayCount, setDisplayCount] = useState(INITIAL_POSTS_COUNT);
   const searchParamsHook = useSearchParams();
   const query = searchParamsHook.get("query") || "";

@@ -20,7 +20,7 @@ export default function BlogPage() {
         </div>
       }
     >
-      <BlogPageClient searchParams={searchParams} posts={getAllPostSummaries()} />
+      <BlogPageClient posts={getAllPostSummaries()} />
     </Suspense>
   );
 }
