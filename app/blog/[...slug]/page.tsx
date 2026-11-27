@@ -2,7 +2,7 @@ import { posts } from "#site/content";
 import { getPostBySlug } from "@/lib/posts";
 import { MDXContent } from "@/components/mdx-components";
 import { notFound } from "next/navigation";
-import "@/styles/mdx.css";
+// import "@/styles/mdx.css";
 import { Metadata } from "next";
 import { siteConfig } from "#config";
 import { Tag } from "@/components/tag";
