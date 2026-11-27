@@ -45,7 +45,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             </Link>
           </h2>
 
-          <ul className="flex flex-wrap gap-1" aria-label="Teknologi yang digunakan">
+          <ul className="flex flex-wrap gap-1" aria-label="Technologies used">
             {stacks.map((stack) => (
               <li key={stack} className="rounded bg-accent-soft px-2 py-1 text-xs text-foreground">
                 {stack}
@@ -64,13 +64,13 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                 className="mt-2 text-sm font-medium text-primary transition-colors duration-150 hover:text-foreground"
                 aria-expanded={isExpanded}
               >
-                {isExpanded ? "Sembunyikan" : "Baca selengkapnya"}
+                {isExpanded ? "Show less" : "Read more"}
               </button>
             )}
           </div>
 
           <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line pt-3">
-            <Link href={detailHref} className={linkClass} aria-label={`Detail proyek ${title}`}>
+            <Link href={detailHref} className={linkClass} aria-label={`Project details for ${title}`}>
               <Eye size={16} aria-hidden="true" />
               Detail
             </Link>
@@ -80,7 +80,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={linkClass}
-                aria-label={`Demo ${title}`}
+                aria-label={`Live demo of ${title}`}
               >
                 <FaExternalLinkAlt size={14} aria-hidden="true" />
                 Demo
@@ -92,7 +92,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={linkClass}
-                aria-label={`Source code ${title}`}
+                aria-label={`Source code of ${title}`}
               >
                 <FaGithub size={16} aria-hidden="true" />
                 Source Code

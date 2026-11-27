@@ -18,8 +18,8 @@ interface TagPageProps {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { tag } = params;
   return {
-    title: `Topik ${tag}`,
-    description: `Artikel tentang ${tag} di Thieverse.`,
+    title: `Topic ${tag}`,
+    description: `Articles about ${tag} on Thieverse.`,
     alternates: { canonical: `/tags/${tag}` },
   };
 }
@@ -48,7 +48,7 @@ export default function TagPage({ params }: TagPageProps) {
               {title}
             </h1>
             <p className="mb-2 px-2 text-xl text-muted-foreground">
-              Jelajahi topik lain dan perluas wawasanmu.
+              Explore other topics and expand your knowledge!
             </p>
             <hr />
           </div>
@@ -57,7 +57,7 @@ export default function TagPage({ params }: TagPageProps) {
       <Container className="mt-10">
         <Card className="h-fit w-full">
           <CardHeader>
-            <CardTitle>Topik</CardTitle>
+            <CardTitle>Topics</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {sortedTags?.map((t) => <Tag tag={t} key={t} count={tags[t]} current={slug(t) === tag} />)}
@@ -84,7 +84,7 @@ export default function TagPage({ params }: TagPageProps) {
             })
         ) : (
           <div className="col-span-1 md:col-span-2 lg:col-span-3">
-            <EmptyState title="Belum ada artikel" />
+            <EmptyState title="No articles yet" />
           </div>
         )}
       </Container>

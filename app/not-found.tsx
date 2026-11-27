@@ -17,13 +17,13 @@ export default function NotFound() {
         className="h-60 w-60 object-cover"
       />
       <h1 className="text-xl flex items-center text-primary mt-4">
-        Oops! Halaman tidak ditemukan. <Frown className="ml-2" />
+        Oops! Page not found. <Frown className="ml-2" />
       </h1>
       <Link
         href="/"
         className="mt-6 flex items-center text-primary font-semibold hover:underline"
       >
-        <FaArrowLeft className="mr-2" /> Kembali ke Beranda
+        <FaArrowLeft className="mr-2" /> Back to Home
       </Link>
     </div>
   );

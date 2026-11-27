@@ -10,7 +10,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? siteConfig.url),
   title: {
-    default: `${siteConfig.name} — Catatan Belajar & Portofolio`,
+    default: `${siteConfig.name} — Learning Notes & Portfolio`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — Catatan Belajar & Portofolio`,
+    title: `${siteConfig.name} — Learning Notes & Portfolio`,
     description: siteConfig.description,
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — Catatan Belajar & Portofolio`,
+    title: `${siteConfig.name} — Learning Notes & Portfolio`,
     description: siteConfig.description,
     images: ["/api/og?title=Thieverse"],
   },
@@ -69,7 +69,7 @@ export default function RootLayout({
         )}
       >
         <a href="#main-content" className="skip-link">
-          Lewati ke konten
+          Skip to content
         </a>
         <ThemeProvider attribute="class" defaultTheme="light">
           <div className="relative flex min-h-dvh flex-col bg-background">

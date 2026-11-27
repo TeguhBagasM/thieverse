@@ -143,13 +143,13 @@ export default async function PostPage({ params }: PostPageProps) {
                     <Meta date={post.date} readingTime={readingTime} className="mt-1" />
                   </div>
                 </div>
-                <h2 className="text-lg font-semibold mb-2">Topik</h2>
+                <h2 className="text-lg font-semibold mb-2">Topics</h2>
                 <div className="flex flex-wrap gap-2">
                   {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
                 </div>
               </div>
               <ShareButton
-                text={`Baca postingan '${post.title}' oleh @teguhbagasm di Thieverse:`}
+                text={`Read '${post.title}' by @teguhbagasm on Thieverse:`}
                 url={`${siteConfig.url}/${post.slug}`}
               />
               <div>
@@ -164,7 +164,7 @@ export default async function PostPage({ params }: PostPageProps) {
               <div className="flex justify-center">
                 <ButtonLink href="/blog" variant="link">
                   <ChevronLeft className="mr-2 size-4" />
-                  <span>Lihat semua artikel</span>
+                  <span>See all articles</span>
                 </ButtonLink>
               </div>
             </Prose>

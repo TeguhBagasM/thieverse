@@ -27,7 +27,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <nav aria-label="Navigasi footer" className="flex flex-wrap justify-center gap-4 text-sm">
+        <nav aria-label="Footer navigation" className="flex flex-wrap justify-center gap-4 text-sm">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -46,7 +46,7 @@ export function SiteFooter() {
             rel="noreferrer"
             href="mailto:teguhbagas2134@gmail.com"
             className="transition-colors duration-150 hover:text-primary"
-            aria-label="Kirim email ke Teguh Bagas M"
+            aria-label="Send email to Teguh Bagas M"
           >
             <Mail className="h-6 w-6" />
           </a>

@@ -48,7 +48,7 @@ const Github: React.FC<GithubProps> = ({ username }) => {
   return (
     <div className="flex flex-col items-center py-8 w-full overflow-x-auto">
       <h2 className="text-xl md:text-2xl font-bold mb-6">
-        Aktivitas <span className="text-primary">Coding</span> Saya
+        My <span className="text-primary">Coding</span> Activity
       </h2>
       <div className="min-w-[300px] flex justify-center">
         <GitHubCalendar

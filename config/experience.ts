@@ -18,36 +18,36 @@ export const JOB_EXPERIENCE = [
     startDate: "2025-08-19",
     endDate: "2026-01-26",
     description:
-      "Saya terlibat dalam proyek pengembangan API Management yang berfokus pada integrasi layanan perbankan seperti Bank BJB dan Bank Mandiri menggunakan Apache Camel. Peran saya mencakup perancangan, implementasi, dan pengujian alur integrasi (service flow) untuk memastikan data dapat ditransformasikan dan dikirim dengan aman serta konsisten antar sistem. Selain itu, saya juga berkontribusi dalam optimasi konfigurasi, dokumentasi teknis, serta pemahaman konsep integrasi enterprise agar API yang dibangun dapat digunakan secara efisien oleh berbagai layanan internal maupun eksternal perusahaan.",
+      "I worked on an API Management project focused on integrating banking services such as Bank BJB and Bank Mandiri using Apache Camel. My role covered designing, implementing, and testing service flows to make sure data is transformed and delivered securely and consistently across systems. I also contributed to configuration optimization, technical documentation, and understanding enterprise integration concepts so the APIs could be used efficiently by internal and external services.",
   },
   {
-    ocupation: "Ketua Umum",
+    ocupation: "Chairperson",
     company: "Creative Student Association",
     url: "https://csa-stmikmi.vercel.app",
-    location: "Kampus STMIK Mardira Indonesia",
+    location: "STMIK Mardira Indonesia Campus",
     startDate: "2025-01-25",
     endDate: "2026-04-18",
     description:
-      "Sebagai Ketua Creative Student Association (CSA), saya bertanggung jawab dalam memimpin organisasi yang berfokus pada pengembangan teknologi dan kreativitas anggota.",
+      "As chairperson of the Creative Student Association (CSA), I led an organization focused on technology development and the creativity of its members.",
   },
 
   {
-    ocupation: "Kursus Pemrograman untuk Pemula",
+    ocupation: "Beginner Programming Course Instructor",
     company: "",
     url: "",
     location: "Remote",
     startDate: "2024-01-05",
     description:
-      "Sebagai instruktur pemrograman untuk pemula, saya memiliki pengalaman yang mendalam dalam mengajarkan dasar-dasar pengembangan web, serta konsep Object-Oriented Programming (OOP) menggunakan Java dan pengelolaan versi dengan Git. Fokus pengajaran saya meliputi bahasa pemrograman PHP, kerangka kerja Laravel, bahasa pemformatan CSS, serta kerangka kerja Bootstrap.",
+      "As a programming instructor for beginners, I have hands-on experience teaching the fundamentals of web development, along with Object-Oriented Programming (OOP) concepts using Java and version control with Git. My teaching covers PHP, the Laravel framework, CSS, and the Bootstrap framework.",
   },
   {
-    ocupation: "Asisten Praktikum",
+    ocupation: "Teaching Assistant",
     company: "STMIK Mardira Indonesia",
     url: "https://stmik-mi.ac.id/",
-    location: "Kampus STMIK Mardira Indonesia",
+    location: "STMIK Mardira Indonesia Campus",
     startDate: "2023-10-01",
     description:
-      "Bertanggung jawab atas pengelolaan lima kelas Pemrograman Web, membimbing mahasiswa dalam praktikum dan menganalisis kesalahan kode program, serta mendukung dosen dalam pengajaran mata kuliah Pemrograman Web dan pengembangan modul pembelajaran.",
+      "Responsible for managing five Web Programming classes, guiding students through lab work and analyzing program errors, and supporting the lecturer in teaching the Web Programming course and developing learning modules.",
   },
   {
     ocupation: "Web Developer",
@@ -57,6 +57,6 @@ export const JOB_EXPERIENCE = [
     startDate: "2021-09-01",
     endDate: "2021-11-30",
     description:
-      "Melaksanakan Praktik Kerja Lapangan (PKL) melalui program Project Work. Program ini merupakan hasil kerja sama antara SMK Negeri 2 Cimahi dan PT BARA PRIMA MULTI TEKNOVASI. Dalam kegiatan ini, saya bertugas merancang dan mengembangkan aplikasi Sistem Pembayaran SPP dengan menggunakan bahasa pemrograman PHP dan kerangka kerja Bootstrap.",
+      "Completed an industry internship (PKL) through the Project Work program, a collaboration between SMK Negeri 2 Cimahi and PT BARA PRIMA MULTI TEKNOVASI. I designed and developed a school fee (SPP) payment system using PHP and the Bootstrap framework.",
   },
 ] satisfies JobExperience[];

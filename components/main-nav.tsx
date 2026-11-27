@@ -10,7 +10,7 @@ export function MainNav() {
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
       <Link href="/" className="mr-6 flex items-center space-x-2">
-        <img src="/images/logo-thieverse.png" alt="Thieverse, beranda" className="h-11" />
+        <img src="/images/logo-thieverse.png" alt="Thieverse, home" className="h-11" />
       </Link>
       {navItems.map((item) => (
         <Link

@@ -29,7 +29,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
       <div className="mb-8">
         <Button variant="ghost" className="mb-4 flex items-center gap-2" onClick={() => router.back()}>
           <ArrowLeft size={16} />
-          Kembali
+          Back
         </Button>
 
         <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
@@ -57,7 +57,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
 
           <Card>
             <CardContent className="pt-6">
-              <h2 className="text-2xl font-semibold mb-4">Deskripsi Proyek</h2>
+              <h2 className="text-2xl font-semibold mb-4">Project Description</h2>
               <p className="text-muted-foreground leading-relaxed">{project.description}</p>
             </CardContent>
           </Card>
@@ -68,7 +68,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
               <CardContent className="pt-6">
                 <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                   <Code2 className="w-6 h-6" />
-                  Detail Teknis
+                  Technical Details
                 </h2>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                   {project.techDetails.map((detail, index) => (
@@ -85,7 +85,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
               <CardContent className="pt-6">
                 <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                   <Layers className="w-6 h-6" />
-                  Fitur Utama
+                  Key Features
                 </h2>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                   {project.features.map((feature, index) => (
@@ -100,7 +100,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
         <div className="space-y-6">
           <Card>
             <CardContent className="pt-6">
-              <h2 className="text-xl font-semibold mb-4">Tautan Proyek</h2>
+              <h2 className="text-xl font-semibold mb-4">Project Links</h2>
               <div className="space-y-3">
                 {project.deployedURL && (
                   <ButtonLink
@@ -111,7 +111,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                     className="w-full justify-start gap-2"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    Lihat Demo
+                    View Demo
                   </ButtonLink>
                 )}
                 {project.isRepo && project.repoUrl && (
@@ -141,12 +141,12 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
                 <div className="space-y-2 text-muted-foreground">
                   {project.startDate && (
                     <div>
-                      <span className="font-medium">Mulai:</span> {project.startDate}
+                      <span className="font-medium">Start:</span> {project.startDate}
                     </div>
                   )}
                   {project.endDate && (
                     <div>
-                      <span className="font-medium">Selesai:</span> {project.endDate}
+                      <span className="font-medium">End:</span> {project.endDate}
                     </div>
                   )}
                 </div>
@@ -158,7 +158,7 @@ const ProjectDetail: React.FC<ProjectDetailProps> = ({ project }) => {
           {project.challenges && (
             <Card>
               <CardContent className="pt-6">
-                <h2 className="text-xl font-semibold mb-4">Tantangan</h2>
+                <h2 className="text-xl font-semibold mb-4">Challenges</h2>
                 <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                   {project.challenges.map((challenge, index) => (
                     <li key={index}>{challenge}</li>

@@ -7,7 +7,7 @@ import { FaStar } from "react-icons/fa";
 const Skills = () => {
   return (
     <section aria-label="skills" className="my-4 space-y-8 bg-background">
-      <h2 className="text-3xl font-bold mb-6">Skillset dan Tools</h2>
+      <h2 className="text-3xl font-bold mb-6">Skills & Tools</h2>
       <div className="space-y-6 w-full">
         <Marquee autoFill pauseOnHover speed={20}>
           <SkillsList stacks={FRONTEND_STACKS} />

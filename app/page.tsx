@@ -23,11 +23,11 @@ export default function Home() {
         className="container mt-16 space-y-0 py-6 lg:py-10"
       >
         <h2 className="mb-8 text-center text-3xl font-black sm:text-5xl md:text-6xl lg:text-5xl">
-          Blog Terbaru
+          Latest Posts
         </h2>
         <div className="mb-4 flex justify-end">
           <ButtonLink href="/blog" variant="secondary" size="sm">
-            Lihat Semua →
+            View All →
           </ButtonLink>
         </div>
         <ul className="mb-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">

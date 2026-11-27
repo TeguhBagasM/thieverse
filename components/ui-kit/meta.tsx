@@ -20,7 +20,7 @@ export function Meta({ date, readingTime, className }: MetaProps) {
     >
       {date ? <time dateTime={date}>{formatDate(date)}</time> : null}
       {date && readingTime ? <span aria-hidden="true">·</span> : null}
-      {readingTime ? <span>{readingTime} menit baca</span> : null}
+      {readingTime ? <span>{readingTime} min read</span> : null}
     </div>
   );
 }

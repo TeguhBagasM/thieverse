@@ -13,8 +13,8 @@ import { ButtonLink } from "@/components/ui-kit/button-link";
 import { Container } from "@/components/ui-kit/container";
 
 export const metadata: Metadata = {
-  title: "Tentang",
-  description: `Tentang ${siteConfig.author}, web developer yang berfokus pada backend dan Laravel.`,
+  title: "About",
+  description: `About ${siteConfig.author}, a web developer focused on backend and Laravel.`,
   alternates: { canonical: "/about" },
 };
 
@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="flex flex-col items-center gap-4 md:flex-row md:justify-center md:gap-8">
           <div className="flex-1">
             <h1 className="font-bold text-4xl md:text-5xl text-center">
-              Tentang Saya
+              About Me
             </h1>
           </div>
         </div>
@@ -53,14 +53,12 @@ export default function AboutPage() {
               </ButtonLink>
             </div>
             <p className="text-muted-foreground text-lg py-4">
-              Pengembang Fullstack berfokus Backend dengan pengalaman dalam
-              membangun dan mengembangkan aplikasi web secara end-to-end.
-              Memiliki kemampuan dalam pengembangan backend, pengelolaan
-              database, integrasi API, autentikasi, serta pengembangan antarmuka
-              pengguna modern. Terbiasa mempelajari dan menggunakan berbagai
-              teknologi sesuai kebutuhan proyek. Memiliki kemampuan adaptasi,
-              problem solving, dan kemauan belajar yang tinggi dalam
-              mengeksplorasi teknologi baru.
+              Backend-focused fullstack developer with experience building and
+              developing web applications end to end. Skilled in backend
+              development, database management, API integration, authentication,
+              and building modern user interfaces. I learn and use a range of
+              technologies as each project requires. I adapt quickly, enjoy
+              solving problems, and am eager to explore new technology.
             </p>
           </div>
         </div>
@@ -69,7 +67,7 @@ export default function AboutPage() {
         <Skills />
       </Container>
       <Container className="my-12">
-        <h2 className="text-3xl font-bold mb-6">Pengalaman</h2>
+        <h2 className="text-3xl font-bold mb-6">Experience</h2>
         <Experience experience={JOB_EXPERIENCE} />
       </Container>
       <Container className="my-12">

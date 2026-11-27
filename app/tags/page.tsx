@@ -5,8 +5,8 @@ import { Tag } from "@/components/tag";
 import { Container } from "@/components/ui-kit/container";
 
 export const metadata: Metadata = {
-  title: "Topik",
-  description: "Kumpulan topik yang pernah ditulis di Thieverse.",
+  title: "Topics",
+  description: "All the topics written about on Thieverse.",
   alternates: { canonical: "/tags" },
 };
 
@@ -18,7 +18,7 @@ export default async function TagsPage() {
     <Container className="py-6 lg:py-10">
       <div className="flex flex-col items-start gap-4 md:flex-row md:justify-between md:gap-8">
         <div className="flex-1 space-y-4">
-          <h1 className="inline-block font-black text-4xl lg:text-5xl">Topik</h1>
+          <h1 className="inline-block font-black text-4xl lg:text-5xl">Topics</h1>
         </div>
       </div>
       <hr className="my-4" />

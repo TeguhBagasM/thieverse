@@ -4,115 +4,115 @@ import { FaWhatsapp, FaCode, FaUsers, FaGlobe, FaRegNewspaper } from "react-icon
 import { ButtonLink } from "@/components/ui-kit/button-link";
 
 export const metadata: Metadata = {
-  title: "Layanan",
+  title: "Services",
   description:
-    "Layanan les Laravel untuk pemula sampai menengah: mentoring personal, kelas grup, dan pendampingan project real.",
+    "Laravel tutoring for beginners to intermediate learners: personal mentoring, group classes, and guidance on real projects.",
   alternates: { canonical: "/layanan" },
 };
 
 const insights: string[] = [
-  "Les Laravel dari Dasar Sampai Deploy",
-  "Belajar CRUD, Auth, dan API Laravel",
-  "Pendampingan Project Tugas Kuliah atau Freelance",
-  "Materi Praktis: Laravel 11, Filament, dan MySQL",
-  "Mentoring Santai Tapi Terarah",
+  "Laravel tutoring from basics to deployment",
+  "Learn CRUD, Auth, and Laravel APIs",
+  "Guidance on university or freelance projects",
+  "Practical materials: Laravel 11, Filament, and MySQL",
+  "Relaxed mentoring with a clear direction",
 ];
 
 const whatsappNumber = "+6281321821374";
 
 const createWhatsAppURL = (serviceName: string, price: string) => {
-  const message = `Halo! Saya tertarik ikut *${serviceName}* (${price}) untuk belajar Laravel. Bisa konsultasi dulu?`;
+  const message = `Hi! I am interested in joining *${serviceName}* (${price}) to learn Laravel. Could we talk first?`;
   return `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
 };
 
 const createConsultationURL = () => {
   const message =
-    "Halo! Saya ingin konsultasi gratis untuk les Laravel (materi, jadwal, dan kebutuhan belajar).";
+    "Hi! I would like a free consultation about Laravel tutoring (materials, schedule, and learning needs).";
   return `https://wa.me/${whatsappNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
 };
 
 const serviceCards = [
   {
     icon: <FaCode className="h-8 w-8 text-primary" />,
-    title: "Private Les Laravel",
-    description: "Mentoring 1-on-1 untuk bangun fondasi Laravel sampai paham alur project",
-    price: "Mulai dari Rp 75.000/sesi",
+    title: "Private Laravel Tutoring",
+    description: "One-on-one mentoring to build a solid Laravel foundation until you understand how a project fits together",
+    price: "From Rp 75,000/session",
     features: [
-      "Roadmap belajar sesuai level kamu",
-      "Bahas routing, migration, controller, blade",
-      "Feedback langsung saat ngoding",
+      "A learning roadmap matched to your level",
+      "Routing, migrations, controllers, and Blade",
+      "Instant feedback while you code",
     ],
   },
   {
     icon: <FaUsers className="h-8 w-8 text-primary" />,
-    title: "Kelas Grup Laravel",
-    description: "Belajar bareng teman dalam grup kecil untuk latihan project terstruktur",
-    price: "Mulai dari Rp 40.000/orang",
+    title: "Laravel Group Class",
+    description: "Learn alongside friends in a small group with structured project practice",
+    price: "From Rp 40,000/person",
     features: [
-      "Grup kecil supaya diskusi tetap intens",
-      "Latihan studi kasus CRUD dan autentikasi",
-      "Rekaman & catatan materi setiap sesi",
+      "Small groups keep discussion focused",
+      "Practice case studies in CRUD and authentication",
+      "Recordings and class notes for every session",
     ],
   },
   {
     icon: <FaGlobe className="h-8 w-8 text-primary" />,
-    title: "Pendampingan Project Laravel",
-    description: "Cocok untuk tugas akhir, portfolio, atau project client berbasis Laravel",
-    price: "Mulai dari Rp 120.000/meeting",
+    title: "Laravel Project Support",
+    description: "Suited to final projects, portfolios, or client work built on Laravel",
+    price: "From Rp 120,000/meeting",
     features: [
-      "Review arsitektur project dan database",
-      "Bantu debugging error dan optimasi query",
-      "Panduan deploy ke hosting/VPS",
+      "Review of project architecture and database",
+      "Help with debugging errors and optimizing queries",
+      "Guidance on deploying to hosting or a VPS",
     ],
   },
 ];
 
 const laravelAdvantages = [
   {
-    title: "Belajar dari Real Case",
+    title: "Learn from Real Cases",
     description:
-      "Materi tidak hanya teori. Kamu langsung praktik bikin fitur yang biasa dipakai di project Laravel nyata.",
+      "Lessons go beyond theory. You practice building features commonly used in real Laravel projects.",
   },
   {
-    title: "Silabus Fleksibel",
+    title: "Flexible Curriculum",
     description:
-      "Bisa mulai dari nol atau langsung ke topik lanjutan seperti API, queue, atau Filament sesuai kebutuhan.",
+      "Start from zero or jump straight to advanced topics such as APIs, queues, or Filament, based on your needs.",
   },
   {
-    title: "Pendekatan Step-by-Step",
+    title: "Step-by-Step Approach",
     description:
-      "Setiap sesi dibuat runtut agar kamu paham alasan di balik setiap kode, bukan sekadar copy-paste.",
+      "Each session is structured so you understand the reasoning behind the code, not just copy and paste it.",
   },
   {
-    title: "Support Setelah Sesi",
+    title: "Support After Sessions",
     description:
-      "Tetap bisa tanya kendala lewat chat untuk blocker ringan setelah kelas selesai.",
+      "You can keep asking questions over chat about minor blockers after the class ends.",
   },
   {
-    title: "Siap Untuk Dunia Kerja",
+    title: "Ready for the Workplace",
     description:
-      "Latihan standar workflow mulai dari Git, struktur project, sampai teknik debugging yang dipakai tim developer.",
+      "Practice standard workflows, from Git and project structure to the debugging techniques development teams use.",
   },
   {
-    title: "Target Hasil yang Jelas",
+    title: "Clear Outcomes",
     description:
-      "Setiap paket punya outcome yang terukur, misalnya aplikasi CRUD selesai, API jalan, atau project berhasil deploy.",
+      "Every package has measurable results, such as a finished CRUD app, a working API, or a successfully deployed project.",
   },
 ];
 
-export default function JasaPage() {
+export default function ServicesPage() {
   return (
     <>
       <InsightRoll insights={insights} />
 
       <section className="container flex flex-col items-center">
         <div className="relative flex w-full flex-col items-center justify-center py-16 sm:py-20">
-          <h1 className="mb-4 inline-block text-center text-4xl font-semibold capitalize md:text-5xl">
-            Layanan Jasa
+          <h1 className="mb-4 inline-block text-center text-4xl font-semibold md:text-5xl">
+            Services
           </h1>
           <p className="max-w-3xl text-center text-base text-muted-foreground sm:text-lg md:text-xl">
-            Fokus bantu kamu menguasai Laravel lewat sesi terstruktur, praktik langsung, dan pendampingan
-            sampai project jadi.
+            Structured sessions, hands-on practice, and project guidance to help you master Laravel
+            and finish your project.
           </p>
         </div>
 
@@ -144,7 +144,7 @@ export default function JasaPage() {
                 rel="noopener noreferrer"
                 className="w-full"
               >
-                Pilih Layanan
+                Choose Service
               </ButtonLink>
             </div>
           ))}
@@ -152,16 +152,16 @@ export default function JasaPage() {
 
         <div className="mb-16 w-full rounded-lg bg-accent-soft p-8 sm:p-12">
           <h2 className="mb-6 text-center text-2xl font-bold text-foreground sm:text-3xl">
-            Kenapa Cocok untuk Belajar Laravel?
+            Why Learn Laravel Here?
           </h2>
           <div className="mb-6 text-center">
             <span className="inline-block rounded-full bg-surface px-4 py-2 text-sm font-medium text-foreground">
-              ✨ Fokus Laravel, Bukan Materi Campur-campur
+              ✨ Focused on Laravel, No Mixed-Up Materials
             </span>
           </div>
           <p className="mb-8 text-center text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Pembelajaran dirancang dari kebutuhanmu: mulai dari dasar syntax Laravel sampai membangun
-            aplikasi end-to-end dengan best practice.
+            Lessons are designed around your needs, from the basics of Laravel syntax to building
+            complete end-to-end applications with best practices.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <ButtonLink
@@ -170,18 +170,18 @@ export default function JasaPage() {
               rel="noopener noreferrer"
             >
               <FaWhatsapp className="mr-2" />
-              Konsultasi Gratis
+              Free Consultation
             </ButtonLink>
             <ButtonLink href="/projects" variant="secondary" size="lg" className="w-full sm:w-fit">
               <FaRegNewspaper className="mr-2 h-6 w-6" />
-              Lihat Project Saya
+              View My Projects
             </ButtonLink>
           </div>
         </div>
 
         <div className="w-full">
           <h2 className="mb-12 text-center text-2xl font-bold text-foreground sm:text-3xl">
-            Keunggulan Les Laravel di Sini
+            What Sets Laravel Tutoring Here Apart
           </h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {laravelAdvantages.map((feature, index) => (
@@ -211,10 +211,10 @@ export default function JasaPage() {
 
         <div className="w-full py-16 text-center">
           <h2 className="mb-4 text-2xl font-bold text-foreground sm:text-3xl">
-            Siap Naik Level di Laravel?
+            Ready to Level Up in Laravel?
           </h2>
           <p className="mb-8 text-base text-muted-foreground sm:text-lg">
-            Ceritakan target belajarmu, nanti saya bantu susun jalur belajar Laravel yang paling pas.
+            Tell me your learning goals, and I will help you build the Laravel learning path that fits best.
           </p>
           <ButtonLink
             href={createConsultationURL()}
@@ -223,7 +223,7 @@ export default function JasaPage() {
             size="lg"
           >
             <FaWhatsapp className="mr-2 text-xl" />
-            Chat Via WhatsApp
+            Chat on WhatsApp
           </ButtonLink>
         </div>
       </section>

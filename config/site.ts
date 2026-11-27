@@ -1,11 +1,11 @@
 import { FaClock, FaComments, FaInfinity, FaLaptopCode, FaUsers, FaWallet } from "react-icons/fa";
 
-const whatsappMessage = "Halo kak, saya ingin bergabung dengan Thieverse";
+const whatsappMessage = "Hi! I would like to join Thieverse";
 
 export const siteConfig = {
   name: "Thieverse",
   url: "https://thieverse.vercel.app",
-  description: "Portofolio, catatan belajar, dan layanan mentoring Laravel oleh Teguh Bagas M.",
+  description: "Portfolio, learning notes, and Laravel mentoring by Teguh Bagas M.",
   author: "Teguh Bagas M",
   job: "Web Developer",
   campus: "STMIK Mardira Indonesia",
@@ -21,41 +21,41 @@ export const siteConfig = {
 
 export const jasaFeatures = [
   {
-    title: "Sesama Mahasiswa",
+    title: "Fellow Students",
     description:
-      "Belajar bersama mahasiswa yang memahami tantangan dan kesulitan dalam perkuliahan IT",
+      "Learn alongside fellow students who understand the challenges of IT studies",
   },
   {
-    title: "Harga Terjangkau",
-    description: "Tarif yang disesuaikan dengan budget mahasiswa dan tidak membebani keuangan",
+    title: "Affordable Pricing",
+    description: "Rates that fit a student budget without straining your finances",
   },
   {
-    title: "Waktu Fleksibel",
-    description: "Jadwal yang dapat disesuaikan dengan jadwal kuliah dan aktivitas kampus Anda",
+    title: "Flexible Schedule",
+    description: "Sessions that adjust to your class schedule and campus activities",
   },
   {
-    title: "Suasana Belajar Santai",
-    description: "Lingkungan belajar yang nyaman dan tidak formal, mendorong diskusi terbuka",
+    title: "Relaxed Learning Atmosphere",
+    description: "A comfortable, informal setting that encourages open discussion",
   },
   {
-    title: "Sharing Pengalaman",
-    description: "Berbagi tips dan strategi yang telah terbukti efektif selama perkuliahan",
+    title: "Shared Experience",
+    description: "Tips and strategies that have proven effective during college",
   },
   {
-    title: "Bantuan Tugas Cepat",
-    description: "Siap membantu menyelesaikan tugas yang sulit atau menghadapi deadline yang ketat",
+    title: "Quick Assignment Help",
+    description: "Ready to help with difficult assignments or tight deadlines",
   },
   {
-    title: "Komunitas Supportif",
-    description: "Bergabung dengan grup belajar bersama teman-teman yang memiliki minat sama",
+    title: "Supportive Community",
+    description: "Join a study group with friends who share your interests",
   },
   {
-    title: "Pembelajaran Praktis",
-    description: "Fokus pada praktik langsung dengan project-project yang dapat diterapkan",
+    title: "Hands-on Learning",
+    description: "Focused on practice with real projects you can apply",
   },
   {
-    title: "Pembelajaran Tanpa Tekanan",
-    description: "Belajar dalam suasana yang santai dan boleh bertanya sampai benar-benar paham",
+    title: "Pressure-free Learning",
+    description: "Learn at ease and ask as many questions as you need until it clicks",
   },
 ];
 

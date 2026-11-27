@@ -4,8 +4,8 @@ import { ProjectList, projects } from "@/components/projects";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Proyek",
-  description: `Kumpulan proyek web yang dikerjakan oleh ${siteConfig.author}.`,
+  title: "Projects",
+  description: `Web projects built by ${siteConfig.author}.`,
   alternates: { canonical: "/projects" },
 };
 

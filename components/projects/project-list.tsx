@@ -13,9 +13,9 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   return (
     <Container className="py-6 lg:py-10">
       <div className="flex flex-col items-center gap-4 mb-8">
-        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Proyek</h1>
+        <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Projects</h1>
         <p className="text-xl text-muted-foreground text-center">
-          Berikut adalah beberapa proyek yang pernah saya kerjakan.
+          Here are some projects I have worked on.
         </p>
         <SearchInput />
       </div>
@@ -28,7 +28,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
         </ul>
       ) : (
         <div className="flex h-64 items-center justify-center">
-          <EmptyState title="Proyek tidak ditemukan" className="h-full" />
+          <EmptyState title="No projects found" className="h-full" />
         </div>
       )}
     </Container>

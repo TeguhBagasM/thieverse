@@ -43,7 +43,7 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
       <div className="flex flex-col items-center gap-4 mb-8">
         <h1 className="inline-block font-bold text-4xl md:text-5xl text-center">Blog</h1>
         <p className="text-xl text-muted-foreground text-center">
-          Berbagi wawasan seputar dunia coding.
+          Sharing insights from the coding world.
         </p>
         <SearchInput />
       </div>
@@ -63,7 +63,7 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
           ))
         ) : (
           <div className="col-span-1 flex h-64 items-center justify-center md:col-span-2 lg:col-span-3">
-            <EmptyState title="Artikel tidak ditemukan" className="h-full" />
+            <EmptyState title="No articles found" className="h-full" />
           </div>
         )}
       </div>
@@ -71,11 +71,11 @@ export default function BlogPageClient({ posts }: BlogPageClientProps) {
       <div className="flex justify-center mt-8">
         {displayCount < sortedPosts.length ? (
           <Button onClick={handleShowMore}>
-            Tampilkan Lebih Banyak <FaArrowDown className="ml-2" />
+            Show More <FaArrowDown className="ml-2" />
           </Button>
         ) : displayCount > INITIAL_POSTS_COUNT ? (
           <Button onClick={handleShowLess}>
-            Sembunyikan <FaArrowUp className="ml-2" />
+            Show Less <FaArrowUp className="ml-2" />
           </Button>
         ) : null}
       </div>

@@ -41,13 +41,13 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
 
   return (
     <div className="ml-auto flex flex-col space-y-2">
-      <p className="text-sm text-muted-foreground">Bagikan artikel</p>
+      <p className="text-sm text-muted-foreground">Share this post</p>
       <div className="flex space-x-4">
         <Link
           href={twitterShareUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Bagikan di X"
+          aria-label="Share on X"
         >
           <BsTwitterX className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
@@ -56,7 +56,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="pl-1"
-          aria-label="Bagikan di WhatsApp"
+          aria-label="Share on WhatsApp"
         >
           <FaWhatsapp className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
@@ -65,14 +65,14 @@ const ShareButton: React.FC<ShareButtonProps> = ({ text, url }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="pl-1"
-          aria-label="Bagikan di LinkedIn"
+          aria-label="Share on LinkedIn"
         >
           <Icons.linkedin className="size-5 text-muted-foreground transition-colors duration-150 hover:text-primary" />
         </Link>
         <button
           onClick={handleCopyLink}
           className="transition-colors duration-150 hover:text-primary"
-          aria-label="Salin tautan"
+          aria-label="Copy link"
         >
           {copied ? (
             <BsClipboardCheck className="size-5 text-primary" />

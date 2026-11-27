@@ -23,7 +23,7 @@ export function MobileNav() {
       <SheetTrigger asChild>
         <Button variant="outline" className="w-10 px-0 sm:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Buka menu navigasi</span>
+          <span className="sr-only">Open navigation menu</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="right">

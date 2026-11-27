@@ -21,7 +21,7 @@ export const Experience = ({ experience, className, ...props }: ExperienceProps)
             {`${Formaters.formatDate(
               job.startDate,
               "MMMM y"
-            )} - ${job.endDate ? Formaters.formatDate(job.endDate, "MMMM y") : "Sekarang"}`}
+            )} - ${job.endDate ? Formaters.formatDate(job.endDate, "MMMM y") : "Present"}`}
           </time>
 
           <h3 className="text-lg font-semibold">

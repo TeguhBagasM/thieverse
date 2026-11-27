@@ -3,7 +3,7 @@ const projects = [
     id: "kantin-mardira",
     title: `Kantin Mardira`,
     description:
-      "Kantin Mardira adalah aplikasi berbasis web untuk mengelola dan menampilkan menu makanan serta pencatatan transaksi. Aplikasi ini dibangun dengan Golang, Vue, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen menu, pencatatan, dan laporan transaksi.",
+      "Kantin Mardira is a web application for managing and displaying food menus and recording transactions. It is built with Golang, Vue, Tailwind CSS, and MySQL, and includes menu management, transaction recording, and transaction reports.",
     cover: "/images/projects/kantin-mardira.png",
     stacks: ["Golang", "Vue", "Tailwind CSS", "MySQL"],
     isRepo: false,
@@ -13,7 +13,7 @@ const projects = [
     id: "portal-berita",
     title: `Portal Berita`,
     description:
-      "Portal Berita adalah aplikasi berbasis web untuk mengelola dan menampilkan berita terkini. Aplikasi ini dibangun dengan Laravel, Tailwind CSS, dan MySQL, serta dilengkapi fitur manajemen berita, kategori, user request, komentar, dan pencarian berita.",
+      "Portal Berita is a web application for managing and displaying the latest news. It is built with Laravel, Tailwind CSS, and MySQL, and includes news management, categories, user requests, comments, and news search.",
     cover: "/images/projects/portal-berita.png",
     stacks: ["Laravel", "Tailwind CSS", "MySQL"],
     isRepo: false,
@@ -22,7 +22,7 @@ const projects = [
     id: "erapor",
     title: `E-Rapor`,
     description:
-      "E-Rapor adalah sistem pengelolaan nilai sekolah berbasis web yang dikerjakan dari Februari 2026 sampai Maret 2026. Aplikasi ini memiliki 2 role utama (Admin dan Wali Kelas), fitur input nilai, import/export data nilai, cetak rapor, serta dashboard akademik. Sistem dibangun dengan Laravel, Bootstrap, dan MySQL.",
+      "E-Rapor is a web-based school grade management system developed from February 2026 to March 2026. It has two main roles (Admin and Homeroom Teacher), grade entry, grade import/export, report card printing, and an academic dashboard. It is built with Laravel, Bootstrap, and MySQL.",
     cover: "/images/projects/erapor.png",
     stacks: ["Laravel", "Bootstrap", "MySQL"],
     isRepo: false,
@@ -32,7 +32,7 @@ const projects = [
     id: "csa-tasktify",
     title: `CSA Tasktify`,
     description:
-      "CSA Tasktify adalah aplikasi manajemen produktivitas yang dikerjakan pada September 2025 hingga November 2025. Aplikasi ini memiliki fitur manajemen notes, tasks, dan categories, serta dibangun menggunakan React.js, TypeScript, Supabase, dan shadcn/ui.",
+      "CSA Tasktify is a productivity management application developed from September 2025 to November 2025. It includes notes, tasks, and categories management, and is built with React.js, TypeScript, Supabase, and shadcn/ui.",
     cover: "/images/projects/csa-tasktify.png",
     stacks: ["React.js", "TypeScript", "Supabase", "shadcn/ui"],
     isRepo: false,
@@ -42,7 +42,7 @@ const projects = [
     id: "tdi-presensi",
     title: `TDI Presensi`,
     description:
-      "TDI Presensi adalah aplikasi presensi berbasis GPS yang mewajibkan user melakukan check-in dari area kantor. Sistem ini dilengkapi dashboard admin, approval, data presensi, dan integrasi peta OpenStreetMap untuk validasi lokasi. Proyek dikerjakan Februari 2026 dan selesai Maret 2026 dengan Laravel, Bootstrap, dan PostgreSQL.",
+      "TDI Presensi is a GPS-based attendance application that requires users to check in from within the office area. The system includes an admin dashboard, approvals, attendance data, and OpenStreetMap integration for location validation. It was developed from February 2026 to March 2026 with Laravel, Bootstrap, and PostgreSQL.",
     cover: "/images/projects/tdi-presensi.png",
     stacks: ["Laravel", "Bootstrap", "PostgreSQL", "OpenStreetMap"],
     isRepo: false,
@@ -51,7 +51,7 @@ const projects = [
     id: "expense-tracker",
     title: `Expense Tracker`,
     description:
-      "Expense Tracker adalah aplikasi berbasis web yang dibangun dengan Laravel dan Filament untuk mencatat dan mengelola keuangan pribadi. Pengguna dapat mencatat transaksi pemasukan dan pengeluaran, mengelompokkan transaksi berdasarkan kategori, serta melihat detail tanggal dan jumlah transaksi. Dengan antarmuka yang sederhana dan responsif, aplikasi ini memudahkan pengguna dalam memantau kondisi finansial mereka secara real-time.",
+      "Expense Tracker is a web application built with Laravel and Filament for recording and managing personal finances. Users can record income and expense transactions, group them by category, and view transaction dates and amounts. With a simple, responsive interface, it helps users monitor their financial condition in real time.",
     cover: "/images/projects/expense-tracker-filament.png",
     stacks: ["MySQL", "Laravel", "Filament"],
     isRepo: true,
@@ -61,7 +61,7 @@ const projects = [
     id: "spendtvise",
     title: `SpendTvise`,
     description:
-      "SpendTvise adalah aplikasi berbasis website untuk mengelola keuangan pribadi. Fitur utama mencakup pencatatan pemasukan dan pengeluaran, visualisasi data keuangan melalui grafik dan bagan, serta fitur tambahan seperti pembuatan anggaran dan pelacakan tujuan keuangan. Tujuannya adalah memberikan gambaran jelas kondisi keuangan dan membantu pengambilan keputusan finansial yang lebih baik.",
+      "SpendTvise is a web application for managing personal finances. Its main features include income and expense recording, financial data visualization through charts and graphs, and extra features such as budget planning and financial goal tracking. The goal is to give a clear picture of financial condition and support better financial decisions.",
     deployedURL: "https://spendtvise.vercel.app/",
     cover: "/images/projects/spendtvise.png",
     stacks: ["Mysql", "Express.js", "React", "Node.js", "Tailwind"],
@@ -72,7 +72,7 @@ const projects = [
     id: "marcourse",
     title: `Marcourse`,
     description:
-      "Marcourse adalah platform Learning Management System (LMS) yang dirancang menggunakan Laravel Breeze untuk autentikasi, Tailwind CSS untuk antarmuka pengguna yang responsif, dan Spatie untuk manajemen role dan permission. Sistem ini didukung oleh MySQL sebagai basis data.",
+      "Marcourse is a Learning Management System (LMS) built with Laravel Breeze for authentication, Tailwind CSS for a responsive user interface, and Spatie for role and permission management. The system uses MySQL as its database.",
     cover: "/images/projects/marcourse.png",
     stacks: ["Laravel", "Mysql", "Tailwind", "Spatie"],
     isRepo: false,
@@ -82,7 +82,7 @@ const projects = [
     id: "simanis",
     title: `SIMANIS`,
     description:
-      "SIMANIS (Sistem Manajemen Inventaris Sekolah) adalah aplikasi berbasis web yang dikembangkan menggunakan Laravel 11, Tailwind CSS, dan MySQL untuk mendukung pengelolaan inventaris sekolah secara efisien. Dengan integrasi Spatie untuk manajemen role dan permission, sistem ini menawarkan berbagai fitur unggulan seperti pemindaian QR code untuk proses pengembalian barang, pencatatan peminjaman, pelacakan stok barang, dan pengelolaan laporan inventaris. Antarmuka yang responsif dan modern memudahkan pengguna dari berbagai perangkat untuk mengakses dan mengelola data dengan mudah dan aman.",
+      "SIMANIS (School Inventory Management System) is a web application built with Laravel 11, Tailwind CSS, and MySQL to efficiently manage school inventory. With Spatie for role and permission management, it offers features such as QR code scanning for item returns, loan recording, stock tracking, and inventory reporting. Its responsive, modern interface makes it easy and secure for users on any device to access and manage data.",
     deployedURL: "https://arkas.smkn2cmi.sch.id/",
     cover: "/images/projects/simanis.png",
     stacks: ["Laravel", "Mysql", "Tailwind", "Spatie"],
@@ -93,7 +93,7 @@ const projects = [
     id: "marquizzy",
     title: `Marquizzy`,
     description:
-      "Marquizzy adalah aplikasi quiz yang dibangun dengan Next.js, TypeScript, dan Prisma sebagai ORM, menggunakan PostgreSQL untuk databasenya. Dengan Autentikasi menggunakan Clerk",
+      "Marquizzy is a quiz application built with Next.js, TypeScript, and Prisma as the ORM, using PostgreSQL for its database. Authentication is handled with Clerk.",
     cover: "/images/projects/marquizzy.png",
     stacks: [
       "Next.js",
@@ -110,7 +110,7 @@ const projects = [
     id: "csa-quizzy",
     title: `CSA Quizzy`,
     description:
-      "CSA Quizzy adalah aplikasi kuis yang dibangun dengan Next.js, TypeScript, dan Tailwind CSS untuk styling-nya. Aplikasi ini memungkinkan pengguna untuk mengikuti berbagai kuis yang berfokus pada topik teknologi dan pengembangan web, seperti HTML, CSS, PHP, JavaScript, dan Laravel. Dengan tampilan yang responsif dan interaktif, pengguna dapat menikmati pengalaman belajar yang menyenangkan. Aplikasi ini juga dilengkapi dengan fitur penghitungan skor secara real-time.",
+      "CSA Quizzy is a quiz application built with Next.js, TypeScript, and Tailwind CSS for styling. It lets users take quizzes on technology and web development topics such as HTML, CSS, PHP, JavaScript, and Laravel. With a responsive, interactive interface, users can enjoy a fun learning experience. The app also includes real-time score calculation.",
     deployedURL: "https://csa-quizzy.vercel.app/",
     cover: "/images/projects/csa-quizzy.png",
     stacks: ["Next.js", "TypeScript", "Tailwind"],
@@ -120,7 +120,7 @@ const projects = [
     id: "csa-stmikmi",
     title: `CSA STMIK-MI`,
     description:
-      "CSA (Creative Student Association) adalah organisasi berbasis TI yang terletak di STMIK Mardira Indonesia. Organisasi ini mencakup semua aspek TI, seperti Pemrograman, Multimedia, IoT, dan Pengembangan Game.",
+      "CSA (Creative Student Association) is an IT-based organization at STMIK Mardira Indonesia. It covers all areas of IT, including Programming, Multimedia, IoT, and Game Development.",
     deployedURL: "https://csa-stmikmi.vercel.app/",
     cover: "/images/projects/csa-stmikmi.png",
     stacks: ["React.js", "Tailwind"],
@@ -130,7 +130,7 @@ const projects = [
     id: "thievshop",
     title: `ThievShop`,
     description:
-      "Thievshop adalah landing page e-commerce modern yang dibuat menggunakan React.js dan Vite, dengan Tailwind CSS untuk styling. Halaman ini dirancang untuk memberikan pengguna pengalaman belanja yang elegan dan lancar. Thievshop menekankan kesederhanaan dan kenyamanan, dengan tata letak yang bersih dan navigasi yang intuitif.",
+      "ThievShop is a modern e-commerce landing page built with React.js and Vite, using Tailwind CSS for styling. The page is designed to give users an elegant and smooth shopping experience. It emphasizes simplicity and comfort, with a clean layout and intuitive navigation.",
     deployedURL: "https://thievshop.vercel.app/",
     cover: "/images/projects/thievshop.png",
     stacks: ["React.js", "Vite", "Tailwind"],
@@ -140,7 +140,7 @@ const projects = [
     id: "thievbook",
     title: `ThievBook`,
     description:
-      "Thievbook adalah perpustakaan buku online terbaik Anda. Platform kami menyediakan akses ke koleksi buku yang luas dari berbagai genre dan topik, mulai dari bestseller terbaru, sastra klasik, hingga materi pendidikan. Thievbook memiliki sesuatu untuk semua orang.",
+      "ThievBook is your go-to online book library. The platform gives access to a wide collection of books across many genres and topics, from the latest bestsellers and classic literature to educational materials. ThievBook has something for everyone.",
     deployedURL: "https://thievbook.vercel.app/",
     cover: "/images/projects/thievbook.png",
     stacks: ["React.js", "API Public"],
@@ -151,7 +151,7 @@ const projects = [
     id: "thievstore",
     title: `ThievStore`,
     description:
-      "Thievstore adalah toko online yang dirancang untuk memudahkan proses jual beli produk secara online. Dengan tampilan yang user-friendly, pelanggan dapat dengan mudah mencari, memilih, dan membeli produk yang diinginkan.",
+      "ThievStore is an online store designed to make buying and selling products online easy. With a user-friendly interface, customers can easily search for, choose, and buy the products they want.",
     deployedURL: "",
     cover: "/images/projects/thievstore.png",
     stacks: ["Next.js", "Typescript", "Prisma", "PostgreSQL", "Tailwind"],
@@ -162,7 +162,7 @@ const projects = [
     id: "thievchat",
     title: `ThievChat`,
     description:
-      "ThievChat adalah aplikasi real time yang dibangun dengan Tailwind CSS, Laravel Breeze, React, Inertia.js, dan fitur waktu nyata melalui Laravel Echo dan Pusher. Aplikasi ini mendukung pengiriman pesan yang lancar, autentikasi pengguna, pelacakan status online, dan manajemen percakapan dinamis untuk pengalaman yang intuitif.",
+      "ThievChat is a real-time application built with Tailwind CSS, Laravel Breeze, React, and Inertia.js, with real-time features powered by Laravel Echo and Pusher. It supports smooth message delivery, user authentication, online status tracking, and dynamic conversation management for an intuitive experience.",
     deployedURL: "",
     cover: "/images/projects/thievchat.png",
     stacks: ["Laravel Reverb", "React.js", "Tailwind", "Inertia.js"],
@@ -171,9 +171,9 @@ const projects = [
   },
   {
     id: "sistem-peminjaman-buku",
-    title: `Sistem Peminjaman Buku Perpustakaan`,
+    title: `Library Book Borrowing System`,
     description:
-      "Didesain dan dikembangkan sebuah sistem informasi peminjaman buku menggunakan framework Laravel untuk mempermudah pengelolaan peminjaman dan pengembalian buku, serta meningkatkan efisiensi pengelolaan data perpustakaan.",
+      "A library book borrowing information system was designed and developed with the Laravel framework to simplify book loans and returns and to improve the efficiency of library data management.",
     deployedURL: "",
     cover: "/images/projects/perpus.png",
     stacks: ["Laravel", "CSS", "Bootstrap", "MySQL"],
@@ -182,9 +182,9 @@ const projects = [
   },
   {
     id: "sistem-reservasi-hotel",
-    title: `Sistem Reservasi Hotel`,
+    title: `Hotel Reservation System`,
     description:
-      "Dirancang dan dikembangkan sistem reservasi hotel berbasis web untuk memfasilitasi pemesanan kamar secara online, meningkatkan kenyamanan dan efisiensi bagi pengguna maupun manajemen hotel. Sistem ini memperbaiki pengalaman pemesanan dengan menyediakan antarmuka yang ramah pengguna dan operasi yang terintegrasi.",
+      "A web-based hotel reservation system was designed and developed to support online room booking, improving convenience and efficiency for both guests and hotel management. The system improves the booking experience with a user-friendly interface and integrated operations.",
     deployedURL: "",
     cover: "/images/projects/hotel.png",
     stacks: ["PHP", "CSS", "Bootstrap", "MySQL"],
@@ -193,9 +193,9 @@ const projects = [
   },
   {
     id: "sistem-pembayaran-spp",
-    title: `Sistem Pembayaran SPP`,
+    title: `SPP Payment System`,
     description:
-      "Mengembangkan sistem informasi untuk mengefektifkan proses pembayaran SPP, menjamin efisiensi dan akurasi pencatatan transaksi. Sistem ini meningkatkan pengalaman pengguna dengan memberikan solusi pembayaran yang lancar dan andal, mengurangi beban kerja administratif, dan meminimalkan kesalahan dalam dokumentasi keuangan.",
+      "An information system was developed to streamline school fee (SPP) payments, ensuring efficient and accurate transaction records. The system improves the user experience by providing a smooth and reliable payment solution, reduces administrative workload, and minimizes errors in financial documentation.",
     deployedURL: "",
     cover: "/images/projects/spp.png",
     stacks: ["PHP", "CSS", "Bootstrap", "MySQL"],
