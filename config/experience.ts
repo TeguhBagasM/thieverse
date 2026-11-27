@@ -11,6 +11,15 @@ export interface JobExperience {
 
 export const JOB_EXPERIENCE = [
   {
+    ocupation: "Fullstack Web Developer",
+    company: "PT Trans Berjaya Khatulistiwa",
+    location: "",
+    startDate: "2026-11-01",
+    endDate: null,
+    description:
+      "As a Fullstack Web Developer, I am building Smart CLM (Contract Lifecycle Management), a web application that manages the full contract lifecycle. The application is built with Vue.js, Laravel, and Inertia.js.",
+  },
+  {
     ocupation: "Full Stack Developer",
     company: "Tabel Data Informatika",
     url: "https://web.tabeldata.com/",
