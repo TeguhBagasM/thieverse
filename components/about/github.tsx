@@ -46,11 +46,12 @@ const Github: React.FC<GithubProps> = ({ username }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center py-8 w-full overflow-x-auto">
-      <h2 className="text-xl md:text-2xl font-bold mb-6">
+    <div className="flex flex-col py-8 w-full overflow-x-auto">
+      <h2 className="text-center text-xl md:text-2xl font-bold mb-6">
         My <span className="text-primary">Coding</span> Activity
       </h2>
-      <div className="min-w-[300px] flex justify-center">
+      {/* mx-auto + w-max: saat lebih lebar dari layar, konten mulai dari kiri dan bisa di-scroll, bukan terpotong di kiri. */}
+      <div className="mx-auto w-max min-w-[300px]">
         <GitHubCalendar
           username={username}
           blockSize={blockSize}
