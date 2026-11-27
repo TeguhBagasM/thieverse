@@ -135,7 +135,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     alt="author"
                     width={45}
                     height={45}
-                    className="rounded-full bg-surface"
+                    className="size-[45px] shrink-0 rounded-full bg-surface object-cover"
                   />
                   <div className="flex-1 text-left leading-tight">
                     <p className="font-medium text-lg">{siteConfig.author}</p>
@@ -143,7 +143,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     <Meta date={post.date} readingTime={readingTime} className="mt-1" />
                   </div>
                 </div>
-                <h2 className="text-lg font-semibold mb-2">Tags</h2>
+                <h2 className="text-lg font-semibold mb-2">Topik</h2>
                 <div className="flex flex-wrap gap-2">
                   {post.tags?.map((tag) => <Tag tag={tag} key={tag} />)}
                 </div>
@@ -157,14 +157,14 @@ export default async function PostPage({ params }: PostPageProps) {
               </div>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-8 mt-4 mb-5">
+          <div className="col-span-12 min-w-0 lg:col-span-8 mt-4 mb-5">
             <Prose>
               <MDXContent code={post.body} />
               <hr className="mt-10" />
               <div className="flex justify-center">
                 <ButtonLink href="/blog" variant="link">
                   <ChevronLeft className="mr-2 size-4" />
-                  <span>See all blogs</span>
+                  <span>Lihat semua artikel</span>
                 </ButtonLink>
               </div>
             </Prose>

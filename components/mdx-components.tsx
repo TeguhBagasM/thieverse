@@ -39,7 +39,22 @@ function YouTube({
   );
 }
 
+// Judul halaman sudah menjadi h1, jadi "#" di dalam artikel diturunkan ke h2.
+function ArticleHeading(props: React.ComponentPropsWithoutRef<"h2">) {
+  return <h2 {...props} />;
+}
+
+function ArticleTable(props: React.ComponentPropsWithoutRef<"table">) {
+  return (
+    <div className="overflow-x-auto">
+      <table {...props} />
+    </div>
+  );
+}
+
 const components = {
+  h1: ArticleHeading,
+  table: ArticleTable,
   Image,
   Callout,
   Tab,
